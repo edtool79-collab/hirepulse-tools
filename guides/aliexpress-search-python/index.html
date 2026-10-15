@@ -4,11 +4,11 @@
 <h2 id="data-attributes-extracted-per-product">Data attributes extracted per product</h2>
 <p>For each matching product listing, the scraper extracts clean commercial and catalog attributes:</p>
 <ul>
-<li><strong>Identification &amp; links:</strong> The full <code>title</code>, canonical <code>product_url</code>, and primary product <code>image</code>.</li>
-<li><strong>Pricing &amp; discounts:</strong> The active selling <code>price</code> and strikethrough <code>original_price</code>, denominated in your selected currency.</li>
-<li><strong>Social proof &amp; traction:</strong> The average customer <code>rating</code> (0 to 5 stars) and total <code>orders_sold</code> volume.</li>
-<li><strong>Merchant information:</strong> The selling <code>store</code> name.</li>
-<li><strong>Localization:</strong> Accurate pricing and shipping estimates based on your chosen <code>ship_to</code> country and <code>currency</code>.</li>
+<li><strong>Identification &amp; links:</strong> The full <code>title</code>, the product <code>url</code>, the primary <code>image_url</code> and a <code>product_id</code>.</li>
+<li><strong>Pricing &amp; discounts:</strong> The active selling <code>price</code>, the strikethrough <code>original_price</code> and a ready-made <code>discount_percent</code>, in your selected <code>currency</code>.</li>
+<li><strong>Social proof &amp; traction:</strong> The average customer <code>rating</code> (0 to 5 stars) and the number of items <code>sold</code>.</li>
+<li><strong>Listing details:</strong> Whether the card is a sponsored placement (<code>is_sponsored</code>) and when it was listed (<code>listed_since</code>), when shown.</li>
+<li><strong>Localization:</strong> Prices for your chosen <code>ship_to</code> country and <code>currency</code>.</li>
 </ul>
 <h2 id="quick-start-with-curl">Quick start with cURL</h2>
 <p>You can execute a search run immediately with a single HTTP POST request. Replace <code>YOUR_APIFY_TOKEN</code> with your personal token:</p>
@@ -59,9 +59,9 @@
 <span class="line"><span style="color:#E1E4E8">    price </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> p.get(</span><span style="color:#9ECBFF">&quot;price&quot;</span><span style="color:#E1E4E8">)</span></span>
 <span class="line"><span style="color:#E1E4E8">    orig_price </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> p.get(</span><span style="color:#9ECBFF">&quot;original_price&quot;</span><span style="color:#E1E4E8">)</span></span>
 <span class="line"><span style="color:#E1E4E8">    rating </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> p.get(</span><span style="color:#9ECBFF">&quot;rating&quot;</span><span style="color:#E1E4E8">)</span></span>
-<span class="line"><span style="color:#E1E4E8">    sold_count </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> p.get(</span><span style="color:#9ECBFF">&quot;orders_sold&quot;</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">)</span></span>
-<span class="line"><span style="color:#E1E4E8">    store </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> p.get(</span><span style="color:#9ECBFF">&quot;store&quot;</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">&quot;Unknown Merchant&quot;</span><span style="color:#E1E4E8">)</span></span>
-<span class="line"><span style="color:#E1E4E8">    link </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> p.get(</span><span style="color:#9ECBFF">&quot;product_url&quot;</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">&quot;&quot;</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    sold_count </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> p.get(</span><span style="color:#9ECBFF">&quot;sold&quot;</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">or</span><span style="color:#79B8FF"> 0</span></span>
+<span class="line"><span style="color:#E1E4E8">    listed_discount </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> p.get(</span><span style="color:#9ECBFF">&quot;discount_percent&quot;</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">    link </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> p.get(</span><span style="color:#9ECBFF">&quot;url&quot;</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">&quot;&quot;</span><span style="color:#E1E4E8">)</span></span>
 <span class="line"></span>
 <span class="line"><span style="color:#6A737D">    # Calculate discount percentage if original price is available</span></span>
 <span class="line"><span style="color:#E1E4E8">    discount_pct </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> 0</span></span>
@@ -75,7 +75,7 @@
 <span class="line"><span style="color:#9ECBFF">        &quot;discount_pct&quot;</span><span style="color:#E1E4E8">: discount_pct,</span></span>
 <span class="line"><span style="color:#9ECBFF">        &quot;rating&quot;</span><span style="color:#E1E4E8">: rating,</span></span>
 <span class="line"><span style="color:#9ECBFF">        &quot;orders_sold&quot;</span><span style="color:#E1E4E8">: sold_count,</span></span>
-<span class="line"><span style="color:#9ECBFF">        &quot;store&quot;</span><span style="color:#E1E4E8">: store,</span></span>
+<span class="line"><span style="color:#9ECBFF">        &quot;listed_discount_pct&quot;</span><span style="color:#E1E4E8">: listed_discount,</span></span>
 <span class="line"><span style="color:#9ECBFF">        &quot;product_url&quot;</span><span style="color:#E1E4E8">: link</span></span>
 <span class="line"><span style="color:#E1E4E8">    })</span></span>
 <span class="line"></span>
@@ -86,7 +86,7 @@
 <span class="line"><span style="color:#79B8FF">print</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;--- Top 5 Best-Selling Listings ---&quot;</span><span style="color:#E1E4E8">)</span></span>
 <span class="line"><span style="color:#F97583">for</span><span style="color:#E1E4E8"> item </span><span style="color:#F97583">in</span><span style="color:#E1E4E8"> sorted_catalog[:</span><span style="color:#79B8FF">5</span><span style="color:#E1E4E8">]:</span></span>
 <span class="line"><span style="color:#79B8FF">    print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">&quot;[</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">item[</span><span style="color:#9ECBFF">&#39;orders_sold&#39;</span><span style="color:#E1E4E8">]</span><span style="color:#F97583">:,</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF"> sold | </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">item[</span><span style="color:#9ECBFF">&#39;rating&#39;</span><span style="color:#E1E4E8">]</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">★] </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">item[</span><span style="color:#9ECBFF">&#39;title&#39;</span><span style="color:#E1E4E8">][:</span><span style="color:#79B8FF">60</span><span style="color:#E1E4E8">]</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">...&quot;</span><span style="color:#E1E4E8">)</span></span>
-<span class="line"><span style="color:#79B8FF">    print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">&quot;  Price: $</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">item[</span><span style="color:#9ECBFF">&#39;price&#39;</span><span style="color:#E1E4E8">]</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF"> (Orig: $</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">item[</span><span style="color:#9ECBFF">&#39;original_price&#39;</span><span style="color:#E1E4E8">]</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">, -</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">item[</span><span style="color:#9ECBFF">&#39;discount_pct&#39;</span><span style="color:#E1E4E8">]</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">%) | Store: </span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">item[</span><span style="color:#9ECBFF">&#39;store&#39;</span><span style="color:#E1E4E8">]</span><span style="color:#79B8FF">}\n</span><span style="color:#9ECBFF">&quot;</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#79B8FF">    print</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">f</span><span style="color:#9ECBFF">&quot;  Price: $</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">item[</span><span style="color:#9ECBFF">&#39;price&#39;</span><span style="color:#E1E4E8">]</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF"> (Orig: $</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">item[</span><span style="color:#9ECBFF">&#39;original_price&#39;</span><span style="color:#E1E4E8">]</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">, -</span><span style="color:#79B8FF">{</span><span style="color:#E1E4E8">item[</span><span style="color:#9ECBFF">&#39;discount_pct&#39;</span><span style="color:#E1E4E8">]</span><span style="color:#79B8FF">}</span><span style="color:#9ECBFF">%)</span><span style="color:#79B8FF">\n</span><span style="color:#9ECBFF">&quot;</span><span style="color:#E1E4E8">)</span></span>
 <span class="line"></span>
 <span class="line"><span style="color:#6A737D"># Save processed results to JSON</span></span>
 <span class="line"><span style="color:#E1E4E8">Path(</span><span style="color:#9ECBFF">&quot;aliexpress_results.json&quot;</span><span style="color:#E1E4E8">).write_text(</span></span>
@@ -97,12 +97,12 @@
 <h3 id="1-consistent-localization-settings">1. Consistent localization settings</h3>
 <p>Product availability, shipping fees, and local pricing vary significantly across geographies. When comparing runs or building historical pricing models, ensure that <code>ship_to</code> and <code>currency</code> remain fixed across your queries. Mixing currencies or shipping destinations without normalizing records will skew discount and margin calculations.</p>
 <h3 id="2-handling-missing-or-zero-sales-counts">2. Handling missing or zero sales counts</h3>
-<p>Newer product listings or seasonal variations may show <code>orders_sold: 0</code> or omit original pricing if the merchant never ran a promotional strikethrough price. Always use Python’s <code>.get()</code> method to handle missing fields without raising runtime errors.</p>
+<p>Newer product listings or seasonal variations may show <code>sold: 0</code> or omit original pricing if the merchant never ran a promotional strikethrough price. Always use Python’s <code>.get()</code> method to handle missing fields without raising runtime errors.</p>
 <h3 id="3-rate-limiting-and-pagination">3. Rate limiting and pagination</h3>
 <p>The tool extracts 60 products per page. Setting <code>max_results_per_query: 120</code> fetches two pages. For large catalog audits across dozens of queries, keep your batches modular (e.g., 5 to 10 queries per run) so your downstream processing can validate datasets incrementally.</p>
 <h2 id="limitations-and-pricing">Limitations and pricing</h2>
 <ul>
-<li><strong>Catalog scope:</strong> This tool is an optimized search results scraper. It captures all public catalog card attributes (title, price, ratings, sold count, store, and URL). It does not scrape individual customer review paragraphs, seller private messaging, or checkout coupon codes.</li>
+<li><strong>Catalog scope:</strong> This tool is an optimized search results scraper. It captures the public search-card attributes (title, price, original price, discount, rating, sold count, image and URL). It does not return seller/store names, shipping costs or delivery estimates, review text, stock levels or coupon codes.</li>
 <li><strong>Pricing:</strong> Billed at $2.50 per 1,000 products returned (pay per result, no monthly subscription required). On the free Apify tier, you can test runs up to 100 products.</li>
 </ul>
 <h2 id="next-steps">Next steps</h2>
