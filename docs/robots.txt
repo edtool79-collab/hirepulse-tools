@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://edtool79-collab.github.io/hirepulse-tools/sitemap.xml
