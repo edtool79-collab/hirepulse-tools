@@ -1,0 +1,21 @@
+{
+  "name": "hirepulse",
+  "short_name": "hirepulse",
+  "start_url": "/hirepulse-tools/",
+  "scope": "/hirepulse-tools/",
+  "display": "standalone",
+  "background_color": "#090c12",
+  "theme_color": "#090c12",
+  "icons": [
+    {
+      "src": "/hirepulse-tools/brand/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/hirepulse-tools/brand/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
