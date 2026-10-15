@@ -1,0 +1,65 @@
+{
+  "meta": {
+    "actor": "hirepulse/youtube-transcript-scraper",
+    "run_id": "cGwKCKbXRTkojfKto",
+    "status": "SUCCEEDED",
+    "build": "1.0.5",
+    "started_at": "2026-10-15T16:33:04.203Z",
+    "status_message": "1 transcript shown (from a run of 2 videos that delivered 2 transcripts).",
+    "input": {
+      "videos": [
+        "https://youtu.be/jNQXAC9IVRw"
+      ],
+      "include_timestamps": true
+    },
+    "note": "Real owner test run on 2026-10-15, saved as-is for website examples.",
+    "subset_note": "Subset of one real run on 2026-10-15: one of its two videos is left out because its transcript is song lyrics."
+  },
+  "items": [
+    {
+      "video_id": "jNQXAC9IVRw",
+      "url": "https://www.youtube.com/watch?v=jNQXAC9IVRw",
+      "status": "ok",
+      "title": "Me at the zoo",
+      "channel": "jawed",
+      "duration_seconds": 19,
+      "language": "en",
+      "is_auto_generated": false,
+      "transcript": "All right, so here we are, in front of the elephants the cool thing about these guys is that they have really... really really long trunks and that's cool (baaaaaaaaaaahhh!!) and that's pretty much all there is to say",
+      "word_count": 39,
+      "note": null,
+      "segments": [
+        {
+          "start": 1.2,
+          "duration": 2.16,
+          "text": "All right, so here we are, in front of the elephants"
+        },
+        {
+          "start": 5.32,
+          "duration": 2.66,
+          "text": "the cool thing about these guys is that they have really..."
+        },
+        {
+          "start": 7.97,
+          "duration": 4.64,
+          "text": "really really long trunks"
+        },
+        {
+          "start": 12.62,
+          "duration": 1.75,
+          "text": "and that's cool"
+        },
+        {
+          "start": 14.42,
+          "duration": 1.31,
+          "text": "(baaaaaaaaaaahhh!!)"
+        },
+        {
+          "start": 16.88,
+          "duration": 2,
+          "text": "and that's pretty much all there is to say"
+        }
+      ]
+    }
+  ]
+}

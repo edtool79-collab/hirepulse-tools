@@ -1,0 +1,707 @@
+{
+ "generated_at": "2026-10-15T16:32:39.264578+00:00",
+ "rows": [
+  {
+   "company": "coinbase",
+   "ats": "greenhouse",
+   "open_jobs": 224,
+   "new_last_7_days": 15,
+   "remote_jobs": 186,
+   "top_department": "Internships & Emerging Talent Positions",
+   "board_url": "https://boards.greenhouse.io/coinbase"
+  },
+  {
+   "company": "figma",
+   "ats": "greenhouse",
+   "open_jobs": 142,
+   "new_last_7_days": 7,
+   "remote_jobs": 0,
+   "top_department": "Sales",
+   "board_url": "https://boards.greenhouse.io/figma"
+  },
+  {
+   "company": "notion",
+   "ats": "ashby",
+   "open_jobs": 129,
+   "new_last_7_days": 7,
+   "remote_jobs": 82,
+   "top_department": "Sales",
+   "board_url": "https://jobs.ashbyhq.com/notion"
+  },
+  {
+   "company": "airbnb",
+   "ats": "greenhouse",
+   "open_jobs": 164,
+   "new_last_7_days": 23,
+   "remote_jobs": 18,
+   "top_department": "Software Engineering",
+   "board_url": "https://boards.greenhouse.io/airbnb"
+  },
+  {
+   "company": "linear",
+   "ats": "ashby",
+   "open_jobs": 30,
+   "new_last_7_days": 0,
+   "remote_jobs": 30,
+   "top_department": "GTM",
+   "board_url": "https://jobs.ashbyhq.com/linear"
+  },
+  {
+   "company": "vercel",
+   "ats": "greenhouse",
+   "open_jobs": 90,
+   "new_last_7_days": 4,
+   "remote_jobs": 8,
+   "top_department": "Engineering",
+   "board_url": "https://boards.greenhouse.io/vercel"
+  },
+  {
+   "company": "discord",
+   "ats": "greenhouse",
+   "open_jobs": 48,
+   "new_last_7_days": 4,
+   "remote_jobs": 9,
+   "top_department": "Product Engineering",
+   "board_url": "https://boards.greenhouse.io/discord"
+  },
+  {
+   "company": "openai",
+   "ats": "ashby",
+   "open_jobs": 802,
+   "new_last_7_days": 52,
+   "remote_jobs": 525,
+   "top_department": "Go To Market",
+   "board_url": "https://jobs.ashbyhq.com/openai"
+  },
+  {
+   "company": "stripe",
+   "ats": "greenhouse",
+   "open_jobs": 728,
+   "new_last_7_days": 49,
+   "remote_jobs": 115,
+   "top_department": "Account Executives (EMEA)",
+   "board_url": "https://boards.greenhouse.io/stripe"
+  },
+  {
+   "company": "dropbox",
+   "ats": "greenhouse",
+   "open_jobs": 24,
+   "new_last_7_days": 1,
+   "remote_jobs": 24,
+   "top_department": "Direct Sales - AMER (Sub Team)",
+   "board_url": "https://boards.greenhouse.io/dropbox"
+  },
+  {
+   "company": "ramp",
+   "ats": "ashby",
+   "open_jobs": 165,
+   "new_last_7_days": 11,
+   "remote_jobs": 148,
+   "top_department": "Sales",
+   "board_url": "https://jobs.ashbyhq.com/ramp"
+  },
+  {
+   "company": "robinhood",
+   "ats": "greenhouse",
+   "open_jobs": 152,
+   "new_last_7_days": 16,
+   "remote_jobs": 0,
+   "top_department": "Customer Care",
+   "board_url": "https://boards.greenhouse.io/robinhood"
+  },
+  {
+   "company": "reddit",
+   "ats": "greenhouse",
+   "open_jobs": 148,
+   "new_last_7_days": 9,
+   "remote_jobs": 113,
+   "top_department": "Ads Product & Engineering",
+   "board_url": "https://boards.greenhouse.io/reddit"
+  },
+  {
+   "company": "plaid",
+   "ats": "ashby",
+   "open_jobs": 126,
+   "new_last_7_days": 15,
+   "remote_jobs": 116,
+   "top_department": "All Departments",
+   "board_url": "https://jobs.ashbyhq.com/plaid"
+  },
+  {
+   "company": "brex",
+   "ats": "greenhouse",
+   "open_jobs": 261,
+   "new_last_7_days": 6,
+   "remote_jobs": 0,
+   "top_department": "Sales",
+   "board_url": "https://boards.greenhouse.io/brex"
+  },
+  {
+   "company": "gusto",
+   "ats": "greenhouse",
+   "open_jobs": 101,
+   "new_last_7_days": 14,
+   "remote_jobs": 10,
+   "top_department": "Engineering",
+   "board_url": "https://boards.greenhouse.io/gusto"
+  },
+  {
+   "company": "anthropic",
+   "ats": "greenhouse",
+   "open_jobs": 649,
+   "new_last_7_days": 39,
+   "remote_jobs": 62,
+   "top_department": "Sales",
+   "board_url": "https://boards.greenhouse.io/anthropic"
+  },
+  {
+   "company": "databricks",
+   "ats": "greenhouse",
+   "open_jobs": 895,
+   "new_last_7_days": 46,
+   "remote_jobs": 71,
+   "top_department": "Engineering - Pipeline",
+   "board_url": "https://boards.greenhouse.io/databricks"
+  },
+  {
+   "company": "cloudflare",
+   "ats": "greenhouse",
+   "open_jobs": 440,
+   "new_last_7_days": 35,
+   "remote_jobs": 2,
+   "top_department": "Solution Engineering",
+   "board_url": "https://boards.greenhouse.io/cloudflare"
+  },
+  {
+   "company": "mongodb",
+   "ats": "greenhouse",
+   "open_jobs": 401,
+   "new_last_7_days": 43,
+   "remote_jobs": 0,
+   "top_department": "Sales Growth EMEA",
+   "board_url": "https://boards.greenhouse.io/mongodb"
+  },
+  {
+   "company": "gitlab",
+   "ats": "greenhouse",
+   "open_jobs": 215,
+   "new_last_7_days": 23,
+   "remote_jobs": 188,
+   "top_department": "Platforms Engineering",
+   "board_url": "https://boards.greenhouse.io/gitlab"
+  },
+  {
+   "company": "twilio",
+   "ats": "greenhouse",
+   "open_jobs": 135,
+   "new_last_7_days": 20,
+   "remote_jobs": 135,
+   "top_department": "Engineering",
+   "board_url": "https://boards.greenhouse.io/twilio"
+  },
+  {
+   "company": "datadog",
+   "ats": "greenhouse",
+   "open_jobs": 439,
+   "new_last_7_days": 25,
+   "remote_jobs": 57,
+   "top_department": "Enterprise Sales",
+   "board_url": "https://boards.greenhouse.io/datadog"
+  },
+  {
+   "company": "asana",
+   "ats": "greenhouse",
+   "open_jobs": 106,
+   "new_last_7_days": 9,
+   "remote_jobs": 4,
+   "top_department": "Product Engineering",
+   "board_url": "https://boards.greenhouse.io/asana"
+  },
+  {
+   "company": "airtable",
+   "ats": "greenhouse",
+   "open_jobs": 5,
+   "new_last_7_days": 0,
+   "remote_jobs": 3,
+   "top_department": "Sales",
+   "board_url": "https://boards.greenhouse.io/airtable"
+  },
+  {
+   "company": "elastic",
+   "ats": "greenhouse",
+   "open_jobs": 384,
+   "new_last_7_days": 30,
+   "remote_jobs": 0,
+   "top_department": "Platform - Elasticsearch",
+   "board_url": "https://boards.greenhouse.io/elastic"
+  },
+  {
+   "company": "instacart",
+   "ats": "greenhouse",
+   "open_jobs": 124,
+   "new_last_7_days": 15,
+   "remote_jobs": 119,
+   "top_department": "Product Management",
+   "board_url": "https://boards.greenhouse.io/instacart"
+  },
+  {
+   "company": "lyft",
+   "ats": "greenhouse",
+   "open_jobs": 176,
+   "new_last_7_days": 6,
+   "remote_jobs": 0,
+   "top_department": "Early Talent",
+   "board_url": "https://boards.greenhouse.io/lyft"
+  },
+  {
+   "company": "pinterest",
+   "ats": "greenhouse",
+   "open_jobs": 157,
+   "new_last_7_days": 17,
+   "remote_jobs": 65,
+   "top_department": "EPD Ads and Ads Product",
+   "board_url": "https://boards.greenhouse.io/pinterest"
+  },
+  {
+   "company": "roblox",
+   "ats": "greenhouse",
+   "open_jobs": 260,
+   "new_last_7_days": 20,
+   "remote_jobs": 8,
+   "top_department": "Software Engineering",
+   "board_url": "https://boards.greenhouse.io/roblox"
+  },
+  {
+   "company": "snowflake",
+   "ats": "ashby",
+   "open_jobs": 359,
+   "new_last_7_days": 46,
+   "remote_jobs": 174,
+   "top_department": "Engineering",
+   "board_url": "https://jobs.ashbyhq.com/snowflake"
+  },
+  {
+   "company": "scaleai",
+   "ats": "greenhouse",
+   "open_jobs": 180,
+   "new_last_7_days": 5,
+   "remote_jobs": 0,
+   "top_department": "Public Sector Engineering",
+   "board_url": "https://boards.greenhouse.io/scaleai"
+  },
+  {
+   "company": "cohere",
+   "ats": "ashby",
+   "open_jobs": 117,
+   "new_last_7_days": 10,
+   "remote_jobs": 106,
+   "top_department": "Revenue",
+   "board_url": "https://jobs.ashbyhq.com/cohere"
+  },
+  {
+   "company": "perplexity",
+   "ats": "ashby",
+   "open_jobs": 130,
+   "new_last_7_days": 6,
+   "remote_jobs": 59,
+   "top_department": "AI Research & Systems",
+   "board_url": "https://jobs.ashbyhq.com/perplexity"
+  },
+  {
+   "company": "supabase",
+   "ats": "ashby",
+   "open_jobs": 54,
+   "new_last_7_days": 5,
+   "remote_jobs": 54,
+   "top_department": "Engineering",
+   "board_url": "https://jobs.ashbyhq.com/supabase"
+  },
+  {
+   "company": "posthog",
+   "ats": "ashby",
+   "open_jobs": 11,
+   "new_last_7_days": 1,
+   "remote_jobs": 10,
+   "top_department": "Engineering",
+   "board_url": "https://jobs.ashbyhq.com/posthog"
+  },
+  {
+   "company": "chime",
+   "ats": "greenhouse",
+   "open_jobs": 69,
+   "new_last_7_days": 7,
+   "remote_jobs": 2,
+   "top_department": "Growth Marketing",
+   "board_url": "https://boards.greenhouse.io/chime"
+  },
+  {
+   "company": "affirm",
+   "ats": "greenhouse",
+   "open_jobs": 206,
+   "new_last_7_days": 29,
+   "remote_jobs": 199,
+   "top_department": "Checkout",
+   "board_url": "https://boards.greenhouse.io/affirm"
+  },
+  {
+   "company": "wise",
+   "ats": "smartrecruiters",
+   "open_jobs": 409,
+   "new_last_7_days": 105,
+   "remote_jobs": 1,
+   "top_department": "Engineering",
+   "board_url": "https://jobs.smartrecruiters.com/wise"
+  },
+  {
+   "company": "squarespace",
+   "ats": "greenhouse",
+   "open_jobs": 34,
+   "new_last_7_days": 2,
+   "remote_jobs": 2,
+   "top_department": "Engineering",
+   "board_url": "https://boards.greenhouse.io/squarespace"
+  },
+  {
+   "company": "toast",
+   "ats": "greenhouse",
+   "open_jobs": 312,
+   "new_last_7_days": 38,
+   "remote_jobs": 51,
+   "top_department": "Sales : Retail Sales AEs",
+   "board_url": "https://boards.greenhouse.io/toast"
+  },
+  {
+   "company": "zapier",
+   "ats": "ashby",
+   "open_jobs": 11,
+   "new_last_7_days": 0,
+   "remote_jobs": 11,
+   "top_department": "Sales",
+   "board_url": "https://jobs.ashbyhq.com/zapier"
+  },
+  {
+   "company": "gong",
+   "ats": "smartrecruiters",
+   "open_jobs": 9,
+   "new_last_7_days": 0,
+   "remote_jobs": 0,
+   "top_department": "Marketing",
+   "board_url": "https://jobs.smartrecruiters.com/gong"
+  },
+  {
+   "company": "intercom",
+   "ats": "greenhouse",
+   "open_jobs": 109,
+   "new_last_7_days": 6,
+   "remote_jobs": 4,
+   "top_department": "Sales",
+   "board_url": "https://boards.greenhouse.io/intercom"
+  },
+  {
+   "company": "calendly",
+   "ats": "greenhouse",
+   "open_jobs": 9,
+   "new_last_7_days": 0,
+   "remote_jobs": 6,
+   "top_department": "Engineering",
+   "board_url": "https://boards.greenhouse.io/calendly"
+  },
+  {
+   "company": "miro",
+   "ats": "ashby",
+   "open_jobs": 23,
+   "new_last_7_days": 0,
+   "remote_jobs": 0,
+   "top_department": "Sales",
+   "board_url": "https://jobs.ashbyhq.com/miro"
+  },
+  {
+   "company": "cursor",
+   "ats": "ashby",
+   "open_jobs": 134,
+   "new_last_7_days": 8,
+   "remote_jobs": 58,
+   "top_department": "Sales",
+   "board_url": "https://jobs.ashbyhq.com/cursor"
+  },
+  {
+   "company": "canva",
+   "ats": "smartrecruiters",
+   "open_jobs": 121,
+   "new_last_7_days": 12,
+   "remote_jobs": 19,
+   "top_department": "Information Technology",
+   "board_url": "https://jobs.smartrecruiters.com/canva"
+  },
+  {
+   "company": "duolingo",
+   "ats": "greenhouse",
+   "open_jobs": 60,
+   "new_last_7_days": 3,
+   "remote_jobs": 2,
+   "top_department": "Software Engineering",
+   "board_url": "https://boards.greenhouse.io/duolingo"
+  },
+  {
+   "company": "huggingface",
+   "ats": "workable",
+   "open_jobs": 6,
+   "new_last_7_days": 0,
+   "remote_jobs": 6,
+   "top_department": "Open Source",
+   "board_url": "https://apply.workable.com/huggingface"
+  },
+  {
+   "company": "elevenlabs",
+   "ats": "ashby",
+   "open_jobs": 152,
+   "new_last_7_days": 58,
+   "remote_jobs": 133,
+   "top_department": "Engineering & Product",
+   "board_url": "https://jobs.ashbyhq.com/elevenlabs"
+  },
+  {
+   "company": "synthesia",
+   "ats": "ashby",
+   "open_jobs": 50,
+   "new_last_7_days": 6,
+   "remote_jobs": 47,
+   "top_department": "Commercial",
+   "board_url": "https://jobs.ashbyhq.com/synthesia"
+  },
+  {
+   "company": "harvey",
+   "ats": "ashby",
+   "open_jobs": 344,
+   "new_last_7_days": 33,
+   "remote_jobs": 275,
+   "top_department": "Go to Market",
+   "board_url": "https://jobs.ashbyhq.com/harvey"
+  },
+  {
+   "company": "monzo",
+   "ats": "greenhouse",
+   "open_jobs": 70,
+   "new_last_7_days": 5,
+   "remote_jobs": 42,
+   "top_department": "Engineering",
+   "board_url": "https://boards.greenhouse.io/monzo"
+  },
+  {
+   "company": "writer",
+   "ats": "ashby",
+   "open_jobs": 49,
+   "new_last_7_days": 13,
+   "remote_jobs": 49,
+   "top_department": "Engineering, product & design",
+   "board_url": "https://jobs.ashbyhq.com/writer"
+  },
+  {
+   "company": "samsara",
+   "ats": "greenhouse",
+   "open_jobs": 260,
+   "new_last_7_days": 25,
+   "remote_jobs": 228,
+   "top_department": "Customer Success",
+   "board_url": "https://boards.greenhouse.io/samsara"
+  },
+  {
+   "company": "faire",
+   "ats": "greenhouse",
+   "open_jobs": 79,
+   "new_last_7_days": 4,
+   "remote_jobs": 2,
+   "top_department": "Algorithms & Data",
+   "board_url": "https://boards.greenhouse.io/faire"
+  },
+  {
+   "company": "carta",
+   "ats": "greenhouse",
+   "open_jobs": 73,
+   "new_last_7_days": 3,
+   "remote_jobs": 0,
+   "top_department": "Carta Law",
+   "board_url": "https://boards.greenhouse.io/carta"
+  },
+  {
+   "company": "flexport",
+   "ats": "greenhouse",
+   "open_jobs": 204,
+   "new_last_7_days": 19,
+   "remote_jobs": 4,
+   "top_department": "Sales",
+   "board_url": "https://boards.greenhouse.io/flexport"
+  },
+  {
+   "company": "mercury",
+   "ats": "greenhouse",
+   "open_jobs": 73,
+   "new_last_7_days": 13,
+   "remote_jobs": 70,
+   "top_department": "Engineering",
+   "board_url": "https://boards.greenhouse.io/mercury"
+  },
+  {
+   "company": "webflow",
+   "ats": "ashby",
+   "open_jobs": 23,
+   "new_last_7_days": 2,
+   "remote_jobs": 18,
+   "top_department": "Sales",
+   "board_url": "https://jobs.ashbyhq.com/webflow"
+  },
+  {
+   "company": "lattice",
+   "ats": "greenhouse",
+   "open_jobs": 9,
+   "new_last_7_days": 0,
+   "remote_jobs": 8,
+   "top_department": "Engineering",
+   "board_url": "https://boards.greenhouse.io/lattice"
+  },
+  {
+   "company": "checkr",
+   "ats": "greenhouse",
+   "open_jobs": 44,
+   "new_last_7_days": 8,
+   "remote_jobs": 3,
+   "top_department": "Operations",
+   "board_url": "https://boards.greenhouse.io/checkr"
+  },
+  {
+   "company": "replit",
+   "ats": "ashby",
+   "open_jobs": 66,
+   "new_last_7_days": 4,
+   "remote_jobs": 66,
+   "top_department": "Engineering",
+   "board_url": "https://jobs.ashbyhq.com/replit"
+  },
+  {
+   "company": "verkada",
+   "ats": "greenhouse",
+   "open_jobs": 316,
+   "new_last_7_days": 21,
+   "remote_jobs": 0,
+   "top_department": "Solutions Engineering",
+   "board_url": "https://boards.greenhouse.io/verkada"
+  },
+  {
+   "company": "neuralink",
+   "ats": "greenhouse",
+   "open_jobs": 80,
+   "new_last_7_days": 4,
+   "remote_jobs": 0,
+   "top_department": "Internships",
+   "board_url": "https://boards.greenhouse.io/neuralink"
+  },
+  {
+   "company": "nuro",
+   "ats": "greenhouse",
+   "open_jobs": 109,
+   "new_last_7_days": 9,
+   "remote_jobs": 0,
+   "top_department": "Fleet Infrastructure",
+   "board_url": "https://boards.greenhouse.io/nuro"
+  },
+  {
+   "company": "waymo",
+   "ats": "greenhouse",
+   "open_jobs": 365,
+   "new_last_7_days": 20,
+   "remote_jobs": 10,
+   "top_department": "Pipeline (N/A)",
+   "board_url": "https://boards.greenhouse.io/waymo"
+  },
+  {
+   "company": "palantir",
+   "ats": "lever",
+   "open_jobs": 312,
+   "new_last_7_days": 5,
+   "remote_jobs": 0,
+   "top_department": "Dev",
+   "board_url": "https://jobs.lever.co/palantir"
+  },
+  {
+   "company": "glean",
+   "ats": "smartrecruiters",
+   "open_jobs": 1,
+   "new_last_7_days": 0,
+   "remote_jobs": 0,
+   "top_department": "Engineering",
+   "board_url": "https://jobs.smartrecruiters.com/glean"
+  },
+  {
+   "company": "zoox",
+   "ats": "lever",
+   "open_jobs": 239,
+   "new_last_7_days": 17,
+   "remote_jobs": 0,
+   "top_department": "Software",
+   "board_url": "https://jobs.lever.co/zoox"
+  },
+  {
+   "company": "benchling",
+   "ats": "ashby",
+   "open_jobs": 55,
+   "new_last_7_days": 7,
+   "remote_jobs": 52,
+   "top_department": "Customer Experience",
+   "board_url": "https://jobs.ashbyhq.com/benchling"
+  },
+  {
+   "company": "sentry",
+   "ats": "ashby",
+   "open_jobs": 46,
+   "new_last_7_days": 9,
+   "remote_jobs": 45,
+   "top_department": "Engineering",
+   "board_url": "https://jobs.ashbyhq.com/sentry"
+  },
+  {
+   "company": "grafanalabs",
+   "ats": "greenhouse",
+   "open_jobs": 108,
+   "new_last_7_days": 14,
+   "remote_jobs": 108,
+   "top_department": "R&D : Databases",
+   "board_url": "https://boards.greenhouse.io/grafanalabs"
+  },
+  {
+   "company": "netlify",
+   "ats": "greenhouse",
+   "open_jobs": 5,
+   "new_last_7_days": 0,
+   "remote_jobs": 5,
+   "top_department": "GTM",
+   "board_url": "https://boards.greenhouse.io/netlify"
+  },
+  {
+   "company": "cockroachlabs",
+   "ats": "greenhouse",
+   "open_jobs": 18,
+   "new_last_7_days": 1,
+   "remote_jobs": 2,
+   "top_department": "Sales",
+   "board_url": "https://boards.greenhouse.io/cockroachlabs"
+  },
+  {
+   "company": "temporal",
+   "ats": "ashby",
+   "open_jobs": 70,
+   "new_last_7_days": 11,
+   "remote_jobs": 70,
+   "top_department": "Engineering",
+   "board_url": "https://jobs.ashbyhq.com/temporal"
+  },
+  {
+   "company": "spacex",
+   "ats": "greenhouse",
+   "open_jobs": 2739,
+   "new_last_7_days": 138,
+   "remote_jobs": 17,
+   "top_department": "Starlink Enterprise Sales & Account Management",
+   "board_url": "https://boards.greenhouse.io/spacex"
+  }
+ ]
+}
