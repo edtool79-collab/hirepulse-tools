@@ -1,0 +1,421 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "HirePulse Apify Data Tools API",
+    "description": "OpenAPI 3.1 specification for HirePulse pay-per-use data tools running on Apify. Use with LangChain, LlamaIndex, AutoGen, Flowise, or OpenAI Custom Actions.\n\nAll tools run on the Apify Store (https://apify.com/hirepulse) with pay-per-use billing and $5/month platform credit included.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "HirePulse",
+      "url": "https://edtool79-collab.github.io/hirepulse-tools/"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.apify.com/v2",
+      "description": "Apify Production API Gateway"
+    }
+  ],
+  "paths": {
+    "/acts/hirepulse~company-intent-radar/run-sync-get-dataset-items": {
+      "post": {
+        "summary": "Company Intent Radar",
+        "description": "Enrich companies with Greenhouse, Lever, Ashby, Workable, SmartRecruiters, Recruitee jobs, Google ads, SEO traffic and 0-100 intent score. $0.03 per company report. 5 free runs.\nApify Store Page: https://apify.com/hirepulse/company-intent-radar",
+        "operationId": "run_company_intent_radar",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "description": "Your Apify API Token (get $5/month free at https://apify.com/pricing)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "domains": [
+                    "stripe.com",
+                    "notion.so"
+                  ],
+                  "country": "US"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Synchronous run completed and dataset items returned as a JSON array",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/acts/hirepulse~google-ads-transparency-scraper/run-sync-get-dataset-items": {
+      "post": {
+        "summary": "Google Ads Transparency Scraper",
+        "description": "Extract every live Google ad by company domain. Formats (text/image/video), first/last shown dates, preview assets, and Transparency links. $0.005 per domain + $0.0015 per ad ($0 for domains with no ads).\nApify Store Page: https://apify.com/hirepulse/google-ads-transparency-scraper",
+        "operationId": "run_google_ads_transparency_scraper",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "description": "Your Apify API Token (get $5/month free at https://apify.com/pricing)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "domains": [
+                    "nike.com"
+                  ],
+                  "country": "US",
+                  "max_ads_per_domain": 40,
+                  "mode": "ads"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Synchronous run completed and dataset items returned as a JSON array",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/acts/hirepulse~ats-job-pulse/run-sync-get-dataset-items": {
+      "post": {
+        "summary": "ATS Job Scraper",
+        "description": "Extract open jobs, published salary ranges and technologies from Greenhouse, Lever, Ashby, Workable, Recruitee and SmartRecruiters (Workday not supported). Pay per result on Apify Store.\nApify Store Page: https://apify.com/hirepulse/ats-job-pulse",
+        "operationId": "run_ats_job_pulse",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "description": "Your Apify API Token (get $5/month free at https://apify.com/pricing)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "companies": [
+                    "stripe.com",
+                    "notion.so"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Synchronous run completed and dataset items returned as a JSON array",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/acts/hirepulse~google-jobs-scraper/run-sync-get-dataset-items": {
+      "post": {
+        "summary": "Google Jobs Scraper",
+        "description": "Google Jobs results in 90+ countries with parsed salaries, contract types and apply URLs. $0.005 per search with jobs + $0.001 per job.\nApify Store Page: https://apify.com/hirepulse/google-jobs-scraper",
+        "operationId": "run_google_jobs_scraper",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "description": "Your Apify API Token (get $5/month free at https://apify.com/pricing)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "queries": [
+                    "data engineer"
+                  ],
+                  "country": "US",
+                  "location": "Austin,Texas",
+                  "max_jobs_per_query": 50
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Synchronous run completed and dataset items returned as a JSON array",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/acts/hirepulse~keyword-search-volume/run-sync-get-dataset-items": {
+      "post": {
+        "summary": "Keyword Search Volume & CPC",
+        "description": "Google monthly search volume, CPC, competition and keyword difficulty. $0.03 per lookup + $0.005 per keyword. 3 free keywords per run.\nApify Store Page: https://apify.com/hirepulse/keyword-search-volume",
+        "operationId": "run_keyword_search_volume",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "description": "Your Apify API Token (get $5/month free at https://apify.com/pricing)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "keywords": [
+                    "keyword research tool",
+                    "ai agents",
+                    "web scraping api"
+                  ],
+                  "country": "US"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Synchronous run completed and dataset items returned as a JSON array",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/acts/hirepulse~domain-seo-overview/run-sync-get-dataset-items": {
+      "post": {
+        "summary": "Domain SEO Overview",
+        "description": "Estimated organic traffic, ranking keywords, traffic value in USD and competitor domains. Pay per result on Apify Store.\nApify Store Page: https://apify.com/hirepulse/domain-seo-overview",
+        "operationId": "run_domain_seo_overview",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "description": "Your Apify API Token (get $5/month free at https://apify.com/pricing)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "domains": [
+                    "stripe.com"
+                  ],
+                  "country": "US"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Synchronous run completed and dataset items returned as a JSON array",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/acts/hirepulse~youtube-transcript-scraper/run-sync-get-dataset-items": {
+      "post": {
+        "summary": "YouTube Transcript Scraper",
+        "description": "Bulk transcripts of YouTube videos and Shorts with exact timestamps per segment. 3 free videos per run. Pay per result on Apify Store.\nApify Store Page: https://apify.com/hirepulse/youtube-transcript-scraper",
+        "operationId": "run_youtube_transcript_scraper",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "description": "Your Apify API Token (get $5/month free at https://apify.com/pricing)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "videos": [
+                    "https://www.youtube.com/watch?v=jNQXAC9IVRw"
+                  ],
+                  "include_timestamps": true
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Synchronous run completed and dataset items returned as a JSON array",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/acts/hirepulse~aliexpress-search-scraper/run-sync-get-dataset-items": {
+      "post": {
+        "summary": "AliExpress Search Scraper",
+        "description": "AliExpress product search results with price, discount, rating, sold count, image and product link. $2.50 per 1,000 products. 100 free products per run.\nApify Store Page: https://apify.com/hirepulse/aliexpress-search-scraper",
+        "operationId": "run_aliexpress_search_scraper",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "description": "Your Apify API Token (get $5/month free at https://apify.com/pricing)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "queries": [
+                    "wireless earbuds"
+                  ],
+                  "max_results_per_query": 60,
+                  "ship_to": "US",
+                  "currency": "USD"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Synchronous run completed and dataset items returned as a JSON array",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

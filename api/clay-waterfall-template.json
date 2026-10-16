@@ -1,0 +1,24 @@
+{
+  "name": "HirePulse Company Intent Radar (Clay HTTP Action)",
+  "description": "Replaces 8-15 Clay waterfall credits with a single $0.03 call to hirepulse/company-intent-radar",
+  "method": "POST",
+  "url": "https://api.apify.com/v2/acts/hirepulse~company-intent-radar/run-sync-get-dataset-items?token={{apify_token}}",
+  "headers": {
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "domains": [
+      "{{domain}}"
+    ],
+    "country": "US"
+  },
+  "output_mapping": {
+    "intent_score": "data[0].intent_score",
+    "open_jobs": "data[0].open_jobs",
+    "ads_running_now": "data[0].ads_running_now",
+    "email_provider": "data[0].email_provider",
+    "seo_organic_traffic": "data[0].seo.organic_traffic_estimate",
+    "summary": "data[0].summary"
+  },
+  "pricing_note": "$0.03 per company report produced. Free Apify plan includes $5/mo platform credit at https://apify.com/pricing."
+}
