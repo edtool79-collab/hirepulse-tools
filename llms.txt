@@ -2,6 +2,9 @@
 
 > Eight pay-per-use data tools (Apify Actors) by hirepulse: AliExpress search results, Google Ads by domain, company buying-intent signals, ATS job boards, Google Jobs, keyword search volume, domain SEO overview and YouTube transcripts. Every tool returns clean JSON. All of them run on the Apify Store (https://apify.com/hirepulse). You pay per use and there is no subscription. Higher Apify plans get volume discounts.
 
+Full details for every tool (input fields and a real output record): https://edtool79-collab.github.io/hirepulse-tools/llms-full.txt
+Every tool page and guide also has a plain Markdown version at the same address with ".md", for example https://edtool79-collab.github.io/hirepulse-tools/aliexpress-search-api.md
+
 ## Connect an AI agent (MCP)
 
 - Remote MCP server, one tool: `https://mcp.apify.com?tools=hirepulse/<tool-id>`

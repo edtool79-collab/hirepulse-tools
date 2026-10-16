@@ -1,0 +1,496 @@
+# hirepulse
+
+> Eight pay-per-use data tools (Apify Actors) by hirepulse. Each returns clean JSON and can be called by AI agents through the Apify MCP server. Higher Apify plans get volume discounts.
+
+## Connect
+
+- Remote MCP server: `https://mcp.apify.com?tools=hirepulse/<tool-id>`; several tools are comma-separated.
+- Authentication: OAuth in the browser, or the header `Authorization: Bearer <APIFY_TOKEN>`.
+- Local (stdio): `npx -y @apify/actors-mcp-server --tools hirepulse/<tool-id>`, with `APIFY_TOKEN` in `env`.
+- REST: `POST https://api.apify.com/v2/acts/hirepulse~<tool-id>/run-sync-get-dataset-items?token=<APIFY_TOKEN>` with the input as the JSON body.
+- Every result is billed (pay per use, no subscription). Start with one query or domain, then scale up.
+
+## AliExpress Search Scraper (`hirepulse/aliexpress-search-scraper`)
+
+**Use it when:** You need AliExpress search results for a keyword as JSON: title, price in a chosen currency, original price, discount, rating, units sold, image and product link.
+
+**Not for:** Store or seller names, shipping costs or delivery estimates, reviews or stock. The tool does not return them.
+
+- MCP: `https://mcp.apify.com?tools=hirepulse/aliexpress-search-scraper`
+- Apify Store: https://apify.com/hirepulse/aliexpress-search-scraper
+- Page: https://edtool79-collab.github.io/hirepulse-tools/aliexpress-search-api/
+- Price: $2.50 per 1,000 products. Free Apify plan: 100 products per run.
+
+### Input
+
+| Field | Type | Required / default | Notes |
+| --- | --- | --- | --- |
+| `queries` | array of strings | required | Search terms, for example ["wireless earbuds"]. |
+| `max_results_per_query` | integer | default 60 | 60 products per page. |
+| `sort` | string | default "best_match" | best_match, orders, price_low or price_high. |
+| `currency` | string | default "USD" | For example USD, EUR, GBP or ILS. |
+| `ship_to` | string | default "US" | Ship-to country code. |
+| `min_price` | integer | optional | Lowest price. |
+| `max_price` | integer | optional | Highest price. |
+
+Example input:
+
+```json
+{
+  "queries": [
+    "wireless earbuds"
+  ],
+  "max_results_per_query": 120,
+  "ship_to": "US",
+  "currency": "USD"
+}
+```
+
+### Output example
+
+First record of a real test run (search "wireless earbuds", October 15, 2026):
+
+```json
+{
+  "query": "wireless earbuds",
+  "position": 1,
+  "title": "TWS True Wireless Stereo Headset Touch Contro With Charging Case Wireless Earphones  In-ear Smart Earbuds  With Microphone",
+  "url": "https://www.aliexpress.com/item/3256812924699567.html",
+  "image_url": "https://ae-pic-a1.aliexpress-media.com/kf/Sb52dc1abf75e4777a2df3294034572d2X.jpg",
+  "price": 7.89,
+  "original_price": 15.78,
+  "discount_percent": 50,
+  "currency": "USD",
+  "rating": 4.9,
+  "sold": 919,
+  "sold_text": "900+ sold",
+  "is_sponsored": false,
+  "listed_since": "2026-09-03",
+  "ship_to": "US",
+  "scraped_at": "2026-10-15T10:56:10Z"
+}
+```
+
+## Google Ads Transparency Scraper (`hirepulse/google-ads-transparency-scraper`)
+
+**Use it when:** You need the Google ads a company runs, by domain: advertiser, verified flag, format (text, image or video), first and last shown dates, preview image and Transparency Center link.
+
+- MCP: `https://mcp.apify.com?tools=hirepulse/google-ads-transparency-scraper`
+- Apify Store: https://apify.com/hirepulse/google-ads-transparency-scraper
+- Page: https://edtool79-collab.github.io/hirepulse-tools/google-ads-transparency-api/
+- Price: $0.005 per domain + $0.0015 per ad. Free Apify plan: 1 domain, up to 5 ads.
+
+### Input
+
+| Field | Type | Required / default | Notes |
+| --- | --- | --- | --- |
+| `domains` | array of strings | required | Company domains, for example ["nike.com"]. |
+| `mode` | string | default "ads" | ads or summary (one row per domain). |
+| `max_ads_per_domain` | integer | default 40 |  |
+| `country` | string | optional | Country code. |
+| `platform` | string | default "all" | all, google_search, youtube, google_shopping, google_play or google_maps. |
+| `format` | string | default "all" | all, text, image or video. |
+| `date_from` | string | optional | Start date. |
+| `date_to` | string | optional | End date. |
+| `only_new_ads` | boolean | default false | Monitoring: return only ads not seen in earlier runs. |
+
+Example input:
+
+```json
+{
+  "domains": [
+    "nike.com"
+  ],
+  "country": "US",
+  "max_ads_per_domain": 40,
+  "mode": "ads"
+}
+```
+
+### Output example
+
+Selected fields of one record from a real test run:
+
+```json
+{
+  "domain": "nike.com",
+  "advertiser_name": "Nike, Inc.",
+  "advertiser_verified": true,
+  "format": "text",
+  "first_shown": "2023-11-16T21:51:37Z",
+  "last_shown": "2026-10-14T15:10:53Z",
+  "days_running": 1062
+}
+```
+
+## Company Intent Radar (`hirepulse/company-intent-radar`)
+
+**Use it when:** You need one report per company domain: open jobs and new jobs in the last 30 days, Google ads running now and in total, organic traffic and SEO trend, email provider from MX records, a 0-100 intent score and a one-line summary.
+
+**Not for:** The full list of a company's jobs (use hirepulse/ats-job-pulse for that).
+
+- MCP: `https://mcp.apify.com?tools=hirepulse/company-intent-radar`
+- Apify Store: https://apify.com/hirepulse/company-intent-radar
+- Page: https://edtool79-collab.github.io/hirepulse-tools/company-intent-signals-api/
+- Price: $0.03 per company report, charged only when the full report was produced. Free plan: hiring and email signals for 5 companies.
+
+### Input
+
+| Field | Type | Required / default | Notes |
+| --- | --- | --- | --- |
+| `domains` | array of strings | required | Company domains, for example ["stripe.com"]. |
+| `country` | string | default "US" | Country code. |
+| `include_jobs` | boolean | default false | Also return the job list. |
+
+Example input:
+
+```json
+{
+  "domains": [
+    "stripe.com",
+    "notion.so"
+  ],
+  "country": "US"
+}
+```
+
+### Output example
+
+Selected fields of one record from a real test run:
+
+```json
+{
+  "domain": "stripe.com",
+  "intent_score": 85,
+  "open_jobs": 727,
+  "ads_running_now": true,
+  "email_provider": "Google Workspace"
+}
+```
+
+## ATS Job Scraper (`hirepulse/ats-job-pulse`)
+
+**Use it when:** You need every open job from a company's Greenhouse, Lever, Ashby, Workable, Recruitee or SmartRecruiters board. Pass a domain such as stripe.com or a board slug.
+
+**Not for:** Companies on Workday or custom career sites.
+
+- MCP: `https://mcp.apify.com?tools=hirepulse/ats-job-pulse`
+- Apify Store: https://apify.com/hirepulse/ats-job-pulse
+- Page: https://edtool79-collab.github.io/hirepulse-tools/ats-jobs-api/
+- Price: See the Apify Store page: https://apify.com/hirepulse/ats-job-pulse
+
+### Input
+
+| Field | Type | Required / default | Notes |
+| --- | --- | --- | --- |
+| `companies` | array of strings | required | Company domains or board slugs, for example ["stripe.com"]. |
+| `output_mode` | string | default "jobs_and_summary" | jobs_and_summary, summary_only or jobs_only. |
+| `track_diff` | boolean | default true | Mark new and closed jobs between runs. |
+| `only_changes` | boolean | default false | Return only changes since the last run. |
+| `extract_tech_keywords` | boolean | default true | Detect technologies mentioned in job titles and descriptions. |
+| `title_keywords` | array of strings | optional | Filter by words in the job title. |
+| `departments` | array of strings | optional |  |
+| `locations` | array of strings | optional |  |
+| `technologies` | array of strings | optional |  |
+| `remote_only` | boolean | default false |  |
+| `max_jobs_per_company` | integer | default 0 | 0 means no limit. |
+
+Input of the test run below:
+
+```json
+{
+  "companies": [
+    "linear.app",
+    "ramp.com"
+  ],
+  "output_mode": "jobs_and_summary",
+  "track_diff": false,
+  "max_jobs_per_company": 5
+}
+```
+
+### Output example
+
+One record from a real test run on 2026-10-15 (long text and lists shortened):
+
+```json
+{
+  "record_type": "job",
+  "company_domain": "ramp.com",
+  "ats_type": "ashby",
+  "job_id": "34413f8d-26bf-4bbc-8ade-eb309a0e2245",
+  "title": "Security Engineer, Cloud",
+  "department": "Engineering",
+  "location": "New York, NY (HQ)",
+  "is_remote": true,
+  "posted_date": "2026-04-07T17:12:35.753+00:00",
+  "salary": "$211.4K - $290.6K",
+  "apply_url": "https://jobs.ashbyhq.com/ramp/34413f8d-26bf-4bbc-8ade-eb309a0e2245",
+  "detected_technologies": [
+    "AWS",
+    "Azure",
+    "Flask"
+  ],
+  "status": "ACTIVE",
+  "scraped_at": "2026-10-15T16:33:07+00:00"
+}
+```
+
+## Google Jobs Scraper (`hirepulse/google-jobs-scraper`)
+
+**Use it when:** You need Google Jobs results for a search in a country, or in one city with a radius: title, company, location, salary text (parsed to min and max when shown), contract type, posting date, source site and apply link.
+
+**Not for:** A company's own job board (use hirepulse/ats-job-pulse). Salary is often missing.
+
+- MCP: `https://mcp.apify.com?tools=hirepulse/google-jobs-scraper`
+- Apify Store: https://apify.com/hirepulse/google-jobs-scraper
+- Page: https://edtool79-collab.github.io/hirepulse-tools/google-jobs-api/
+- Price: $0.005 per search that returns jobs + $0.001 per job.
+
+### Input
+
+| Field | Type | Required / default | Notes |
+| --- | --- | --- | --- |
+| `queries` | array of strings | required | Job searches, for example ["data engineer"]. |
+| `country` | string | default "US" | Country code (90+ countries). |
+| `location` | string | optional | A city. |
+| `radius_km` | integer | optional | Radius around the location. |
+| `max_jobs_per_query` | integer | default 50 |  |
+| `employment_types` | array of strings | optional |  |
+| `include_descriptions` | boolean | default true |  |
+| `language` | string | optional |  |
+
+Input of the test run below:
+
+```json
+{
+  "queries": [
+    "data engineer"
+  ],
+  "country": "US",
+  "location": "Austin,Texas",
+  "max_jobs_per_query": 10
+}
+```
+
+### Output example
+
+One record from a real test run on 2026-10-15:
+
+```json
+{
+  "query": "data engineer",
+  "country": "US",
+  "position": 1,
+  "title": "Junior Data Engineer",
+  "company": "Tech Consulting",
+  "company_url": null,
+  "company_logo_url": "https://api.dataforseo.com/cdn/i/10151634-2796-0447-0000-ac22c4fd6890:0",
+  "location": "Dallas, TX",
+  "contract_type": "Full-time",
+  "salary": null,
+  "salary_min": null,
+  "salary_max": null,
+  "salary_currency": null,
+  "salary_period": null,
+  "posted_at": "2026-10-13 16:34:24 +00:00",
+  "posted_ago": "2 days ago",
+  "source": "LinkedIn",
+  "apply_url": "https://www.linkedin.com/jobs/view/junior-data-engineer-at-tech-consulting-4476485669",
+  "google_job_id": "uJQyr5_7_sG0aELXAAAAAA==",
+  "scraped_at": "2026-10-15T16:34:29Z",
+  "description": null,
+  "description_source": null
+}
+```
+
+## Keyword Search Volume (`hirepulse/keyword-search-volume`)
+
+**Use it when:** You need Google monthly search volume, CPC, competition or keyword ideas for a list of keywords.
+
+**Not for:** Rank tracking of a website (use hirepulse/domain-seo-overview for a domain's ranking keywords).
+
+- MCP: `https://mcp.apify.com?tools=hirepulse/keyword-search-volume`
+- Apify Store: https://apify.com/hirepulse/keyword-search-volume
+- Page: https://edtool79-collab.github.io/hirepulse-tools/keyword-search-volume-api/
+- Price: $0.03 per lookup + $0.005 per keyword result. Free Apify plan: real volume, CPC and difficulty for the first 3 keywords of each run (depends on availability and can be paused).
+
+### Input
+
+| Field | Type | Required / default | Notes |
+| --- | --- | --- | --- |
+| `keywords` | array of strings | required | For example ["running shoes"]. |
+| `mode` | string | default "metrics" | metrics, ideas or suggestions. |
+| `country` | string | default "US" | Country code. |
+| `language` | string | optional |  |
+| `max_results` | integer | default 50 |  |
+| `min_search_volume` | integer | default 0 |  |
+| `include_monthly_searches` | boolean | default false |  |
+| `include_ai_search_volume` | boolean | default false |  |
+
+Input of the test run below:
+
+```json
+{
+  "keywords": [
+    "keyword research tool",
+    "ai agents",
+    "web scraping api"
+  ],
+  "country": "US"
+}
+```
+
+### Output example
+
+One record from a real test run on 2026-10-15:
+
+```json
+{
+  "keyword": "keyword research tool",
+  "search_volume": 4400,
+  "cpc_usd": 15.75,
+  "competition": 0.29,
+  "competition_level": "LOW",
+  "keyword_difficulty": 81,
+  "search_intent": "commercial",
+  "low_top_of_page_bid_usd": 3.33,
+  "high_top_of_page_bid_usd": 17.11,
+  "trend_monthly_pct": -57,
+  "trend_quarterly_pct": -47,
+  "trend_yearly_pct": -81,
+  "ai_search_volume": null,
+  "country": "US",
+  "language": "en",
+  "source": "keyword_database",
+  "seed_keyword": null,
+  "metrics_available": true,
+  "data_updated_at": "2026-09-15 12:14:58 +00:00",
+  "note": null
+}
+```
+
+## Domain SEO Overview (`hirepulse/domain-seo-overview`)
+
+**Use it when:** You need estimated organic traffic, ranking keywords, traffic value and competitor domains for a domain.
+
+**Not for:** Exact analytics. The numbers are estimates; report them as estimates.
+
+- MCP: `https://mcp.apify.com?tools=hirepulse/domain-seo-overview`
+- Apify Store: https://apify.com/hirepulse/domain-seo-overview
+- Page: https://edtool79-collab.github.io/hirepulse-tools/domain-seo-overview-api/
+- Price: See the Apify Store page: https://apify.com/hirepulse/domain-seo-overview
+
+### Input
+
+| Field | Type | Required / default | Notes |
+| --- | --- | --- | --- |
+| `domains` | array of strings | required | For example ["notion.so"]. |
+| `country` | string | default "US" | Country code. |
+| `language` | string | optional |  |
+| `top_keywords` | integer | default 20 |  |
+| `competitors` | integer | default 10 |  |
+
+Input of the test run below:
+
+```json
+{
+  "domains": [
+    "stripe.com"
+  ],
+  "top_keywords": 5,
+  "competitors": 0
+}
+```
+
+### Output example
+
+One record from a real test run on 2026-10-15:
+
+```json
+{
+  "record_type": "domain_overview",
+  "domain": "stripe.com",
+  "country": "US",
+  "language": "en",
+  "has_data": true,
+  "organic_traffic_estimate": 688494,
+  "organic_keywords": 115829,
+  "organic_traffic_value_usd": 8338941,
+  "keywords_top_3": 19298,
+  "keywords_top_10": 50840,
+  "keywords_top_20": 78460,
+  "keywords_new": 59404,
+  "keywords_up": 23927,
+  "keywords_down": 22077,
+  "keywords_lost": 72928,
+  "paid_keywords": 14,
+  "paid_traffic_estimate": 128,
+  "note": null
+}
+```
+
+## YouTube Transcript Scraper (`hirepulse/youtube-transcript-scraper`)
+
+**Use it when:** You need transcripts of YouTube videos in bulk, with timestamps.
+
+- MCP: `https://mcp.apify.com?tools=hirepulse/youtube-transcript-scraper`
+- Apify Store: https://apify.com/hirepulse/youtube-transcript-scraper
+- Page: https://edtool79-collab.github.io/hirepulse-tools/youtube-transcript-api/
+- Price: See the Apify Store page: https://apify.com/hirepulse/youtube-transcript-scraper. Free Apify plan: the first 3 videos of each run.
+
+### Input
+
+| Field | Type | Required / default | Notes |
+| --- | --- | --- | --- |
+| `videos` | array of strings | required | Video URLs or IDs. |
+| `language` | string | optional | Transcript language. |
+| `include_timestamps` | boolean | default false |  |
+
+Input of the test run below:
+
+```json
+{
+  "videos": [
+    "https://youtu.be/jNQXAC9IVRw"
+  ],
+  "include_timestamps": true
+}
+```
+
+### Output example
+
+One record from a real test run on 2026-10-15 (long text and lists shortened):
+
+```json
+{
+  "video_id": "jNQXAC9IVRw",
+  "url": "https://www.youtube.com/watch?v=jNQXAC9IVRw",
+  "status": "ok",
+  "title": "Me at the zoo",
+  "channel": "jawed",
+  "duration_seconds": 19,
+  "language": "en",
+  "is_auto_generated": false,
+  "transcript": "All right, so here we are, in front of the elephants the cool thing about these guys is that they have really... really really long trunks and that's cool (baaaaaaaaaaahhh!!) and that's pretty much all there is to say",
+  "word_count": 39,
+  "note": null,
+  "segments": [
+    {
+      "start": 1.2,
+      "duration": 2.16,
+      "text": "All right, so here we are, in front of the elephants"
+    },
+    {
+      "start": 5.32,
+      "duration": 2.66,
+      "text": "the cool thing about these guys is that they have really..."
+    },
+    {
+      "start": 7.97,
+      "duration": 4.64,
+      "text": "really really long trunks"
+    }
+  ]
+}
+```
