@@ -1,0 +1,38 @@
+# YouTube Transcript RAG Chunker Lab
+
+> Interactive RAG chunking laboratory demonstrating how timestamped YouTube video and Shorts transcripts from `hirepulse/youtube-transcript-scraper` are sliced into overlapping vector-store chunks with exact second-level YouTube deep-link citations (`https://youtu.be/<video_id>?t=<seconds>`).
+
+## Connect an AI Agent via MCP
+
+- **YouTube Transcript Scraper (`hirepulse/youtube-transcript-scraper`):**
+  - Remote MCP Server: `https://mcp.apify.com?tools=hirepulse/youtube-transcript-scraper`
+  - Local stdio (Claude Desktop / Cursor): `npx -y @apify/actors-mcp-server --tools hirepulse/youtube-transcript-scraper` (with `APIFY_TOKEN` in `env`)
+  - REST API: `POST https://api.apify.com/v2/acts/hirepulse~youtube-transcript-scraper/run-sync-get-dataset-items?token=<APIFY_TOKEN>`
+  - Authentication: OAuth in the browser, or header `Authorization: Bearer <APIFY_TOKEN>`.
+
+## WebMCP Browser Tools Exposed on This Page
+
+Browser agents supporting WebMCP (`navigator.modelContext` / `document.modelContext`) can invoke:
+- `chunk_youtube_transcript_for_rag`: Slices `hirepulse/youtube-transcript-scraper` output (`segments` with `start`, `duration`, `text`) by time window (seconds) or word window with configurable overlap, returning RAG chunks with `youtube_deeplink` metadata.
+
+## Verified Actor Facts (`hirepulse/youtube-transcript-scraper`)
+
+- **Store Page:** `https://apify.com/hirepulse`
+- **Capabilities:** Transcripts of YouTube videos and Shorts in bulk, with timestamps, as JSON or plain text.
+- **Output Fields:** `video_id`, `url`, `title`, `channel`, `duration_seconds`, `language`, `is_auto_generated`, `transcript`, `word_count`, `segments` (array of `{ start, duration, text }`).
+- **Free Plan:** The first 3 videos of each run are free.
+- **Apify Free Plan (`https://apify.com/pricing`, checked 2026-10-16):** $0, with $5 per month to spend in Apify Store or on your own Actors ("No credit card required").
+- **Price:** Pay per result on the Apify Store (see the tool page on Apify Store for current prices).
+
+## Verified Sample Record Included (`2026-10-15` real test run)
+
+- `run_id`: `"cGwKCKbXRTkojfKto"`, `build`: `"1.0.5"`
+- `video_id`: `"jNQXAC9IVRw"` (`https://www.youtube.com/watch?v=jNQXAC9IVRw`)
+- `title`: `"Me at the zoo"`, `channel`: `"jawed"`, `duration_seconds`: `19`, `language`: `"en"`, `is_auto_generated`: `false`, `word_count`: `39`
+- `segments` (6 timestamped lines):
+  1. `start: 1.2`, `duration: 2.16`, `text: "All right, so here we are, in front of the elephants"`
+  2. `start: 5.32`, `duration: 2.66`, `text: "the cool thing about these guys is that they have really..."`
+  3. `start: 7.97`, `duration: 4.64`, `text: "really really long trunks"`
+  4. `start: 12.62`, `duration: 1.75`, `text: "and that's cool"`
+  5. `start: 14.42`, `duration: 1.31`, `text: "(baaaaaaaaaaahhh!!)"`
+  6. `start: 16.88`, `duration: 2`, `text: "and that's pretty much all there is to say"`

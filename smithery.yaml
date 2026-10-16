@@ -1,0 +1,19 @@
+# Smithery configuration for HirePulse Zero-Auth MCP Gateway
+# Works with zero configuration (required: []) for instant tool scanning and preview runs!
+
+startCommand:
+  type: http
+  configSchema:
+    type: object
+    properties:
+      apifyToken:
+        type: string
+        title: Apify API Token (Optional)
+        description: >-
+          Optional Apify API token for live execution. If omitted, the server runs in
+          Zero-Auth Preview Mode and returns verified real sample records (stripe.com,
+          nike.com, adidas.com, ramp.com, linear.app, Google Jobs, Keyword Search Volume,
+          YouTube Transcripts, and AliExpress) along with upgrade instructions.
+          Get $5/month free credit (no credit card required) at https://apify.com/pricing
+    required: []
+  exampleConfig: {}

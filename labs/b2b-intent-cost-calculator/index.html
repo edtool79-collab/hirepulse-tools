@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מחשבון עלויות B2B Intent &amp; Enrichment | HirePulse</title>
+<style>
+  :root {
+    --bg: #0b0f19;
+    --panel: #131a2b;
+    --accent: #38bdf8;
+    --accent-2: #818cf8;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --danger: #f43f5e;
+    --success: #22c55e;
+    --border: #1e293b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans Hebrew", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    direction: rtl;
+  }
+  .container { max-width: 980px; margin: 0 auto; padding: 24px 16px; }
+  header { text-align: center; margin-bottom: 32px; }
+  header h1 { font-size: 1.75rem; margin-bottom: 8px; letter-spacing: -0.5px; }
+  header p { color: var(--muted); font-size: 0.95rem; }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+  }
+  .card h2 { font-size: 1.125rem; margin-bottom: 16px; color: var(--accent); display: flex; align-items: center; gap: 8px; }
+  .card h2 svg { width: 20px; height: 20px; }
+
+  .control-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .control-row label { font-size: 0.9rem; color: var(--muted); min-width: 150px; text-align: right; }
+  input[type="range"] { flex: 1; accent-color: var(--accent); cursor: pointer; }
+  .val { font-variant-numeric: tabular-nums; color: var(--accent); font-weight: 700; min-width: 50px; text-align: left; }
+
+  .price-card { background: linear-gradient(135deg, #172037 0%, #0f172a 100%); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 16px; }
+  .price-card .tag { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-2); margin-bottom: 6px; display: block; }
+  .price-card .amount { font-size: 2rem; font-weight: 800; color: var(--text); }
+  .price-card .sub { font-size: 0.85rem; color: var(--muted); margin-top: 4px; display: block; }
+
+  .result-box { background: #0f172a; border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-top: 16px; display: none; }
+  .result-box.show { display: block; }
+  .result-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #1e293b; }
+  .result-row:last-child { border-bottom: none; }
+  .result-row .lbl { color: var(--muted); font-size: 0.9rem; }
+  .result-row .val { color: var(--text); font-weight: 700; font-variant-numeric: tabular-nums; }
+  .save-badge { display: inline-block; background: #064e3b; color: var(--success); border: 1px solid #065f46; border-radius: 6px; padding: 4px 10px; font-size: 0.8rem; font-weight: 700; margin-left: 8px; }
+
+  .json-viewer {
+    background: #020617; border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-top: 24px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.82rem; color: var(--muted);
+    max-height: 420px; overflow: auto;
+  }
+  .json-viewer .key { color: var(--accent-2); }
+  .json-viewer .str { color: #a5f3fc; }
+  .json-viewer .num { color: #fbbf24; }
+  .json-viewer .bool { color: #c4b5fd; }
+  .json-viewer .punct { color: var(--muted); }
+
+  .mcp-section { margin-top: 32px; }
+  .mcp-card { background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 16px; }
+  .mcp-card h3 { font-size: 1rem; margin-bottom: 12px; color: var(--accent); }
+  .copy-btn {
+    background: var(--accent); color: #000; border: none; border-radius: 8px; padding: 10px 16px; font-weight: 700; cursor: pointer; font-size: 0.9rem;
+  }
+  .copy-btn:hover { filter: brightness(1.1); }
+  .copy-btn:active { transform: scale(0.97); }
+  .code-block { background: #020617; border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-family: monospace; font-size: 0.8rem; color: var(--muted); overflow-x: auto; margin-top: 10px; white-space: pre-wrap; word-break: break-all; }
+  .note { font-size: 0.85rem; color: var(--muted); margin-top: 12px; line-height: 1.5; }
+  .warning { color: var(--danger); }
+
+  .free-tier { background: #064e3b; color: #d1fae5; border: 1px solid #065f46; border-radius: 10px; padding: 14px; margin-top: 16px; font-size: 0.9rem; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>מחשבון עלויות B2B Intent &amp; Enrichment</h1>
+    <p>השוואה בין חיבור מקורות נפרדים לתשלום לפי שימוש ב־hirepulse/company-intent-radar</p>
+  </header>
+
+  <div class="grid">
+    <!-- פקדים שמאל -->
+    <div class="card">
+      <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="2" x2="12" y2="22"></line><path d="M4.93 4.93l14.14 14.14"></path></svg> הגדרות חישוב</h2>
+
+      <div class="control-row">
+        <label>כמות דומיינים בחודש</label>
+        <input type="range" id="domains" min="100" max="50000" value="1000" step="100">
+        <span class="val" id="valDomains">1,000</span>
+      </div>
+
+      <div class="control-row">
+        <label>דוחות חברה מלאים נדרשים</label>
+        <input type="range" id="fullReports" min="0" max="50000" value="500" step="100">
+        <span class="val" id="valReports">500</span>
+      </div>
+
+      <div class="control-row">
+        <label>מחיר מתחרה לדוח (ש״ח)</label>
+        <input type="range" id="rivalPrice" min="0" max="100" value="15" step="1">
+        <span class="val" id="valRival">₪15</span>
+      </div>
+
+      <div class="price-card">
+        <span class="tag">חברת Intent Radar לדוח מלא</span>
+        <span class="amount">$0.03</span>
+        <span class="sub">ניגבה רק אם הופק דוח מלא. מסלול חינמי: 5 חברות.</span>
+      </div>
+
+      <div class="price-card">
+        <span class="tag">תמחור מתחרה לדוח</span>
+        <span class="amount">₪<span id="rivalAmount">15</span></span>
+        <span class="sub">מחיר משוער לדוח חברה מלא מספק מתחרה.</span>
+      </div>
+
+      <div class="free-tier">
+        <strong>מסלול חינמי של Apify:</strong> ללא כרטיס אשראי, 5 דוחות חברה בחינם (התראות גיוס ואימייל), $5 במתנה לחודש לפעילות ב־Store.
+      </div>
+    </div>
+
+    <!-- תוצאות ימין -->
+    <div class="card">
+      <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg> תוצאות</h2>
+
+      <div class="result-box show" id="results">
+        <div class="result-row"><span class="lbl">עלות Intent Radar (מסלול בתשלום)</span><span class="val" id="costRadar">$0.00</span></div>
+        <div class="result-row"><span class="lbl">עלות מתחרה (לכמות דומות)</span><span class="val" id="costRival">₪0</span></div>
+        <div class="result-row"><span class="lbl">חיסכון חודשי משוער</span><span class="val" id="costSave">₪0 <span class="save-badge">₪0/חודש</span></span></div>
+        <div class="result-row"><span class="lbl">דוחות חינמיים שניצלו</span><span class="val" id="freeUsed">0 מ־5</span></div>
+      </div>
+
+      <div class="json-viewer" id="jsonViewer">
+        {/* JSON live report */}
+      </div>
+
+      <div class="note">
+        נתוני הדוגמה האמיתיים עבור <strong>stripe.com</strong> מתוך FACTS.md:<br>
+        ציון כוונה (intent score): <span class="num">85</span> • משרות פתוחות: <span class="num">727</span> • מודעות גוגל פעילות: <span class="bool">פועל כעת</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="mcp-section">
+    <div class="mcp-card">
+      <h3>WebMCP — רישום הכלי לסוכני דפדפן (Chrome WebMCP)</h3>
+      <p class="note" style="margin-bottom:10px">הסקריפט הבא בודק אם הדפדפן תומך ב־WebMCP ורושם את כלי HirePulse עם ה־Input Schema שלו, כדי שסוכני דפדפן יזהו אותו אוטומטית.</p>
+      <button class="copy-btn" onclick="copyMcpConfig()">העתק הגדרת MCP עבור סוכני AI</button>
+      <div class="code-block" id="mcpCode">{}</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// נתוני אמת מ-FACTS.md (קריאה בלבד, לא משתנה)
+const FACTS = {
+  tool: "hirepulse/company-intent-radar",
+  pricePerReport: 0.03, // USD per full company report
+  freePlanCompanies: 5,
+  mcpUrl: "https://mcp.apify.com?tools=hirepulse/company-intent-radar",
+  exampleDomain: "stripe.com",
+  exampleIntentScore: 85,
+  exampleOpenJobs: 727,
+  exampleGoogleAds: true,
+  supportedATS: ["Greenhouse", "Lever", "Ashby", "Workable", "SmartRecruiters", "Recruitee"],
+  signals: ["משרות פתוחות וחדשות ב־30 יום", "מודעות גוגל פעילות וסה\"כ מודעות", "תנועה אורגנית ומגמת SEO", "ספק אימייל מרשומות MX", "ציון כוונה 0–100", "תקציר שורה אחת"]
+};
+
+const elDomains = document.getElementById('domains');
+const elFullReports = document.getElementById('fullReports');
+const elRivalPrice = document.getElementById('rivalPrice');
+const elValDomains = document.getElementById('valDomains');
+const elValReports = document.getElementById('valReports');
+const elValRival = document.getElementById('valRival');
+const elRivalAmount = document.getElementById('rivalAmount');
+
+const elCostRadar = document.getElementById('costRadar');
+const elCostRival = document.getElementById('costRival');
+const elCostSave = document.getElementById('costSave');
+const elFreeUsed = document.getElementById('freeUsed');
+const elResults = document.getElementById('results');
+const elJsonViewer = document.getElementById('jsonViewer');
+const elMcpCode = document.getElementById('mcpCode');
+
+function formatILS(n){ return new Intl.NumberFormat('he-IL', {style:'currency', currency:'ILS', minimumFractionDigits:0, maximumFractionDigits:0}).format(n); }
+function formatUSD(n){ return new Intl.NumberFormat('en-US', {style:'currency', currency:'USD', minimumFractionDigits:2, maximumFractionDigits:2}).format(n); }
+function formatNum(n){ return new Intl.NumberFormat('he-IL').format(n); }
+
+function calc(){
+  const domains = parseInt(elDomains.value, 10);
+  const fullReports = parseInt(elFullReports.value, 10);
+  const rivalPrice = parseFloat(elRivalPrice.value);
+
+  elValDomains.textContent = formatNum(domains);
+  elValReports.textContent = formatNum(fullReports);
+  elValRival.textContent = '₪' + rivalPrice.toFixed(0);
+  elRivalAmount.textContent = rivalPrice.toFixed(0);
+
+  // Intent Radar: רק דוחות מלאים ניגבים, חינמי עד 5 חברות
+  const paidReports = Math.max(0, fullReports - FACTS.freePlanCompanies);
+  const costRadarUsd = paidReports * FACTS.pricePerReport;
+  const costRadarIls = costRadarUsd * 3.7; // approximate USD->ILS
+
+  // Rival: עלות לכל דוח מלא (פישוט להשוואה שקופה)
+  const costRivalIls = fullReports * rivalPrice;
+
+  const save = costRivalIls - costRadarIls;
+
+  elCostRadar.textContent = formatUSD(costRadarUsd) + ' ≈ ' + formatILS(costRadarIls);
+  elCostRival.textContent = formatILS(costRivalIls);
+  elCostSave.innerHTML = formatILS(Math.max(0, save)) + ' <span class="save-badge">חיסכון משוער/חודש</span>';
+  elFreeUsed.textContent = Math.min(fullReports, FACTS.freePlanCompanies) + ' מ־' + FACTS.freePlanCompanies;
+
+  // Live JSON report (דוח חי)
+  const report = {
+    domain: FACTS.exampleDomain,
+    intent_score: FACTS.exampleIntentScore,
+    open_jobs: FACTS.exampleOpenJobs,
+    google_ads_running: FACTS.exampleGoogleAds,
+    supported_ats: FACTS.supportedATS,
+    signals: FACTS.signals,
+    calculation: {
+      domains_per_month: domains,
+      full_reports_requested: fullReports,
+      free_plan_companies_used: Math.min(fullReports, FACTS.freePlanCompanies),
+      paid_reports_charged: paidReports,
+      price_per_report_usd: FACTS.pricePerReport,
+      total_cost_usd: costRadarUsd,
+      total_cost_ils: costRadarIls,
+      rival_price_ils_per_report: rivalPrice,
+      rival_total_ils: costRivalIls,
+      estimated_monthly_savings_ils: Math.max(0, save)
+    },
+    mcp: FACTS.mcpUrl
+  };
+
+  elJsonViewer.textContent = JSON.stringify(report, null, 2).replace(/(["'])([a-zA-Z_]+)(["']):/g, '<span class="key">$2</span>:').replace(/: ("[^"]+")/g, ': <span class="str">$1</span>').replace(/: ([0-9.]+)/g, ': <span class="num">$1</span>').replace(/: (true|false)/g, ': <span class="bool">$1</span>');
+  elResults.classList.add('show');
+
+  // MCP config JSON
+  const mcpConfig = {
+    mcpServers: {
+      hirepulse_company_intent_radar: {
+        command: "npx",
+        args: ["-y", "@apify/actors-mcp-server", "--tools", "hirepulse/company-intent-radar"],
+        env: { APIFY_TOKEN: "YOUR_APIFY_TOKEN_HERE" }
+      }
+    },
+    remote_mcp: FACTS.mcpUrl,
+    input_schema: {
+      domain: "string (required) — company domain, e.g. stripe.com",
+      output: "intent_score (0-100), open_jobs, google_ads_running, email_provider, seo_trend, summary"
+    }
+  };
+  elMcpCode.textContent = JSON.stringify(mcpConfig, null, 2);
+}
+
+[elDomains, elFullReports, elRivalPrice].forEach(input => {
+  input.addEventListener('input', calc);
+});
+
+calc();
+
+function copyMcpConfig(){
+  const text = elMcpCode.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    const old = btn.textContent;
+    btn.textContent = 'הועתק!';
+    setTimeout(() => btn.textContent = old, 1200);
+  }).catch(() => alert('לא ניתן להעתיק — אנא העתק ידנית מהתיבה למעלה.'));
+}
+
+// WebMCP registration stub (פועל בדפדפן תומך WebMCP)
+if (typeof document.modelContext !== 'undefined' && document.modelContext?.registerTool) {
+  document.modelContext.registerTool({
+    name: "hirepulse_company_intent_radar",
+    description: "Company buying-intent & enrichment signals per domain (Greenhouse, Lever, Ashby, Workable, SmartRecruiters, Recruitee). Price $0.03/report, free for 5 companies.",
+    input_schema: {
+      type: "object",
+      properties: {
+        domain: { type: "string", description: "Company domain, e.g. stripe.com" }
+      },
+      required: ["domain"]
+    }
+  });
+}
+</script>
+</body>
+</html>

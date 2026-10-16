@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AliExpress Bulk Product Data Explorer &amp; Margin Simulator | HirePulse</title>
+<style>
+  :root {
+    --bg: #0b0f19;
+    --panel: #131a2b;
+    --accent: #38bdf8;
+    --accent-2: #818cf8;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --border: #1e293b;
+    --success: #22c55e;
+    --danger: #f43f5e;
+    --warn: #f59e0b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans Hebrew", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    direction: rtl;
+  }
+  .container { max-width: 1200px; margin: 0 auto; padding: 24px 16px; }
+  header { text-align: center; margin-bottom: 32px; }
+  header h1 { font-size: 1.75rem; margin-bottom: 8px; letter-spacing: -0.5px; }
+  header p { color: var(--muted); font-size: 0.95rem; }
+
+  .grid { display: grid; grid-template-columns: 360px 1fr; gap: 24px; }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+  }
+  .card h2 { font-size: 1.125rem; margin-bottom: 16px; color: var(--accent); display: flex; align-items: center; gap: 8px; }
+  .card h2 svg { width: 20px; height: 20px; }
+
+  .control-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .control-row label { font-size: 0.9rem; color: var(--muted); min-width: 130px; text-align: right; }
+  input[type="text"], input[type="number"], select {
+    flex: 1; background: #020617; border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; color: var(--text);
+  }
+  input[type="text"]:focus, input[type="number"]:focus, select:focus { outline: 2px solid var(--accent); }
+
+  .product-card { background: #0f172a; border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-bottom: 12px; display: grid; grid-template-columns: 60px 1fr 140px; gap: 12px; align-items: center; }
+  .product-card img { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; background: #020617; }
+  .product-info { display:flex; flex-direction:column; }
+  .product-title { font-weight: 700; font-size: 0.9rem; color: var(--text); margin-bottom: 4px; line-height: 1.3; }
+  .product-meta { font-size: 0.8rem; color: var(--muted); display: flex; gap: 10px; flex-wrap: wrap; }
+  .product-price { font-size: 1rem; font-weight: 800; color: var(--text); text-align: left; }
+  .product-orig { text-decoration: line-through; color: var(--muted); font-size: 0.85rem; margin-left: 6px; }
+  .product-disc { color: var(--success); font-size: 0.8rem; font-weight: 700; }
+  .product-sold { color: var(--accent-2); font-size: 0.8rem; }
+  .product-spons { background: #3f131e; color: var(--danger); border: 1px solid #7f1d1d; border-radius: 4px; padding: 2px 6px; font-size: 0.7rem; font-weight: 700; }
+
+  .calc-card { background: linear-gradient(135deg, #172037 0%, #0f172a 100%); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 16px; }
+  .calc-card .tag { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-2); display: block; margin-bottom: 6px; }
+  .calc-card .amount { font-size: 2rem; font-weight: 800; color: var(--text); font-variant-numeric: tabular-nums; }
+  .calc-card .sub { font-size: 0.85rem; color: var(--muted); margin-top: 4px; display: block; }
+
+  .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px; }
+  .stat-box { background: #0f172a; border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+  .stat-box .lbl { color: var(--muted); font-size: 0.8rem; display: block; margin-bottom: 6px; }
+  .stat-box .val { color: var(--text); font-size: 1.5rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+  .json-viewer {
+    background: #020617; border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-top: 16px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.8rem; color: var(--muted);
+    max-height: 420px; overflow: auto;
+  }
+  .json-viewer .key { color: var(--accent-2); }
+  .json-viewer .str { color: #a5f3fc; }
+  .json-viewer .num { color: #fbbf24; }
+  .json-viewer .bool { color: #c4b5fd; }
+  .json-viewer .null { color: #64748b; }
+
+  .mcp-section { margin-top: 32px; }
+  .mcp-card { background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 16px; }
+  .mcp-card h3 { font-size: 1rem; margin-bottom: 12px; color: var(--accent); }
+  .copy-btn {
+    background: var(--accent); color: #000; border: none; border-radius: 8px; padding: 10px 16px; font-weight: 700; cursor: pointer; font-size: 0.9rem;
+  }
+  .copy-btn:hover { filter: brightness(1.1); }
+  .code-block { background: #020617; border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-family: monospace; font-size: 0.8rem; color: var(--muted); overflow-x: auto; margin-top: 10px; white-space: pre-wrap; word-break: break-all; }
+  .note { font-size: 0.85rem; color: var(--muted); margin-top: 12px; line-height: 1.5; }
+  .warning { color: var(--danger); font-weight: 600; margin-top: 10px; }
+
+  .field-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #1e293b; font-size: 0.85rem; }
+  .field-row:last-child { border-bottom: none; }
+  .field-row .lbl { color: var(--muted); }
+  .field-row .val { color: var(--text); font-family: ui-monospace, monospace; }
+
+  .filter-row { display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+  .filter-row input { flex: 1; min-width: 120px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>סייר מוצרי AliExpress &amp; מחשבון רווחיות דרופשיפינג</h1>
+    <p>חיפוש מוצרים בכמות גדולה וסימולציית שוליים (margin) — מגובה ב־hirepulse/aliexpress-search-scraper עם דוגמאות אמיתיות מ־samples</p>
+  </header>
+
+  <div class="grid">
+    <!-- סרגל צד שמאל — פילטרים ומחשבון רווח -->
+    <div class="card">
+      <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="5"></line><line x1="12" y1="20" x2="12" y2="5"></line><line x1="6" y1="20" x2="6" y2="5"></line></svg> פילטרים ומחשבון רווח</h2>
+
+      <div class="filter-row">
+        <input type="text" id="filterQuery" placeholder="מסנן לפי כותרת מוצר">
+        <input type="number" id="minPrice" placeholder="מינ' מחיר">
+        <input type="number" id="maxPrice" placeholder="מקס' מחיר">
+      </div>
+      <div class="control-row">
+        <label>רק בחסות (sponsored)</label>
+        <select id="filterSponsor">
+          <option value="all">הכול</option>
+          <option value="true">רק בחסות</option>
+          <option value="false">רק לא בחסות</option>
+        </select>
+      </div>
+
+      <h3 style="margin-top:20px; font-size:0.95rem; color:var(--accent-2); margin-bottom:8px">מחשבון שוליים לדרופשיפינג</h3>
+      <div class="control-row">
+        <label>מחיר מכירה יעד ($)</label>
+        <input type="number" id="sellPrice" value="25" min="0" step="0.5">
+      </div>
+      <div class="control-row">
+        <label>עלות משלוח משוערת ($)</label>
+        <input type="number" id="shipCost" value="5" min="0" step="0.5">
+      </div>
+      <div class="control-row">
+        <label>עמלת סליקה/עיבוד ($)</label>
+        <input type="number" id="fee" value="1" min="0" step="0.1">
+      </div>
+
+      <div class="calc-card">
+        <span class="tag">רווח נטו למוצר (משוער)</span>
+        <span class="amount" id="marginAmount">$0.00</span>
+        <span class="sub" id="marginSub">בחר מוצר כדי לחשב רווחיות</span>
+      </div>
+
+      <div class="note">
+        <strong>מה הכלי לא מחזיר:</strong> שם מוכר/חנות, עלות משלוח ואספקה, ביקורות או מלאי. השוליים מחושבים על מחיר המוצר בלבד.
+      </div>
+
+      <div class="warning">
+        עלות AliExpress Search Scraper: $2.50 ל־1,000 מוצרים. תוכנית חינמית של Apify: 100 מוצרים להפעלה. 60 מוצרים לעמוד.
+      </div>
+    </div>
+
+    <!-- תוכן ראשי ימין — רשימת מוצרים + JSON -->
+    <div class="card" style="display:flex;flex-direction:column;">
+      <h2 style="margin-bottom:16px; display:flex;align-items:center;gap:8px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><path d="M7 8h10v9a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V8z"></path><path d="M13.538 21.186A1 1 0 0 1 13 21h-2a1 1 0 0 1-.538-.814l-1-6a1 1 0 0 1 .435-.842l3-3c.19-.19.451-.291.731-.291s.542.1.731.291l3 3c.19.19.291.451.291.731v11z"></path><path d="M9 15h6v1.5a.5.5 0 0 1-.5.5h-5a.5.5 0 0 1-.5-.5V15z"></path></svg> מוצרים מדוגמה אמיתית</h2>
+
+      <div class="stat-grid">
+        <div class="stat-box">
+          <span class="lbl">מוצרים בדוגמה</span>
+          <span class="val" id="prodCount">0</span>
+        </div>
+        <div class="stat-box">
+          <span class="lbl">מחיר ממוצע</span>
+          <span class="val" id="avgPrice">$0.00</span>
+        </div>
+        <div class="stat-box">
+          <span class="lbl">הנחה ממוצעת</span>
+          <span class="val" id="avgDisc">0%</span>
+        </div>
+        <div class="stat-box">
+          <span class="lbl">סה"כ נמכר (מדגם)</span>
+          <span class="val" id="totalSold">0</span>
+        </div>
+      </div>
+
+      <div id="productList">
+        <!-- מוצרים יוזנו על ידי JS -->
+      </div>
+
+      <div style="margin-top:24px;">
+        <h3 style="font-size:0.95rem; color:var(--accent-2); margin-bottom:8px">דוח חי JSON — דוגמה אמיתית מ־samples (aliexpress-wireless-earbuds)</h3>
+        <div class="json-viewer" id="jsonViewer">טוען…</div>
+      </div>
+
+      <div class="mcp-section" style="margin-top:24px;">
+        <div class="mcp-card">
+          <h3>WebMCP — חיבור כלי AliExpress לסוכני דפדפן</h3>
+          <p class="note" style="margin-bottom:10px">רישום hirepulse/aliexpress-search-scraper עם Input Schema עבור סוכני Chrome WebMCP.</p>
+          <button class="copy-btn" onclick="copyMcpConfig()">העתק הגדרת MCP עבור סוכני AI</button>
+          <div class="code-block" id="mcpCode">{}</div>
+        </div>
+      </div>
+
+      <div style="margin-top:24px;">
+        <h3 style="font-size:0.95rem; color:var(--accent-2); margin-bottom:8px">שדות הכלי (מה כן ומה לא)</h3>
+        <div class="field-row"><span class="lbl">product_id</span><span class="val">מזהה מוצר</span></div>
+        <div class="field-row"><span class="lbl">title</span><span class="val">כותר המוצר</span></div>
+        <div class="field-row"><span class="lbl">price / original_price</span><span class="val">מחיר ומחיר מקורי</span></div>
+        <div class="field-row"><span class="lbl">discount_percent</span><span class="val">אחוז הנחה</span></div>
+        <div class="field-row"><span class="lbl">currency</span><span class="val">מטבע (USD וכו')</span></div>
+        <div class="field-row"><span class="lbl">rating</span><span class="val">דירוג כוכבים</span></div>
+        <div class="field-row"><span class="lbl">sold / sold_text</span><span class="val">כמות נמכרת</span></div>
+        <div class="field-row"><span class="lbl">is_sponsored</span><span class="val">האם מוצר בחסות</span></div>
+        <div class="field-row"><span class="lbl">listed_since</span><span class="val">תאריך רישום</span></div>
+        <div class="field-row"><span class="lbl">ship_to</span><span class="val">מדינת יעד למשלוח</span></div>
+        <div class="warning">לא מוחזר: שם מוכר, עלות משלוח, הערכת אספקה, ביקורות או מלאי.</div>
+      </div>
+
+      <div style="margin-top:24px;">
+        <h3 style="font-size:0.95rem; color:var(--accent-2); margin-bottom:8px">מחולל קוד חיבור מוכן ל־n8n, Python או Claude MCP</h3>
+        <div class="code-block" id="codeOut"># בחר מוצר או הפעל כדי לראות קוד חיבור</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// נתוני אמת מ־samples/aliexpress-wireless-earbuds.json (מתוך FACTS.md)
+const PRODUCTS = [
+  { product_id: "3256812924699567", title: "TWS True Wireless Stereo Headset Touch Control With Charging Case Wireless Earphones In-ear Smart Earbuds With Microphone", price: 7.89, original_price: 15.78, discount_percent: 50, currency: "USD", rating: 4.9, sold: 919, sold_text: "900+ sold", is_sponsored: false, listed_since: "2026-09-03", ship_to: "US", image_url: "https://ae-pic-a1.aliexpress-media.com/kf/Sb52dc1abf75e4777a2df3294034572d2X.jpg" },
+  { product_id: "3256812408115438", title: "HTC NE79 TWS Bluetooth 6.0 Earbuds AI Translation 135 Languages ENC Noise Cancelling HiFi Stereo Headphones with LED Display", price: 6.79, original_price: 17.24, discount_percent: 60, currency: "USD", rating: 4.9, sold: 14016, sold_text: "10,000+ sold", is_sponsored: false, listed_since: "2026-06-25", ship_to: "US", image_url: "https://ae-pic-a1.aliexpress-media.com/kf/Sff7e4be36c804173b8bf2ad0f4a81b0bA.png" },
+  { product_id: "3256812788548775", title: "Mini TWS Wireless Bluetooth Earbuds Powerful Active Noise Cancellation Built-In Hands-Free Mic for Music Playback Voice Calls", price: 3.75, original_price: 7.5, discount_percent: 50, currency: "USD", rating: 4.9, sold: 1616, sold_text: "1,000+ sold", is_sponsored: false, listed_since: "2026-08-24", ship_to: "US", image_url: "https://ae-pic-a1.aliexpress-media.com/kf/Saa276ed3b48e4beea3f9e9f2f7a5b72ea.jpg" },
+  { product_id: "3256804848867318", title: "Wireless Earbuds Bluetooth TWS Sports Earbuds Bluetooth 5.4 HIFI Bass Wireless Headphones LED Touch Hands-free Earphone Noise Cancelling Waterproof Headset", price: 34.93, original_price: 45.19, discount_percent: 22, currency: "USD", rating: 4.6, sold: 1091, sold_text: "1,000+ sold", is_sponsored: true, listed_since: "2022-12-06", ship_to: "US", image_url: "https://ae-pic-a1.aliexpress-media.com/kf/S5d1f82a606514770831cb21cb721a44aV.jpg" },
+  { product_id: "3256812120174142", title: "True Wireless Earphone Noise Cancelling Headphone HiFI Stereo Game With Micr TWS In Ear Earbuds Waterproof Headset", price: 5.69, original_price: 12.89, discount_percent: 55, currency: "USD", rating: 4.6, sold: 728, sold_text: "700+ sold", is_sponsored: false, listed_since: "2026-05-15", ship_to: "US", image_url: "https://ae-pic-a1.aliexpress-media.com/kf/S7e1ab80751bf4ed287b8508ef6764955f.png" },
+  { product_id: "3256806809648801", title: "Pro 6 TWS Wireless Headphones with Mic Fone Bluetooth Earphones Sport Earbuds Running Pro6 Headset", price: 3.36, original_price: 7.14, discount_percent: 53, currency: "USD", rating: 4.9, sold: 331, sold_text: "331 sold", is_sponsored: false, listed_since: "2024-05-20", ship_to: "US", image_url: "https://ae-pic-a1.aliexpress-media.com/kf/S8bca0dfea0894b87b5a8c71359c21b77i.jpg" },
+  { product_id: "3256812188191676", title: "HTC NE76 Bluetooth Earphones, AI Translator Earbuds Mini Invisible Sleep Earbuds Soft Wireless Headphones Orange", price: 11.39, original_price: 25.59, discount_percent: 55, currency: "USD", rating: 4.9, sold: 1833, sold_text: "1,000+ sold", is_sponsored: false, listed_since: "2026-05-25", ship_to: "US", image_url: "https://ae-pic-a1.aliexpress-media.com/kf/S4c5d4a9c4d964b3c9d2bb91b8db9f878H.jpg" },
+  { product_id: "3256809783853553", title: "Wireless Earbuds Open-Ear Sports Baseus Eli 2i Fit Open-Ear Earphones True Wireless Bluetooth 6.0 Ear Hooks Headphones IPX5 Waterproof Sports Earbuds Bass Boost", price: 28.59, original_price: 59.16, discount_percent: 51, currency: "USD", rating: 4.7, sold: 7585, sold_text: "5,000+ sold", is_sponsored: true, listed_since: "2025-09-16", ship_to: "US", image_url: "https://ae-pic-a1.aliexpress-media.com/kf/S543f7b76a31e4c57b7b4c42b3296b98aC.png" },
+  { product_id: "3256812463738839", title: "Baseus Bass BP1 Pro -50dB Noise Cancelling Wireless Earbuds Bluetooth 6.0 LDAC Hi-Res Sound 6-Mic AI Clear Calls IP55 Earphones", price: 15.49, original_price: 53.84, discount_percent: 71, currency: "USD", rating: 4.9, sold: 30123, sold_text: "10,000+ sold", is_sponsored: false, listed_since: "2026-07-03", ship_to: "US", image_url: "https://ae-pic-a1.aliexpress-media.com/kf/S8d5f42cdff834ed093099ecf33530e2fl.jpg" },
+  { product_id: "3256811844384040", title: "TWS Wireless Bluetooth Headset LED Display Gamer Earbuds with Mic Wireless Headphones Noise Cancelling Bluetooth Earphones X15", price: 3.5, original_price: 25.12, discount_percent: 86, currency: "USD", rating: 4.9, sold: 1458, sold_text: "1,000+ sold", is_sponsored: false, listed_since: "2026-04-07", ship_to: "US", image_url: "https://ae-pic-a1.aliexpress-media.com/kf/S623d5c89b35e423e8575ff54bbfcf345r.jpg" }
+];
+
+let selectedProduct = null;
+
+const elFilterQuery = document.getElementById('filterQuery');
+const elMinPrice = document.getElementById('minPrice');
+const elMaxPrice = document.getElementById('maxPrice');
+const elFilterSponsor = document.getElementById('filterSponsor');
+const elSellPrice = document.getElementById('sellPrice');
+const elShipCost = document.getElementById('shipCost');
+const elFee = document.getElementById('fee');
+const elMarginAmount = document.getElementById('marginAmount');
+const elMarginSub = document.getElementById('marginSub');
+const elProdList = document.getElementById('productList');
+const elProdCount = document.getElementById('prodCount');
+const elAvgPrice = document.getElementById('avgPrice');
+const elAvgDisc = document.getElementById('avgDisc');
+const elTotalSold = document.getElementById('totalSold');
+const elJsonViewer = document.getElementById('jsonViewer');
+const elMcpCode = document.getElementById('mcpCode');
+const elCodeOut = document.getElementById('codeOut');
+
+function formatUsd(n){ return new Intl.NumberFormat('en-US', {style:'currency', currency:'USD', minimumFractionDigits:2, maximumFractionDigits:2}).format(n); }
+function formatNum(n){ return new Intl.NumberFormat('he-IL').format(n); }
+
+function escapeHtml(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+function filterProducts(){
+  const q = elFilterQuery.value.toLowerCase();
+  const minP = parseFloat(elMinPrice.value) || 0;
+  const maxP = elMaxPrice.value ? parseFloat(elMaxPrice.value) : Infinity;
+  const sponsor = elFilterSponsor.value;
+  return PRODUCTS.filter(p => {
+    const matchQ = p.title.toLowerCase().includes(q);
+    const matchPrice = p.price >= minP && p.price <= maxP;
+    const matchSponsor = sponsor === 'all' || (sponsor === 'true' && p.is_sponsored) || (sponsor === 'false' && !p.is_sponsored);
+    return matchQ && matchPrice && matchSponsor;
+  });
+}
+
+function renderProducts(list){
+  elProdList.innerHTML = list.map(p => `
+    <div class="product-card" onclick="selectProduct(${p.product_id})" style="cursor:pointer">
+      <img src="${escapeHtml(p.image_url)}" alt="${escapeHtml(p.title)}" onerror="this.style.display='none'">
+      <div class="product-info">
+        <div class="product-title">${escapeHtml(p.title)}</div>
+        <div class="product-meta">
+          <span>${p.currency} ${formatNum(p.price)}</span>
+          <span>${p.rating} ★</span>
+          <span>${p.ship_to}</span>
+          <span>${p.listed_since}</span>
+          ${p.is_sponsored ? '<span class="product-spons">בחסות</span>' : ''}
+        </div>
+      </div>
+      <div class="product-price">
+        ${formatUsd(p.price)}
+        <span class="product-orig">${formatUsd(p.original_price)}</span>
+        <span class="product-disc">-${p.discount_percent}%</span>
+        <div class="product-sold">${formatNum(p.sold)} נמכר</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function selectProduct(id){
+  selectedProduct = PRODUCTS.find(p => p.product_id == id);
+  renderMargin();
+  renderJson(selectedProduct);
+  generateCode(selectedProduct);
+}
+
+function renderMargin(){
+  if (!selectedProduct) return;
+  const buy = selectedProduct.price;
+  const sell = parseFloat(elSellPrice.value) || 0;
+  const ship = parseFloat(elShipCost.value) || 0;
+  const fee = parseFloat(elFee.value) || 0;
+  const profit = sell - buy - ship - fee;
+  const pct = sell > 0 ? (profit/sell*100) : 0;
+  elMarginAmount.textContent = formatUsd(profit);
+  elMarginSub.textContent = `מכירה ${formatUsd(sell)} − קנייה ${formatUsd(buy)} − משלוח ${formatUsd(ship)} − עמלה ${formatUsd(fee)} = רווח ${pct.toFixed(1)}%`;
+}
+
+function renderJson(p){
+  const obj = p || selectedProduct || PRODUCTS[0];
+  const pretty = JSON.stringify(obj, null, 2)
+    .replace(/(["'])([a-zA-Z_]+)(["']):/g, '<span class="key">$2</span>: ')
+    .replace(/: ("[^"]*")/g, ': <span class="str">$1</span>')
+    .replace(/: ([0-9.]+)/g, ': <span class="num">$1</span>')
+    .replace(/: (true|false)/g, ': <span class="bool">$1</span>');
+  elJsonViewer.innerHTML = pretty;
+}
+
+function generateCode(p){
+  const obj = p || selectedProduct || PRODUCTS[0];
+  const domain = "aliexpress.com";
+  const python = `import requests, json
+
+url = "https://api.apify.com/v2/acts/hirepulse~aliexpress-search-scraper/run-sync-get-dataset-items"
+token = "YOUR_APIFY_TOKEN"
+payload = { "query": "wireless earbuds", "currency": "USD", "ship_to": "US" }
+
+r = requests.post(url, params={"token": token}, json=payload)
+print(json.dumps(r.json(), indent=2, ensure_ascii=False))
+`;
+  const curl = `curl -X POST "https://api.apify.com/v2/acts/hirepulse~aliexpress-search-scraper/run-sync-get-dataset-items?token=YOUR_APIFY_TOKEN" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "query": "wireless earbuds",
+    "currency": "USD",
+    "ship_to": "US"
+  }'`;
+  const mcp = `{
+  "mcpServers": {
+    "hirepulse_aliexpress_search": {
+      "command": "npx",
+      "args": ["-y", "@apify/actors-mcp-server", "--tools", "hirepulse/aliexpress-search-scraper"],
+      "env": { "APIFY_TOKEN": "YOUR_APIFY_TOKEN" }
+    }
+  },
+  "remote_mcp": "https://mcp.apify.com?tools=hirepulse/aliexpress-search-scraper"
+}`;
+  elCodeOut.textContent = python;
+}
+
+function copyMcpConfig(){
+  const text = elMcpCode.textContent || elCodeOut.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    const old = btn.textContent;
+    btn.textContent = 'הועתק!';
+    setTimeout(() => btn.textContent = old, 1200);
+  }).catch(() => alert('לא ניתן להעתק אוטומטי — העתק ידנית.'));
+}
+
+// WebMCP registration
+if (typeof document.modelContext !== 'undefined' && document.modelContext?.registerTool) {
+  document.modelContext.registerTool({
+    name: "hirepulse_aliexpress_search_scraper",
+    description: "AliExpress search results for any query; choose currency and ship-to country. Does NOT return store/seller name, shipping costs, reviews or stock.",
+    input_schema: {
+      type: "object",
+      properties: {
+        query: { type: "string", description: "Search query, e.g. wireless earbuds" },
+        currency: { type: "string", description: "Currency, e.g. USD" },
+        ship_to: { type: "string", description: "Ship-to country, e.g. US" }
+      },
+      required: ["query"]
+    }
+  });
+}
+
+[elFilterQuery, elMinPrice, elMaxPrice, elFilterSponsor].forEach(el => el.addEventListener('input', () => {
+  const list = filterProducts();
+  renderProducts(list);
+  elProdCount.textContent = list.length;
+  const avgP = list.length ? list.reduce((a,p)=>a+p.price,0)/list.length : 0;
+  const avgD = list.length ? list.reduce((a,p)=>a+p.discount_percent,0)/list.length : 0;
+  const totalS = list.reduce((a,p)=>a+p.sold,0);
+  elAvgPrice.textContent = formatUsd(avgP);
+  elAvgDisc.textContent = Math.round(avgD) + '%';
+  elTotalSold.textContent = formatNum(totalS);
+}));
+
+[elSellPrice, elShipCost, elFee].forEach(el => el.addEventListener('input', renderMargin));
+
+// Init
+const list = filterProducts();
+renderProducts(list);
+elProdCount.textContent = list.length;
+const avgP = list.length ? list.reduce((a,p)=>a+p.price,0)/list.length : 0;
+const avgD = list.length ? list.reduce((a,p)=>a+p.discount_percent,0)/list.length : 0;
+const totalS = list.reduce((a,p)=>a+p.sold,0);
+elAvgPrice.textContent = formatUsd(avgP);
+elAvgDisc.textContent = Math.round(avgD) + '%';
+elTotalSold.textContent = formatNum(totalS);
+renderJson(PRODUCTS[0]);
+generateCode(PRODUCTS[0]);
+</script>
+</body>
+</html>

@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YouTube Transcript RAG Chunker Lab — Timestamp Deep-Links & MCP | hirepulse</title>
+  <meta name="description" content="Interactive RAG chunking laboratory for hirepulse/youtube-transcript-scraper. Slice timestamped YouTube and Shorts transcripts into LangChain, LlamaIndex, and Claude MCP chunks with exact second-level deep links." />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "YouTube Transcript RAG Chunker Lab",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "All",
+    "description": "Real-time RAG chunking studio for timestamped YouTube video and Shorts transcripts from hirepulse/youtube-transcript-scraper, complete with YouTube deep-link citations and WebMCP tool registration.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "featureList": [
+      "Time-window (seconds) and token/word-window RAG chunking with overlap",
+      "Automatic YouTube deep-link citation generation (https://youtu.be/<video_id>?t=<sec>)",
+      "Preloaded verified output from hirepulse/youtube-transcript-scraper (video_id: jNQXAC9IVRw)",
+      "LangChain, LlamaIndex, and MCP server code generator",
+      "WebMCP browser agent tool registration (navigator.modelContext)"
+    ],
+    "provider": {
+      "@type": "Organization",
+      "name": "hirepulse",
+      "url": "https://apify.com/hirepulse"
+    }
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #090d16;
+      --panel: #111827;
+      --panel-alt: #1e293b;
+      --border: #283548;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent: #f43f5e;
+      --accent-soft: rgba(244, 63, 94, 0.12);
+      --cyan: #38bdf8;
+      --emerald: #10b981;
+      --mono: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: radial-gradient(circle at 80% 0%, #311024 0%, var(--bg) 45%);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding-bottom: 4rem;
+    }
+    a { color: var(--cyan); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .container { max-width: 1220px; margin: 0 auto; padding: 0 1.5rem; }
+    header {
+      border-bottom: 1px solid var(--border);
+      background: rgba(9, 13, 22, 0.85);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 0;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+    .brand-badge {
+      background: var(--accent);
+      color: #fff;
+      font-weight: 800;
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-family: var(--mono);
+    }
+    .webmcp-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-family: var(--mono);
+    }
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--emerald);
+      box-shadow: 0 0 8px var(--emerald);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .hero {
+      padding: 2.75rem 0 1.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero h1 {
+      font-size: clamp(1.85rem, 3.2vw, 2.65rem);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.75rem;
+    }
+    .hero p {
+      color: var(--muted);
+      max-width: 840px;
+      font-size: 1.02rem;
+    }
+    .meta-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      margin-top: 1.1rem;
+      font-size: 0.8rem;
+    }
+    .meta-tag {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.7rem;
+      border-radius: 6px;
+      font-family: var(--mono);
+      color: var(--muted);
+    }
+    .grid-lab {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    @media (max-width: 980px) {
+      .grid-lab { grid-template-columns: 1fr; }
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.35rem;
+      margin-bottom: 1.5rem;
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 0.75rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .card-title { font-weight: 700; font-size: 1.05rem; }
+    label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-family: var(--mono);
+      display: block;
+      margin-bottom: 0.35rem;
+    }
+    textarea {
+      width: 100%;
+      min-height: 220px;
+      background: #06090f;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: #e2e8f0;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      padding: 0.75rem;
+      resize: vertical;
+    }
+    select, input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent);
+    }
+    select {
+      background: var(--panel-alt);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.5rem 0.7rem;
+      border-radius: 6px;
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+    }
+    .slider-row { margin-bottom: 1rem; }
+    .slider-top {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.84rem;
+      margin-bottom: 0.3rem;
+    }
+    .slider-val {
+      font-family: var(--mono);
+      color: var(--cyan);
+      font-weight: 700;
+    }
+    .btn {
+      background: var(--panel-alt);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.4rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-family: var(--mono);
+      cursor: pointer;
+    }
+    .btn:hover { border-color: var(--cyan); }
+    .btn.active {
+      background: var(--cyan);
+      color: #090d16;
+      border-color: var(--cyan);
+      font-weight: 700;
+    }
+    .chunks-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+    .chunk-card {
+      background: #0c121e;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: 10px;
+      padding: 1rem 1.15rem;
+    }
+    .chunk-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.55rem;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+    .deeplink-badge {
+      background: var(--accent-soft);
+      border: 1px solid rgba(244, 63, 94, 0.4);
+      color: #fda4af;
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      font-family: var(--mono);
+      font-size: 0.76rem;
+    }
+    .chunk-text {
+      font-size: 0.95rem;
+      color: #f1f5f9;
+      margin-bottom: 0.6rem;
+    }
+    .chunk-json {
+      background: #06090f;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.55rem 0.75rem;
+      font-family: var(--mono);
+      font-size: 0.74rem;
+      color: #94a3b8;
+      overflow-x: auto;
+    }
+    pre {
+      background: #06090f;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      overflow-x: auto;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      line-height: 1.55;
+      color: #e2e8f0;
+    }
+    code {
+      font-family: var(--mono);
+      background: rgba(255,255,255,0.06);
+      padding: 0.15rem 0.35rem;
+      border-radius: 4px;
+      font-size: 0.84em;
+      color: #7dd3fc;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav-bar">
+      <div class="brand">
+        <span class="brand-badge">HIREPULSE</span>
+        <span>YouTube Transcript RAG Chunker Lab</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap;">
+        <span class="webmcp-pill" title="Tools registered on navigator.modelContext and document.modelContext">
+          <span class="pulse-dot"></span>
+          <span>WebMCP Ready — Tools Registered in Browser ModelContext</span>
+        </span>
+        <a href="./llms.txt" class="meta-tag">llms.txt</a>
+        <a href="https://apify.com/hirepulse" target="_blank" rel="noopener" class="meta-tag">Apify Store &nearr;</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Slice Timestamped YouTube &amp; Shorts Transcripts into RAG Chunks</h1>
+      <p>
+        Test how <code>hirepulse/youtube-transcript-scraper</code> output (with <code>segments[].start</code>, <code>duration</code>, and <code>text</code>) transforms into overlapping vector-store documents with exact second-level YouTube deep-link citations (<code>https://youtu.be/&lt;id&gt;?t=&lt;seconds&gt;</code>) for LangChain, LlamaIndex, and Claude MCP agents.
+      </p>
+      <div class="meta-strip">
+        <span class="meta-tag">Actor: <code>hirepulse/youtube-transcript-scraper</code></span>
+        <span class="meta-tag">Free Plan: First 3 videos of each run are free</span>
+        <span class="meta-tag">Apify Free Plan: $0/mo + $5 monthly credit (<a href="https://apify.com/pricing" target="_blank" rel="noopener">apify.com/pricing</a>)</span>
+        <span class="meta-tag">MCP: <code>https://mcp.apify.com?tools=hirepulse/youtube-transcript-scraper</code></span>
+      </div>
+    </section>
+
+    <div class="grid-lab">
+      <!-- Left Column: Controls & JSON Input -->
+      <div>
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">1. Chunking Strategy &amp; Window</span>
+            <button class="btn" onclick="resetDefaultSample()">Reset Default Sample</button>
+          </div>
+
+          <label for="chunk-mode">Chunking Unit</label>
+          <select id="chunk-mode" onchange="onModeChange()">
+            <option value="seconds">Time Window (Seconds + Overlap)</option>
+            <option value="words">Word Count Window (Words + Overlap)</option>
+          </select>
+
+          <div class="slider-row">
+            <div class="slider-top">
+              <span id="lbl-win-size">Chunk Window Size (Seconds)</span>
+              <span class="slider-val" id="val-win-size">8s</span>
+            </div>
+            <input type="range" id="slider-win" min="3" max="30" step="1" value="8" oninput="rechunk()" />
+          </div>
+
+          <div class="slider-row">
+            <div class="slider-top">
+              <span id="lbl-overlap">Window Overlap</span>
+              <span class="slider-val" id="val-overlap">2s</span>
+            </div>
+            <input type="range" id="slider-overlap" min="0" max="10" step="1" value="2" oninput="rechunk()" />
+          </div>
+
+          <div style="font-size:0.78rem; color:var(--muted); border-top:1px solid var(--border); padding-top:0.75rem;">
+            <strong>Verified Sample Loaded:</strong> Real owner test run on <code>2026-10-15</code> (<code>run_id: cGwKCKbXRTkojfKto</code>, build <code>1.0.5</code>) for <code>video_id: "jNQXAC9IVRw"</code> (<em>"Me at the zoo"</em>, channel <code>jawed</code>, 19s, 39 words, 6 timestamped segments).
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">2. Actor JSON Output (Editable)</span>
+            <span style="font-size:0.74rem; color:var(--muted); font-family:var(--mono);" id="parse-status">Valid JSON</span>
+          </div>
+          <label for="json-input">Paste <code>hirepulse/youtube-transcript-scraper</code> JSON output:</label>
+          <textarea id="json-input" oninput="rechunk()"></textarea>
+        </div>
+      </div>
+
+      <!-- Right Column: Live RAG Chunks & Export Code -->
+      <div>
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <span class="card-title">3. Live RAG Document Chunks with Deep-Link Citations</span>
+              <div style="font-size:0.8rem; color:var(--muted);" id="chunks-summary"></div>
+            </div>
+            <button class="btn" onclick="copyChunksJson()" id="btn-copy-chunks">Copy Chunks JSON</button>
+          </div>
+          <div class="chunks-list" id="chunks-container"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">4. Export Agent &amp; RAG Pipeline Code</span>
+            <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+              <button class="btn active" onclick="setExportTab('langchain', this)">Python + LangChain</button>
+              <button class="btn" onclick="setExportTab('llamaindex', this)">LlamaIndex</button>
+              <button class="btn" onclick="setExportTab('mcp', this)">Claude / Cursor MCP</button>
+              <button class="btn" onclick="copyExportCode()" id="btn-copy-export">Copy Code</button>
+            </div>
+          </div>
+          <pre id="export-code-box"></pre>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Verified sample from src/data/samples/youtube-transcript.json
+    const VERIFIED_YOUTUBE_SAMPLE = {
+      "meta": {
+        "actor": "hirepulse/youtube-transcript-scraper",
+        "run_id": "cGwKCKbXRTkojfKto",
+        "status": "SUCCEEDED",
+        "build": "1.0.5",
+        "started_at": "2026-10-15T16:33:04.203Z",
+        "status_message": "1 transcript shown (from a run of 2 videos that delivered 2 transcripts).",
+        "input": {
+          "videos": [
+            "https://youtu.be/jNQXAC9IVRw"
+          ],
+          "include_timestamps": true
+        },
+        "note": "Real owner test run on 2026-10-15, saved as-is for website examples."
+      },
+      "items": [
+        {
+          "video_id": "jNQXAC9IVRw",
+          "url": "https://www.youtube.com/watch?v=jNQXAC9IVRw",
+          "status": "ok",
+          "title": "Me at the zoo",
+          "channel": "jawed",
+          "duration_seconds": 19,
+          "language": "en",
+          "is_auto_generated": false,
+          "transcript": "All right, so here we are, in front of the elephants the cool thing about these guys is that they have really... really really long trunks and that's cool (baaaaaaaaaaahhh!!) and that's pretty much all there is to say",
+          "word_count": 39,
+          "note": null,
+          "segments": [
+            {
+              "start": 1.2,
+              "duration": 2.16,
+              "text": "All right, so here we are, in front of the elephants"
+            },
+            {
+              "start": 5.32,
+              "duration": 2.66,
+              "text": "the cool thing about these guys is that they have really..."
+            },
+            {
+              "start": 7.97,
+              "duration": 4.64,
+              "text": "really really long trunks"
+            },
+            {
+              "start": 12.62,
+              "duration": 1.75,
+              "text": "and that's cool"
+            },
+            {
+              "start": 14.42,
+              "duration": 1.31,
+              "text": "(baaaaaaaaaaahhh!!)"
+            },
+            {
+              "start": 16.88,
+              "duration": 2,
+              "text": "and that's pretty much all there is to say"
+            }
+          ]
+        }
+      ]
+    };
+
+    let currentExportTab = 'langchain';
+    let latestChunks = [];
+
+    function resetDefaultSample() {
+      document.getElementById('json-input').value = JSON.stringify(VERIFIED_YOUTUBE_SAMPLE, null, 2);
+      rechunk();
+    }
+
+    function onModeChange() {
+      const mode = document.getElementById('chunk-mode').value;
+      const winSlider = document.getElementById('slider-win');
+      const ovSlider = document.getElementById('slider-overlap');
+      if (mode === 'seconds') {
+        document.getElementById('lbl-win-size').textContent = 'Chunk Window Size (Seconds)';
+        winSlider.min = '3';
+        winSlider.max = '30';
+        winSlider.value = '8';
+        ovSlider.max = '10';
+        ovSlider.value = '2';
+      } else {
+        document.getElementById('lbl-win-size').textContent = 'Chunk Window Size (Words)';
+        winSlider.min = '5';
+        winSlider.max = '50';
+        winSlider.value = '15';
+        ovSlider.max = '15';
+        ovSlider.value = '4';
+      }
+      rechunk();
+    }
+
+    function buildRagChunks(videoItem, mode, windowSize, overlap) {
+      const segments = Array.isArray(videoItem.segments) ? videoItem.segments : [];
+      const videoId = videoItem.video_id || 'jNQXAC9IVRw';
+      const chunks = [];
+      if (!segments.length) return chunks;
+
+      if (mode === 'seconds') {
+        const step = Math.max(1, windowSize - overlap);
+        const maxEnd = Math.max(...segments.map(s => Number(s.start) + Number(s.duration || 0)));
+        let cursor = segments[0].start;
+        let idx = 0;
+
+        while (cursor <= maxEnd) {
+          const winEnd = cursor + windowSize;
+          const matched = segments.filter(s => {
+            const sEnd = s.start + (s.duration || 0);
+            return s.start < winEnd && sEnd > cursor;
+          });
+          if (matched.length > 0) {
+            const startSec = matched[0].start;
+            const endSeg = matched[matched.length - 1];
+            const endSec = Number((endSeg.start + (endSeg.duration || 0)).toFixed(2));
+            const deepLinkSec = Math.floor(startSec);
+            const text = matched.map(m => m.text).join(' ');
+            const dup = chunks.length > 0 && chunks[chunks.length - 1].page_content === text;
+            if (!dup) {
+              chunks.push({
+                chunk_index: idx++,
+                page_content: text,
+                metadata: {
+                  video_id: videoId,
+                  title: videoItem.title || '',
+                  channel: videoItem.channel || '',
+                  language: videoItem.language || 'en',
+                  start_seconds: startSec,
+                  end_seconds: endSec,
+                  youtube_deeplink: `https://youtu.be/${videoId}?t=${deepLinkSec}`,
+                  segment_count: matched.length,
+                  word_count: text.trim().split(/\s+/).length
+                }
+              });
+            }
+          }
+          if (winEnd >= maxEnd) break;
+          cursor = Number((cursor + step).toFixed(2));
+        }
+      } else {
+        // Word-window chunking preserving segment start timestamps
+        let i = 0;
+        let idx = 0;
+        while (i < segments.length) {
+          let words = 0;
+          const matched = [];
+          let j = i;
+          while (j < segments.length) {
+            const segWords = segments[j].text.trim().split(/\s+/).length;
+            if (matched.length > 0 && words + segWords > windowSize) break;
+            matched.push(segments[j]);
+            words += segWords;
+            j++;
+          }
+          const startSec = matched[0].start;
+          const endSeg = matched[matched.length - 1];
+          const endSec = Number((endSeg.start + (endSeg.duration || 0)).toFixed(2));
+          const deepLinkSec = Math.floor(startSec);
+          const text = matched.map(m => m.text).join(' ');
+          chunks.push({
+            chunk_index: idx++,
+            page_content: text,
+            metadata: {
+              video_id: videoId,
+              title: videoItem.title || '',
+              channel: videoItem.channel || '',
+              language: videoItem.language || 'en',
+              start_seconds: startSec,
+              end_seconds: endSec,
+              youtube_deeplink: `https://youtu.be/${videoId}?t=${deepLinkSec}`,
+              segment_count: matched.length,
+              word_count: words
+            }
+          });
+          if (j >= segments.length) break;
+          // Step back for word overlap
+          let backWords = 0;
+          let nextStart = j;
+          while (nextStart > i + 1 && backWords < overlap) {
+            nextStart--;
+            backWords += segments[nextStart].text.trim().split(/\s+/).length;
+          }
+          i = Math.max(i + 1, nextStart);
+        }
+      }
+      return chunks;
+    }
+
+    function rechunk() {
+      const mode = document.getElementById('chunk-mode').value;
+      const winSize = parseInt(document.getElementById('slider-win').value, 10);
+      let overlap = parseInt(document.getElementById('slider-overlap').value, 10);
+      if (overlap >= winSize) {
+        overlap = Math.max(0, winSize - 1);
+        document.getElementById('slider-overlap').value = String(overlap);
+      }
+
+      const unit = mode === 'seconds' ? 's' : ' words';
+      document.getElementById('val-win-size').textContent = `${winSize}${unit}`;
+      document.getElementById('val-overlap').textContent = `${overlap}${unit}`;
+
+      const raw = document.getElementById('json-input').value;
+      let parsed;
+      try {
+        parsed = JSON.parse(raw);
+        document.getElementById('parse-status').textContent = 'Valid JSON';
+        document.getElementById('parse-status').style.color = '#34d399';
+      } catch (e) {
+        document.getElementById('parse-status').textContent = 'Invalid JSON';
+        document.getElementById('parse-status').style.color = '#f43f5e';
+        return;
+      }
+
+      const item = Array.isArray(parsed)
+        ? parsed[0]
+        : (parsed.items && parsed.items[0]) ? parsed.items[0] : parsed;
+
+      latestChunks = buildRagChunks(item || {}, mode, winSize, overlap);
+
+      document.getElementById('chunks-summary').innerHTML =
+        `Generated <strong>${latestChunks.length}</strong> RAG chunks from <code>${(item && item.video_id) || 'unknown'}</code> (<em>${(item && item.title) || 'Untitled'}</em>)`;
+
+      const container = document.getElementById('chunks-container');
+      container.innerHTML = latestChunks.map(c => `
+        <div class="chunk-card">
+          <div class="chunk-meta">
+            <span>Chunk #${c.chunk_index + 1} &middot; ${c.metadata.start_seconds}s &ndash; ${c.metadata.end_seconds}s (${c.metadata.word_count} words)</span>
+            <a class="deeplink-badge" href="${c.metadata.youtube_deeplink}" target="_blank" rel="noopener">
+              &play; ${c.metadata.youtube_deeplink} &nearr;
+            </a>
+          </div>
+          <div class="chunk-text">"${c.page_content}"</div>
+          <div class="chunk-json">${JSON.stringify(c.metadata)}</div>
+        </div>
+      `).join('');
+
+      updateExportCode();
+    }
+
+    function setExportTab(tab, btn) {
+      currentExportTab = tab;
+      document.querySelectorAll('.card-header .btn').forEach(b => {
+        if (['Python + LangChain', 'LlamaIndex', 'Claude / Cursor MCP'].includes(b.textContent)) {
+          b.classList.remove('active');
+        }
+      });
+      if (btn) btn.classList.add('active');
+      updateExportCode();
+    }
+
+    function updateExportCode() {
+      const mode = document.getElementById('chunk-mode').value;
+      const winSize = parseInt(document.getElementById('slider-win').value, 10);
+      const overlap = parseInt(document.getElementById('slider-overlap').value, 10);
+      const box = document.getElementById('export-code-box');
+
+      if (currentExportTab === 'langchain') {
+        box.textContent = `import requests
+from langchain_core.documents import Document
+
+# Free plan on hirepulse/youtube-transcript-scraper: first 3 videos of each run are free!
+APIFY_TOKEN = "YOUR_APIFY_TOKEN"
+url = f"https://api.apify.com/v2/acts/hirepulse~youtube-transcript-scraper/run-sync-get-dataset-items?token={APIFY_TOKEN}"
+
+payload = {
+    "videos": ["https://youtu.be/jNQXAC9IVRw"],
+    "include_timestamps": True
+}
+
+items = requests.post(url, json=payload, timeout=120).json()
+
+# Convert timestamped segments into LangChain Documents (${mode} window=${winSize}, overlap=${overlap})
+docs = [
+${latestChunks.map(c => `    Document(
+        page_content=${JSON.stringify(c.page_content)},
+        metadata=${JSON.stringify(c.metadata)}
+    )`).join(',\n')}
+]
+print(f"Prepared {len(docs)} RAG documents with YouTube deep-links.")`;
+      } else if (currentExportTab === 'llamaindex') {
+        box.textContent = `from llama_index.core.schema import TextNode
+
+# Pre-chunked LlamaIndex TextNodes from hirepulse/youtube-transcript-scraper
+nodes = [
+${latestChunks.map(c => `    TextNode(
+        text=${JSON.stringify(c.page_content)},
+        metadata=${JSON.stringify(c.metadata)}
+    )`).join(',\n')}
+]
+print(f"Indexed {len(nodes)} nodes. First deep-link: {nodes[0].metadata['youtube_deeplink']}")`;
+      } else {
+        box.textContent = `// 1. Remote MCP Server URL:
+// https://mcp.apify.com?tools=hirepulse/youtube-transcript-scraper
+// Auth: Authorization: Bearer <APIFY_TOKEN> (or browser OAuth)
+
+// 2. Claude Desktop / Cursor Local stdio Config:
+{
+  "mcpServers": {
+    "hirepulse-youtube-transcript": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@apify/actors-mcp-server",
+        "--tools",
+        "hirepulse/youtube-transcript-scraper"
+      ],
+      "env": {
+        "APIFY_TOKEN": "YOUR_APIFY_TOKEN"
+      }
+    }
+  }
+}`;
+      }
+    }
+
+    function copyChunksJson() {
+      navigator.clipboard.writeText(JSON.stringify(latestChunks, null, 2));
+      const b = document.getElementById('btn-copy-chunks');
+      b.textContent = 'Copied!';
+      setTimeout(() => { b.textContent = 'Copy Chunks JSON'; }, 1500);
+    }
+
+    function copyExportCode() {
+      navigator.clipboard.writeText(document.getElementById('export-code-box').textContent);
+      const b = document.getElementById('btn-copy-export');
+      b.textContent = 'Copied!';
+      setTimeout(() => { b.textContent = 'Copy Code'; }, 1500);
+    }
+
+    // Register WebMCP Tools for Browser AI Agents
+    function registerWebMCP() {
+      const tools = [
+        {
+          name: 'chunk_youtube_transcript_for_rag',
+          description: 'Slices a hirepulse/youtube-transcript-scraper item (with segments[].start, duration, text) into RAG chunks with exact second-level YouTube deep-links.',
+          inputSchema: {
+            type: 'object',
+            properties: {
+              mode: { type: 'string', enum: ['seconds', 'words'], default: 'seconds' },
+              window_size: { type: 'number', default: 8 },
+              overlap: { type: 'number', default: 2 },
+              transcript_item: { type: 'object', description: 'Optional transcript item; defaults to verified video_id jNQXAC9IVRw ("Me at the zoo").' }
+            }
+          },
+          execute: async (args) => {
+            const item = args.transcript_item || VERIFIED_YOUTUBE_SAMPLE.items[0];
+            return {
+              actor: 'hirepulse/youtube-transcript-scraper',
+              mcp_url: 'https://mcp.apify.com?tools=hirepulse/youtube-transcript-scraper',
+              free_tier_note: 'First 3 videos of each run are free on the free plan.',
+              chunks: buildRagChunks(item, args.mode || 'seconds', args.window_size || 8, args.overlap ?? 2)
+            };
+          }
+        }
+      ];
+
+      try {
+        for (const tool of tools) {
+          if (typeof navigator !== 'undefined' && navigator.modelContext?.registerTool) {
+            navigator.modelContext.registerTool(tool);
+          }
+          if (typeof document !== 'undefined' && document.modelContext?.registerTool) {
+            document.modelContext.registerTool(tool);
+          }
+        }
+        window.__WEBMCP_TOOLS__ = tools;
+      } catch (err) {
+        console.warn('WebMCP registration note:', err);
+      }
+    }
+
+    resetDefaultSample();
+    registerWebMCP();
+  </script>
+</body>
+</html>

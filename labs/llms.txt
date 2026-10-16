@@ -1,0 +1,27 @@
+# HirePulse Interactive Labs & WebMCP Tools
+
+> 8 Interactive client-side web applications and WebMCP evaluators for AI agents and developers.
+> Live Hub: https://edtool79-collab.github.io/hirepulse-tools/labs/
+
+## Available Labs
+
+1. SerpApi to MCP Migrator: https://edtool79-collab.github.io/hirepulse-tools/labs/serpapi-to-mcp-migrator/
+   - Code converter and cost calculator for migrating Google Jobs and Ads to HirePulse MCP.
+2. YouTube RAG Chunker Lab: https://edtool79-collab.github.io/hirepulse-tools/labs/youtube-rag-chunker-lab/
+   - Real-time timestamped transcript chunking for LangChain, LlamaIndex and Claude agents.
+3. SEO Keyword Intent Matrix: https://edtool79-collab.github.io/hirepulse-tools/labs/seo-keyword-intent-matrix/
+   - Interactive matrix for monthly volume, CPC, difficulty, and domain SEO traffic.
+4. B2B Intent Cost Calculator: https://edtool79-collab.github.io/hirepulse-tools/labs/b2b-intent-cost-calculator/
+   - Compare multi-source waterfall costs against $0.03 Company Intent Radar runs.
+5. ATS Schema Explorer: https://edtool79-collab.github.io/hirepulse-tools/labs/ats-schema-explorer/
+   - Inspect open jobs from Greenhouse, Lever, Ashby, Workable, Recruitee, SmartRecruiters.
+6. Google Ads Longevity Lab: https://edtool79-collab.github.io/hirepulse-tools/labs/google-ads-longevity-lab/
+   - Explore active Google Ads by domain, longevity days, and creative formats.
+7. MCP Token Diet Benchmark: https://edtool79-collab.github.io/hirepulse-tools/labs/mcp-token-diet-benchmark/
+   - Context window token consumption comparisons for AI agent tool routing.
+8. AliExpress Landed Margin Lab: https://edtool79-collab.github.io/hirepulse-tools/labs/aliexpress-landed-margin-lab/
+   - Search products, compare ratings/volumes, and calculate dropship margins.
+
+## Remote MCP Server
+Connect agents directly via:
+- https://mcp.apify.com?tools=hirepulse/company-intent-radar,hirepulse/google-ads-transparency-scraper,hirepulse/ats-job-pulse,hirepulse/google-jobs-scraper,hirepulse/keyword-search-volume,hirepulse/domain-seo-overview,hirepulse/youtube-transcript-scraper,hirepulse/aliexpress-search-scraper

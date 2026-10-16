@@ -1,0 +1,42 @@
+# hirepulse — Google Ads Transparency Explorer & Ad Longevity Lab
+
+מיני-אתר שמדגים ניתוח מודעות גוגל של מתחרים לפי דומיין, מגובה ב־hirepulse/google-ads-transparency-scraper עם דוגמאות אמיתיות מ־FACTS.md.
+
+## הכלי
+- שם: Google Ads Transparency Scraper
+- מזהה כלי ב־Apify: hirepulse/google-ads-transparency-scraper
+- עלות: $0.005 לדומיין + $0.0015 למודעה
+- מצב סיכום (summary): $0.005 לדומיין בלבד, ללא חיוב פר מודעה
+- דומיינים ללא מודעות לא ניגבים ($0) — אומת בתמחור החי של Apify ב־2026-10-16
+- אין להבטיח מסלול חינמי או מודעות חינמיות עבור כלי זה
+- כתובת MCP ישירה: https://mcp.apify.com?tools=hirepulse/google-ads-transparency-scraper
+
+## שדות פלט עיקריים
+advertiser_name, advertiser_id, advertiser_verified, ad_id, format (text/image/video), first_shown, last_shown, days_running, last_shown_days_ago, country, platform, preview_image_url, preview_url, transparency_url
+
+## דוגמאות נתונים אמיתיות (מתוך FACTS.md, בדיקה 2026-10-16)
+1. Nike, Inc. — מודעת טקסט: הופעה ראשונה 2023-11-16, הופעה אחרונה 2026-10-14, רצה 1,062 ימים
+2. adidas.com — סיכום דומיין: 6,000 מודעות בסה"כ; מדגם של 40 = 33 טקסט, 3 תמונה, 4 וידאו
+
+## מחשבון עלות
+- סיכום לדומיין: $0.005 קבוע
+- מודעות: $0.005 לדומיין + $0.0015 לכל מודעה (עד 120 המודעות האחרונות לדומיין)
+
+## חיבור לסוכני AI (MCP)
+קונפיגורציה ל־Claude Desktop, Cursor ו־n8n:
+
+```json
+{
+  "mcpServers": {
+    "hirepulse_google_ads_transparency": {
+      "command": "npx",
+      "args": ["-y", "@apify/actors-mcp-server", "--tools", "hirepulse/google-ads-transparency-scraper"],
+      "env": { "APIFY_TOKEN": "YOUR_APIFY_TOKEN_HERE" }
+    }
+  },
+  "remote_mcp": "https://mcp.apify.com?tools=hirepulse/google-ads-transparency-scraper"
+}
+```
+
+## מצב רק מודעות חדשות
+הכלי תומך במעקב "only_new_ads" — סוכן AI יכול לעקוב אחר מודעות חדשות בלבד ללא עיבוד חוזר של מודעות קיימות.

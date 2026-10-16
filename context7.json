@@ -1,0 +1,33 @@
+{
+  "$schema": "https://context7.com/schema/context7.json",
+  "projectTitle": "hirepulse — Pay-Per-Use Data APIs & MCP Tools for AI Agents",
+  "description": "Eight pay-per-use Apify Actors and MCP tools by hirepulse returning clean JSON: Google Ads Transparency Scraper (hirepulse/google-ads-transparency-scraper), Company Intent Radar (hirepulse/company-intent-radar), ATS Job Scraper for Greenhouse/Lever/Ashby/Workable/Recruitee/SmartRecruiters (hirepulse/ats-job-pulse), Google Jobs Scraper (hirepulse/google-jobs-scraper), Keyword Search Volume & CPC (hirepulse/keyword-search-volume), Domain SEO Overview (hirepulse/domain-seo-overview), YouTube Transcript Scraper (hirepulse/youtube-transcript-scraper), and AliExpress Search Scraper (hirepulse/aliexpress-search-scraper).",
+  "folders": [
+    "skills",
+    "public"
+  ],
+  "excludeFolders": [
+    "node_modules",
+    "dist",
+    ".astro",
+    ".git",
+    ".github"
+  ],
+  "excludeFiles": [
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "yarn.lock"
+  ],
+  "rules": [
+    "All 8 hirepulse tools run on the Apify Store (https://apify.com/hirepulse) on a pay-per-use model with no subscription. Higher Apify plans get volume discounts. Apify's free plan ($0/month) includes $5 per month in Store credit with no credit card required (https://apify.com/pricing).",
+    "Connect any AI agent via Remote MCP Server at https://mcp.apify.com?tools=hirepulse/<actor> (or comma-separated for multiple tools), Local stdio MCP via npx -y @apify/actors-mcp-server --tools hirepulse/<actor> with APIFY_TOKEN in env, or direct synchronous REST API POST https://api.apify.com/v2/acts/hirepulse~<actor>/run-sync-get-dataset-items?token=<APIFY_TOKEN>.",
+    "Use hirepulse/google-ads-transparency-scraper (skills/google-ads-competitor-spy/SKILL.md) to get live Google Ads by company domain (text, image, video, preview_image_url, transparency_url, first_shown, last_shown, days_running, summary mode, and only-new-ads mode). Price: $0.005 per domain + $0.0015 per ad ($0.005/domain only in summary mode; $0 for domains with no ads). Note: Google does not publish spend or impression numbers for commercial ads, output has no width/height of creative, and there is no tool-specific free plan or free ads quota.",
+    "Use hirepulse/company-intent-radar (skills/b2b-company-buying-intent/SKILL.md) to enrich company domains with open jobs and new jobs in 30 days (Greenhouse, Lever, Ashby, Workable, SmartRecruiters, Recruitee), active Google ads status and total ads, organic traffic estimate and SEO trend, email_provider from MX records, a 0-100 intent_score, and a one-line summary. Price: $0.03 per company report (charged only when the full report was produced; free plan includes hiring and email signals for 5 companies).",
+    "Use hirepulse/ats-job-pulse (skills/greenhouse-lever-ashby-jobs/SKILL.md) to scrape all open jobs, published salaries, detected_technologies, and company_summary statistics from Greenhouse, Lever, Ashby, Workable, Recruitee, and SmartRecruiters boards by domain or board slug. IMPORTANT: Workday is NOT supported by ats-job-pulse.",
+    "Use hirepulse/google-jobs-scraper (skills/google-jobs-salary-search/SKILL.md) to search Google Jobs across 90+ countries or by city ('City,Region', radius_km 1-300), up to 200 jobs per query (default 50). Returns parsed salary_min/salary_max/salary_period (salary_currency can be null even when min/max are parsed). Price: $0.005 per search that returns jobs + $0.001 per job ($0 when a search finds nothing).",
+    "Use hirepulse/keyword-search-volume (skills/google-keyword-volume-cpc/SKILL.md) for Google monthly search_volume, cpc_usd, competition, keyword_difficulty, search_intent, top-of-page bids, monthly/quarterly/yearly trends, and keyword ideas. Price: $0.03 per lookup + $0.005 per keyword result (free plan preview: first 3 keywords per run, subject to availability).",
+    "Use hirepulse/domain-seo-overview (skills/domain-organic-traffic-seo/SKILL.md) for domain_overview (organic_traffic_estimate, organic_keywords, organic_traffic_value_usd, keywords_top_3/10/20) and ranked_keyword records (keyword, position, url, search_volume, cpc_usd, keyword_difficulty, search_intent, traffic_estimate).",
+    "Use hirepulse/youtube-transcript-scraper (skills/youtube-transcript-timestamps/SKILL.md) for bulk YouTube video and Shorts transcripts with timestamped segments (start, duration, text), full plain text, word_count, language, and is_auto_generated flag (free plan: first 3 videos per run).",
+    "Use hirepulse/aliexpress-search-scraper (skills/aliexpress-product-price-search/SKILL.md) for AliExpress product search results (60 per page, custom currency and ship_to country) with price, original_price, discount_percent, rating, sold count, is_sponsored, and listed_since. Price: $2.50 per 1,000 products (free plan: 100 products per run). IMPORTANT: Does NOT return store/seller name, shipping costs, delivery estimates, reviews, or stock."
+  ]
+}

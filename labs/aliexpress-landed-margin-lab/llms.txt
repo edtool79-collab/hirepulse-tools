@@ -1,0 +1,42 @@
+# hirepulse — AliExpress Bulk Product Data Explorer & Dropshipping Margin Simulator
+
+סייר מוצרי AliExpress בכמות גדולה ומחשבון שוליים (margin) לדרופשיפינג, מגובה ב־hirepulse/aliexpress-search-scraper עם דוגמאות אמיתיות מ־samples.
+
+## הכלי
+- שם: AliExpress Search Scraper
+- מזהה כלי ב־Apify: hirepulse/aliexpress-search-scraper
+- עלות: $2.50 ל־1,000 מוצרים
+- תוכנית חינמית של Apify: 100 מוצרים להפעלה, ללא כרטיס אשראי, $5 במתנה לחודש
+- 60 מוצרים לעמוד
+- כתובת MCP ישירה: https://mcp.apify.com?tools=hirepulse/aliexpress-search-scraper
+
+## שדות שהכלי מחזיר
+product_id, title, url, image_url, price, original_price, discount_percent, currency, rating, sold, sold_text, is_sponsored, listed_since, ship_to
+
+## מה הכלי לא מחזיר (בכנות מלאה)
+- שם מוכר / שם חנות
+- עלות משלוח והערכת זמני אספקה
+- ביקורות
+- מלאי
+
+## דוגמת נתונים אמיתית (מתוך samples/aliexpress-wireless-earbuds.json, בדיקה 2026-10-15)
+דוגמה כוללת 10 מוצרי אוזניות אלחוטיות עם שדות מלאים: product_id, title, price, original_price, discount_percent, currency, rating, sold, is_sponsored, listed_since, ship_to.
+
+## חיבור לסוכני AI (MCP)
+קונפיגורציה ל־Claude Desktop, Cursor ו־n8n:
+
+```json
+{
+  "mcpServers": {
+    "hirepulse_aliexpress_search": {
+      "command": "npx",
+      "args": ["-y", "@apify/actors-mcp-server", "--tools", "hirepulse/aliexpress-search-scraper"],
+      "env": { "APIFY_TOKEN": "YOUR_APIFY_TOKEN_HERE" }
+    }
+  },
+  "remote_mcp": "https://mcp.apify.com?tools=hirepulse/aliexpress-search-scraper"
+}
+```
+
+## REST API
+POST https://api.apify.com/v2/acts/hirepulse~aliexpress-search-scraper/run-sync-get-dataset-items?token=<APIFY_TOKEN>

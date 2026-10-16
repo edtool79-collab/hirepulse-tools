@@ -1,0 +1,42 @@
+# hirepulse — B2B Intent & Enrichment Cost Calculator
+
+כלי אינטראקטיבי להשוואת עלויות בין חיבור מקורות גיוס נפרדים לתשלום לפי שימוש ב־hirepulse/company-intent-radar.
+
+## הכלי
+- שם: Company Intent Radar
+- מזהה כלי ב־Apify: hirepulse/company-intent-radar
+- עלות: $0.03 לדוח חברה מלא (ניגבה רק אם הופק דוח מלא)
+- מסלול חינמי: 5 חברות (התראות גיוס ואימייל), ללא כרטיס אשראי, $5 במתנה לחודש ב־Apify Store
+- כתובת MCP ישירה: https://mcp.apify.com?tools=hirepulse/company-intent-radar
+
+## אותות כלולים בדוח
+- משרות פתוחות וחדשות ב־30 הימים האחרונים (Greenhouse, Lever, Ashby, Workable, SmartRecruiters, Recruitee)
+- מודעות גוגל פעילות וסך כל המודעות
+- תנועה אורגנית ומגמת SEO
+- ספק אימייל מרשומות MX
+- ציון כוונה 0–100
+- תקציר שורה אחת
+
+## דוגמת נתונים אמיתית (stripe.com, מתוך FACTS.md)
+- ציון כוונה: 85
+- משרות פתוחות: 727
+- מודעות גוגל: פעילות כעת
+
+## חיבור לסוכני AI (MCP)
+קונפיגורציה ל־Claude Desktop, Cursor ו־n8n:
+
+```json
+{
+  "mcpServers": {
+    "hirepulse_company_intent_radar": {
+      "command": "npx",
+      "args": ["-y", "@apify/actors-mcp-server", "--tools", "hirepulse/company-intent-radar"],
+      "env": { "APIFY_TOKEN": "YOUR_APIFY_TOKEN_HERE" }
+    }
+  },
+  "remote_mcp": "https://mcp.apify.com?tools=hirepulse/company-intent-radar"
+}
+```
+
+## הגבלה ידועה
+Workday אינו נתמך על ידי כלי הגיוס של HirePulse.

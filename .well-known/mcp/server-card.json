@@ -1,0 +1,10 @@
+{
+  "$schema": "https://static.smithery.ai/server-card.schema.json",
+  "name": "hirepulse-mcp",
+  "description": "8 pay-per-use data tools for AI agents: Google Ads Transparency, ATS Job Boards, Company Intent Signals, Google Jobs, Keyword Volume & CPC, Domain SEO, YouTube Transcripts, and AliExpress.",
+  "homepage": "https://edtool79-collab.github.io/hirepulse-tools/",
+  "repository": "https://github.com/edtool79-collab/hirepulse-tools",
+  "remoteUrl": "https://mcp.apify.com?tools=hirepulse/company-intent-radar,hirepulse/google-ads-transparency-scraper,hirepulse/ats-job-pulse,hirepulse/google-jobs-scraper,hirepulse/keyword-search-volume,hirepulse/domain-seo-overview,hirepulse/youtube-transcript-scraper,hirepulse/aliexpress-search-scraper",
+  "transports": ["streamable-http", "sse", "stdio"],
+  "freeTier": "$5/month Apify platform credit included with no credit card required at https://apify.com/pricing"
+}

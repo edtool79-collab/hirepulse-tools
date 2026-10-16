@@ -1,0 +1,25 @@
+# hirepulse — AI Agent Context Window & Token Budget Calculator
+
+מחשבון תקציב טוקנים לחלון הקשר של סוכן AI — השוואה בין HTML גולמי לפלט מוכן להחלטה של הכלים של HirePulse.
+
+## הכלים שנכללים בהשוואה
+- Google Jobs Scraper: hirepulse/google-jobs-scraper — תוצאות משרות גוגל ב־90+ מדינות
+- Domain SEO Overview: hirepulse/domain-seo-overview — תנועה אורגנית ומילות מפתח מדרגת
+- Keyword Search Volume: hirepulse/keyword-search-volume — נפח חיפוש, CPC ותחרות
+- YouTube Transcript Scraper: hirepulse/youtube-transcript-scraper — תמלולי יוטיוב עם חותמות זמן
+- AliExpress Search Scraper: hirepulse/aliexpress-search-scraper — תוצאות חיפוש מוצרים
+
+## כתובות MCP ישירות
+- https://mcp.apify.com?tools=hirepulse/google-jobs-scraper
+- https://mcp.apify.com?tools=hirepulse/domain-seo-overview
+- https://mcp.apify.com?tools=hirepulse/keyword-search-volume
+- https://mcp.apify.com?tools=hirepulse/youtube-transcript-scraper
+- https://mcp.apify.com?tools=hirepulse/aliexpress-search-scraper
+
+## שיטות חיבור לסוכני AI
+- מרוחק (מונחה דפדפן): https://mcp.apify.com?tools=hirepulse/<tool-id>
+- מקומי (stdio): npx -y @apify/actors-mcp-server --tools hirepulse/<tool-id>, עם APIFY_TOKEN ב־env
+- REST API: POST https://api.apify.com/v2/acts/hirepulse~<tool-id>/run-sync-get-dataset-items?token=<APIFY_TOKEN>
+
+## הערה חשובה
+כל מספרי הטוקנים והערכים בדוגמה הם אומדן להמחשה בלבד. התמחור האמיתי משתנה לפי תכנית Apify וספק ה־LLM. כל נתוני הדוגמה נלקחו מקובצי samples האמיתיים של HirePulse (מתוך FACTS.md).

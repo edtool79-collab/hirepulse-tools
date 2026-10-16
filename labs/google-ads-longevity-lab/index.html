@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Google Ads Transparency Explorer &amp; Ad Longevity Lab | HirePulse</title>
+<style>
+  :root {
+    --bg: #0b0f19;
+    --panel: #131a2b;
+    --accent: #38bdf8;
+    --accent-2: #818cf8;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --border: #1e293b;
+    --danger: #f43f5e;
+    --warn: #f59e0b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans Hebrew", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    direction: rtl;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 16px; }
+  header { text-align: center; margin-bottom: 32px; }
+  header h1 { font-size: 1.75rem; margin-bottom: 8px; letter-spacing: -0.5px; }
+  header p { color: var(--muted); font-size: 0.95rem; }
+
+  .grid { display: grid; grid-template-columns: 360px 1fr; gap: 24px; }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+  }
+  .card h2 { font-size: 1.125rem; margin-bottom: 16px; color: var(--accent); display: flex; align-items: center; gap: 8px; }
+  .card h2 svg { width: 20px; height: 20px; }
+
+  .control-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .control-row label { font-size: 0.9rem; color: var(--muted); min-width: 120px; text-align: right; }
+  input[type="text"], input[type="number"], select {
+    flex: 1; background: #020617; border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; color: var(--text);
+  }
+  input[type="text"]:focus, input[type="number"]:focus, select:focus { outline: 2px solid var(--accent); }
+
+  .example-card { background: #0f172a; border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 14px; }
+  .example-card h3 { font-size: 0.95rem; margin-bottom: 10px; color: var(--accent-2); display: flex; justify-content: space-between; align-items: center; }
+  .example-card .badge { font-size: 0.75rem; padding: 4px 8px; border-radius: 6px; background: #1e293b; color: var(--muted); }
+  .example-card .row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #1e293b; font-size: 0.9rem; }
+  .example-card .row:last-child { border-bottom: none; }
+  .example-card .lbl { color: var(--muted); }
+  .example-card .val { color: var(--text); font-variant-numeric: tabular-nums; }
+
+  .calc-card { background: linear-gradient(135deg, #172037 0%, #0f172a 100%); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 16px; }
+  .calc-card .tag { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-2); display: block; margin-bottom: 6px; }
+  .calc-card .amount { font-size: 1.75rem; font-weight: 800; color: var(--text); }
+  .calc-card .sub { font-size: 0.85rem; color: var(--muted); margin-top: 4px; display: block; }
+
+  .json-viewer {
+    background: #020617; border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-top: 16px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.8rem; color: var(--muted);
+    max-height: 460px; overflow: auto;
+  }
+  .json-viewer .key { color: var(--accent-2); }
+  .json-viewer .str { color: #a5f3fc; }
+  .json-viewer .num { color: #fbbf24; }
+  .json-viewer .bool { color: #c4b5fd; }
+  .json-viewer .null { color: #64748b; }
+
+  .mcp-section { margin-top: 32px; }
+  .mcp-card { background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 16px; }
+  .mcp-card h3 { font-size: 1rem; margin-bottom: 12px; color: var(--accent); }
+  .copy-btn {
+    background: var(--accent); color: #000; border: none; border-radius: 8px; padding: 10px 16px; font-weight: 700; cursor: pointer; font-size: 0.9rem;
+  }
+  .copy-btn:hover { filter: brightness(1.1); }
+  .code-block { background: #020617; border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-family: monospace; font-size: 0.8rem; color: var(--muted); overflow-x: auto; margin-top: 10px; white-space: pre-wrap; word-break: break-all; }
+  .note { font-size: 0.85rem; color: var(--muted); margin-top: 12px; line-height: 1.5; }
+  .warning { color: var(--danger); font-weight: 600; margin-top: 10px; }
+
+  .lang-tabs { display: flex; gap: 6px; margin-bottom: 10px; }
+  .lang-tab { background: #0f172a; border: 1px solid var(--border); color: var(--muted); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; }
+  .lang-tab.active { background: var(--accent); color: #000; }
+
+  .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #1e293b; }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-row .lbl { color: var(--muted); font-size: 0.9rem; }
+  .stat-row .val { color: var(--text); font-weight: 700; font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>סייר שקיפות מודעות גוגל &amp; מעבדת אורך חיים למודעות</h1>
+    <p>ניתוח מודעות גוגל של מתחרים לפי דומיין — מגובה ב־hirepulse/google-ads-transparency-scraper עם דוגמאות אמיתיות מ־FACTS.md</p>
+  </header>
+
+  <div class="grid">
+    <!-- סרגל צד שמאל -->
+    <div class="card">
+      <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path></svg> חיפוש לפי דומיין</h2>
+
+      <div class="control-row">
+        <label>דומיין מפרסם</label>
+        <input type="text" id="domainInput" placeholder="למשל: nike.com">
+      </div>
+      <button class="copy-btn" style="width:100%;margin-top:8px" onclick="loadExample()">טען דוגמה אמיתית (Nike / adidas)</button>
+
+      <h3 style="margin-top:24px; font-size:0.95rem; color:var(--accent-2)">מצבי עלות</h3>
+      <div class="control-row">
+        <label>מצב חישוב</label>
+        <select id="modeSelect">
+          <option value="summary">סיכום לדומיין ($0.005 לדומיין בלבד)</option>
+          <option value="ads">מודעות ($0.005 לדומיין + $0.0015 למודעה)</option>
+        </select>
+      </div>
+      <div class="control-row">
+        <label>מספר מודעות לסריקה</label>
+        <input type="number" id="adsCount" min="0" max="120" value="40">
+      </div>
+
+      <div class="note">
+        <strong>רק מודעות חדשות:</sup> מצב מעקב "only_new_ads" — סוכן AI יכול לעקוב אחר מודעות חדשות בלבד ולא לעבד מחדש את הקיימות.
+      </div>
+
+      <div class="warning">
+        דומיינים ללא מודעות לא ניגבים ($0). אין להבטיח מסלול חינמי או מודעות חינמיות עבור כלי זה.
+      </div>
+    </div>
+
+    <!-- תוכן ראשי ימין -->
+    <div class="card" style="display:flex;flex-direction:column;">
+      <h2 style="margin-bottom:16px; display:flex;align-items:center;gap:8px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg> דוגמאות נתונים אמיתיות (מ־FACTS.md)</h2>
+
+      <div class="example-card">
+        <h3>
+          Nike, Inc. — מודעת טקסט
+          <span class="badge">1,062 ימים באוויר</span>
+        </h3>
+        <div class="row"><span class="lbl">מפרסם</span><span class="val">Nike, Inc.</span></div>
+        <div class="row"><span class="lbl">פורמט</span><span class="val">טקסט</span></div>
+        <div class="row"><span class="lbl">הופעה ראשונה</span><span class="val">2023-11-16</span></div>
+        <div class="row"><span class="lbl">הופעה אחרונה</span><span class="val">2026-10-14</span></div>
+        <div class="row"><span class="lbl">משך ריצה</span><span class="val">1,062 ימים</span></div>
+      </div>
+
+      <div class="example-card">
+        <h3>
+          adidas.com — סיכום דומיין
+          <span class="badge">6,000 מודעות בסה"כ</span>
+        </h3>
+        <div class="row"><span class="lbl">סה"כ מודעות</span><span class="val">6,000</span></div>
+        <div class="row"><span class="lbl">גודל מדגם</span><span class="val">40 מודעות</span></div>
+        <div class="row"><span class="lbl">טקסט</span><span class="val">33 מודעות</span></div>
+        <div class="row"><span class="lbl">תמונה</span><span class="val">3 מודעות</span></div>
+        <div class="row"><span class="lbl">וידאו</span><span class="val">4 מודעות</span></div>
+      </div>
+
+      <div class="calc-card">
+        <span class="tag">מחשבון עלות שקוף (מ־FACTS.md)</span>
+        <span class="amount" id="costAmount">$0.00</span>
+        <span class="sub" id="costSub">בחר דומיין ומספר מודעות כדי לחשב עלות</span>
+      </div>
+
+      <div style="margin-top:16px;">
+        <h3 style="margin-bottom:10px; color:var(--accent-2)">שדות פלט של הכלי</h3>
+        <div class="stat-row"><span class="lbl">advertiser_name</span><span class="val">שם המפרסם</span></div>
+        <div class="stat-row"><span class="lbl">advertiser_id</span><span class="val">מזהה מפרסם</span></div>
+        <div class="stat-row"><span class="lbl">advertiser_verified</span><span class="val">האם מאומת</span></div>
+        <div class="stat-row"><span class="lbl">ad_id</span><span class="val">מזהה מודעה</span></div>
+        <div class="stat-row"><span class="lbl">format</span><span class="val">text / image / video</span></div>
+        <div class="stat-row"><span class="lbl">first_shown / last_shown</span><span class="val">תאריכים ISO 8601</span></div>
+        <div class="stat-row"><span class="lbl">days_running</span><span class="val">ימי ריצה מצטברים</span></div>
+        <div class="stat-row"><span class="lbl">preview_image_url, preview_url, transparency_url</span><span class="val">קישורים לקריאטיב</span></div>
+        <div class="stat-row"><span class="lbl">country, platform</span><span class="val">מדינה ופלטפורמה</span></div>
+        <div class="warning">גוגל אינו מפרסם נתוני חשיפה או הקשה למודעות מסחריות.</div>
+      </div>
+
+      <div class="mcp-section" style="margin-top:24px;">
+        <div class="mcp-card">
+          <h3>WebMCP — רישום כלי מודעות גוגל לסוכני דפדפן</h3>
+          <p class="note" style="margin-bottom:10px">רישום hirepulse/google-ads-transparency-scraper עם Input Schema עבור סוכני Chrome WebMCP.</p>
+          <button class="copy-btn" onclick="copyMcpConfig()">העתק הגדרת MCP עבור סוכני AI</button>
+          <div class="code-block" id="mcpCode">{}</div>
+        </div>
+      </div>
+
+      <div style="margin-top:24px;">
+        <h3 style="margin-bottom:10px; color:var(--accent-2)">מחולל קוד חיבור למעקב אחר מודעות חדשות</h3>
+        <div class="lang-tabs">
+          <div class="lang-tab active" onclick="selectLang(this,'python')">Python</div>
+          <div class="lang-tab" onclick="selectLang(this,'curl')">cURL</div>
+          <div class="lang-tab" onclick="selectLang(this,'mcp')">MCP (Claude Desktop)</div>
+        </div>
+        <div class="code-block" id="codeOut"># בחר לשונית כדי לראות קוד חיבור</div>
+      </div>
+
+      <div style="margin-top:24px;">
+        <h3 style="margin-bottom:10px; color:var(--accent-2)">דוח חי JSON — דוגמה אמיתית מ־FACTS.md</h3>
+        <div class="json-viewer" id="jsonViewer">טוען…</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const FACTS = {
+  tool: "hirepulse/google-ads-transparency-scraper",
+  pricePerDomain: 0.005,
+  pricePerAd: 0.0015,
+  summaryModeOnlyDomain: true,
+  mcpUrl: "https://mcp.apify.com?tools=hirepulse/google-ads-transparency-scraper",
+  nike: { advertiser: "Nike, Inc.", format: "text", firstShown: "2023-11-16", lastShown: "2026-10-14", daysRunning: 1062 },
+  adidas: { totalAds: 6000, sampleSize: 40, text: 33, image: 3, video: 4 },
+  note: "Domains with no ads for your filters, and failed lookups, are not charged (verified in live Apify pricing, 2026-10-16)."
+};
+
+const elDomain = document.getElementById('domainInput');
+const elMode = document.getElementById('modeSelect');
+const elAdsCount = document.getElementById('adsCount');
+const elCostAmount = document.getElementById('costAmount');
+const elCostSub = document.getElementById('costSub');
+const elJsonViewer = document.getElementById('jsonViewer');
+const elMcpCode = document.getElementById('mcpCode');
+const elCodeOut = document.getElementById('codeOut');
+
+function formatUSD(n){ return new Intl.NumberFormat('en-US', {style:'currency', currency:'USD', minimumFractionDigits:3, maximumFractionDigits:3}).format(n); }
+function formatNum(n){ return new Intl.NumberFormat('he-IL').format(n); }
+
+function calcCost(){
+  const mode = elMode.value;
+  const ads = parseInt(elAdsCount.value) || 0;
+  let cost = 0;
+  let sub = "";
+  if (mode === 'summary') {
+    cost = FACTS.pricePerDomain;
+    sub = "סיכום לדומיין — עלות קבועה $0.005 לדומיין (ללא חיוב פר מודעה).";
+  } else {
+    cost = FACTS.pricePerDomain + ads * FACTS.pricePerAd;
+    sub = `מצב מודעות — $0.005 לדומיין + $0.0015 × ${formatNum(ads)} מודעות = $${cost.toFixed(4)}.`;
+    if (ads === 0) sub = "דומיין ללא מודעות לא ניגב ($0).";
+  }
+  elCostAmount.textContent = formatUSD(cost);
+  elCostSub.textContent = sub;
+}
+
+function renderJson(){
+  const report = {
+    tool: FACTS.tool,
+    examples: {
+      nike: FACTS.nike,
+      adidas: FACTS.adidas
+    },
+    pricing: {
+      price_per_domain_usd: FACTS.pricePerDomain,
+      price_per_ad_usd: FACTS.pricePerAd,
+      summary_mode_charges_domain_only: FACTS.summaryModeOnlyDomain,
+      domains_with_no_ads_cost_zero: true,
+      note: FACTS.note
+    },
+    mcp: FACTS.mcpUrl
+  };
+  const pretty = JSON.stringify(report, null, 2)
+    .replace(/(["'])([a-zA-Z_]+)(["']):/g, '<span class="key">$2</span>: ')
+    .replace(/: ("[^"]*")/g, ': <span class="str">$1</span>')
+    .replace(/: ([0-9.]+)/g, ': <span class="num">$1</span>')
+    .replace(/: (true|false)/g, ': <span class="bool">$1</span>');
+  elJsonViewer.innerHTML = pretty;
+}
+
+function loadExample(){
+  const d = elDomain.value.trim() || 'nike.com';
+  const known = ['nike.com','adidas.com'];
+  let msg = `טוען דוגמה אמיתית עבור ${d}…`;
+  if (!known.includes(d)) {
+    msg = `הדוגמאות האמיתיות במערכת מכילות Nike, Inc. ו-adidas.com. הזן דומיין אחר כדי ליצור קוד חיבור מותאם.`;
+  }
+  elJsonViewer.innerHTML = '<span style="color:var(--muted)">' + msg + '</span>';
+  setTimeout(renderJson, 300);
+  generateCode(d);
+  calcCost();
+}
+
+function generateCode(domain){
+  const python = `import requests, json
+
+url = "https://api.apify.com/v2/acts/hirepulse~google-ads-transparency-scraper/run-sync-get-dataset-items"
+token = "YOUR_APIFY_TOKEN"
+payload = { "domain": "${domain}", "only_new_ads": false }
+
+r = requests.post(url, params={"token": token}, json=payload)
+print(json.dumps(r.json(), indent=2, ensure_ascii=False))
+`;
+  const curl = `curl -X POST "https://api.apify.com/v2/acts/hirepulse~google-ads-transparency-scraper/run-sync-get-dataset-items?token=YOUR_APIFY_TOKEN" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "domain": "${domain}",
+    "only_new_ads": false
+  }'`;
+  const mcp = `{
+  "mcpServers": {
+    "hirepulse_google_ads_transparency": {
+      "command": "npx",
+      "args": ["-y", "@apify/actors-mcp-server", "--tools", "hirepulse/google-ads-transparency-scraper"],
+      "env": { "APIFY_TOKEN": "YOUR_APIFY_TOKEN" }
+    }
+  },
+  "remote_mcp": "https://mcp.apify.com?tools=hirepulse/google-ads-transparency-scraper"
+}`;
+  elCodeOut.textContent = python;
+}
+
+function selectLang(tab, lang){
+  document.querySelectorAll('.lang-tab').forEach(t => t.classList.remove('active'));
+  tab.classList.add('active');
+  const domain = elDomain.value.trim() || 'nike.com';
+  const onlyNew = '"only_new_ads": true';
+  if (lang === 'python'){
+    elCodeOut.textContent = `import requests, json\n\nurl = "https://api.apify.com/v2/acts/hirepulse~google-ads-transparency-scraper/run-sync-get-dataset-items"\ntoken = "YOUR_APIFY_TOKEN"\npayload = { "domain": "${domain}", "only_new_ads": false }\n\nr = requests.post(url, params={"token": token}, json=payload)\nprint(json.dumps(r.json(), indent=2, ensure_ascii=False))`;
+  } else if (lang === 'curl'){
+    elCodeOut.textContent = `curl -X POST "https://api.apify.com/v2/acts/hirepulse~google-ads-transparency-scraper/run-sync-get-dataset-items?token=YOUR_APIFY_TOKEN" \\\n  -H "Content-Type: application/json" \\\n  -d '{\n    "domain": "${domain}",\n    "only_new_ads": false\n  }'`;
+  } else {
+    elCodeOut.textContent = `{\n  "mcpServers": {\n    "hirepulse_google_ads_transparency": {\n      "command": "npx",\n      "args": ["-y", "@apify/actors-mcp-server", "--tools", "hirepulse/google-ads-transparency-scraper"],\n      "env": { "APIFY_TOKEN": "YOUR_APIFY_TOKEN" }\n    }\n  },\n  "remote_mcp": "https://mcp.apify.com?tools=hirepulse/google-ads-transparency-scraper"\n}`;
+  }
+}
+
+function copyMcpConfig(){
+  const text = elMcpCode.textContent || elCodeOut.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    const old = btn.textContent;
+    btn.textContent = 'הועתק!';
+    setTimeout(() => btn.textContent = old, 1200);
+  }).catch(() => alert('לא ניתן להעתק אוטומטי — העתק ידנית.'));
+}
+
+// WebMCP registration
+if (typeof document.modelContext !== 'undefined' && document.modelContext?.registerTool) {
+  document.modelContext.registerTool({
+    name: "hirepulse_google_ads_transparency_scraper",
+    description: "Every Google ad a company runs, by domain. Summary mode returns one row per domain. Has an \"only new ads\" monitoring mode.",
+    input_schema: {
+      type: "object",
+      properties: {
+        domain: { type: "string", description: "Advertiser domain, e.g. nike.com" },
+        only_new_ads: { type: "boolean", description: "Monitor only new ads", default: false }
+      },
+      required: ["domain"]
+    }
+  });
+}
+
+elMode.addEventListener('change', calcCost);
+elAdsCount.addEventListener('input', calcCost);
+
+calcCost();
+renderJson();
+loadExample();
+</script>
+</body>
+</html>

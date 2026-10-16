@@ -1,0 +1,45 @@
+# hirepulse — Multi-ATS Job Board Schema Explorer
+
+סייר סכימת לוחות גיוס מרובי-ATS וכלי לבניית שאילתות עבור סוכני גיוס ומפתחים.
+
+## הכלי
+- שם: ATS Job Scraper
+- מזהה כלי ב־Apify: hirepulse/ats-job-pulse
+- לוחות נתמכים: Greenhouse, Lever, Ashby, Workable, Recruitee, SmartRecruiters
+- לוח לא נתמך: Workday (מצוין בשקיפות מלאה)
+- כתובת MCP ישירה: https://mcp.apify.com?tools=hirepulse/ats-job-pulse
+
+## שדות הפלט העיקריים (Schema)
+- record_type: company_summary או job
+- company_domain: דומיין החברה
+- ats_type: סוג לוח הגיוס שזוהה אוטומטית
+- board_slug: מזהה הלוח במערכת ה־ATS
+- job_id, title, department, location, is_remote, posted_date, salary, apply_url
+- detected_technologies: טכנולוגיות שזוהו בכותר ותיאור המשרה
+- status, scraped_at
+- שורות מסכמות: total_active_jobs, remote_jobs, jobs_with_salary, jobs_by_department, top_locations, top_technologies
+- מעקב: new_jobs, closed_jobs, new_job_titles, closed_job_titles (null בביצוע ראשון)
+
+## דוגמת נתונים אמיתית (מתוך FACTS.md, תאריך בדיקה 2026-10-15)
+- ריצה אמיתית על 2 חברות (ramp.com, linear.app): 195 משרות פעילות נמצאו
+- ramp.com: 165 משרות פעילות, 148 מרחוק, ציון שכר פורסם ב-158 משרות
+- linear.app: 30 משרות פעילות, כולן מרחוק
+
+## חיבור לסוכני AI (MCP)
+קונפיגורציה ל־Claude Desktop, Cursor ו־n8n:
+
+```json
+{
+  "mcpServers": {
+    "hirepulse_ats_job_pulse": {
+      "command": "npx",
+      "args": ["-y", "@apify/actors-mcp-server", "--tools", "hirepulse/ats-job-pulse"],
+      "env": { "APIFY_TOKEN": "YOUR_APIFY_TOKEN_HERE" }
+    }
+  },
+  "remote_mcp": "https://mcp.apify.com?tools=hirepulse/ats-job-pulse"
+}
+```
+
+## REST API
+POST https://api.apify.com/v2/acts/hirepulse~ats-job-pulse/run-sync-get-dataset-items?token=<APIFY_TOKEN>

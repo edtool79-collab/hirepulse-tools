@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SEO Keyword & Domain Intent Matrix — Volume, CPC, KD & MCP | hirepulse</title>
+  <meta name="description" content="Interactive SEO matrix and cost calculator for hirepulse/keyword-search-volume ($0.03/lookup + $0.005/keyword) and hirepulse/domain-seo-overview using verified sample records including stripe.com." />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "HirePulse SEO Keyword & Domain Intent Matrix",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "All",
+    "description": "Interactive visualization matrix comparing Search Volume, CPC, Keyword Difficulty, Search Intent, and Trends from hirepulse/keyword-search-volume and hirepulse/domain-seo-overview (stripe.com verified dataset).",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "featureList": [
+      "Interactive Volume vs. CPC vs. Keyword Difficulty scatter matrix",
+      "Verified sample datasets from hirepulse/keyword-search-volume and hirepulse/domain-seo-overview (stripe.com)",
+      "Exact keyword lookup pricing calculator ($0.03 per lookup + $0.005 per keyword result)",
+      "MCP & REST API code generator for AI SEO agents",
+      "WebMCP browser agent tool registration (navigator.modelContext)"
+    ],
+    "provider": {
+      "@type": "Organization",
+      "name": "hirepulse",
+      "url": "https://apify.com/hirepulse"
+    }
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080d14;
+      --panel: #111827;
+      --panel-alt: #1e293b;
+      --border: #263449;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --emerald: #10b981;
+      --cyan: #38bdf8;
+      --violet: #a855f7;
+      --amber: #f59e0b;
+      --rose: #f43f5e;
+      --mono: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: radial-gradient(circle at 20% 0%, #0f292a 0%, var(--bg) 45%);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding-bottom: 4rem;
+    }
+    a { color: var(--cyan); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .container { max-width: 1240px; margin: 0 auto; padding: 0 1.5rem; }
+    header {
+      border-bottom: 1px solid var(--border);
+      background: rgba(8, 13, 20, 0.85);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 0;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+    .brand-badge {
+      background: linear-gradient(135deg, var(--emerald), var(--cyan));
+      color: #080d14;
+      font-weight: 800;
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-family: var(--mono);
+    }
+    .webmcp-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-family: var(--mono);
+    }
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--emerald);
+      box-shadow: 0 0 8px var(--emerald);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .hero {
+      padding: 2.75rem 0 1.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero h1 {
+      font-size: clamp(1.85rem, 3.2vw, 2.65rem);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.75rem;
+    }
+    .hero p {
+      color: var(--muted);
+      max-width: 860px;
+      font-size: 1.02rem;
+    }
+    .meta-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      margin-top: 1.1rem;
+      font-size: 0.8rem;
+    }
+    .meta-tag {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.7rem;
+      border-radius: 6px;
+      font-family: var(--mono);
+      color: var(--muted);
+    }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1rem;
+      margin: 1.75rem 0;
+    }
+    .kpi-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.1rem;
+    }
+    .kpi-label {
+      font-size: 0.76rem;
+      color: var(--muted);
+      font-family: var(--mono);
+      text-transform: uppercase;
+    }
+    .kpi-val {
+      font-size: 1.65rem;
+      font-weight: 800;
+      font-family: var(--mono);
+      margin-top: 0.2rem;
+      color: var(--text);
+    }
+    .kpi-sub {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 1.5rem;
+      margin-bottom: 1.75rem;
+    }
+    @media (max-width: 960px) {
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.35rem;
+      margin-bottom: 1.5rem;
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 0.75rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .card-title { font-weight: 700; font-size: 1.05rem; }
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    select, input[type="number"], input[type="range"] {
+      background: var(--panel-alt);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.45rem 0.65rem;
+      border-radius: 6px;
+      font-family: var(--mono);
+      font-size: 0.82rem;
+    }
+    input[type="range"] { padding: 0; accent-color: var(--emerald); width: 100%; }
+    .intent-pill {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 999px;
+      font-family: var(--mono);
+      font-size: 0.73rem;
+      font-weight: 600;
+    }
+    .intent-commercial {
+      background: rgba(168, 85, 247, 0.16);
+      color: #d8b4fe;
+      border: 1px solid rgba(168, 85, 247, 0.4);
+    }
+    .intent-informational {
+      background: rgba(56, 189, 248, 0.15);
+      color: #7dd3fc;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.7rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    th {
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      background: var(--panel-alt);
+    }
+    code {
+      font-family: var(--mono);
+      background: rgba(255,255,255,0.06);
+      padding: 0.15rem 0.35rem;
+      border-radius: 4px;
+      font-size: 0.82em;
+      color: #6ee7b7;
+    }
+    pre {
+      background: #06090f;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      overflow-x: auto;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      line-height: 1.55;
+      color: #e2e8f0;
+    }
+    .btn {
+      background: var(--panel-alt);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.35rem 0.7rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-family: var(--mono);
+      cursor: pointer;
+    }
+    .btn:hover { border-color: var(--emerald); }
+    .matrix-svg-wrap {
+      background: #060a10;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem;
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav-bar">
+      <div class="brand">
+        <span class="brand-badge">HIREPULSE</span>
+        <span>SEO Keyword &amp; Domain Intent Matrix</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap;">
+        <span class="webmcp-pill" title="Tools registered on navigator.modelContext and document.modelContext">
+          <span class="pulse-dot"></span>
+          <span>WebMCP Ready — Tools Registered in Browser ModelContext</span>
+        </span>
+        <a href="./llms.txt" class="meta-tag">llms.txt</a>
+        <a href="https://apify.com/hirepulse" target="_blank" rel="noopener" class="meta-tag">Apify Store &nearr;</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Keyword Search Volume, CPC, Difficulty &amp; Domain SEO Matrix</h1>
+      <p>
+        Explore verified records from <code>hirepulse/keyword-search-volume</code> (<code>$0.03</code> per lookup + <code>$0.005</code> per keyword result; first 3 keywords of each run free on the free plan, subject to availability) and <code>hirepulse/domain-seo-overview</code> (featuring <code>stripe.com</code>'s live organic traffic and top ranked keywords).
+      </p>
+      <div class="meta-strip">
+        <span class="meta-tag">Actors: <code>hirepulse/keyword-search-volume</code> &amp; <code>hirepulse/domain-seo-overview</code></span>
+        <span class="meta-tag">Verified Test Runs: 2026-10-15 (<code>run_id: g1gwfPeBP9v6eq5R0</code> &amp; <code>jY6YeadLRoRXKKFnE</code>)</span>
+        <span class="meta-tag">Apify Free Plan: $0/mo + $5 credit (<a href="https://apify.com/pricing" target="_blank" rel="noopener">apify.com/pricing</a>)</span>
+      </div>
+    </section>
+
+    <!-- Verified Stripe.com Domain Overview KPIs -->
+    <section>
+      <div style="display:flex; justify-content:space-between; align-items:baseline; margin-top:1.75rem; flex-wrap:wrap; gap:0.5rem;">
+        <h2 style="font-size:1.15rem;">Verified Domain SEO Overview: <code>stripe.com</code> (US, en)</h2>
+        <span style="font-size:0.8rem; color:var(--muted); font-family:var(--mono);">Actor: hirepulse/domain-seo-overview (run_id: jY6YeadLRoRXKKFnE, 2026-10-15)</span>
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">Organic Traffic Estimate</div>
+          <div class="kpi-val" style="color:var(--emerald);">688,494</div>
+          <div class="kpi-sub">Monthly estimated organic visits</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Organic Traffic Value</div>
+          <div class="kpi-val" style="color:var(--cyan);">$8,338,941</div>
+          <div class="kpi-sub"><code>organic_traffic_value_usd</code></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Total Organic Keywords</div>
+          <div class="kpi-val">115,829</div>
+          <div class="kpi-sub">Top 3: <code>19,298</code> &middot; Top 10: <code>50,840</code> &middot; Top 20: <code>78,460</code></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Keyword Velocity &amp; Paid</div>
+          <div class="kpi-val" style="font-size:1.2rem; margin-top:0.45rem;">+59,404 New / +23,927 Up</div>
+          <div class="kpi-sub">Down: <code>22,077</code> &middot; Lost: <code>72,928</code> &middot; Paid KW: <code>14</code> (traffic: <code>128</code>)</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid-2">
+      <!-- Interactive Visual Scatter Matrix -->
+      <div class="card" style="margin-bottom:0;">
+        <div class="card-header">
+          <div>
+            <span class="card-title">Interactive Opportunity Matrix (KD vs. CPC vs. Search Volume)</span>
+            <div style="font-size:0.78rem; color:var(--muted);">X-Axis: Keyword Difficulty (0–100) &middot; Y-Axis: CPC ($ USD) &middot; Bubble Size: Monthly Search Volume</div>
+          </div>
+        </div>
+
+        <div class="filter-bar">
+          <label style="font-size:0.78rem; font-family:var(--mono); color:var(--muted);">
+            Dataset:
+            <select id="filter-source" onchange="renderMatrix()">
+              <option value="all">All Verified Keywords (8)</option>
+              <option value="keyword-volume">keyword-search-volume sample (3)</option>
+              <option value="domain-seo">stripe.com ranked_keyword sample (5)</option>
+            </select>
+          </label>
+          <label style="font-size:0.78rem; font-family:var(--mono); color:var(--muted);">
+            Search Intent:
+            <select id="filter-intent" onchange="renderMatrix()">
+              <option value="all">All Intents</option>
+              <option value="commercial">commercial</option>
+              <option value="informational">informational</option>
+            </select>
+          </label>
+          <label style="font-size:0.78rem; font-family:var(--mono); color:var(--muted);">
+            Max KD: <span id="lbl-max-kd" style="color:var(--emerald);">100</span>
+            <input type="range" id="filter-kd" min="0" max="100" value="100" style="width:110px; vertical-align:middle;" oninput="renderMatrix()" />
+          </label>
+        </div>
+
+        <div class="matrix-svg-wrap">
+          <svg id="matrix-svg" viewBox="0 0 680 320" width="100%" height="320"></svg>
+        </div>
+      </div>
+
+      <!-- Exact Keyword Pricing Calculator -->
+      <div class="card" style="margin-bottom:0;">
+        <div class="card-header">
+          <span class="card-title">Keyword Search Volume Cost Calculator</span>
+          <span class="meta-tag">$0.03/lookup + $0.005/kw</span>
+        </div>
+        <p style="font-size:0.83rem; color:var(--muted); margin-bottom:1rem;">
+          Calculate exact pay-per-use run costs for <code>hirepulse/keyword-search-volume</code> using the verified formula: <code>$0.03 per lookup + $0.005 per keyword result</code>.
+        </p>
+
+        <div style="margin-bottom:1rem;">
+          <div style="display:flex; justify-content:space-between; font-size:0.84rem; margin-bottom:0.3rem;">
+            <span>Number of Keyword Results (N)</span>
+            <span style="font-family:var(--mono); color:var(--emerald); font-weight:700;" id="val-kw-count">100</span>
+          </div>
+          <input type="range" id="slider-kw-count" min="1" max="5000" step="1" value="100" oninput="updateSeoCalc()" />
+        </div>
+
+        <div style="margin-bottom:1rem;">
+          <div style="display:flex; justify-content:space-between; font-size:0.84rem; margin-bottom:0.3rem;">
+            <span>Number of Lookups / Runs (L)</span>
+            <span style="font-family:var(--mono); color:var(--cyan); font-weight:700;" id="val-lookup-count">1</span>
+          </div>
+          <input type="range" id="slider-lookup-count" min="1" max="100" step="1" value="1" oninput="updateSeoCalc()" />
+        </div>
+
+        <div style="background:var(--panel-alt); border:1px solid var(--border); border-radius:10px; padding:1rem; margin-bottom:0.9rem;">
+          <div style="font-size:0.75rem; color:var(--muted); font-family:var(--mono);">EXACT PAY-PER-USE COST</div>
+          <div style="font-size:1.9rem; font-weight:800; font-family:var(--mono); color:var(--emerald);" id="seo-cost-display">$0.53</div>
+          <div style="font-size:0.8rem; color:var(--muted);" id="seo-formula-breakdown">1 lookup &times; $0.03 ($0.03) + 100 keywords &times; $0.005 ($0.50)</div>
+          <div style="font-size:0.78rem; color:#7dd3fc; margin-top:0.45rem;" id="seo-credit-coverage">
+            With Apify's Free plan ($5/mo credit, no credit card), you can run ~943 keywords at this batch size every month for $0.
+          </div>
+        </div>
+
+        <div style="font-size:0.78rem; color:var(--muted); line-height:1.5;">
+          <strong>Free Plan Preview Note:</strong> <code>hirepulse/keyword-search-volume</code> provides real volume, CPC, and difficulty for the <strong>first 3 keywords of each run</strong> on the free plan (the free preview depends on availability and can be paused).<br />
+          <strong>Domain SEO Overview Price:</strong> Pay per result on the Apify Store (see the tool page for current prices).
+        </div>
+      </div>
+    </div>
+
+    <!-- Verified Records Table -->
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <span class="card-title">Verified Sample Records Table</span>
+          <div style="font-size:0.8rem; color:var(--muted);">Real owner test runs from <code>2026-10-15</code> (<code>keyword-volume.json</code> and <code>domain-seo.json</code>)</div>
+        </div>
+        <span class="meta-tag" id="showing-count-badge">Showing 8 of 8 records</span>
+      </div>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Keyword</th>
+              <th>Source Actor</th>
+              <th>Search Volume</th>
+              <th>CPC (USD)</th>
+              <th>KD</th>
+              <th>Intent</th>
+              <th>Competition / Position &amp; Traffic</th>
+              <th>Trends (M / Q / Y) or URL</th>
+            </tr>
+          </thead>
+          <tbody id="kw-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Ready-to-Use Agent MCP Connection Code -->
+    <section class="card">
+      <div class="card-header">
+        <span class="card-title">Connect Both SEO Tools to Your AI Agent (MCP &amp; REST API)</span>
+        <button class="btn" onclick="copyMcpSnippet()" id="btn-copy-mcp">Copy Config</button>
+      </div>
+      <pre id="mcp-code-block">// 1. Remote MCP Server (Both SEO Actors in One Endpoint):
+// https://mcp.apify.com?tools=hirepulse/keyword-search-volume,hirepulse/domain-seo-overview
+// Auth Header: Authorization: Bearer &lt;APIFY_TOKEN&gt; (or OAuth in browser)
+
+// 2. Local stdio Config (Claude Desktop / Cursor / Windsurf):
+{
+  "mcpServers": {
+    "hirepulse-seo-suite": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@apify/actors-mcp-server",
+        "--tools",
+        "hirepulse/keyword-search-volume,hirepulse/domain-seo-overview"
+      ],
+      "env": {
+        "APIFY_TOKEN": "YOUR_APIFY_TOKEN"
+      }
+    }
+  }
+}
+
+// 3. Direct REST API Endpoints:
+// POST https://api.apify.com/v2/acts/hirepulse~keyword-search-volume/run-sync-get-dataset-items?token=&lt;APIFY_TOKEN&gt;
+// Input: { "keywords": ["keyword research tool", "ai agents", "web scraping api"], "country": "US" }
+//
+// POST https://api.apify.com/v2/acts/hirepulse~domain-seo-overview/run-sync-get-dataset-items?token=&lt;APIFY_TOKEN&gt;
+// Input: { "domains": ["stripe.com"], "top_keywords": 5, "competitors": 0 }</pre>
+    </section>
+  </main>
+
+  <script>
+    // 100% Verified records from src/data/samples/keyword-volume.json and domain-seo.json
+    const VERIFIED_RECORDS = [
+      {
+        source_group: 'keyword-volume',
+        actor: 'hirepulse/keyword-search-volume',
+        keyword: 'keyword research tool',
+        search_volume: 4400,
+        cpc_usd: 15.75,
+        competition: 0.29,
+        competition_level: 'LOW',
+        keyword_difficulty: 81,
+        search_intent: 'commercial',
+        low_top_of_page_bid_usd: 3.33,
+        high_top_of_page_bid_usd: 17.11,
+        trend_monthly_pct: -57,
+        trend_quarterly_pct: -47,
+        trend_yearly_pct: -81,
+        country: 'US',
+        data_updated_at: '2026-09-15 12:14:58 +00:00'
+      },
+      {
+        source_group: 'keyword-volume',
+        actor: 'hirepulse/keyword-search-volume',
+        keyword: 'ai agents',
+        search_volume: 49500,
+        cpc_usd: 20.9,
+        competition: 0.46,
+        competition_level: 'MEDIUM',
+        keyword_difficulty: 67,
+        search_intent: 'commercial',
+        low_top_of_page_bid_usd: 6.58,
+        high_top_of_page_bid_usd: 18.6,
+        trend_monthly_pct: 0,
+        trend_quarterly_pct: 0,
+        trend_yearly_pct: 0,
+        country: 'US',
+        data_updated_at: '2026-09-13 22:14:16 +00:00'
+      },
+      {
+        source_group: 'keyword-volume',
+        actor: 'hirepulse/keyword-search-volume',
+        keyword: 'web scraping api',
+        search_volume: 1900,
+        cpc_usd: 13.05,
+        competition: 0.28,
+        competition_level: 'LOW',
+        keyword_difficulty: 59,
+        search_intent: 'informational',
+        low_top_of_page_bid_usd: 4.5,
+        high_top_of_page_bid_usd: 19.2,
+        trend_monthly_pct: -33,
+        trend_quarterly_pct: -33,
+        trend_yearly_pct: -33,
+        country: 'US',
+        data_updated_at: '2026-09-13 01:17:11 +00:00'
+      },
+      {
+        source_group: 'domain-seo',
+        actor: 'hirepulse/domain-seo-overview',
+        domain: 'stripe.com',
+        keyword: 'stripe',
+        position: 1,
+        url: 'https://stripe.com/',
+        search_volume: 823000,
+        cpc_usd: 1.1,
+        keyword_difficulty: 51,
+        search_intent: 'informational',
+        traffic_estimate: 252314
+      },
+      {
+        source_group: 'domain-seo',
+        actor: 'hirepulse/domain-seo-overview',
+        domain: 'stripe.com',
+        keyword: 'p o',
+        position: 16,
+        url: 'https://stripe.com/resources/more/what-is-a-po-number-on-an-invoice',
+        search_volume: 550000,
+        cpc_usd: 9.79,
+        keyword_difficulty: 0,
+        search_intent: 'informational',
+        traffic_estimate: 1
+      },
+      {
+        source_group: 'domain-seo',
+        actor: 'hirepulse/domain-seo-overview',
+        domain: 'stripe.com',
+        keyword: 'po',
+        position: 14,
+        url: 'https://stripe.com/resources/more/what-is-a-po-number-on-an-invoice',
+        search_volume: 550000,
+        cpc_usd: 9.79,
+        keyword_difficulty: 0,
+        search_intent: 'informational',
+        traffic_estimate: 1316
+      },
+      {
+        source_group: 'domain-seo',
+        actor: 'hirepulse/domain-seo-overview',
+        domain: 'stripe.com',
+        keyword: 'receipts',
+        position: 4,
+        url: 'https://stripe.com/resources/more/receipt-template-what-to-include-and-templates-for-different-use-cases',
+        search_volume: 450000,
+        cpc_usd: 7.66,
+        keyword_difficulty: 17,
+        search_intent: 'informational',
+        traffic_estimate: 1110
+      },
+      {
+        source_group: 'domain-seo',
+        actor: 'hirepulse/domain-seo-overview',
+        domain: 'stripe.com',
+        keyword: 'fw 9',
+        position: 15,
+        url: 'https://stripe.com/resources/more/what-is-w-9-form',
+        search_volume: 368000,
+        cpc_usd: 3.79,
+        keyword_difficulty: 22,
+        search_intent: 'informational',
+        traffic_estimate: 0
+      }
+    ];
+
+    const STRIPE_DOMAIN_OVERVIEW = {
+      record_type: 'domain_overview',
+      domain: 'stripe.com',
+      country: 'US',
+      language: 'en',
+      has_data: true,
+      organic_traffic_estimate: 688494,
+      organic_keywords: 115829,
+      organic_traffic_value_usd: 8338941,
+      keywords_top_3: 19298,
+      keywords_top_10: 50840,
+      keywords_top_20: 78460,
+      keywords_new: 59404,
+      keywords_up: 23927,
+      keywords_down: 22077,
+      keywords_lost: 72928,
+      paid_keywords: 14,
+      paid_traffic_estimate: 128
+    };
+
+    function getFilteredRecords() {
+      const src = document.getElementById('filter-source').value;
+      const intent = document.getElementById('filter-intent').value;
+      const maxKd = parseInt(document.getElementById('filter-kd').value, 10);
+      document.getElementById('lbl-max-kd').textContent = String(maxKd);
+
+      return VERIFIED_RECORDS.filter(r => {
+        if (src !== 'all' && r.source_group !== src) return false;
+        if (intent !== 'all' && r.search_intent !== intent) return false;
+        if (r.keyword_difficulty > maxKd) return false;
+        return true;
+      });
+    }
+
+    function renderMatrix() {
+      const list = getFilteredRecords();
+      document.getElementById('showing-count-badge').textContent = `Showing ${list.length} of ${VERIFIED_RECORDS.length} records`;
+
+      // Render SVG Scatter Plot (X: KD 0..100, Y: CPC 0..24)
+      const svg = document.getElementById('matrix-svg');
+      const padL = 55, padR = 35, padT = 25, padB = 40;
+      const w = 680 - padL - padR;
+      const h = 320 - padT - padB;
+
+      let html = '';
+      // Grid lines
+      for (let kd = 0; kd <= 100; kd += 20) {
+        const x = padL + (kd / 100) * w;
+        html += `<line x1="${x}" y1="${padT}" x2="${x}" y2="${padT + h}" stroke="#1e293b" stroke-dasharray="3,3" />`;
+        html += `<text x="${x}" y="${padT + h + 18}" fill="#64748b" font-size="11" font-family="monospace" text-anchor="middle">KD ${kd}</text>`;
+      }
+      for (let cpc = 0; cpc <= 24; cpc += 6) {
+        const y = padT + h - (cpc / 24) * h;
+        html += `<line x1="${padL}" y1="${y}" x2="${padL + w}" y2="${y}" stroke="#1e293b" stroke-dasharray="3,3" />`;
+        html += `<text x="${padL - 8}" y="${y + 4}" fill="#64748b" font-size="11" font-family="monospace" text-anchor="end">$${cpc}</text>`;
+      }
+
+      // Plot points
+      list.forEach((r, idx) => {
+        const x = padL + (r.keyword_difficulty / 100) * w;
+        const y = padT + h - (Math.min(24, r.cpc_usd) / 24) * h;
+        const radius = Math.max(7, Math.min(26, Math.log10(r.search_volume + 10) * 4.2));
+        const color = r.search_intent === 'commercial' ? '#a855f7' : '#38bdf8';
+        const labelOffsetY = (idx % 2 === 0) ? -radius - 5 : radius + 13;
+        html += `
+          <g>
+            <circle cx="${x}" cy="${y}" r="${radius}" fill="${color}" fill-opacity="0.35" stroke="${color}" stroke-width="2">
+              <title>${r.keyword} | Vol: ${r.search_volume.toLocaleString()} | CPC: $${r.cpc_usd} | KD: ${r.keyword_difficulty} | Intent: ${r.search_intent}</title>
+            </circle>
+            <text x="${x}" y="${y + labelOffsetY}" fill="#e2e8f0" font-size="11" font-family="monospace" text-anchor="middle">${r.keyword}</text>
+          </g>
+        `;
+      });
+
+      svg.innerHTML = html;
+
+      // Render Table
+      const tbody = document.getElementById('kw-tbody');
+      tbody.innerHTML = list.map(r => {
+        const intentClass = r.search_intent === 'commercial' ? 'intent-commercial' : 'intent-informational';
+        const isKv = r.source_group === 'keyword-volume';
+        const col7 = isKv
+          ? `Comp: <code>${r.competition}</code> (${r.competition_level})<br/><span style="font-size:0.74rem; color:var(--muted);">Bids: $${r.low_top_of_page_bid_usd}–$${r.high_top_of_page_bid_usd}</span>`
+          : `Pos <strong>#${r.position}</strong> on <code>stripe.com</code><br/><span style="font-size:0.74rem; color:var(--muted);">Est. Traffic: ${r.traffic_estimate.toLocaleString()}</span>`;
+        const col8 = isKv
+          ? `<code>M: ${r.trend_monthly_pct}% | Q: ${r.trend_quarterly_pct}% | Y: ${r.trend_yearly_pct}%</code>`
+          : `<a href="${r.url}" target="_blank" rel="noopener" style="font-size:0.76rem; font-family:var(--mono); word-break:break-all;">${r.url}</a>`;
+        return `
+          <tr>
+            <td><strong>${r.keyword}</strong></td>
+            <td><code>${r.actor}</code></td>
+            <td style="font-family:var(--mono);">${r.search_volume.toLocaleString()}</td>
+            <td style="font-family:var(--mono); color:var(--emerald);">$${r.cpc_usd.toFixed(2)}</td>
+            <td style="font-family:var(--mono);">${r.keyword_difficulty}</td>
+            <td><span class="intent-pill ${intentClass}">${r.search_intent}</span></td>
+            <td>${col7}</td>
+            <td>${col8}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function calculateKeywordVolumeCost(keywordsCount, lookupsCount) {
+      const lookupCost = lookupsCount * 0.03;
+      const kwCost = keywordsCount * 0.005;
+      const totalCost = lookupCost + kwCost;
+      return {
+        lookups: lookupsCount,
+        keywords: keywordsCount,
+        lookup_fee_usd: Number(lookupCost.toFixed(4)),
+        keyword_fee_usd: Number(kwCost.toFixed(4)),
+        total_usd: Number(totalCost.toFixed(4)),
+        formula: `$0.03 * ${lookupsCount} lookup(s) + $0.005 * ${keywordsCount} keyword(s)`
+      };
+    }
+
+    function updateSeoCalc() {
+      const n = parseInt(document.getElementById('slider-kw-count').value, 10);
+      const l = parseInt(document.getElementById('slider-lookup-count').value, 10);
+      document.getElementById('val-kw-count').textContent = n.toLocaleString();
+      document.getElementById('val-lookup-count').textContent = l.toLocaleString();
+
+      const res = calculateKeywordVolumeCost(n, l);
+      document.getElementById('seo-cost-display').textContent = `$${res.total_usd.toFixed(3)}`;
+      document.getElementById('seo-formula-breakdown').textContent =
+        `${l} lookup(s) × $0.03 ($${res.lookup_fee_usd.toFixed(2)}) + ${n.toLocaleString()} keyword(s) × $0.005 ($${res.keyword_fee_usd.toFixed(3)})`;
+      const afterCredit = Math.max(0, res.total_usd - 5);
+      document.getElementById('seo-credit-coverage').textContent =
+        res.total_usd <= 5
+          ? `Covered ($0 out-of-pocket) by the $5/month credit on Apify's Free plan (no credit card required).`
+          : `$${afterCredit.toFixed(2)} after applying the $5/month credit on Apify's Free plan.`;
+    }
+
+    function copyMcpSnippet() {
+      navigator.clipboard.writeText(document.getElementById('mcp-code-block').textContent);
+      const b = document.getElementById('btn-copy-mcp');
+      b.textContent = 'Copied!';
+      setTimeout(() => { b.textContent = 'Copy Config'; }, 1500);
+    }
+
+    // Register WebMCP Tools for Browser AI Agents
+    function registerWebMCP() {
+      const tools = [
+        {
+          name: 'calculate_keyword_search_volume_cost',
+          description: 'Computes exact pay-per-use run cost for hirepulse/keyword-search-volume using the verified formula ($0.03 per lookup + $0.005 per keyword result).',
+          inputSchema: {
+            type: 'object',
+            properties: {
+              keywords_count: { type: 'number', default: 100 },
+              lookups_count: { type: 'number', default: 1 }
+            },
+            required: ['keywords_count']
+          },
+          execute: async (args) => {
+            return calculateKeywordVolumeCost(args.keywords_count || 100, args.lookups_count || 1);
+          }
+        },
+        {
+          name: 'query_verified_seo_samples',
+          description: 'Queries the verified sample records from hirepulse/keyword-search-volume and hirepulse/domain-seo-overview (stripe.com).',
+          inputSchema: {
+            type: 'object',
+            properties: {
+              intent: { type: 'string', enum: ['all', 'commercial', 'informational'], default: 'all' },
+              max_keyword_difficulty: { type: 'number', default: 100 }
+            }
+          },
+          execute: async (args) => {
+            const intent = args.intent || 'all';
+            const maxKd = args.max_keyword_difficulty ?? 100;
+            return {
+              mcp_url: 'https://mcp.apify.com?tools=hirepulse/keyword-search-volume,hirepulse/domain-seo-overview',
+              stripe_domain_overview: STRIPE_DOMAIN_OVERVIEW,
+              matching_keywords: VERIFIED_RECORDS.filter(r =>
+                (intent === 'all' || r.search_intent === intent) && r.keyword_difficulty <= maxKd
+              )
+            };
+          }
+        }
+      ];
+
+      try {
+        for (const tool of tools) {
+          if (typeof navigator !== 'undefined' && navigator.modelContext?.registerTool) {
+            navigator.modelContext.registerTool(tool);
+          }
+          if (typeof document !== 'undefined' && document.modelContext?.registerTool) {
+            document.modelContext.registerTool(tool);
+          }
+        }
+        window.__WEBMCP_TOOLS__ = tools;
+      } catch (err) {
+        console.warn('WebMCP registration note:', err);
+      }
+    }
+
+    renderMatrix();
+    updateSeoCalc();
+    registerWebMCP();
+  </script>
+</body>
+</html>

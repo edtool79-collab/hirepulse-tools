@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SerpApi to MCP & Pay-Per-Use Migrator — Google Jobs & Ads Transparency | hirepulse</title>
+  <meta name="description" content="Interactive code converter, schema mapper, and transparent cost calculator for migrating from SerpApi (google_jobs & google_ads_transparency_center) to hirepulse Apify Actors and MCP." />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "SerpApi to HirePulse MCP Migrator & Cost Calculator",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "All",
+    "description": "Interactive migration utility and transparent pricing calculator comparing SerpApi (google_jobs and google_ads_transparency_center) with hirepulse pay-per-use Apify Actors and Model Context Protocol (MCP) endpoints.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "featureList": [
+      "SerpApi to MCP / Python / Node.js / cURL live code transpiler",
+      "Verified 1:1 field mapping for Google Jobs and Google Ads Transparency Center",
+      "Fair, transparent monthly cost calculator with pagination & empty-result adjustments",
+      "WebMCP browser agent tool registration (navigator.modelContext)"
+    ],
+    "provider": {
+      "@type": "Organization",
+      "name": "hirepulse",
+      "url": "https://apify.com/hirepulse"
+    }
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #0b0f17;
+      --panel: #111827;
+      --panel-alt: #1a2333;
+      --border: #26334d;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-2: #818cf8;
+      --emerald: #10b981;
+      --amber: #f59e0b;
+      --rose: #f43f5e;
+      --mono: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: radial-gradient(circle at 15% 0%, #172554 0%, var(--bg) 45%);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding-bottom: 4rem;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .container { max-width: 1220px; margin: 0 auto; padding: 0 1.5rem; }
+    header {
+      border-bottom: 1px solid var(--border);
+      background: rgba(11, 15, 23, 0.85);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 0;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+    }
+    .brand-badge {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #0b0f17;
+      font-weight: 800;
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-family: var(--mono);
+    }
+    .webmcp-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-family: var(--mono);
+    }
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--emerald);
+      box-shadow: 0 0 8px var(--emerald);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .hero {
+      padding: 3rem 0 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero h1 {
+      font-size: clamp(1.85rem, 3.4vw, 2.75rem);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.85rem;
+    }
+    .hero p {
+      color: var(--muted);
+      max-width: 820px;
+      font-size: 1.05rem;
+    }
+    .meta-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1.25rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    .meta-tag {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.7rem;
+      border-radius: 6px;
+      font-family: var(--mono);
+    }
+    .engine-switcher {
+      display: flex;
+      gap: 0.75rem;
+      margin: 2rem 0 1.5rem;
+      flex-wrap: wrap;
+    }
+    .engine-btn {
+      flex: 1;
+      min-width: 260px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 1rem 1.25rem;
+      border-radius: 10px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.18s ease;
+    }
+    .engine-btn:hover { border-color: var(--accent); }
+    .engine-btn.active {
+      background: rgba(56, 189, 248, 0.1);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent);
+    }
+    .engine-btn .title {
+      font-weight: 700;
+      font-size: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.25rem;
+    }
+    .engine-btn .sub {
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-family: var(--mono);
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+    @media (max-width: 960px) {
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.85rem;
+      margin-bottom: 0.85rem;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-family: var(--mono);
+    }
+    input[type="text"], input[type="number"], select {
+      background: var(--panel-alt);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.55rem 0.75rem;
+      border-radius: 6px;
+      font-family: var(--mono);
+      font-size: 0.88rem;
+    }
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+    .tabs {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      background: var(--panel-alt);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 0.35rem 0.7rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-family: var(--mono);
+      cursor: pointer;
+    }
+    .tab-btn.active {
+      background: var(--accent);
+      color: #0b0f17;
+      border-color: var(--accent);
+      font-weight: 700;
+    }
+    pre {
+      background: #070a10;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      overflow-x: auto;
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      line-height: 1.55;
+      color: #e2e8f0;
+      position: relative;
+    }
+    .copy-btn {
+      background: var(--panel-alt);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.3rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-family: var(--mono);
+      cursor: pointer;
+    }
+    .copy-btn:hover { border-color: var(--accent); }
+    .calc-box {
+      background: linear-gradient(180deg, var(--panel) 0%, #0f172a 100%);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .slider-group {
+      margin-bottom: 1.15rem;
+    }
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      margin-bottom: 0.35rem;
+    }
+    .slider-val {
+      font-family: var(--mono);
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .price-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .price-card {
+      background: var(--panel-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.15rem;
+    }
+    .price-card.highlight {
+      border-color: var(--emerald);
+      background: rgba(16, 185, 129, 0.07);
+    }
+    .price-big {
+      font-size: 1.85rem;
+      font-weight: 800;
+      font-family: var(--mono);
+      margin: 0.35rem 0;
+    }
+    .honest-verdict {
+      margin-top: 1.25rem;
+      padding: 1rem 1.2rem;
+      border-radius: 8px;
+      border-left: 4px solid var(--accent);
+      background: rgba(56, 189, 248, 0.08);
+      font-size: 0.92rem;
+    }
+    .honest-verdict.serp-wins {
+      border-left-color: var(--amber);
+      background: rgba(245, 158, 11, 0.09);
+    }
+    .honest-verdict.hp-wins {
+      border-left-color: var(--emerald);
+      background: rgba(16, 185, 129, 0.09);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.86rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.75rem 0.85rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    th {
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      background: var(--panel-alt);
+    }
+    code {
+      font-family: var(--mono);
+      background: rgba(255,255,255,0.06);
+      padding: 0.15rem 0.35rem;
+      border-radius: 4px;
+      font-size: 0.82em;
+      color: #7dd3fc;
+    }
+    .footer-note {
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.82rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav-bar">
+      <div class="brand">
+        <span class="brand-badge">HIREPULSE</span>
+        <span>SerpApi &rarr; MCP &amp; Pay-Per-Use Migrator</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:0.85rem; flex-wrap:wrap;">
+        <span class="webmcp-pill" id="webmcp-status" title="Tools registered on navigator.modelContext and document.modelContext">
+          <span class="pulse-dot"></span>
+          <span id="webmcp-text">WebMCP Ready — Tools Registered in Browser ModelContext</span>
+        </span>
+        <a href="./llms.txt" class="meta-tag">llms.txt</a>
+        <a href="https://apify.com/hirepulse" target="_blank" rel="noopener" class="meta-tag">Apify Store &nearr;</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Migrate from SerpApi to Direct MCP &amp; Pay-Per-Use JSON</h1>
+      <p>
+        Convert <code>engine=google_jobs</code> and <code>engine=google_ads_transparency_center</code> calls into native Model Context Protocol (MCP) tools, Python, Node.js, or cURL. Compare exact field schemas and calculate when SerpApi's Free/Starter plan is cheaper vs. when <strong>hirepulse</strong> pay-per-use saves subscription costs.
+      </p>
+      <div class="meta-strip">
+        <span class="meta-tag">Competitor Pricing Verified: 2026-10-16 (<a href="https://serpapi.com/pricing" target="_blank" rel="noopener">serpapi.com/pricing</a>)</span>
+        <span class="meta-tag">Apify Free Plan: $0/mo + $5 monthly credit, no credit card (<a href="https://apify.com/pricing" target="_blank" rel="noopener">apify.com/pricing</a>)</span>
+        <span class="meta-tag">MCP Endpoint: <code>https://mcp.apify.com</code></span>
+      </div>
+    </section>
+
+    <!-- Engine Switcher -->
+    <div class="engine-switcher" role="tablist">
+      <button class="engine-btn active" id="btn-engine-jobs" onclick="selectEngine('jobs')">
+        <div class="title">
+          <span>1. Google Jobs API Migration</span>
+          <code>engine=google_jobs</code>
+        </div>
+        <div class="sub">SerpApi (10 results/page, next_page_token) &rarr; hirepulse/google-jobs-scraper (up to 200 jobs/search)</div>
+      </button>
+      <button class="engine-btn" id="btn-engine-ads" onclick="selectEngine('ads')">
+        <div class="title">
+          <span>2. Google Ads Transparency Migration</span>
+          <code>engine=google_ads_transparency_center</code>
+        </div>
+        <div class="sub">SerpApi (advertiser_id/text, 40/page) &rarr; hirepulse/google-ads-transparency-scraper (domain input, $0 if no ads)</div>
+      </button>
+    </div>
+
+    <!-- Interactive Code Converter -->
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Step 1: Your Current SerpApi Parameters</span>
+          <span style="font-size:0.78rem; color:var(--muted); font-family:var(--mono);" id="serp-doc-link">
+            Ref: <a href="https://serpapi.com/google-jobs-api" target="_blank" rel="noopener">serpapi.com/google-jobs-api</a> (2026-10-16)
+          </span>
+        </div>
+
+        <!-- Jobs Form -->
+        <div id="form-jobs">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="jobs-q">q (Search Query)</label>
+              <input type="text" id="jobs-q" value="data engineer" oninput="updateCode()" />
+            </div>
+            <div class="form-group">
+              <label for="jobs-gl">gl (Country Code, 90+ countries)</label>
+              <input type="text" id="jobs-gl" value="US" oninput="updateCode()" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="jobs-location">location ("City,Region")</label>
+              <input type="text" id="jobs-location" value="Austin,Texas" oninput="updateCode()" />
+            </div>
+            <div class="form-group">
+              <label for="jobs-max">Target Jobs per Query (1–200, default 50)</label>
+              <input type="number" id="jobs-max" value="50" min="1" max="200" oninput="updateCode()" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="jobs-radius">lrad / radius_km (1–300 km)</label>
+              <input type="number" id="jobs-radius" value="50" min="1" max="300" oninput="updateCode()" />
+            </div>
+            <div class="form-group">
+              <label>Pagination Note</label>
+              <div style="font-size:0.8rem; color:var(--muted); padding-top:0.35rem;">
+                SerpApi returns up to 10 jobs/page via <code>next_page_token</code>. HirePulse fetches up to 200 jobs in 1 search charge (<code>$0.005</code> + <code>$0.001</code>/job).
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ads Form -->
+        <div id="form-ads" style="display:none;">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="ads-domain">text / domain (No advertiser_id needed)</label>
+              <input type="text" id="ads-domain" value="nike.com" oninput="updateCode()" />
+            </div>
+            <div class="form-group">
+              <label for="ads-country">region / country</label>
+              <input type="text" id="ads-country" value="US" oninput="updateCode()" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="ads-max">max_ads_per_domain (up to 120 most recent)</label>
+              <input type="number" id="ads-max" value="40" min="1" max="120" oninput="updateCode()" />
+            </div>
+            <div class="form-group">
+              <label for="ads-mode">mode ("ads" or "summary")</label>
+              <select id="ads-mode" onchange="updateCode()">
+                <option value="ads">ads ($0.005/domain + $0.0015/ad)</option>
+                <option value="summary">summary ($0.005/domain only, 1 row/domain)</option>
+              </select>
+            </div>
+          </div>
+          <div style="font-size:0.8rem; color:var(--muted); margin-top:0.25rem;">
+            Real verified sample (2026-10-16): <code>nike.com</code> &rarr; <code>Nike, Inc.</code> (verified), text ad first shown <code>2023-11-16</code>, last shown <code>2026-10-14</code> (<code>1,062</code> days running). <code>adidas.com</code> summary: <code>6,000</code> ads total (sample of 40 = 33 text, 3 image, 4 video).
+          </div>
+        </div>
+
+        <div style="margin-top:1rem;">
+          <label style="display:block; margin-bottom:0.4rem;">Legacy SerpApi Request (Before)</label>
+          <pre id="serp-code-preview"></pre>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Step 2: Equivalent HirePulse Code (After)</span>
+          <div class="tabs">
+            <button class="tab-btn active" onclick="setLang('mcp', this)">MCP Config</button>
+            <button class="tab-btn" onclick="setLang('python', this)">Python</button>
+            <button class="tab-btn" onclick="setLang('node', this)">Node.js</button>
+            <button class="tab-btn" onclick="setLang('curl', this)">cURL</button>
+          </div>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+          <span style="font-size:0.8rem; color:var(--muted); font-family:var(--mono);" id="actor-slug-label">Actor: hirepulse/google-jobs-scraper</span>
+          <button class="copy-btn" onclick="copyConvertedCode()" id="copy-code-btn">Copy Code</button>
+        </div>
+        <pre id="hp-code-preview" style="min-height:290px;"></pre>
+      </div>
+    </div>
+
+    <!-- Transparent Cost & Savings Calculator -->
+    <section class="calc-box">
+      <div class="card-header">
+        <div>
+          <h2 class="card-title" style="font-size:1.25rem;">Step 3: Fair &amp; Transparent Monthly Cost Calculator</h2>
+          <p style="font-size:0.84rem; color:var(--muted);">
+            Compares verified SerpApi tiers (checked 2026-10-16 at <a href="https://serpapi.com/pricing" target="_blank" rel="noopener">serpapi.com/pricing</a>) against HirePulse pay-per-use pricing on the Apify Store (<a href="https://apify.com/pricing" target="_blank" rel="noopener">apify.com/pricing</a>).
+          </p>
+        </div>
+        <span class="meta-tag" id="calc-mode-badge">Mode: Google Jobs</span>
+      </div>
+
+      <div class="grid-2" style="margin-bottom:0;">
+        <div>
+          <div class="slider-group">
+            <div class="slider-header">
+              <span id="lbl-slider-1">Monthly Queries / Domain Lookups</span>
+              <span class="slider-val" id="val-slider-1">300</span>
+            </div>
+            <input type="range" id="slider-1" min="50" max="10000" step="50" value="300" oninput="updateCalculator()" />
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-header">
+              <span id="lbl-slider-2">Average Jobs Fetched per Query (up to 200)</span>
+              <span class="slider-val" id="val-slider-2">30</span>
+            </div>
+            <input type="range" id="slider-2" min="0" max="200" step="5" value="30" oninput="updateCalculator()" />
+            <div style="font-size:0.76rem; color:var(--muted); margin-top:0.25rem;" id="hint-slider-2">
+              In SerpApi Google Jobs, 1 page = up to 10 results (so 30 jobs = 3 paginated SerpApi searches per query).
+            </div>
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-header">
+              <span id="lbl-slider-3">Queries / Domains Returning 0 Results (%)</span>
+              <span class="slider-val" id="val-slider-3">20%</span>
+            </div>
+            <input type="range" id="slider-3" min="0" max="90" step="5" value="20" oninput="updateCalculator()" />
+            <div style="font-size:0.76rem; color:var(--muted); margin-top:0.25rem;" id="hint-slider-3">
+              HirePulse charges <strong>$0</strong> when a Google Jobs search finds nothing, or when a domain has no Google Ads for your filters.
+            </div>
+          </div>
+
+          <div id="ads-summary-toggle-wrap" style="display:none; margin-top:0.75rem;">
+            <label style="display:inline-flex; align-items:center; gap:0.5rem; cursor:pointer; color:var(--text);">
+              <input type="checkbox" id="calc-ads-summary" onchange="updateCalculator()" />
+              <span>Use HirePulse <strong>Summary Mode</strong> ($0.005 per domain with ads, $0 per-ad charge)</span>
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <div class="price-cards">
+            <div class="price-card" id="card-serp">
+              <div style="font-size:0.78rem; color:var(--muted); font-family:var(--mono);">SERPAPI MONTHLY PLAN</div>
+              <div class="price-big" id="serp-price-display">$25.00<span style="font-size:0.85rem; font-weight:400; color:var(--muted);">/mo</span></div>
+              <div style="font-size:0.82rem; color:var(--text); font-weight:600;" id="serp-tier-name">Starter Plan (1,000 searches/mo)</div>
+              <div style="font-size:0.78rem; color:var(--muted); margin-top:0.4rem;" id="serp-searches-breakdown">
+                Requires 900 SerpApi page searches/mo.
+              </div>
+            </div>
+
+            <div class="price-card highlight" id="card-hp">
+              <div style="font-size:0.78rem; color:var(--muted); font-family:var(--mono);">HIREPULSE PAY-PER-USE</div>
+              <div class="price-big" id="hp-price-display">$8.40<span style="font-size:0.85rem; font-weight:400; color:var(--muted);">/mo</span></div>
+              <div style="font-size:0.82rem; color:var(--emerald); font-weight:600;" id="hp-credit-note">$3.40/mo after $5 Free Apify credit*</div>
+              <div style="font-size:0.78rem; color:var(--muted); margin-top:0.4rem;" id="hp-cost-breakdown">
+                240 non-empty searches ($1.20) + 7,200 jobs ($7.20).
+              </div>
+            </div>
+          </div>
+
+          <div class="honest-verdict" id="honest-verdict-box"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Verified Schema Mapping Table -->
+    <section class="card">
+      <div class="card-header">
+        <div>
+          <h2 class="card-title" id="table-title">Step 4: Verified 1:1 Field Mapping — Google Jobs</h2>
+          <p style="font-size:0.82rem; color:var(--muted);" id="table-subtitle">
+            Based on SerpApi documentation (checked 2026-10-16) and live <code>hirepulse/google-jobs-scraper</code> output records.
+          </p>
+        </div>
+      </div>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>SerpApi Field (Checked 2026-10-16)</th>
+              <th>HirePulse Field</th>
+              <th>Migration Notes &amp; Verified Behavior</th>
+            </tr>
+          </thead>
+          <tbody id="mapping-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer class="footer-note">
+      <div>
+        All competitor facts verified on <strong>2026-10-16</strong>:
+        <a href="https://serpapi.com/pricing" target="_blank" rel="noopener">SerpApi Pricing</a> &middot;
+        <a href="https://serpapi.com/google-jobs-api" target="_blank" rel="noopener">SerpApi Google Jobs API</a> &middot;
+        <a href="https://serpapi.com/google-ads-transparency-center-api" target="_blank" rel="noopener">SerpApi Ads Transparency API</a> &middot;
+        <a href="https://apify.com/pricing" target="_blank" rel="noopener">Apify Pricing</a>
+      </div>
+      <div>
+        <a href="./llms.txt">Read llms.txt for AI Agents</a>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    let currentEngine = 'jobs';
+    let currentLang = 'mcp';
+
+    const MAPPINGS = {
+      jobs: [
+        ['Input', 'engine="google_jobs"', 'hirepulse/google-jobs-scraper', 'Run via Apify Store REST API or MCP (https://mcp.apify.com?tools=hirepulse/google-jobs-scraper).'],
+        ['Input', 'q (single string)', 'queries (array of strings)', 'Pass one or multiple search queries in a single run, e.g. ["data engineer"].'],
+        ['Input', 'gl (country)', 'country', 'Works in 90+ countries (e.g. "US").'],
+        ['Input', 'location', 'location', 'Written as "City,Region" (e.g. "Austin,Texas"). Can search a whole country or one city with a radius.'],
+        ['Input', 'lrad', 'radius_km', 'Radius in kilometers from 1 to 300.'],
+        ['Pagination', 'next_page_token (up to 10 results/page)', 'max_jobs_per_query (default 50, up to 200)', 'One search charge ($0.005) per search that returns jobs, up to 200 jobs per search (+$0.001/job). Searches returning 0 jobs cost $0.'],
+        ['Output', 'title', 'title', 'Job title (e.g. "Junior Data Engineer").'],
+        ['Output', 'company_name', 'company', 'Employer name (e.g. "Tech Consulting", "IBM", "EY").'],
+        ['Output', 'location', 'location', 'Job location string (e.g. "Dallas, TX", "Austin, TX").'],
+        ['Output', 'detected_extensions.salary', 'salary, salary_min, salary_max, salary_currency, salary_period', 'Parsed to min/max when shown. In our test run of 30 US jobs, 5 showed a salary. Note: salary_currency is not always detected (can be null even when min/max are parsed).'],
+        ['Output', 'detected_extensions.schedule_type', 'contract_type', 'Contract type (e.g. "Full-time").'],
+        ['Output', 'detected_extensions.posted_at', 'posted_at, posted_ago', 'Includes both timestamp ("2026-10-13 16:34:24 +00:00") and relative string (e.g. "2 days ago").'],
+        ['Output', 'via', 'source', 'Source job board name (e.g. "LinkedIn", "BeBee").'],
+        ['Output', 'apply_options[0].link / share_link', 'apply_url', 'Direct application link.'],
+        ['Output', 'job_id', 'google_job_id', 'Google job identifier.'],
+        ['Output', 'thumbnail', 'company_logo_url', 'Logo URL when present.'],
+        ['Output', 'description / job_highlights', 'description, description_source', 'Optional full job descriptions when the apply link points to a public ATS (Workday, Greenhouse, Lever, Ashby).']
+      ],
+      ads: [
+        ['Input', 'engine="google_ads_transparency_center"', 'hirepulse/google-ads-transparency-scraper', 'Run via Apify Store or MCP (https://mcp.apify.com?tools=hirepulse/google-ads-transparency-scraper).'],
+        ['Input', 'advertiser_id or text', 'domains (array of domains)', 'Domains in, ads out (e.g. ["nike.com", "adidas.com"]). No advertiser IDs or Google URLs needed.'],
+        ['Input', 'region', 'country', 'Target country code (e.g. "US").'],
+        ['Pagination', 'num (default 40) + next_page_token', 'max_ads_per_domain (up to 120) & mode ("ads" | "summary")', 'Ads mode returns up to 120 most recent ads per domain ($0.005/domain + $0.0015/ad). Summary mode returns 1 row per domain ($0.005/domain only). Also supports "only new ads" monitoring mode. Domains with no ads cost $0.'],
+        ['Output', 'advertiser', 'advertiser_name', 'Verified example: "Nike, Inc." for domain nike.com.'],
+        ['Output', 'advertiser_id', 'advertiser_id, advertiser_verified', 'Includes boolean advertiser_verified flag.'],
+        ['Output', 'ad_creative_id', 'ad_id', 'Unique Google ad identifier.'],
+        ['Output', 'format', 'format', 'Ad format: "text", "image", or "video" (e.g. adidas.com sample of 40 = 33 text, 3 image, 4 video).'],
+        ['Output', 'first_shown, last_shown (Unix timestamps)', 'first_shown, last_shown (ISO 8601), last_shown_days_ago', 'Dates are ISO 8601 (e.g. first_shown "2023-11-16T21:51:37Z", last_shown "2026-10-14T15:10:53Z").'],
+        ['Output', 'total_days_shown', 'days_running', 'Total days shown (e.g. 1062 days running for Nike, Inc. text ad).'],
+        ['Output', 'image', 'preview_image_url, preview_url', 'Preview links for the creative.'],
+        ['Output', 'details_link', 'transparency_url', 'Direct link to Google Ads Transparency Center.'],
+        ['Output', 'width, height', 'Not returned', 'HirePulse does not return width/height of the creative. Note: Google does not publish spend or impression numbers for commercial ads.']
+      ]
+    };
+
+    function selectEngine(engine) {
+      currentEngine = engine;
+      document.getElementById('btn-engine-jobs').classList.toggle('active', engine === 'jobs');
+      document.getElementById('btn-engine-ads').classList.toggle('active', engine === 'ads');
+      document.getElementById('form-jobs').style.display = engine === 'jobs' ? 'block' : 'none';
+      document.getElementById('form-ads').style.display = engine === 'ads' ? 'block' : 'none';
+      document.getElementById('ads-summary-toggle-wrap').style.display = engine === 'ads' ? 'block' : 'none';
+
+      const docLink = document.getElementById('serp-doc-link');
+      if (engine === 'jobs') {
+        docLink.innerHTML = 'Ref: <a href="https://serpapi.com/google-jobs-api" target="_blank" rel="noopener">serpapi.com/google-jobs-api</a> (2026-10-16)';
+        document.getElementById('actor-slug-label').textContent = 'Actor: hirepulse/google-jobs-scraper';
+        document.getElementById('calc-mode-badge').textContent = 'Mode: Google Jobs';
+        document.getElementById('lbl-slider-1').textContent = 'Monthly Job Search Queries';
+        document.getElementById('lbl-slider-2').textContent = 'Average Jobs Fetched per Query (up to 200)';
+        document.getElementById('slider-2').max = '200';
+        document.getElementById('slider-2').value = '30';
+        document.getElementById('hint-slider-2').innerHTML = 'In SerpApi Google Jobs, 1 page = up to 10 results (<code>next_page_token</code>). HirePulse fetches up to 200 jobs in 1 search.';
+        document.getElementById('lbl-slider-3').textContent = 'Queries Returning 0 Jobs (%)';
+        document.getElementById('table-title').textContent = 'Step 4: Verified 1:1 Field Mapping — Google Jobs';
+        document.getElementById('table-subtitle').innerHTML = 'Based on <a href="https://serpapi.com/google-jobs-api" target="_blank" rel="noopener">SerpApi Google Jobs API</a> (checked 2026-10-16) and live <code>hirepulse/google-jobs-scraper</code> output.';
+      } else {
+        docLink.innerHTML = 'Ref: <a href="https://serpapi.com/google-ads-transparency-center-api" target="_blank" rel="noopener">serpapi.com/google-ads-transparency-center-api</a> (2026-10-16)';
+        document.getElementById('actor-slug-label').textContent = 'Actor: hirepulse/google-ads-transparency-scraper';
+        document.getElementById('calc-mode-badge').textContent = 'Mode: Google Ads Transparency';
+        document.getElementById('lbl-slider-1').textContent = 'Monthly Domains Checked';
+        document.getElementById('lbl-slider-2').textContent = 'Average Ads Returned per Active Domain (up to 120)';
+        document.getElementById('slider-2').max = '120';
+        document.getElementById('slider-2').value = '40';
+        document.getElementById('hint-slider-2').innerHTML = 'In SerpApi Ads Transparency, default <code>num=40</code> per page (<code>next_page_token</code>). HirePulse returns up to 120 most recent ads/domain.';
+        document.getElementById('lbl-slider-3').textContent = 'Domains with No Ads (%)';
+        document.getElementById('table-title').textContent = 'Step 4: Verified 1:1 Field Mapping — Google Ads Transparency';
+        document.getElementById('table-subtitle').innerHTML = 'Based on <a href="https://serpapi.com/google-ads-transparency-center-api" target="_blank" rel="noopener">SerpApi Google Ads Transparency API</a> (checked 2026-10-16) and live <code>hirepulse/google-ads-transparency-scraper</code> output.';
+      }
+
+      renderTable();
+      updateCode();
+      updateCalculator();
+    }
+
+    function setLang(lang, btn) {
+      currentLang = lang;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      updateCode();
+    }
+
+    function getPayload() {
+      if (currentEngine === 'jobs') {
+        const q = document.getElementById('jobs-q').value || 'data engineer';
+        const country = document.getElementById('jobs-gl').value || 'US';
+        const location = document.getElementById('jobs-location').value || 'Austin,Texas';
+        const maxJobs = Math.min(200, Math.max(1, parseInt(document.getElementById('jobs-max').value || '50', 10)));
+        const radius = Math.min(300, Math.max(1, parseInt(document.getElementById('jobs-radius').value || '50', 10)));
+        return {
+          actor: 'google-jobs-scraper',
+          serpUrl: `GET https://serpapi.com/search.json?engine=google_jobs&q=${encodeURIComponent(q)}&gl=${encodeURIComponent(country.toLowerCase())}&location=${encodeURIComponent(location)}&lrad=${radius}&api_key=YOUR_SERPAPI_KEY\n# Note: Returns max 10 jobs/page. Requires ${Math.ceil(maxJobs / 10)} paginated requests via next_page_token to fetch ${maxJobs} jobs.`,
+          input: {
+            queries: [q],
+            country: country,
+            location: location,
+            radius_km: radius,
+            max_jobs_per_query: maxJobs
+          }
+        };
+      } else {
+        const domain = document.getElementById('ads-domain').value || 'nike.com';
+        const country = document.getElementById('ads-country').value || 'US';
+        const maxAds = Math.min(120, Math.max(1, parseInt(document.getElementById('ads-max').value || '40', 10)));
+        const mode = document.getElementById('ads-mode').value || 'ads';
+        return {
+          actor: 'google-ads-transparency-scraper',
+          serpUrl: `GET https://serpapi.com/search.json?engine=google_ads_transparency_center&text=${encodeURIComponent(domain)}&region=${encodeURIComponent(country)}&num=40&api_key=YOUR_SERPAPI_KEY\n# Note: Paginates via next_page_token. Counts search even if you only wanted a 1-row summary.`,
+          input: {
+            domains: [domain],
+            country: country,
+            max_ads_per_domain: maxAds,
+            mode: mode
+          }
+        };
+      }
+    }
+
+    function updateCode() {
+      const { actor, serpUrl, input } = getPayload();
+      document.getElementById('serp-code-preview').textContent = serpUrl;
+      const jsonStr = JSON.stringify(input, null, 2);
+
+      let out = '';
+      if (currentLang === 'mcp') {
+        out = `// 1. Remote MCP Server URL (Claude, Cursor, Windsurf, OpenAI Agents):
+// https://mcp.apify.com?tools=hirepulse/${actor}
+// Auth Header: Authorization: Bearer <APIFY_TOKEN> (or browser OAuth)
+
+// 2. Local stdio Config (claude_desktop_config.json):
+{
+  "mcpServers": {
+    "hirepulse-${actor}": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@apify/actors-mcp-server",
+        "--tools",
+        "hirepulse/${actor}"
+      ],
+      "env": {
+        "APIFY_TOKEN": "YOUR_APIFY_TOKEN"
+      }
+    }
+  }
+}
+
+// Tool Call Input Payload:
+${jsonStr}`;
+      } else if (currentLang === 'python') {
+        out = `import requests
+
+APIFY_TOKEN = "YOUR_APIFY_TOKEN"
+url = f"https://api.apify.com/v2/acts/hirepulse~${actor}/run-sync-get-dataset-items?token={APIFY_TOKEN}"
+
+payload = ${jsonStr}
+
+response = requests.post(url, json=payload, timeout=120)
+response.raise_for_status()
+items = response.json()
+print(f"Returned {len(items)} clean JSON records:")
+print(items[:2])`;
+      } else if (currentLang === 'node') {
+        out = `const APIFY_TOKEN = process.env.APIFY_TOKEN || "YOUR_APIFY_TOKEN";
+const url = \`https://api.apify.com/v2/acts/hirepulse~${actor}/run-sync-get-dataset-items?token=\${APIFY_TOKEN}\`;
+
+const payload = ${jsonStr};
+
+const res = await fetch(url, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(payload)
+});
+const items = await res.json();
+console.log(\`Returned \${items.length} records\`, items[0]);`;
+      } else {
+        out = `curl -X POST "https://api.apify.com/v2/acts/hirepulse~${actor}/run-sync-get-dataset-items?token=YOUR_APIFY_TOKEN" \\
+  -H "Content-Type: application/json" \\
+  -d '${jsonStr}'`;
+      }
+      document.getElementById('hp-code-preview').textContent = out;
+    }
+
+    function copyConvertedCode() {
+      const code = document.getElementById('hp-code-preview').textContent;
+      navigator.clipboard.writeText(code);
+      const btn = document.getElementById('copy-code-btn');
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = 'Copy Code'; }, 1500);
+    }
+
+    function computeCostComparison(engine, queriesPerMonth, resultsPerActiveQuery, emptyPct, adsSummaryMode) {
+      const activeQueries = Math.round(queriesPerMonth * (1 - emptyPct / 100));
+      const emptyQueries = queriesPerMonth - activeQueries;
+
+      // SerpApi searches calculation
+      let pagesPerActive = 1;
+      if (engine === 'jobs') {
+        pagesPerActive = Math.max(1, Math.ceil((resultsPerActiveQuery || 1) / 10));
+      } else {
+        pagesPerActive = adsSummaryMode ? 1 : Math.max(1, Math.ceil((resultsPerActiveQuery || 1) / 40));
+      }
+      // Empty queries still require 1 initial search on SerpApi (not errored/cached)
+      const totalSerpSearches = (activeQueries * pagesPerActive) + emptyQueries;
+
+      let serpPlanName = '';
+      let serpCost = 0;
+      if (totalSerpSearches <= 250) {
+        serpPlanName = 'Free Plan (250 searches/mo)';
+        serpCost = 0;
+      } else if (totalSerpSearches <= 1000) {
+        serpPlanName = 'Starter Plan (1,000 searches/mo)';
+        serpCost = 25;
+      } else if (totalSerpSearches <= 5000) {
+        serpPlanName = 'Developer Plan (5,000 searches/mo)';
+        serpCost = 75;
+      } else if (totalSerpSearches <= 15000) {
+        serpPlanName = 'Production Plan (15,000 searches/mo)';
+        serpCost = 150;
+      } else {
+        const blocks = Math.ceil(totalSerpSearches / 15000);
+        serpPlanName = `${blocks}x Production Volume (~${(blocks * 15000).toLocaleString()} searches/mo)`;
+        serpCost = blocks * 150;
+      }
+
+      // HirePulse Pay-per-use calculation
+      let hpRawCost = 0;
+      let hpBreakdown = '';
+      const totalItems = activeQueries * resultsPerActiveQuery;
+
+      if (engine === 'jobs') {
+        // If resultsPerActiveQuery === 0, no jobs returned -> $0
+        const billableSearches = resultsPerActiveQuery > 0 ? activeQueries : 0;
+        const searchFee = billableSearches * 0.005;
+        const jobFee = totalItems * 0.001;
+        hpRawCost = searchFee + jobFee;
+        hpBreakdown = `${billableSearches.toLocaleString()} searches returning jobs ($${searchFee.toFixed(2)}) + ${totalItems.toLocaleString()} jobs ($${jobFee.toFixed(2)}). ${emptyQueries.toLocaleString()} empty searches = $0.`;
+      } else {
+        const billableDomains = resultsPerActiveQuery > 0 ? activeQueries : 0;
+        const domainFee = billableDomains * 0.005;
+        const adFee = adsSummaryMode ? 0 : (totalItems * 0.0015);
+        hpRawCost = domainFee + adFee;
+        hpBreakdown = adsSummaryMode
+          ? `Summary Mode: ${billableDomains.toLocaleString()} active domains ($${domainFee.toFixed(2)}) + $0 per-ad fee. ${emptyQueries.toLocaleString()} domains with no ads = $0.`
+          : `${billableDomains.toLocaleString()} active domains ($${domainFee.toFixed(2)}) + ${totalItems.toLocaleString()} ads ($${adFee.toFixed(2)}). ${emptyQueries.toLocaleString()} domains with no ads = $0.`;
+      }
+
+      const hpAfterCredit = Math.max(0, hpRawCost - 5);
+      return {
+        engine,
+        queriesPerMonth,
+        activeQueries,
+        emptyQueries,
+        pagesPerActive,
+        totalSerpSearches,
+        serpPlanName,
+        serpCost,
+        hpRawCost: Number(hpRawCost.toFixed(2)),
+        hpAfterCredit: Number(hpAfterCredit.toFixed(2)),
+        hpBreakdown
+      };
+    }
+
+    function updateCalculator() {
+      const qCount = parseInt(document.getElementById('slider-1').value, 10);
+      const resCount = parseInt(document.getElementById('slider-2').value, 10);
+      const emptyPct = parseInt(document.getElementById('slider-3').value, 10);
+      const adsSummary = document.getElementById('calc-ads-summary').checked;
+
+      document.getElementById('val-slider-1').textContent = qCount.toLocaleString();
+      document.getElementById('val-slider-2').textContent = resCount.toLocaleString();
+      document.getElementById('val-slider-3').textContent = `${emptyPct}%`;
+
+      const res = computeCostComparison(currentEngine, qCount, resCount, emptyPct, adsSummary);
+
+      document.getElementById('serp-price-display').innerHTML = `$${res.serpCost.toFixed(2)}<span style="font-size:0.85rem; font-weight:400; color:var(--muted);">/mo</span>`;
+      document.getElementById('serp-tier-name').textContent = res.serpPlanName;
+      document.getElementById('serp-searches-breakdown').textContent =
+        `Requires ${res.totalSerpSearches.toLocaleString()} SerpApi page searches/mo (${res.pagesPerActive} page(s) per active query).`;
+
+      document.getElementById('hp-price-display').innerHTML = `$${res.hpRawCost.toFixed(2)}<span style="font-size:0.85rem; font-weight:400; color:var(--muted);">/mo</span>`;
+      document.getElementById('hp-credit-note').textContent =
+        `$${res.hpAfterCredit.toFixed(2)}/mo out-of-pocket after Apify's $5/mo Free plan credit*`;
+      document.getElementById('hp-cost-breakdown').textContent = res.hpBreakdown;
+
+      const verdictBox = document.getElementById('honest-verdict-box');
+      verdictBox.className = 'honest-verdict';
+
+      if (res.totalSerpSearches <= 250) {
+        verdictBox.classList.add('serp-wins');
+        verdictBox.innerHTML = `<strong>Transparent Recommendation: Both Can Cost $0/mo at This Volume.</strong> Because your workload requires only <strong>${res.totalSerpSearches}</strong> SerpApi page searches/month (&le; 250), <strong>SerpApi's Free plan ($0/mo for 250 searches)</strong> covers it at $0. On <strong>HirePulse</strong>, your usage is <strong>$${res.hpRawCost.toFixed(2)}/mo</strong>, which is also covered by the <strong>$5/month credit on the Free Apify plan</strong> ($0/mo, no credit card required at <a href="https://apify.com/pricing" target="_blank" rel="noopener">apify.com/pricing</a>) if your usage stays under $5.`;
+      } else if (res.serpCost < res.hpRawCost) {
+        verdictBox.classList.add('serp-wins');
+        verdictBox.innerHTML = `<strong>Transparent Recommendation: SerpApi ${res.serpPlanName} is cheaper here ($${res.serpCost}/mo vs. $${res.hpRawCost.toFixed(2)}/mo).</strong> At this specific mix of low pagination and high item volume, SerpApi's flat monthly tier costs less than per-item billing. Choose HirePulse if you prefer no monthly subscription lock-in, direct MCP agent integration, or up to 200 jobs in a single request.`;
+      } else {
+        const savedRaw = (res.serpCost - res.hpRawCost).toFixed(2);
+        verdictBox.classList.add('hp-wins');
+        verdictBox.innerHTML = `<strong>Transparent Recommendation: HirePulse Pay-Per-Use saves $${savedRaw}/mo (${Math.round((1 - res.hpRawCost / res.serpCost) * 100)}% less) with no subscription.</strong> SerpApi requires the <strong>${res.serpPlanName} ($${res.serpCost}/mo)</strong> due to ${res.totalSerpSearches.toLocaleString()} paginated searches, whereas HirePulse charges only <strong>$${res.hpRawCost.toFixed(2)}</strong> ($${res.hpAfterCredit.toFixed(2)} after the $5 Free Apify plan credit) and charges <strong>$0</strong> for queries/domains with no results.${currentEngine === 'ads' ? ' <em>(Note: Google Ads Transparency Scraper itself does not offer free ads; the $5/mo credit comes from Apify\'s platform Free plan.)</em>' : ''}`;
+      }
+    }
+
+    function renderTable() {
+      const rows = MAPPINGS[currentEngine];
+      const tbody = document.getElementById('mapping-tbody');
+      tbody.innerHTML = rows.map(r => `
+        <tr>
+          <td><span class="meta-tag">${r[0]}</span></td>
+          <td><code>${r[1]}</code></td>
+          <td><code>${r[2]}</code></td>
+          <td>${r[3]}</td>
+        </tr>
+      `).join('');
+    }
+
+    // Register WebMCP Tools for Browser AI Agents
+    function registerWebMCP() {
+      const tools = [
+        {
+          name: 'convert_serpapi_to_hirepulse_mcp',
+          description: 'Converts SerpApi google_jobs or google_ads_transparency_center parameters into HirePulse Apify Actor JSON payloads and MCP server URLs.',
+          inputSchema: {
+            type: 'object',
+            properties: {
+              engine: { type: 'string', enum: ['google_jobs', 'google_ads_transparency_center'] },
+              query_or_domain: { type: 'string', description: 'Job search query (e.g. "data engineer") or company domain (e.g. "nike.com")' },
+              country: { type: 'string', default: 'US' },
+              max_results: { type: 'number', default: 50 }
+            },
+            required: ['engine', 'query_or_domain']
+          },
+          execute: async (args) => {
+            const isJobs = args.engine === 'google_jobs';
+            const actor = isJobs ? 'hirepulse/google-jobs-scraper' : 'hirepulse/google-ads-transparency-scraper';
+            const payload = isJobs
+              ? { queries: [args.query_or_domain], country: args.country || 'US', max_jobs_per_query: Math.min(200, args.max_results || 50) }
+              : { domains: [args.query_or_domain], country: args.country || 'US', max_ads_per_domain: Math.min(120, args.max_results || 40), mode: 'ads' };
+            return {
+              mcp_url: `https://mcp.apify.com?tools=${actor}`,
+              stdio_command: `npx -y @apify/actors-mcp-server --tools ${actor}`,
+              rest_endpoint: `https://api.apify.com/v2/acts/${actor.replace('/', '~')}/run-sync-get-dataset-items`,
+              input_payload: payload
+            };
+          }
+        },
+        {
+          name: 'calculate_serpapi_vs_hirepulse_cost',
+          description: 'Calculates verified monthly cost comparison between SerpApi plans (checked 2026-10-16) and HirePulse pay-per-use actors.',
+          inputSchema: {
+            type: 'object',
+            properties: {
+              engine: { type: 'string', enum: ['jobs', 'ads'] },
+              queries_per_month: { type: 'number' },
+              results_per_active_query: { type: 'number' },
+              empty_result_percentage: { type: 'number' },
+              ads_summary_mode: { type: 'boolean' }
+            },
+            required: ['engine', 'queries_per_month', 'results_per_active_query']
+          },
+          execute: async (args) => {
+            return computeCostComparison(
+              args.engine || 'jobs',
+              args.queries_per_month || 300,
+              args.results_per_active_query || 30,
+              args.empty_result_percentage || 20,
+              Boolean(args.ads_summary_mode)
+            );
+          }
+        }
+      ];
+
+      try {
+        for (const tool of tools) {
+          if (typeof navigator !== 'undefined' && navigator.modelContext?.registerTool) {
+            navigator.modelContext.registerTool(tool);
+          }
+          if (typeof document !== 'undefined' && document.modelContext?.registerTool) {
+            document.modelContext.registerTool(tool);
+          }
+        }
+        window.__WEBMCP_TOOLS__ = tools;
+      } catch (err) {
+        console.warn('WebMCP registration note:', err);
+      }
+    }
+
+    selectEngine('jobs');
+    registerWebMCP();
+  </script>
+</body>
+</html>

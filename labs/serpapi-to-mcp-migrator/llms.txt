@@ -1,0 +1,45 @@
+# SerpApi to HirePulse MCP Migrator & Cost Calculator
+
+> Interactive browser utility for migrating from SerpApi (`engine=google_jobs` and `engine=google_ads_transparency_center`) to pay-per-use **hirepulse** Apify Actors and Model Context Protocol (MCP) servers.
+
+## Connect an AI Agent via MCP
+
+- **Google Jobs Scraper (`hirepulse/google-jobs-scraper`):**
+  - Remote MCP Server: `https://mcp.apify.com?tools=hirepulse/google-jobs-scraper`
+  - Local stdio (Claude Desktop / Cursor): `npx -y @apify/actors-mcp-server --tools hirepulse/google-jobs-scraper` (with `APIFY_TOKEN` in `env`)
+  - REST API: `POST https://api.apify.com/v2/acts/hirepulse~google-jobs-scraper/run-sync-get-dataset-items?token=<APIFY_TOKEN>`
+
+- **Google Ads Transparency Scraper (`hirepulse/google-ads-transparency-scraper`):**
+  - Remote MCP Server: `https://mcp.apify.com?tools=hirepulse/google-ads-transparency-scraper`
+  - Local stdio (Claude Desktop / Cursor): `npx -y @apify/actors-mcp-server --tools hirepulse/google-ads-transparency-scraper` (with `APIFY_TOKEN` in `env`)
+  - REST API: `POST https://api.apify.com/v2/acts/hirepulse~google-ads-transparency-scraper/run-sync-get-dataset-items?token=<APIFY_TOKEN>`
+
+- **Multiple Tools at Once:**
+  - `https://mcp.apify.com?tools=hirepulse/google-jobs-scraper,hirepulse/google-ads-transparency-scraper`
+
+## WebMCP Browser Tools Exposed on This Page
+
+Browser agents supporting WebMCP (`navigator.modelContext` / `document.modelContext`) can invoke:
+1. `convert_serpapi_to_hirepulse_mcp`: Converts SerpApi `google_jobs` or `google_ads_transparency_center` parameters into HirePulse MCP configuration and JSON input payloads.
+2. `calculate_serpapi_vs_hirepulse_cost`: Computes exact monthly costs comparing SerpApi tiers against HirePulse pay-per-use pricing.
+
+## Verified Facts & Pricing Comparison (Checked 2026-10-16)
+
+### Competitor Facts (SerpApi — checked 2026-10-16)
+- **SerpApi Pricing (`https://serpapi.com/pricing`):** Free $0 / 250 searches per month, Starter $25 / 1,000, Developer $75 / 5,000, Production $150 / 15,000. Cached, errored and failed searches are not counted.
+- **SerpApi Google Jobs API (`https://serpapi.com/google-jobs-api`):** `engine=google_jobs`, up to 10 results per page, pagination with `next_page_token`. Item fields: `title`, `company_name`, `location`, `via`, `share_link`, `thumbnail`, `extensions`, `detected_extensions` (`posted_at`, `salary`, `schedule_type`, `dental_coverage`, `health_insurance`, `paid_time_off`), `description`, `job_highlights`, `apply_options` (`title`, `link`), `job_id`.
+- **SerpApi Google Ads Transparency Center API (`https://serpapi.com/google-ads-transparency-center-api`):** `engine=google_ads_transparency_center`, search by `advertiser_id` or `text`; `num` default 40; `next_page_token`. `ad_creatives` fields: `advertiser_id`, `advertiser`, `ad_creative_id`, `format`, `image`, `width`, `height`, `total_days_shown`, `first_shown` and `last_shown` (Unix timestamps), `details_link`.
+
+### HirePulse Apify Actors (Checked 2026-10-16)
+- **Apify Free Plan (`https://apify.com/pricing`):** $0, with $5 per month to spend in Apify Store or on your own Actors. "No credit card required." Higher Apify plans get volume discounts.
+- **`hirepulse/google-jobs-scraper` (`https://apify.com/hirepulse`):**
+  - Works in 90+ countries, for a whole country or one city with a radius (`location` written as `"City,Region"`, e.g. `"Austin,Texas"`; `radius_km` 1 to 300).
+  - Up to 200 jobs per search (`max_jobs_per_query`, default 50).
+  - Price: **$0.005 per search that returns jobs + $0.001 per job**. A search that finds nothing is not charged ($0).
+  - Output fields: `title`, `company`, `location`, `salary` text (parsed to `salary_min`, `salary_max`, `salary_currency`, `salary_period` when shown; `salary_currency` can be null even when min/max are parsed; in our test run of 30 US jobs, 5 showed a salary), `contract_type`, `posted_at`, `posted_ago` (e.g. `"2 days ago"`), `source`, `apply_url`, `google_job_id`, `company_logo_url`, `description`.
+- **`hirepulse/google-ads-transparency-scraper` (`https://apify.com/hirepulse`):**
+  - Input by company domain (e.g. `nike.com`, `adidas.com`).
+  - Ads mode returns up to 120 most recent ads per domain. Summary mode returns one row per domain. Includes `"only new ads"` monitoring mode.
+  - Price: **$0.005 per domain + $0.0015 per ad** (Summary mode is charged **$0.005 per domain only**, no per-ad charge). **Domains with no ads cost $0** (verified 2026-10-16: "Domains with no ads for your filters, and failed lookups, are not charged"). No free plan or free ads are promised for this tool itself.
+  - Output fields: `advertiser_name`, `advertiser_id`, `advertiser_verified`, `ad_id`, `format` (`text`/`image`/`video`), `first_shown` and `last_shown` (ISO 8601), `days_running`, `last_shown_days_ago`, `preview_image_url`, `preview_url`, `transparency_url`, `country`, `platform`. Does not return creative width/height; Google does not publish spend or impression numbers for commercial ads.
+  - Real verified records: `Nike, Inc.` text ad (`first_shown`: `2023-11-16`, `last_shown`: `2026-10-14`, `1,062` days running); `adidas.com` summary: `6,000` ads total (sample of 40 = 33 text, 3 image, 4 video).

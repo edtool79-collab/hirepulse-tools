@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multi-ATS Job Board Schema Explorer | HirePulse</title>
+<style>
+  :root {
+    --bg: #0b0f19;
+    --panel: #131a2b;
+    --accent: #38bdf8;
+    --accent-2: #818cf8;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --border: #1e293b;
+    --danger: #f43f5e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans Hebrew", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    direction: rtl;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px 16px; }
+  header { text-align: center; margin-bottom: 32px; }
+  header h1 { font-size: 1.75rem; margin-bottom: 8px; letter-spacing: -0.5px; }
+  header p { color: var(--muted); font-size: 0.95rem; }
+
+  .grid { display: grid; grid-template-columns: 340px 1fr; gap: 24px; }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+  }
+  .card h2 { font-size: 1.125rem; margin-bottom: 16px; color: var(--accent); display: flex; align-items: center; gap: 8px; }
+  .card h2 svg { width: 20px; height: 20px; }
+
+  .control-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .control-row label { font-size: 0.9rem; color: var(--muted); min-width: 130px; text-align: right; }
+  input[type="text"] { flex: 1; background: #020617; border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; color: var(--text); }
+  input[type="text"]:focus { outline: 2px solid var(--accent); }
+
+  .ats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 16px; }
+  .ats-chip { background: #0f172a; border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; font-size: 0.85rem; color: var(--text); text-align: center; }
+  .ats-chip.unsupported { color: var(--danger); border-color: #3f131e; background: #1a0a0f; }
+
+  .table-wrap { overflow-x: auto; margin-bottom: 16px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  th, td { text-align: right; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+  th { color: var(--muted); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
+  tr:hover { background: #0f172a; }
+
+  .json-viewer {
+    background: #020617; border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-top: 16px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.8rem; color: var(--muted);
+    max-height: 500px; overflow: auto;
+  }
+  .json-viewer .key { color: var(--accent-2); }
+  .json-viewer .str { color: #a5f3fc; }
+  .json-viewer .num { color: #fbbf24; }
+  .json-viewer .bool { color: #c4b5fd; }
+  .json-viewer .punct { color: var(--muted); }
+  .json-viewer .null { color: #64748b; }
+
+  .mcp-section { margin-top: 32px; }
+  .mcp-card { background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-bottom: 16px; }
+  .mcp-card h3 { font-size: 1rem; margin-bottom: 12px; color: var(--accent); }
+  .copy-btn {
+    background: var(--accent); color: #000; border: none; border-radius: 8px; padding: 10px 16px; font-weight: 700; cursor: pointer; font-size: 0.9rem;
+  }
+  .copy-btn:hover { filter: brightness(1.1); }
+  .code-block { background: #020617; border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-family: monospace; font-size: 0.8rem; color: var(--muted); overflow-x: auto; margin-top: 10px; white-space: pre-wrap; word-break: break-all; }
+  .note { font-size: 0.85rem; color: var(--muted); margin-top: 12px; line-height: 1.5; }
+  .warning { color: var(--danger); font-weight: 600; }
+
+  .lang-tabs { display: flex; gap: 6px; margin-bottom: 10px; }
+  .lang-tab { background: #0f172a; border: 1px solid var(--border); color: var(--muted); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; }
+  .lang-tab.active { background: var(--accent); color: #000; }
+
+  .field-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #1e293b; font-size: 0.85rem; }
+  .field-row .lbl { color: var(--muted); }
+  .field-row .val { color: var(--text); font-family: ui-monospace, monospace; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>סייר סכימת לוחות גיוס מרובי-ATS</h1>
+    <p>כלי עזר למפתחים ולסוכני גיוס — מגובה ב־hirepulse/ats-job-pulse עם דוגמאות אמיתיות מ־FACTS.md</p>
+  </header>
+
+  <div class="grid">
+    <!-- סרגל צד שמאל -->
+    <div class="card">
+      <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg> חיפוש לפי דומיין</h2>
+
+      <div class="control-row">
+        <label>דומיין חברה</label>
+        <input type="text" id="domainInput" placeholder="למשל: stripe.com">
+      </div>
+      <button class="copy-btn" style="width:100%;margin-top:8px" onclick="loadSample()">טען דוגמה (stripe.com / linear.app)</button>
+
+      <h3 style="margin-top:24px; font-size:0.95rem; color:var(--accent-2)">מערכות ATS נתמכות</h3>
+      <div class="ats-grid">
+        <div class="ats-chip">Greenhouse</div>
+        <div class="ats-chip">Lever</div>
+        <div class="ats-chip">Ashby</div>
+        <div class="ats-chip">Workable</div>
+        <div class="ats-chip">Recruitee</div>
+        <div class="ats-chip">SmartRecruiters</div>
+        <div class="ats-chip unsupported">Workday אינו נתמך</div>
+      </div>
+
+      <div class="note">
+        <strong>גילוי אוטומטי לפי דומיין</strong> — הכלי מזהה את לוח הגיוס (Greenhouse / Lever / Ashby / Workable / Recruitee / SmartRecruiters) אוטומטית משם הדומיין או ה־slug.
+      </div>
+    </div>
+
+    <!-- תוכן ראשי ימין -->
+    <div class="card" style="display:flex;flex-direction:column;">
+      <h2 style="margin-bottom:16px; display:flex;align-items:center;gap:8px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg> שדות ומבנה הפלט (Schema)
+      </h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>שדה</th><th>סוג</th><th>תיאור</th><th>דוגמה</th></tr>
+          </thead>
+          <tbody id="schemaTable">
+            <!-- יוזן על ידי JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top:20px;">
+        <h3 style="margin-bottom:10px; color:var(--accent-2)">מעקב אחר משרות חדשות ונסגרות</h3>
+        <div class="field-row"><span class="lbl">חדשות (new_jobs)</span><span class="val">null בביצוע ראשון</span></div>
+        <div class="field-row"><span class="lbl">נסגרו (closed_jobs)</span><span class="val">null בביצוע ראשון</span></div>
+        <div class="field-row"><span class="lbl">כותרות חדשות</span><span class="val">new_job_titles (מערך)</span></div>
+        <div class="field-row"><span class="lbl">כותרות שנסגרו</span><span class="val">closed_job_titles (מערך)</span></div>
+        <div class="warning" style="margin-top:10px">Workday אינו נתמך על ידי hirepulse/ats-job-pulse.</div>
+      </div>
+
+      <div class="mcp-section" style="margin-top:24px;">
+        <div class="mcp-card">
+          <h3>WebMCP — רישום כלי ATS לסוכני דפדפן</h3>
+          <p class="note" style="margin-bottom:10px">רישום הכלי hirepulse/ats-job-pulse עם Input Schema עבור סוכני Chrome WebMCP.</p>
+          <button class="copy-btn" onclick="copyMcpConfig()">העתק הגדרת MCP עבור סוכני AI</button>
+          <div class="code-block" id="mcpCode">{}</div>
+        </div>
+      </div>
+
+      <!-- קוד חיבור לפי דומיין -->
+      <div style="margin-top:24px;">
+        <h3 style="margin-bottom:10px; color:var(--accent-2)">מחולל קוד חיבור לפי דומיין</h3>
+        <div class="lang-tabs">
+          <div class="lang-tab active" onclick="selectLang(this,'python')">Python</div>
+          <div class="lang-tab" onclick="selectLang(this,'curl')">cURL</div>
+          <div class="lang-tab" onclick="selectLang(this,'mcp')">MCP (Claude Desktop)</div>
+        </div>
+        <div class="code-block" id="codeOut"># בחר לשונית כדי לראות קוד חיבור</div>
+      </div>
+
+      <!-- JSON Viewer עם דוגמה אמיתית -->
+      <div style="margin-top:24px;">
+        <h3 style="margin-bottom:10px; color:var(--accent-2)">דוח חי — דוגמה אמיתית מ־FACTS.md (ats-job-pulse)</h3>
+        <div class="json-viewer" id="jsonViewer">טוען…</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Schema fields from hirepulse/ats-job-pulse (FACTS.md + llms.txt)
+const schemaFields = [
+  { name: "record_type", type: "string", desc: "סוג רשומה: company_summary או job", example: "\"job\"" },
+  { name: "company_domain", type: "string", desc: "דומיין החברה", example: "\"ramp.com\"" },
+  { name: "ats_type", type: "string", desc: "סוג לוח הגיוס שזוהה אוטומטית", example: "\"ashby\"" },
+  { name: "board_slug", type: "string", desc: "מזהה הלוח במערכת ה־ATS", example: "\"ramp\"" },
+  { name: "job_id", type: "string", desc: "מזהה משרה ייחודי", example: "\"34413f8d-26bf-4bbc-8ade-eb309a0e2245\"" },
+  { name: "title", type: "string", desc: "כותר המשרה", example: "\"Security Engineer, Cloud\"" },
+  { name: "department", type: "string", desc: "מחלקה", example: "\"Engineering\"" },
+  { name: "location", type: "string", desc: "מיקום המשרה", example: "\"New York, NY (HQ)\"" },
+  { name: "is_remote", type: "boolean", desc: "האם המשרה מרחוק", example: "true" },
+  { name: "posted_date", type: "string (ISO 8601)", desc: "תאריך פרסום המשרה", example: "\"2026-04-07T17:12:35.753+00:00\"" },
+  { name: "salary", type: "string | null", desc: "טווח שכר היכן שהחברה מפרסמת אותו", example: "\"$211.4K - $290.6K\"" },
+  { name: "apply_url", type: "string", desc: "קישור הגשת מועמדות", example: "https://jobs.ashbyhq.com/ramp/..." },
+  { name: "detected_technologies", type: "array[string]", desc: "טכנולוגיות שזוהו בכותר ותיאור המשרה", example: "[\"AWS\", \"Python\", \"Terraform\"]" },
+  { name: "status", type: "string", desc: "מצב המשרה", example: "\"ACTIVE\"" },
+  { name: "scraped_at", type: "string (ISO 8601)", desc: "תאריך ליקוט הנתונים", example: "\"2026-10-15T16:33:07+00:00\"" },
+  { name: "total_active_jobs", type: "number", desc: "סה\"כ משרות פעילות בחברה (בשורה מסכמת)", example: "165" },
+  { name: "remote_jobs", type: "number", desc: "משרות מרחוק בחברה", example: "148" },
+  { name: "jobs_by_department", type: "object", desc: "פילוח משרות לפי מחלקה", example: "{ \"Sales\": 69, \"Engineering\": 36 }" },
+  { name: "top_locations", type: "object", desc: "מיקומים מובילים", example: "{ \"New York, NY (HQ)\": 127 }" },
+  { name: "top_technologies", type: "object", desc: "טכנולוגיות מובילות במודעות", example: "{ \"Python\": 31, \"Salesforce\": 28 }" }
+];
+
+const realData = {
+  "meta": {
+    "actor": "hirepulse/ats-job-pulse",
+    "run_id": "NCGLqehHgqZCdtCUK",
+    "status": "SUCCEEDED",
+    "build": "1.2.8",
+    "started_at": "2026-10-15T16:33:04.293Z",
+    "status_message": "2/2 companies processed, 195 active jobs found",
+    "input": { "companies": ["linear.app", "ramp.com"], "output_mode": "jobs_and_summary", "track_diff": false, "max_jobs_per_company": 5 },
+    "note": "Real owner test run on 2026-10-15, saved as-is for website examples."
+  },
+  "items": [
+    {
+      "record_type": "company_summary",
+      "company_domain": "ramp.com",
+      "ats_type": "ashby",
+      "board_slug": "ramp",
+      "total_active_jobs": 165,
+      "remote_jobs": 148,
+      "jobs_with_salary": 158,
+      "jobs_by_department": { "Sales": 69, "Engineering": 36, "People & Talent": 14, "Product": 8, "Marketing": 8, "Design": 6, "Customer Experience": 5, "Data": 5, "Finance": 4, "Risk": 2 },
+      "top_locations": { "New York, NY (HQ)": 127, "London, UK": 12, "San Francisco, CA": 10, "Remote (US)": 10, "Toronto, ON": 6 },
+      "top_technologies": { "Python": 31, "Salesforce": 28, "SQL": 24, "LLMs": 16, "AWS": 13, "React": 11, "Looker": 11, "Snowflake": 10, "TypeScript": 9, "Flask": 7, "Java": 7, "Figma": 7, "Machine Learning": 7, "Azure": 6, "GCP": 6 },
+      "matching_jobs": 165,
+      "scraped_at": "2026-10-15T16:33:07+00:00"
+    },
+    {
+      "record_type": "job",
+      "company_domain": "ramp.com",
+      "ats_type": "ashby",
+      "job_id": "34413f8d-26bf-4bbc-8ade-eb309a0e2245",
+      "title": "Security Engineer, Cloud",
+      "department": "Engineering",
+      "location": "New York, NY (HQ)",
+      "is_remote": true,
+      "posted_date": "2026-04-07T17:12:35.753+00:00",
+      "salary": "$211.4K - $290.6K",
+      "apply_url": "https://jobs.ashbyhq.com/ramp/34413f8d-26bf-4bbc-8ade-eb309a0e2245",
+      "detected_technologies": ["AWS", "Azure", "Flask", "GCP", "Python", "Terraform"],
+      "status": "ACTIVE",
+      "scraped_at": "2026-10-15T16:33:07+00:00"
+    },
+    {
+      "record_type": "company_summary",
+      "company_domain": "linear.app",
+      "ats_type": "ashby",
+      "board_slug": "linear",
+      "total_active_jobs": 30,
+      "remote_jobs": 30,
+      "jobs_with_salary": 0,
+      "jobs_by_department": { "GTM": 15, "Product": 13, "Operations": 2 },
+      "top_locations": { "North America": 18, "Europe": 8, "London": 2, "Singapore": 2 },
+      "top_technologies": { "React": 8, "TypeScript": 8, "GraphQL": 7, "GCP": 6, "Kubernetes": 6, "PostgreSQL": 6, "Redis": 6, "Figma": 5, "JavaScript": 4, "SQL": 4, "Python": 1, "dbt": 1, "LLMs": 1, "Snowflake": 1, "Node.js": 6 },
+      "matching_jobs": 30,
+      "scraped_at": "2026-10-15T16:33:07+00:00"
+    },
+    {
+      "record_type": "job",
+      "company_domain": "linear.app",
+      "ats_type": "ashby",
+      "job_id": "d3bc1ced-3ce4-4086-a050-555055dbb1ff",
+      "title": "Senior / Staff Fullstack Engineer",
+      "department": "Product",
+      "location": "Europe",
+      "is_remote": true,
+      "posted_date": "2021-04-27T20:13:45.158+00:00",
+      "salary": null,
+      "apply_url": "https://jobs.ashbyhq.com/linear/d3bc1ced-3ce4-4086-a050-555055dbb1ff",
+      "detected_technologies": ["GCP", "GraphQL", "JavaScript", "Kubernetes", "Node.js", "PostgreSQL", "Redis", "React", "TypeScript"],
+      "status": "ACTIVE",
+      "scraped_at": "2026-10-15T16:33:07+00:00"
+    }
+  ]
+};
+
+function escapeHtml(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+function renderSchema(){
+  const tbody = document.getElementById('schemaTable');
+  tbody.innerHTML = schemaFields.map(f => `
+    <tr>
+      <td class="lbl">${escapeHtml(f.name)}</td>
+      <td class="val" style="color:var(--accent-2)">${escapeHtml(f.type)}</td>
+      <td class="lbl" style="color:var(--muted)">${escapeHtml(f.desc)}</td>
+      <td class="val">${escapeHtml(f.example)}</td>
+    </tr>
+  `).join('');
+}
+
+function renderJson(){
+  const pretty = JSON.stringify(realData, null, 2)
+    .replace(/(["'])([a-zA-Z_]+)(["']):/g, '<span class="key">$2</span>: ')
+    .replace(/: ("[^"]*")/g, ': <span class="str">$1</span>')
+    .replace(/: ([0-9]+)/g, ': <span class="num">$1</span>')
+    .replace(/: (true|false)/g, ': <span class="bool">$1</span>')
+    .replace(/: (null)/g, ': <span class="null">$1</span>');
+  document.getElementById('jsonViewer').innerHTML = pretty;
+}
+
+function loadSample(){
+  const d = document.getElementById('domainInput').value.trim() || 'stripe.com';
+  // הדוגמה האמיתית כוללת ramp.com ו-linear.app — מציגים הודעה בהתאם
+  const known = ['ramp.com','linear.app','stripe.com'];
+  const msg = known.includes(d) ? `דוגמה אמיתית נטענה עבור ${d} (מבנה זהה ל-ramp.com / linear.app ב-FACTS.md).` : `הזן דומיין כדי לבנות קוד חיבור; הדוגמה האמיתית במערכת מכילה ramp.com ו-linear.app.`;
+  document.getElementById('jsonViewer').innerHTML = '<span style="color:var(--muted)">טוען דוגמה אמיתית עבור ' + escapeHtml(d) + '…</span>';
+  setTimeout(renderJson, 300);
+  generateCode(d);
+}
+
+function generateCode(domain){
+  const python = `import requests, json
+
+url = "https://api.apify.com/v2/acts/hirepulse~ats-job-pulse/run-sync-get-dataset-items"
+token = "YOUR_APIFY_TOKEN"
+payload = { "companies": ["${domain}"], "output_mode": "jobs_and_summary", "max_jobs_per_company": 5 }
+
+r = requests.post(url, params={"token": token}, json=payload)
+print(json.dumps(r.json(), indent=2, ensure_ascii=False))
+`;
+  const curl = `curl -X POST "https://api.apify.com/v2/acts/hirepulse~ats-job-pulse/run-sync-get-dataset-items?token=YOUR_APIFY_TOKEN" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "companies": ["${domain}"],
+    "output_mode": "jobs_and_summary",
+    "max_jobs_per_company": 5
+  }'`;
+  const mcp = `{
+  "mcpServers": {
+    "hirepulse_ats_job_pulse": {
+      "command": "npx",
+      "args": ["-y", "@apify/actors-mcp-server", "--tools", "hirepulse/ats-job-pulse"],
+      "env": { "APIFY_TOKEN": "YOUR_APIFY_TOKEN" }
+    }
+  },
+  "remote_mcp": "https://mcp.apify.com?tools=hirepulse/ats-job-pulse"
+}`;
+  document.getElementById('codeOut').textContent = python;
+}
+
+function selectLang(tab, lang){
+  document.querySelectorAll('.lang-tab').forEach(t => t.classList.remove('active'));
+  tab.classList.add('active');
+  const domain = document.getElementById('domainInput').value.trim() || 'stripe.com';
+  if (lang === 'python'){
+    document.getElementById('codeOut').textContent = `import requests, json\n\nurl = "https://api.apify.com/v2/acts/hirepulse~ats-job-pulse/run-sync-get-dataset-items"\ntoken = "YOUR_APIFY_TOKEN"\npayload = { "companies": ["${domain}"], "output_mode": "jobs_and_summary", "max_jobs_per_company": 5 }\n\nr = requests.post(url, params={"token": token}, json=payload)\nprint(json.dumps(r.json(), indent=2, ensure_ascii=False))`;
+  } else if (lang === 'curl'){
+    document.getElementById('codeOut').textContent = `curl -X POST "https://api.apify.com/v2/acts/hirepulse~ats-job-pulse/run-sync-get-dataset-items?token=YOUR_APIFY_TOKEN" \\\n  -H "Content-Type: application/json" \\\n  -d '{\n    "companies": ["${domain}"],\n    "output_mode": "jobs_and_summary",\n    "max_jobs_per_company": 5\n  }'`;
+  } else {
+    document.getElementById('codeOut').textContent = `{\n  "mcpServers": {\n    "hirepulse_ats_job_pulse": {\n      "command": "npx",\n      "args": ["-y", "@apify/actors-mcp-server", "--tools", "hirepulse/ats-job-pulse"],\n      "env": { "APIFY_TOKEN": "YOUR_APIFY_TOKEN" }\n    }\n  },\n  "remote_mcp": "https://mcp.apify.com?tools=hirepulse/ats-job-pulse"\n}`;
+  }
+}
+
+function copyMcpConfig(){
+  const text = document.getElementById('mcpCode').textContent || document.getElementById('codeOut').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    const old = btn.textContent;
+    btn.textContent = 'הועתק!';
+    setTimeout(() => btn.textContent = old, 1200);
+  }).catch(() => alert('לא ניתן להעתק אוטומטי — העתק ידנית.'));
+}
+
+// MCP registration (WebMCP)
+if (typeof document.modelContext !== 'undefined' && document.modelContext?.registerTool) {
+  document.modelContext.registerTool({
+    name: "hirepulse_ats_job_pulse",
+    description: "All open jobs from a company's Greenhouse, Lever, Ashby, Workable, Recruitee or SmartRecruiters board, by domain or slug. Workday is not supported.",
+    input_schema: {
+      type: "object",
+      properties: {
+        domain: { type: "string", description: "Company domain, e.g. stripe.com" },
+        output_mode: { type: "string", description: "jobs_and_summary or jobs_only" },
+        max_jobs_per_company: { type: "number", description: "Max jobs per company", default: 5 }
+      },
+      required: ["domain"]
+    }
+  });
+}
+
+renderSchema();
+renderJson();
+loadSample();
+</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+# HirePulse SEO Keyword & Domain Intent Matrix
+
+> Interactive browser matrix and pricing calculator showcasing `hirepulse/keyword-search-volume` and `hirepulse/domain-seo-overview` with verified test-run datasets (`keyword-volume.json` and `domain-seo.json` for `stripe.com`).
+
+## Connect an AI Agent via MCP
+
+- **Keyword Search Volume (`hirepulse/keyword-search-volume`):**
+  - Remote MCP Server: `https://mcp.apify.com?tools=hirepulse/keyword-search-volume`
+  - Local stdio (Claude Desktop / Cursor): `npx -y @apify/actors-mcp-server --tools hirepulse/keyword-search-volume` (with `APIFY_TOKEN` in `env`)
+  - REST API: `POST https://api.apify.com/v2/acts/hirepulse~keyword-search-volume/run-sync-get-dataset-items?token=<APIFY_TOKEN>`
+
+- **Domain SEO Overview (`hirepulse/domain-seo-overview`):**
+  - Remote MCP Server: `https://mcp.apify.com?tools=hirepulse/domain-seo-overview`
+  - Local stdio (Claude Desktop / Cursor): `npx -y @apify/actors-mcp-server --tools hirepulse/domain-seo-overview` (with `APIFY_TOKEN` in `env`)
+  - REST API: `POST https://api.apify.com/v2/acts/hirepulse~domain-seo-overview/run-sync-get-dataset-items?token=<APIFY_TOKEN>`
+
+- **Both SEO Tools Together:**
+  - `https://mcp.apify.com?tools=hirepulse/keyword-search-volume,hirepulse/domain-seo-overview`
+
+## WebMCP Browser Tools Exposed on This Page
+
+Browser agents supporting WebMCP (`navigator.modelContext` / `document.modelContext`) can invoke:
+1. `calculate_keyword_search_volume_cost`: Computes exact pay-per-use cost for `N` keywords across `L` lookups (`$0.03 * L + $0.005 * N`).
+2. `query_verified_seo_samples`: Filters and returns the verified `keyword-volume.json` and `domain-seo.json` (`stripe.com`) records.
+
+## Verified Facts & Pricing
+
+- **`hirepulse/keyword-search-volume` (`https://apify.com/hirepulse`):**
+  - Google monthly search volume, CPC, competition and keyword ideas.
+  - Output fields include `keyword`, `search_volume`, `cpc_usd`, `competition`, `competition_level`, `keyword_difficulty`, `search_intent`, `low_top_of_page_bid_usd`, `high_top_of_page_bid_usd`, `trend_monthly_pct`, `trend_quarterly_pct`, `trend_yearly_pct`, `ai_search_volume`, `country`, `language`, `source`, `seed_keyword`, `metrics_available`, `data_updated_at`.
+  - **Price:** `$0.03` per lookup + `$0.005` per keyword result.
+  - **Free Plan:** Real volume, CPC and difficulty for the first 3 keywords of each run (the free preview depends on availability and can be paused).
+- **`hirepulse/domain-seo-overview` (`https://apify.com/hirepulse`):**
+  - Estimated organic traffic, ranking keywords, traffic value and competitor domains for any domain.
+  - Overview fields include `organic_traffic_estimate`, `organic_keywords`, `organic_traffic_value_usd`, `keywords_top_3`, `keywords_top_10`, `keywords_top_20`, `keywords_new`, `keywords_up`, `keywords_down`, `keywords_lost`, `paid_keywords`, `paid_traffic_estimate`.
+  - Ranked-keyword rows (`record_type: "ranked_keyword"`): `keyword`, `position`, `url`, `search_volume`, `cpc_usd`, `keyword_difficulty`, `search_intent`, `traffic_estimate`.
+  - **Price:** Pay per result on the Apify Store (see the tool page for current prices).
+- **Apify Free Plan (`https://apify.com/pricing`, checked 2026-10-16):** $0, with $5 per month to spend in Apify Store or on your own Actors ("No credit card required").
+
+## Verified Sample Data Embedded (`2026-10-15` real test runs)
+
+### 1. `hirepulse/keyword-search-volume` (`run_id: g1gwfPeBP9v6eq5R0`, build `1.0.13`, country `US`)
+- `"keyword research tool"`: `search_volume: 4400`, `cpc_usd: 15.75`, `competition: 0.29` (`LOW`), `keyword_difficulty: 81`, `search_intent: "commercial"`, trends `-57% / -47% / -81%`.
+- `"ai agents"`: `search_volume: 49500`, `cpc_usd: 20.9`, `competition: 0.46` (`MEDIUM`), `keyword_difficulty: 67`, `search_intent: "commercial"`, trends `0% / 0% / 0%`.
+- `"web scraping api"`: `search_volume: 1900`, `cpc_usd: 13.05`, `competition: 0.28` (`LOW`), `keyword_difficulty: 59`, `search_intent: "informational"`, trends `-33% / -33% / -33%`.
+
+### 2. `hirepulse/domain-seo-overview` (`run_id: jY6YeadLRoRXKKFnE`, build `1.0.6`, domain `stripe.com`, country `US`)
+- **Domain Overview:** `organic_traffic_estimate: 688494`, `organic_keywords: 115829`, `organic_traffic_value_usd: 8338941`, `keywords_top_3: 19298`, `keywords_top_10: 50840`, `keywords_top_20: 78460`, `keywords_new: 59404`, `keywords_up: 23927`, `keywords_down: 22077`, `keywords_lost: 72928`, `paid_keywords: 14`, `paid_traffic_estimate: 128`.
+- **5 Ranked Keywords (`ranked_keyword`):**
+  1. `stripe`: pos `1`, vol `823000`, CPC `$1.10`, KD `51`, intent `informational`, traffic `252314`, URL `https://stripe.com/`
+  2. `p o`: pos `16`, vol `550000`, CPC `$9.79`, KD `0`, intent `informational`, traffic `1`, URL `https://stripe.com/resources/more/what-is-a-po-number-on-an-invoice`
+  3. `po`: pos `14`, vol `550000`, CPC `$9.79`, KD `0`, intent `informational`, traffic `1316`, URL `https://stripe.com/resources/more/what-is-a-po-number-on-an-invoice`
+  4. `receipts`: pos `4`, vol `450000`, CPC `$7.66`, KD `17`, intent `informational`, traffic `1110`, URL `https://stripe.com/resources/more/receipt-template-what-to-include-and-templates-for-different-use-cases`
+  5. `fw 9`: pos `15`, vol `368000`, CPC `$3.79`, KD `22`, intent `informational`, traffic `0`, URL `https://stripe.com/resources/more/what-is-w-9-form`
