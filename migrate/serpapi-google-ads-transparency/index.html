@@ -1,0 +1,233 @@
+<!DOCTYPE html><html lang="en"> <head><meta name="google-site-verification" content="ZOI1nAASZldrkPB-OvdS5WHiXI53kSh6mkKOrYt6XYg"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#0a0a10"><title>Moving from SerpApi Google Ads Transparency to hirepulse/google-ads-transparency-scraper | hirepulse</title><meta name="description" content="Field mapping from SerpApi's Google Ads Transparency Center API to the hirepulse Google Ads Transparency Scraper on Apify, before/after Python code, and an honest price comparison with dates."><link rel="canonical" href="https://edtool79-collab.github.io/hirepulse-tools/migrate/serpapi-google-ads-transparency/"><link rel="alternate" type="text/markdown" href="https://edtool79-collab.github.io/hirepulse-tools/migrate/serpapi-google-ads-transparency.md"><meta property="og:type" content="article"><meta property="og:site_name" content="hirepulse"><meta property="og:title" content="Moving from SerpApi Google Ads Transparency to hirepulse/google-ads-transparency-scraper | hirepulse"><meta property="og:description" content="Field mapping from SerpApi's Google Ads Transparency Center API to the hirepulse Google Ads Transparency Scraper on Apify, before/after Python code, and an honest price comparison with dates."><meta property="og:url" content="https://edtool79-collab.github.io/hirepulse-tools/migrate/serpapi-google-ads-transparency/"><meta property="og:image" content="https://edtool79-collab.github.io/hirepulse-tools/og/migrate--serpapi-google-ads-transparency.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Moving from SerpApi Google Ads Transparency to hirepulse/google-ads-transparency-scraper | hirepulse"><meta name="twitter:image" content="https://edtool79-collab.github.io/hirepulse-tools/og/migrate--serpapi-google-ads-transparency.png"><meta name="twitter:image:alt" content="Moving from SerpApi Google Ads Transparency to hirepulse/google-ads-transparency-scraper | hirepulse"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Moving from SerpApi Google Ads Transparency to hirepulse/google-ads-transparency-scraper | hirepulse"><meta name="twitter:description" content="Field mapping from SerpApi's Google Ads Transparency Center API to the hirepulse Google Ads Transparency Scraper on Apify, before/after Python code, and an honest price comparison with dates."><link rel="icon" href="/hirepulse-tools/brand/favicon.svg" type="image/svg+xml"><link rel="icon" href="/hirepulse-tools/brand/favicon-32.png" sizes="32x32" type="image/png"><link rel="icon" href="/hirepulse-tools/brand/favicon-16.png" sizes="16x16" type="image/png"><link rel="apple-touch-icon" href="/hirepulse-tools/brand/apple-touch-icon.png" sizes="180x180"><link rel="manifest" href="/hirepulse-tools/site.webmanifest"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://edtool79-collab.github.io/hirepulse-tools/"},{"@type":"ListItem","position":2,"name":"Google Ads Transparency Scraper","item":"https://edtool79-collab.github.io/hirepulse-tools/google-ads-transparency-api/"},{"@type":"ListItem","position":3,"name":"Moving from SerpApi Google Ads Transparency Center API","item":"https://edtool79-collab.github.io/hirepulse-tools/migrate/serpapi-google-ads-transparency/"}]}</script><script data-goatcounter="https://hirepulse.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script><link rel="stylesheet" href="/hirepulse-tools/_astro/_slug_.cs1Vj_fD.css">
+<style>.migrate-page .guide-content table{display:block;max-width:100%;overflow-x:auto;border-collapse:collapse;font-size:14px;margin:1.2em 0;border:1px solid var(--line, #2a2733);border-radius:12px}.migrate-page .guide-content th,.migrate-page .guide-content td{padding:10px 14px;text-align:left;vertical-align:top;border-top:1px solid var(--line, #2a2733)}.migrate-page .guide-content th{background:#1a1524;color:#c9bddc;font-size:12px;letter-spacing:.02em;border-top:0}.migrate-page .guide-content td code,.migrate-page .guide-content th code{white-space:nowrap}
+</style></head> <body> <a class="skip-link" href="#main">Skip to content</a> <header class="site-header wrap"> <a class="brand" href="/hirepulse-tools/" aria-label="hirepulse home"><img src="/hirepulse-tools/brand/logo.svg" width="148" height="36" alt="hirepulse"></a> <nav aria-label="Main navigation"> <a href="/hirepulse-tools/#tools">Tools</a> <a href="/hirepulse-tools/guides/">Guides</a> <a href="/hirepulse-tools/hiring-report/">Weekly hiring report</a> <a class="store-link" href="https://apify.com/hirepulse" data-goatcounter-click="apify-store">Apify Store <span aria-hidden="true">↗</span></a> </nav> </header> <main id="main"> <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Moving from SerpApi Google Ads Transparency to hirepulse/google-ads-transparency-scraper","description":"Field mapping from SerpApi's Google Ads Transparency Center API to the hirepulse Google Ads Transparency Scraper on Apify, before/after Python code, and an honest price comparison with dates.","author":{"@type":"Organization","name":"hirepulse","url":"https://apify.com/hirepulse"},"datePublished":"2026-10-16","dateModified":"2026-10-16","mainEntityOfPage":"https://edtool79-collab.github.io/hirepulse-tools/migrate/serpapi-google-ads-transparency/","image":"https://edtool79-collab.github.io/hirepulse-tools/og/migrate--serpapi-google-ads-transparency.png"}</script> <div class="wrap migrate-page"><nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="/hirepulse-tools/">Home</a></li><li><span aria-hidden="true">/</span><a href="/hirepulse-tools/google-ads-transparency-api/">Google Ads Transparency Scraper</a></li><li><span aria-hidden="true">/</span><span aria-current="page">Moving from SerpApi Google Ads Transparency Center API</span></li></ol></nav> <header class="guide-header"><p class="eyebrow">MIGRATION GUIDE / SERPAPI GOOGLE ADS TRANSPARENCY CENTER API</p><h1>Moving from SerpApi Google Ads Transparency to hirepulse/google-ads-transparency-scraper</h1><p class="lead">Field mapping from SerpApi&#39;s Google Ads Transparency Center API to the hirepulse Google Ads Transparency Scraper on Apify, before/after Python code, and an honest price comparison with dates.</p><div class="byline">By hirepulse <span aria-hidden="true">·</span> Competitor facts checked <time datetime="2026-10-16">October 16, 2026</time></div></header> <div class="article-grid"><aside class="article-sidebar"><nav aria-label="On this page"><p class="eyebrow">ON THIS PAGE</p><a href="#what-is-different">What is different</a><a href="#field-mapping">Field mapping</a><a href="#code-before-and-after">Code before and after</a><a href="#price-comparison">Price comparison</a><a href="#when-to-stay-on-serpapi">When to stay on SerpApi</a></nav><a class="button secondary" href="https://apify.com/hirepulse/google-ads-transparency-scraper" data-goatcounter-click="apify-google-ads-transparency-scraper">Try it on Apify ↗</a></aside><article class="guide-content"><p>This page is for teams that call SerpApi’s Google Ads Transparency Center API (<code>engine=google_ads_transparency_center</code>) and want to compare it with the <a href="https://apify.com/hirepulse/google-ads-transparency-scraper" data-goatcounter-click="apify-google-ads-transparency-scraper">Google Ads Transparency Scraper</a> on Apify. The field names and date formats are <strong>not</strong> the same, so this page maps every field and says plainly what we do not return.</p>
+<p>SerpApi facts on this page were checked on <strong>October 16, 2026</strong> on <a href="https://serpapi.com/google-ads-transparency-center-api">serpapi.com/google-ads-transparency-center-api</a> and <a href="https://serpapi.com/pricing">serpapi.com/pricing</a>. Prices and fields can change, so check those pages before you decide.</p>
+<h2 id="what-is-different">What is different</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th></th><th>SerpApi Google Ads Transparency Center API</th><th>hirepulse Google Ads Transparency Scraper</th></tr></thead><tbody><tr><td>Input</td><td><code>advertiser_id</code>, or <code>text</code> (often a domain)</td><td><code>domains</code>, for example <code>nike.com</code>. No advertiser ID needed</td></tr><tr><td>Ads per request</td><td><code>num</code> (default 40), then <code>next_page_token</code></td><td>Up to 120 most recent ads per domain (<code>max_ads_per_domain</code>, default 40)</td></tr><tr><td>Dates</td><td><code>first_shown</code>, <code>last_shown</code> as Unix timestamps</td><td><code>first_shown</code>, <code>last_shown</code> as ISO 8601 text, plus <code>days_running</code> and <code>last_shown_days_ago</code></td></tr><tr><td>One row per domain</td><td>Not a built-in mode</td><td><code>mode: &quot;summary&quot;</code>: does the domain advertise, how many ads, formats, latest ad</td></tr><tr><td>Monitoring</td><td>Your own code</td><td><code>only_new_ads</code>: returns only ads that earlier runs did not return</td></tr><tr><td>Billing</td><td>Monthly plan with a number of searches</td><td>$0.005 per domain checked + $0.0015 per ad returned. Summary mode: $0.005 per domain only</td></tr></tbody></table>
+<h2 id="field-mapping">Field mapping</h2>
+<p>Example values come from a real run of the hirepulse tool (nike.com, text ad).</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>SerpApi field</th><th>hirepulse field</th><th>Example value (real run)</th><th>Notes</th></tr></thead><tbody><tr><td><code>advertiser_id</code></td><td><code>advertiser_id</code></td><td></td><td>Same meaning</td></tr><tr><td><code>advertiser</code></td><td><code>advertiser_name</code></td><td>“Nike, Inc.”</td><td></td></tr><tr><td>none</td><td><code>advertiser_verified</code></td><td>true</td><td>Extra field</td></tr><tr><td><code>ad_creative_id</code></td><td><code>ad_id</code></td><td></td><td>Same meaning</td></tr><tr><td><code>format</code></td><td><code>format</code></td><td>“text”</td><td>text, image or video</td></tr><tr><td><code>first_shown</code></td><td><code>first_shown</code></td><td>“2023-11-16T21:51:37Z”</td><td><strong>ISO 8601 text, not a Unix timestamp</strong></td></tr><tr><td><code>last_shown</code></td><td><code>last_shown</code></td><td>“2026-10-14T15:10:53Z”</td><td>Same note</td></tr><tr><td><code>total_days_shown</code></td><td><code>days_running</code></td><td>1062</td><td>Closest field. We count days from first to last shown; compare a few rows before you rely on it</td></tr><tr><td><code>details_link</code></td><td><code>transparency_url</code></td><td></td><td>Link to the ad in the Ads Transparency Center</td></tr><tr><td><code>image</code></td><td><code>preview_image_url</code></td><td></td><td>For text and image ads. Some video and HTML ads come with <code>preview_url</code> instead</td></tr><tr><td><code>width</code>, <code>height</code></td><td>none</td><td></td><td>Not returned</td></tr><tr><td>none</td><td><code>domain</code>, <code>last_shown_days_ago</code>, <code>country</code>, <code>platform</code></td><td></td><td>Extra fields</td></tr></tbody></table>
+<p>Neither tool can give spend or impression numbers: Google does not publish them for commercial ads.</p>
+<h2 id="code-before-and-after">Code before and after</h2>
+<p>Before (SerpApi):</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="python"><code><span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> requests</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">params </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#9ECBFF">    &quot;engine&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;google_ads_transparency_center&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">    &quot;text&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;nike.com&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">    &quot;api_key&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;YOUR_SERPAPI_KEY&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"><span style="color:#E1E4E8">data </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> requests.get(</span><span style="color:#9ECBFF">&quot;https://serpapi.com/search&quot;</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">params</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">params, </span><span style="color:#FFAB70">timeout</span><span style="color:#F97583">=</span><span style="color:#79B8FF">60</span><span style="color:#E1E4E8">).json()</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">for</span><span style="color:#E1E4E8"> ad </span><span style="color:#F97583">in</span><span style="color:#E1E4E8"> data.get(</span><span style="color:#9ECBFF">&quot;ad_creatives&quot;</span><span style="color:#E1E4E8">, []):</span></span>
+<span class="line"><span style="color:#79B8FF">    print</span><span style="color:#E1E4E8">(ad[</span><span style="color:#9ECBFF">&quot;advertiser&quot;</span><span style="color:#E1E4E8">], ad[</span><span style="color:#9ECBFF">&quot;format&quot;</span><span style="color:#E1E4E8">], ad[</span><span style="color:#9ECBFF">&quot;first_shown&quot;</span><span style="color:#E1E4E8">], ad[</span><span style="color:#9ECBFF">&quot;last_shown&quot;</span><span style="color:#E1E4E8">], ad[</span><span style="color:#9ECBFF">&quot;details_link&quot;</span><span style="color:#E1E4E8">])</span></span></code></pre>
+<p>After (hirepulse on Apify):</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="python"><code><span class="line"><span style="color:#F97583">from</span><span style="color:#E1E4E8"> apify_client </span><span style="color:#F97583">import</span><span style="color:#E1E4E8"> ApifyClient</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">client </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> ApifyClient(</span><span style="color:#9ECBFF">&quot;YOUR_APIFY_TOKEN&quot;</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">run </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> client.actor(</span><span style="color:#9ECBFF">&quot;hirepulse/google-ads-transparency-scraper&quot;</span><span style="color:#E1E4E8">).call(</span><span style="color:#FFAB70">run_input</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#9ECBFF">    &quot;domains&quot;</span><span style="color:#E1E4E8">: [</span><span style="color:#9ECBFF">&quot;nike.com&quot;</span><span style="color:#E1E4E8">],</span></span>
+<span class="line"><span style="color:#9ECBFF">    &quot;country&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">&quot;US&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">    &quot;max_ads_per_domain&quot;</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">40</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">})</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">for</span><span style="color:#E1E4E8"> ad </span><span style="color:#F97583">in</span><span style="color:#E1E4E8"> client.dataset(run[</span><span style="color:#9ECBFF">&quot;defaultDatasetId&quot;</span><span style="color:#E1E4E8">]).iterate_items():</span></span>
+<span class="line"><span style="color:#79B8FF">    print</span><span style="color:#E1E4E8">(ad[</span><span style="color:#9ECBFF">&quot;advertiser_name&quot;</span><span style="color:#E1E4E8">], ad[</span><span style="color:#9ECBFF">&quot;format&quot;</span><span style="color:#E1E4E8">], ad[</span><span style="color:#9ECBFF">&quot;first_shown&quot;</span><span style="color:#E1E4E8">], ad[</span><span style="color:#9ECBFF">&quot;last_shown&quot;</span><span style="color:#E1E4E8">], ad[</span><span style="color:#9ECBFF">&quot;transparency_url&quot;</span><span style="color:#E1E4E8">])</span></span></code></pre>
+<p>If your code stores Unix timestamps, convert the dates:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="python"><code><span class="line"><span style="color:#F97583">from</span><span style="color:#E1E4E8"> datetime </span><span style="color:#F97583">import</span><span style="color:#E1E4E8"> datetime</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">def</span><span style="color:#B392F0"> to_unix</span><span style="color:#E1E4E8">(value):</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#79B8FF"> int</span><span style="color:#E1E4E8">(datetime.fromisoformat(value.replace(</span><span style="color:#9ECBFF">&quot;Z&quot;</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">&quot;+00:00&quot;</span><span style="color:#E1E4E8">)).timestamp())</span></span></code></pre>
+<h2 id="price-comparison">Price comparison</h2>
+<p>SerpApi plans (checked October 16, 2026): Free $0 for 250 searches per month, Starter $25 for 1,000, Developer $75 for 5,000, Production $150 for 15,000. Cached, errored and failed searches are not counted. The examples below assume <strong>one</strong> SerpApi search per domain, which is the best case for SerpApi (looking up an advertiser first, or paging past <code>num</code>, adds searches).</p>
+<p>hirepulse: $0.005 per domain checked + $0.0015 per ad returned. Summary mode: $0.005 per domain. No monthly plan. Higher Apify plans get volume discounts, not counted here.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Use per month</th><th>SerpApi (smallest plan that covers it)</th><th>hirepulse cost</th></tr></thead><tbody><tr><td>100 domains, 40 ads each</td><td>100 searches: Free ($0)</td><td>100 × ($0.005 + 40 × $0.0015) = <strong>$6.50</strong></td></tr><tr><td>800 domain checks, 40 ads each (200 competitors, weekly)</td><td>800 searches: Starter ($25)</td><td>800 × $0.065 = <strong>$52.00</strong></td></tr><tr><td>800 domain checks, summary only (“do they advertise, how many ads?”)</td><td>800 searches: Starter ($25)</td><td>800 × $0.005 = <strong>$4.00</strong></td></tr></tbody></table>
+<p><strong>Honest reading:</strong> if you need the full list of ads for many domains every week, a SerpApi plan used near its limit costs less than we do. hirepulse costs less when one row per domain is enough (summary mode), when you only want ads that are new since the last run, or when your usage is irregular and a monthly plan would go unused. For small volumes, SerpApi’s free plan costs nothing.</p>
+<h2 id="when-to-stay-on-serpapi">When to stay on SerpApi</h2>
+<ul>
+<li>You need creative <code>width</code> and <code>height</code>, or SerpApi’s political-ads options.</li>
+<li>You check the full ad list of many domains every week and use most of your plan.</li>
+<li>You need SerpApi’s other search engines under the same plan.</li>
+</ul></article></div> <div class="section"><section class="panel mcp-panel mcp-connect"> <p class="eyebrow">AGENT READY</p> <h2>Connect it to your AI agent</h2> <p>Paste one of these and your agent can call this tool directly. Get your token in Apify Console under API &amp; Integrations. Remote clients can also sign in with OAuth instead of a token.</p> <div class="code-panel"><div class="code-label"><span class="code-dots" aria-hidden="true">● ● ●</span><span>MCP URL</span><button class="copy-button" data-copy-label="Copy" type="button" aria-label="Copy MCP URL code">Copy <span aria-hidden="true">⧉</span></button></div><pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>https://mcp.apify.com?tools=hirepulse/google-ads-transparency-scraper</span></span></code></pre></div> <div class="code-panel"><div class="code-label"><span class="code-dots" aria-hidden="true">● ● ●</span><span>Claude Desktop (claude_desktop_config.json)</span><button class="copy-button" data-copy-label="Copy" type="button" aria-label="Copy Claude Desktop (claude_desktop_config.json) code">Copy <span aria-hidden="true">⧉</span></button></div><pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#79B8FF">  "mcpServers"</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">    "hirepulse"</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">      "command"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"npx"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">      "args"</span><span style="color:#E1E4E8">: [</span></span>
+<span class="line"><span style="color:#9ECBFF">        "-y"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        "@apify/actors-mcp-server"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        "--tools"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">        "hirepulse/google-ads-transparency-scraper"</span></span>
+<span class="line"><span style="color:#E1E4E8">      ],</span></span>
+<span class="line"><span style="color:#79B8FF">      "env"</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">        "APIFY_TOKEN"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"YOUR_APIFY_TOKEN"</span></span>
+<span class="line"><span style="color:#E1E4E8">      }</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre></div> <div class="code-panel"><div class="code-label"><span class="code-dots" aria-hidden="true">● ● ●</span><span>Cursor (.cursor/mcp.json)</span><button class="copy-button" data-copy-label="Copy" type="button" aria-label="Copy Cursor (.cursor/mcp.json) code">Copy <span aria-hidden="true">⧉</span></button></div><pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#79B8FF">  "mcpServers"</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">    "hirepulse"</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">      "url"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"https://mcp.apify.com?tools=hirepulse/google-ads-transparency-scraper"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">      "headers"</span><span style="color:#E1E4E8">: {</span></span>
+<span class="line"><span style="color:#79B8FF">        "Authorization"</span><span style="color:#E1E4E8">: </span><span style="color:#9ECBFF">"Bearer YOUR_APIFY_TOKEN"</span></span>
+<span class="line"><span style="color:#E1E4E8">      }</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre></div> <div class="code-panel"><div class="code-label"><span class="code-dots" aria-hidden="true">● ● ●</span><span>n8n</span><button class="copy-button" data-copy-label="Copy" type="button" aria-label="Copy n8n code">Copy <span aria-hidden="true">⧉</span></button></div><pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>MCP Client Tool node</span></span>
+<span class="line"><span>Endpoint: https://mcp.apify.com?tools=hirepulse/google-ads-transparency-scraper</span></span>
+<span class="line"><span>Authentication: Bearer, with your Apify token</span></span></code></pre></div> <p>Tell your coding agent when this tool fits: paste this into AGENTS.md, CLAUDE.md or .cursorrules.</p> <div class="code-panel"><div class="code-label"><span class="code-dots" aria-hidden="true">● ● ●</span><span>AGENTS.md / CLAUDE.md / .cursorrules</span><button class="copy-button" data-copy-label="Copy for your AI agent" type="button" aria-label="Copy AGENTS.md / CLAUDE.md / .cursorrules code">Copy for your AI agent <span aria-hidden="true">⧉</span></button></div><pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="markdown"><code><span class="line"><span style="color:#79B8FF;font-weight:bold"># Data tools (hirepulse on Apify)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFAB70">-</span><span style="color:#E1E4E8"> When you need the Google ads a company runs, you can use </span><span style="color:#79B8FF">`hirepulse/google-ads-transparency-scraper`</span><span style="color:#E1E4E8"> via MCP.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">MCP server: https://mcp.apify.com?tools=hirepulse/google-ads-transparency-scraper</span></span>
+<span class="line"><span style="color:#E1E4E8">Auth: the Apify sign-in of the MCP client, or the header </span><span style="color:#79B8FF">`Authorization: Bearer $APIFY_TOKEN`</span><span style="color:#E1E4E8">. Never write the token into code or files.</span></span>
+<span class="line"><span style="color:#E1E4E8">Results are billed per use. Start small (one query or domain), read the result, then scale up.</span></span>
+<span class="line"><span style="color:#E1E4E8">Say which data a tool does not return instead of guessing.</span></span>
+<span class="line"><span style="color:#E1E4E8">Details: https://edtool79-collab.github.io/hirepulse-tools/llms-full.txt</span></span></code></pre></div> <a class="text-link" href="/hirepulse-tools/guides/ai-agent-live-data-mcp/">Read the MCP connection guide →</a> </section></div> </div> </main> <footer class="wrap site-footer"> <div><a class="brand" href="/hirepulse-tools/"><img src="/hirepulse-tools/brand/logo.svg" width="148" height="36" alt="hirepulse"></a><p>Independent tools by hirepulse, running on the Apify Store. Not affiliated with Google, AliExpress, Apify or the companies mentioned.</p></div> <div class="footer-links"><a href="/hirepulse-tools/#tools">Explore tools</a><a href="/hirepulse-tools/guides/">Guides</a><a href="https://apify.com/hirepulse" data-goatcounter-click="apify-store">Apify Store ↗</a></div> </footer> <span id="copy-status" class="sr-only" aria-live="polite"></span> <script type="module">document.querySelectorAll("pre").forEach(e=>{if(!e.closest(".story-stage")&&(e.tabIndex=0,!e.closest(".mobile-story-code")&&!e.closest(".code-panel"))){const o=document.createElement("div");o.className="code-panel";const t=document.createElement("div");t.className="code-label";const n=document.createElement("span");n.textContent="EXAMPLE";const c=document.createElement("button");c.type="button",c.className="copy-button",c.textContent="Copy",c.setAttribute("aria-label","Copy code example"),t.append(n,c),e.before(o),o.append(t,e)}});document.querySelectorAll(".copy-button").forEach(e=>{e.addEventListener("click",async()=>{const o=e.closest(".code-panel")?.querySelector("code")?.textContent||"";try{await navigator.clipboard.writeText(o),e.textContent="Copied ✓"}catch{e.textContent="Select code to copy";const n=e.closest(".code-panel")?.querySelector("pre");if(n?.focus(),n){const c=document.createRange();c.selectNodeContents(n);const a=window.getSelection();a?.removeAllRanges(),a?.addRange(c)}}const t=document.querySelector("#copy-status");t&&(t.textContent=e.textContent),setTimeout(()=>{e.textContent=e.dataset.copyLabel||"Copy",t&&(t.textContent="")},2200)})});if(!matchMedia("(prefers-reduced-motion: reduce)").matches){const e=new IntersectionObserver(o=>o.forEach(t=>{t.isIntersecting&&(t.target.classList.add("revealed"),e.unobserve(t.target))}),{threshold:.08});document.querySelectorAll(".tool-card,.steps article,.guide-card,.report-teaser").forEach(o=>{o.getBoundingClientRect().top>innerHeight&&(o.classList.add("reveal"),e.observe(o))})}</script> <script>document.addEventListener('DOMContentLoaded',function(){var g=window.goatcounter;if(g&&g.bind_events)g.bind_events()});</script> </body> </html>

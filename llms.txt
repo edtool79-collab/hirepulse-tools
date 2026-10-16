@@ -24,6 +24,11 @@ Every tool page and guide also has a plain Markdown version at the same address 
 - [Domain SEO Overview](https://edtool79-collab.github.io/hirepulse-tools/domain-seo-overview-api/): `hirepulse/domain-seo-overview`. Estimated organic traffic, ranking keywords, traffic value and competitor domains for any domain. Overview fields include organic_traffic_estimate, organic_keywords, organic_traffic_value_usd and keywords_top_3/10/20. Ranked-keyword rows: keyword, position, search_volume, traffic_estimate, url. Price: see the Apify Store page.
 - [YouTube Transcript Scraper](https://edtool79-collab.github.io/hirepulse-tools/youtube-transcript-api/): `hirepulse/youtube-transcript-scraper`. Transcripts of YouTube videos in bulk, with timestamps. Fields: video_id, url, title, channel, duration_seconds, language, is_auto_generated, transcript, word_count, segments. Free plan: the first 3 videos of each run. Price: see the Apify Store page.
 
+## Migration guides
+
+- [Moving from SerpApi Google Jobs](https://edtool79-collab.github.io/hirepulse-tools/migrate/serpapi-google-jobs/): field mapping, code and prices.
+- [Moving from SerpApi Google Ads Transparency](https://edtool79-collab.github.io/hirepulse-tools/migrate/serpapi-google-ads-transparency/): field mapping, code and prices.
+
 ## Guides
 
 - [Give your AI agent live data with MCP](https://edtool79-collab.github.io/hirepulse-tools/guides/ai-agent-live-data-mcp/)
