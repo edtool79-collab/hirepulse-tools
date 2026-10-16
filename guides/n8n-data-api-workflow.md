@@ -103,7 +103,7 @@ For enterprise reliability, configure n8n's node error handling settings:
 ## Technical limitations and pricing
 
 - **Scope:** The scraper extracts public Google Ads Transparency data (text, image, and video creatives, first/last seen dates, preview assets, and verification status). It does not expose private ad spend, conversion numbers, or CPC bidding metrics.
-- **Pricing:** Billed at $0.005 per domain checked + $0.0015 per ad returned. The free Apify plan supports testing 1 domain with up to 5 ads.
+- **Pricing:** Billed at $0.005 per domain checked + $0.0015 per ad returned. Domains with no ads cost $0.
 
 ## Next steps
 

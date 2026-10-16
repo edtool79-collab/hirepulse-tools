@@ -1,6 +1,6 @@
-# AliExpress search results as JSON (Python, n8n, API)
+# Export AliExpress search results to Excel or CSV (no code, or API)
 
-> Get AliExpress search results as clean JSON: product title, price in your currency, original price and discount, rating, sold count, image and product URL. 60 products per page, no browser.
+> Export AliExpress search results to a spreadsheet without coding: product title, price in your currency, original price and discount, rating, units sold, image and product link. 60 products per page. Also as JSON for Python, n8n and AI agents.
 
 ## What you get
 
@@ -9,6 +9,14 @@
 - Price, original price, discount %, rating, sold count, image and product link
 - Flags sponsored listings
 - Plain HTTP with automatic proxy fallback, so runs are fast and cheap
+
+## Export to Excel or CSV without code
+
+1. Open https://apify.com/hirepulse/aliexpress-search-scraper, click "Try for free" and sign in (free Apify account, no credit card required).
+2. In the Input tab, type your search (for example "wireless earbuds"), then click Start. The free Apify plan returns up to 100 products per run.
+3. Open the Output tab, click Export and choose Excel or CSV.
+
+Profit calculator with real sample prices: https://edtool79-collab.github.io/hirepulse-tools/dropshipping-profit-calculator/
 
 ## AliExpress Search Scraper (`hirepulse/aliexpress-search-scraper`)
 

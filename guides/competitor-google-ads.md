@@ -1,6 +1,6 @@
 # How to see every Google ad a competitor runs
 
-> See every Google ad a competitor runs from just their domain: creative images, text copies and active dates. Python, cURL and alerts.
+> See every Google ad a competitor runs from just their domain: creative previews, formats and active dates. Python, cURL and alerts.
 
 If you do competitive intelligence, performance marketing, or sales research, Google's Ads Transparency Center is one of the most valuable public data sources on the internet. It indexes every ad running across Google Search, YouTube, Google Shopping, Maps, and the Display Network, along with the first and last dates each creative was seen.
 
@@ -145,7 +145,7 @@ Understanding the scope of public transparency data ensures you build dependable
 
 - **No private financial metrics:** Google Ads Transparency Center is a public accountability repository, not a financial audit. It exposes active creative assets, verification state, and publication date spans. It does not publish private bidding information, total ad spend, impressions, CPC, or conversion numbers.
 - **Platform coverage:** The tool captures search, video, and display creatives served through Google. It does not index Meta Ads, LinkedIn Ads, or TikTok Ads.
-- **Pay-per-use pricing:** Usage is billed at $0.005 per domain checked plus $0.0015 per ad returned. The free Apify plan supports testing 1 domain with up to 5 ads.
+- **Pay-per-use pricing:** Usage is billed at $0.005 per domain checked plus $0.0015 per ad returned. Domains with no ads cost $0.
 
 ## Next steps
 

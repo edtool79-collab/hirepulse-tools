@@ -17,7 +17,7 @@
 - MCP: `https://mcp.apify.com?tools=hirepulse/google-ads-transparency-scraper`
 - Apify Store: https://apify.com/hirepulse/google-ads-transparency-scraper
 - Page: https://edtool79-collab.github.io/hirepulse-tools/google-ads-transparency-api/
-- Price: $0.005 per domain + $0.0015 per ad. Free Apify plan: 1 domain, up to 5 ads.
+- Price: $0.005 per domain + $0.0015 per ad. Domains with no ads cost $0.
 
 ### Input
 
