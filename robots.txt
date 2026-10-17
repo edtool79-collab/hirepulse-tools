@@ -2,3 +2,6 @@ User-agent: *
 Allow: /
 
 Sitemap: https://edtool79-collab.github.io/hirepulse-tools/sitemap.xml
+
+# llms.txt: https://edtool79-collab.github.io/hirepulse-tools/llms.txt
+# llms-full.txt: https://edtool79-collab.github.io/hirepulse-tools/llms-full.txt

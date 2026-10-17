@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "HirePulse Apify Data Tools API",
-    "description": "OpenAPI 3.1 specification for HirePulse pay-per-use data tools running on Apify. Use with LangChain, LlamaIndex, AutoGen, Flowise, or OpenAI Custom Actions.\n\nAll tools run on the Apify Store (https://apify.com/hirepulse) with pay-per-use billing and $5/month platform credit included.",
+    "description": "Input contracts for eight HirePulse data tools running on Apify. Provide an Apify token using the Authorization: Bearer header. Every call must specify maxTotalChargeUsd, up to the $1 limit documented here. This synchronous API can time out after 300 seconds; a timeout or lost connection does not prove the Actor stopped. Check the existing run in Apify Console before starting another paid run. https://docs.apify.com/api/v2/actor-run-sync-get-dataset-items-post",
     "version": "1.0.0",
     "contact": {
       "name": "HirePulse",
@@ -19,16 +19,32 @@
     "/acts/hirepulse~company-intent-radar/run-sync-get-dataset-items": {
       "post": {
         "summary": "Company Intent Radar",
-        "description": "Enrich companies with Greenhouse, Lever, Ashby, Workable, SmartRecruiters, Recruitee jobs, Google ads, SEO traffic and 0-100 intent score. $0.03 per company report. 5 free runs.\nApify Store Page: https://apify.com/hirepulse/company-intent-radar",
+        "description": "Company-domain hiring, Google ads, estimated organic traffic, email provider and intent score from 0 to 100. $0.03 per company report, charged only when the full report is produced. Free plan: hiring and email signals for up to 5 companies, not 5 free runs.\nApify Store Page: https://apify.com/hirepulse/company-intent-radar",
         "operationId": "run_company_intent_radar",
         "parameters": [
           {
-            "name": "token",
+            "name": "maxTotalChargeUsd",
             "in": "query",
             "required": true,
-            "description": "Your Apify API Token (get $5/month free at https://apify.com/pricing)",
+            "description": "Maximum total Actor run charge in USD. Required by this contract, capped at $1. A cap can produce partial results.",
             "schema": {
-              "type": "string"
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1
+            },
+            "example": 0.25
+          },
+          {
+            "name": "restartOnError",
+            "in": "query",
+            "required": false,
+            "description": "Disable automatic Actor restart.",
+            "schema": {
+              "type": "boolean",
+              "enum": [
+                false
+              ],
+              "default": false
             }
           }
         ],
@@ -37,14 +53,44 @@
           "content": {
             "application/json": {
               "schema": {
+                "title": "Company Intent Radar input",
+                "description": "List company websites. Each one gets a short report of buying-intent signals: hiring, Google ads, SEO traffic and email provider.",
                 "type": "object",
-                "example": {
-                  "domains": [
-                    "stripe.com",
-                    "notion.so"
-                  ],
-                  "country": "US"
-                }
+                "properties": {
+                  "domains": {
+                    "title": "Company domains",
+                    "type": "array",
+                    "description": "Required. Company websites, one per item, up to 100 per run. Full URLs are fine too. Example: [\"stripe.com\", \"notion.so\"]. Returns one report per domain.",
+                    "minItems": 1,
+                    "maxItems": 100,
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "country": {
+                    "title": "Country for SEO traffic",
+                    "type": "string",
+                    "description": "Two-letter ISO country code used for the organic SEO traffic estimate. Example: \"GB\". Default: \"US\".",
+                    "default": "US",
+                    "pattern": "^[A-Za-z]{2}$"
+                  },
+                  "include_jobs": {
+                    "title": "Include newest job titles",
+                    "type": "boolean",
+                    "description": "Add the 5 newest job titles to each report. Default: false, which keeps reports short.",
+                    "default": false
+                  }
+                },
+                "required": [
+                  "domains"
+                ]
+              },
+              "example": {
+                "domains": [
+                  "stripe.com",
+                  "notion.so"
+                ],
+                "country": "US"
               }
             }
           }
@@ -62,6 +108,12 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Authentication required or invalid token."
+          },
+          "408": {
+            "description": "Synchronous HTTP timeout. Check the existing run in Apify Console; do not automatically start another paid run."
           }
         }
       }
@@ -69,16 +121,32 @@
     "/acts/hirepulse~google-ads-transparency-scraper/run-sync-get-dataset-items": {
       "post": {
         "summary": "Google Ads Transparency Scraper",
-        "description": "Extract every live Google ad by company domain. Formats (text/image/video), first/last shown dates, preview assets, and Transparency links. $0.005 per domain + $0.0015 per ad ($0 for domains with no ads).\nApify Store Page: https://apify.com/hirepulse/google-ads-transparency-scraper",
+        "description": "Google ads by company domain: advertiser, format, first/last shown dates, preview images and Transparency Center links. Ad text is not returned. $0.005 per domain + $0.0015 per ad; domains with no ads cost $0. Summary mode returns one row per domain, with no per-ad charge.\nApify Store Page: https://apify.com/hirepulse/google-ads-transparency-scraper",
         "operationId": "run_google_ads_transparency_scraper",
         "parameters": [
           {
-            "name": "token",
+            "name": "maxTotalChargeUsd",
             "in": "query",
             "required": true,
-            "description": "Your Apify API Token (get $5/month free at https://apify.com/pricing)",
+            "description": "Maximum total Actor run charge in USD. Required by this contract, capped at $1. A cap can produce partial results.",
             "schema": {
-              "type": "string"
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1
+            },
+            "example": 0.25
+          },
+          {
+            "name": "restartOnError",
+            "in": "query",
+            "required": false,
+            "description": "Disable automatic Actor restart.",
+            "schema": {
+              "type": "boolean",
+              "enum": [
+                false
+              ],
+              "default": false
             }
           }
         ],
@@ -87,15 +155,98 @@
           "content": {
             "application/json": {
               "schema": {
+                "title": "Google Ads Transparency Scraper input",
+                "description": "List the website domains of the companies you want to check. For each one you get the ads it runs on Google (Search, YouTube, Shopping, Play, Maps), from Google's Ads Transparency Center.",
                 "type": "object",
-                "example": {
-                  "domains": [
-                    "nike.com"
-                  ],
-                  "country": "US",
-                  "max_ads_per_domain": 40,
-                  "mode": "ads"
-                }
+                "properties": {
+                  "domains": {
+                    "title": "Domains",
+                    "type": "array",
+                    "description": "Required. Company websites, one per item, up to 100 per run. Full URLs are fine too. Example: [\"nike.com\", \"adidas.com\"]. Results include every advertiser whose ads lead to the domain, not only the brand itself.",
+                    "minItems": 1,
+                    "maxItems": 100,
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "mode": {
+                    "title": "Output",
+                    "type": "string",
+                    "description": "\"ads\": one record per ad (advertiser, format, first and last shown dates, preview and transparency links). \"summary\": one compact record per domain (runs_google_ads, total_ads, formats, advertisers, latest ad), charged per domain only, and domains without ads are free; best for lead lists and AI agents. Default: \"ads\". For a cheap agent check use mode=\"summary\" with one domain. For an ad sample use mode=\"ads\" and max_ads_per_domain=1.",
+                    "enum": [
+                      "ads",
+                      "summary"
+                    ],
+                    "default": "ads"
+                  },
+                  "max_ads_per_domain": {
+                    "title": "Max ads per domain",
+                    "type": "integer",
+                    "description": "Ads mode only: most recent ads to return per domain, 1 to 120. Each returned ad is one charged result. Default: 40. For a cheap agent check use mode=\"summary\" with one domain. For an ad sample use mode=\"ads\" and max_ads_per_domain=1.",
+                    "minimum": 1,
+                    "maximum": 120,
+                    "default": 40
+                  },
+                  "country": {
+                    "title": "Country",
+                    "type": "string",
+                    "description": "Only ads shown in this country, as a two-letter ISO code. Example: \"US\", \"GB\" or \"DE\". Leave empty for ads shown in any country.",
+                    "pattern": "^([A-Za-z]{2})?$"
+                  },
+                  "platform": {
+                    "title": "Platform",
+                    "type": "string",
+                    "description": "Only ads shown on this Google platform: \"all\", \"google_search\", \"youtube\", \"google_shopping\", \"google_play\" or \"google_maps\". Default: \"all\".",
+                    "enum": [
+                      "all",
+                      "google_search",
+                      "youtube",
+                      "google_shopping",
+                      "google_play",
+                      "google_maps"
+                    ],
+                    "default": "all"
+                  },
+                  "format": {
+                    "title": "Ad format",
+                    "type": "string",
+                    "description": "Only ads of this format: \"all\", \"text\", \"image\" or \"video\". Default: \"all\".",
+                    "enum": [
+                      "all",
+                      "text",
+                      "image",
+                      "video"
+                    ],
+                    "default": "all"
+                  },
+                  "date_from": {
+                    "title": "Shown from",
+                    "type": "string",
+                    "description": "Only ads shown on or after this date, YYYY-MM-DD. Example: \"2026-09-01\". Set together with date_to. Optional."
+                  },
+                  "date_to": {
+                    "title": "Shown until",
+                    "type": "string",
+                    "description": "Only ads shown on or before this date, YYYY-MM-DD. Example: \"2026-09-30\". Optional."
+                  },
+                  "only_new_ads": {
+                    "title": "Only new ads (monitoring)",
+                    "type": "boolean",
+                    "description": "Return only ads that your earlier runs did not return yet, for the same domain and filters (remembered in your own Apify account). Use it with a daily or weekly schedule to monitor new competitor ads. The per-domain fee still applies when the domain runs ads, even if none of them is new. Default: false.",
+                    "default": false
+                  }
+                },
+                "required": [
+                  "domains"
+                ]
+              },
+              "example": {
+                "domains": [
+                  "nike.com"
+                ],
+                "country": "US",
+                "max_ads_per_domain": 40,
+                "mode": "ads"
               }
             }
           }
@@ -113,6 +264,12 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Authentication required or invalid token."
+          },
+          "408": {
+            "description": "Synchronous HTTP timeout. Check the existing run in Apify Console; do not automatically start another paid run."
           }
         }
       }
@@ -120,16 +277,32 @@
     "/acts/hirepulse~ats-job-pulse/run-sync-get-dataset-items": {
       "post": {
         "summary": "ATS Job Scraper",
-        "description": "Extract open jobs, published salary ranges and technologies from Greenhouse, Lever, Ashby, Workable, Recruitee and SmartRecruiters (Workday not supported). Pay per result on Apify Store.\nApify Store Page: https://apify.com/hirepulse/ats-job-pulse",
+        "description": "Extract open jobs, published salary ranges and technologies from Greenhouse, Lever, Ashby, Workable, Recruitee and SmartRecruiters (Workday not supported). Pay per result on Apify Store.\nApify Store Page: https://apify.com/hirepulse/ats-job-pulse\nApify Store Page: https://apify.com/hirepulse/ats-job-pulse",
         "operationId": "run_ats_job_pulse",
         "parameters": [
           {
-            "name": "token",
+            "name": "maxTotalChargeUsd",
             "in": "query",
             "required": true,
-            "description": "Your Apify API Token (get $5/month free at https://apify.com/pricing)",
+            "description": "Maximum total Actor run charge in USD. Required by this contract, capped at $1. A cap can produce partial results.",
             "schema": {
-              "type": "string"
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1
+            },
+            "example": 0.25
+          },
+          {
+            "name": "restartOnError",
+            "in": "query",
+            "required": false,
+            "description": "Disable automatic Actor restart.",
+            "schema": {
+              "type": "boolean",
+              "enum": [
+                false
+              ],
+              "default": false
             }
           }
         ],
@@ -138,13 +311,114 @@
           "content": {
             "application/json": {
               "schema": {
+                "title": "ATS-Job-Pulse input",
+                "description": "Give a list of companies. For each one the Actor finds its job board (Greenhouse, Lever, Ashby, Workable, Recruitee or SmartRecruiters), returns the open jobs plus a hiring summary, and reports what changed since the previous run. Use the filters to keep the output small.",
                 "type": "object",
-                "example": {
-                  "companies": [
-                    "stripe.com",
-                    "notion.so"
-                  ]
-                }
+                "properties": {
+                  "companies": {
+                    "title": "Companies",
+                    "type": "array",
+                    "description": "Required. Company website domains or job-board slugs, one per item. Example: [\"stripe.com\", \"linear.app\"]. The job board is detected automatically on Greenhouse, Lever, Ashby, Workable, Recruitee and SmartRecruiters (not Workday). To force a board, prefix the slug: \"greenhouse:stripe\", \"lever:spotify\", \"ashby:linear\", \"workable:huggingface\", \"recruitee:bunq\", \"smartrecruiters:BoschGroup\". Charged once per company found, whatever its job count.",
+                    "minItems": 1,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "output_mode": {
+                    "title": "What to return",
+                    "type": "string",
+                    "description": "Which records to return. \"summary_only\": one company_summary per company (job counts, new and closed counts, departments, locations, technologies); the smallest output, best for AI agents. \"jobs_and_summary\": the summary plus every job record. \"jobs_only\": job records only. Default: \"jobs_and_summary\". For a cheap agent check use output_mode=\"summary_only\" and max_jobs_per_company=20. This keeps returned data small; the per-company charge is unchanged.",
+                    "default": "jobs_and_summary",
+                    "enum": [
+                      "jobs_and_summary",
+                      "summary_only",
+                      "jobs_only"
+                    ]
+                  },
+                  "track_diff": {
+                    "title": "Track changes between runs",
+                    "type": "boolean",
+                    "description": "Compare with the previous run that used the same state_id and set each job's status to NEW, EXISTING or CLOSED. The first run marks every job NEW (is_first_run = true). When false, every job is ACTIVE and nothing is saved. Default: true.",
+                    "default": true
+                  },
+                  "state_id": {
+                    "title": "State ID",
+                    "type": "string",
+                    "description": "Name of the saved history for change tracking. Runs with the same state_id are compared with each other; history is kept per company. Use one value per watchlist or schedule. Example: \"eng-watchlist\". Default: \"default_state\".",
+                    "default": "default_state"
+                  },
+                  "extract_tech_keywords": {
+                    "title": "Extract technology keywords",
+                    "type": "boolean",
+                    "description": "Detect core technologies (Python, AWS, React, Kubernetes, LLMs, ...) in each job title and description, and return them in detected_technologies and in the summary's top_technologies. Default: true.",
+                    "default": true
+                  },
+                  "only_changes": {
+                    "title": "Only new and closed jobs",
+                    "type": "boolean",
+                    "description": "Return only jobs whose status is NEW or CLOSED. Use it on scheduled runs with a fixed state_id to get just what changed since the last run. Default: false.",
+                    "default": false
+                  },
+                  "title_keywords": {
+                    "title": "Job title contains",
+                    "type": "array",
+                    "description": "Keep only jobs whose title contains any of these words or phrases (case-insensitive). Example: [\"engineer\", \"data scientist\"]. Filters reduce the job records only; the summary always counts all jobs.",
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "departments": {
+                    "title": "Department contains",
+                    "type": "array",
+                    "description": "Keep only jobs whose department contains any of these words (case-insensitive). Example: [\"engineering\", \"sales\"].",
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "locations": {
+                    "title": "Location contains",
+                    "type": "array",
+                    "description": "Keep only jobs whose location contains any of these words (case-insensitive). Example: [\"london\", \"new york\", \"germany\"].",
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "technologies": {
+                    "title": "Mentions technology",
+                    "type": "array",
+                    "description": "Keep only jobs that mention any of these technologies, using the names returned in detected_technologies (case-insensitive). Example: [\"Python\", \"Kubernetes\", \"LLMs\"].",
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "remote_only": {
+                    "title": "Remote jobs only",
+                    "type": "boolean",
+                    "description": "Keep only jobs marked or described as remote. Default: false.",
+                    "default": false
+                  },
+                  "max_jobs_per_company": {
+                    "title": "Max jobs per company",
+                    "type": "integer",
+                    "description": "Maximum job records per company, after the other filters. 0 = no limit. When the limit applies, NEW jobs are kept first, then CLOSED, then the rest; the summary's matching_jobs gives the full count. Example: 20. Default: 0. For a cheap agent check use output_mode=\"summary_only\" and max_jobs_per_company=20. This keeps returned data small; the per-company charge is unchanged.",
+                    "default": 0,
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "companies"
+                ]
+              },
+              "example": {
+                "companies": [
+                  "stripe.com",
+                  "notion.so"
+                ]
               }
             }
           }
@@ -162,6 +436,12 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Authentication required or invalid token."
+          },
+          "408": {
+            "description": "Synchronous HTTP timeout. Check the existing run in Apify Console; do not automatically start another paid run."
           }
         }
       }
@@ -169,16 +449,32 @@
     "/acts/hirepulse~google-jobs-scraper/run-sync-get-dataset-items": {
       "post": {
         "summary": "Google Jobs Scraper",
-        "description": "Google Jobs results in 90+ countries with parsed salaries, contract types and apply URLs. $0.005 per search with jobs + $0.001 per job.\nApify Store Page: https://apify.com/hirepulse/google-jobs-scraper",
+        "description": "Google Jobs results in 90+ countries with parsed salaries, contract types and apply URLs. $0.005 per search with jobs + $0.001 per job.\nApify Store Page: https://apify.com/hirepulse/google-jobs-scraper\nApify Store Page: https://apify.com/hirepulse/google-jobs-scraper",
         "operationId": "run_google_jobs_scraper",
         "parameters": [
           {
-            "name": "token",
+            "name": "maxTotalChargeUsd",
             "in": "query",
             "required": true,
-            "description": "Your Apify API Token (get $5/month free at https://apify.com/pricing)",
+            "description": "Maximum total Actor run charge in USD. Required by this contract, capped at $1. A cap can produce partial results.",
             "schema": {
-              "type": "string"
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1
+            },
+            "example": 0.25
+          },
+          {
+            "name": "restartOnError",
+            "in": "query",
+            "required": false,
+            "description": "Disable automatic Actor restart.",
+            "schema": {
+              "type": "boolean",
+              "enum": [
+                false
+              ],
+              "default": false
             }
           }
         ],
@@ -187,15 +483,179 @@
           "content": {
             "application/json": {
               "schema": {
+                "title": "Google Jobs Scraper input",
+                "description": "Search Google's job listings (Google Jobs) for any job title or keyword, in any supported country or city. Returns title, company, location, salary, contract type, posting date and the link to apply.",
                 "type": "object",
-                "example": {
-                  "queries": [
-                    "data engineer"
-                  ],
-                  "country": "US",
-                  "location": "Austin,Texas",
-                  "max_jobs_per_query": 50
-                }
+                "properties": {
+                  "queries": {
+                    "title": "Job searches",
+                    "type": "array",
+                    "description": "Required. Job searches as you would type them into Google, one per item, up to 50 per run. Example: [\"data engineer\", \"nurse night shift\"]. To get every job of one company, hirepulse/ats-job-pulse is the better fit.",
+                    "minItems": 1,
+                    "maxItems": 50,
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "country": {
+                    "title": "Country",
+                    "type": "string",
+                    "description": "Country as a two-letter ISO code (e.g. US, GB, DE, AE). 94 countries are supported; the 20 most used are listed first. Default: \"US\".",
+                    "default": "US",
+                    "enum": [
+                      "US",
+                      "GB",
+                      "CA",
+                      "AU",
+                      "DE",
+                      "FR",
+                      "ES",
+                      "IT",
+                      "NL",
+                      "IN",
+                      "BR",
+                      "MX",
+                      "JP",
+                      "AE",
+                      "SG",
+                      "SE",
+                      "PL",
+                      "IE",
+                      "ZA",
+                      "IL",
+                      "AL",
+                      "DZ",
+                      "AO",
+                      "AR",
+                      "AM",
+                      "AT",
+                      "AZ",
+                      "BH",
+                      "BD",
+                      "BE",
+                      "BO",
+                      "BA",
+                      "BG",
+                      "BF",
+                      "KH",
+                      "CM",
+                      "CL",
+                      "CO",
+                      "CR",
+                      "CI",
+                      "HR",
+                      "CY",
+                      "CZ",
+                      "DK",
+                      "EC",
+                      "EG",
+                      "SV",
+                      "EE",
+                      "FI",
+                      "GH",
+                      "GR",
+                      "GT",
+                      "HK",
+                      "HU",
+                      "ID",
+                      "JO",
+                      "KZ",
+                      "KE",
+                      "LV",
+                      "LT",
+                      "MY",
+                      "MT",
+                      "MD",
+                      "MC",
+                      "MA",
+                      "MM",
+                      "NZ",
+                      "NI",
+                      "NG",
+                      "MK",
+                      "NO",
+                      "PK",
+                      "PA",
+                      "PY",
+                      "PE",
+                      "PH",
+                      "PT",
+                      "RO",
+                      "SA",
+                      "SN",
+                      "RS",
+                      "SK",
+                      "SI",
+                      "KR",
+                      "LK",
+                      "CH",
+                      "TW",
+                      "TH",
+                      "TN",
+                      "TR",
+                      "UA",
+                      "UY",
+                      "VE",
+                      "VN"
+                    ]
+                  },
+                  "location": {
+                    "title": "City or region (optional)",
+                    "type": "string",
+                    "description": "A city or region inside the country, written as \"City,Region\". Example: \"Austin,Texas\" or \"London,England\". Leave empty to search the whole country."
+                  },
+                  "radius_km": {
+                    "title": "Radius around the city (km)",
+                    "type": "integer",
+                    "description": "With a location only: search up to this many kilometers around it, 1 to 300. Example: 40. Leave empty for the city's default area.",
+                    "minimum": 1,
+                    "maximum": 300
+                  },
+                  "max_jobs_per_query": {
+                    "title": "Maximum jobs per search",
+                    "type": "integer",
+                    "description": "Jobs to return per search, 1 to 200. Each returned job is one charged result. Example: 100. Default: 50.",
+                    "default": 50,
+                    "minimum": 1,
+                    "maximum": 200
+                  },
+                  "employment_types": {
+                    "title": "Employment types (optional)",
+                    "type": "array",
+                    "description": "Only these contract types: \"fulltime\", \"partime\", \"contractor\" or \"intern\". Example: [\"fulltime\"]. Leave empty for all. For part-time jobs use the literal \"partime\". This spelling is required by the Actor code; \"parttime\" is not accepted.",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "fulltime",
+                        "partime",
+                        "contractor",
+                        "intern"
+                      ]
+                    }
+                  },
+                  "include_descriptions": {
+                    "title": "Add full job descriptions",
+                    "type": "boolean",
+                    "description": "Add the full description text for jobs whose apply link is on a Workday, Greenhouse, Lever or Ashby job board; other jobs keep only apply_url. No extra charge; turn off for faster runs. Default: true.",
+                    "default": true
+                  },
+                  "language": {
+                    "title": "Language",
+                    "type": "string",
+                    "description": "Two-letter language code. Leave empty for the country's main language. Example: \"es\" with country \"US\". Countries with more than one language: US: en/es; CA: en/fr; IN: en/hi; DZ: fr/ar; BE: fr/nl/de; CY: el/en; EG: ar/en; GR: el/en; HK: en/zh-TW; ID: en/id; IL: he/ar; MY: en/ms; MA: ar/fr; PK: en/ur; PH: en/tl; SG: en/zh-CN; CH: de/fr/it; UA: uk/ru; AE: ar/en; VN: en/vi."
+                  }
+                },
+                "required": [
+                  "queries"
+                ]
+              },
+              "example": {
+                "queries": [
+                  "data engineer"
+                ],
+                "country": "US",
+                "location": "Austin,Texas",
+                "max_jobs_per_query": 50
               }
             }
           }
@@ -213,6 +673,12 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Authentication required or invalid token."
+          },
+          "408": {
+            "description": "Synchronous HTTP timeout. Check the existing run in Apify Console; do not automatically start another paid run."
           }
         }
       }
@@ -220,16 +686,32 @@
     "/acts/hirepulse~keyword-search-volume/run-sync-get-dataset-items": {
       "post": {
         "summary": "Keyword Search Volume & CPC",
-        "description": "Google monthly search volume, CPC, competition and keyword difficulty. $0.03 per lookup + $0.005 per keyword. 3 free keywords per run.\nApify Store Page: https://apify.com/hirepulse/keyword-search-volume",
+        "description": "Google monthly search volume, CPC, competition and keyword ideas. $0.03 per lookup + $0.005 per keyword result. Free preview availability can be paused.\nApify Store Page: https://apify.com/hirepulse/keyword-search-volume",
         "operationId": "run_keyword_search_volume",
         "parameters": [
           {
-            "name": "token",
+            "name": "maxTotalChargeUsd",
             "in": "query",
             "required": true,
-            "description": "Your Apify API Token (get $5/month free at https://apify.com/pricing)",
+            "description": "Maximum total Actor run charge in USD. Required by this contract, capped at $1. A cap can produce partial results.",
             "schema": {
-              "type": "string"
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1
+            },
+            "example": 0.25
+          },
+          {
+            "name": "restartOnError",
+            "in": "query",
+            "required": false,
+            "description": "Disable automatic Actor restart.",
+            "schema": {
+              "type": "boolean",
+              "enum": [
+                false
+              ],
+              "default": false
             }
           }
         ],
@@ -238,15 +720,178 @@
           "content": {
             "application/json": {
               "schema": {
+                "title": "Keyword Search Volume & Ideas input",
+                "description": "Get Google search volume, CPC, competition, keyword difficulty and search intent for keywords, or discover new keyword ideas from seed keywords.",
                 "type": "object",
-                "example": {
-                  "keywords": [
-                    "keyword research tool",
-                    "ai agents",
-                    "web scraping api"
-                  ],
-                  "country": "US"
-                }
+                "properties": {
+                  "keywords": {
+                    "title": "Keywords",
+                    "type": "array",
+                    "description": "Required. In \"metrics\" mode: the exact keywords to measure (up to 5,000). In \"ideas\" mode: seed keywords describing a topic (up to 200). In \"suggestions\" mode: seed phrases to expand into long-tail keywords (up to 20). Each keyword: max 80 characters and 10 words. Example: [\"keyword research tool\", \"ai agents\"].",
+                    "minItems": 1,
+                    "maxItems": 5000,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "mode": {
+                    "title": "Mode",
+                    "type": "string",
+                    "description": "\"metrics\": metrics for exactly the keywords given (one lookup per 700 keywords). \"ideas\": keywords related to the seeds as a group, most relevant first (one lookup). \"suggestions\": long-tail keywords that contain each seed phrase, highest search volume first (one lookup per seed). Default: \"metrics\".",
+                    "default": "metrics",
+                    "enum": [
+                      "metrics",
+                      "ideas",
+                      "suggestions"
+                    ]
+                  },
+                  "country": {
+                    "title": "Country",
+                    "type": "string",
+                    "description": "Country as a two-letter ISO code (e.g. US, GB, DE, AE). 94 countries are supported; the 20 most used are listed first. Default: \"US\".",
+                    "default": "US",
+                    "enum": [
+                      "US",
+                      "GB",
+                      "CA",
+                      "AU",
+                      "DE",
+                      "FR",
+                      "ES",
+                      "IT",
+                      "NL",
+                      "IN",
+                      "BR",
+                      "MX",
+                      "JP",
+                      "AE",
+                      "SG",
+                      "SE",
+                      "PL",
+                      "IE",
+                      "ZA",
+                      "IL",
+                      "AL",
+                      "DZ",
+                      "AO",
+                      "AR",
+                      "AM",
+                      "AT",
+                      "AZ",
+                      "BH",
+                      "BD",
+                      "BE",
+                      "BO",
+                      "BA",
+                      "BG",
+                      "BF",
+                      "KH",
+                      "CM",
+                      "CL",
+                      "CO",
+                      "CR",
+                      "CI",
+                      "HR",
+                      "CY",
+                      "CZ",
+                      "DK",
+                      "EC",
+                      "EG",
+                      "SV",
+                      "EE",
+                      "FI",
+                      "GH",
+                      "GR",
+                      "GT",
+                      "HK",
+                      "HU",
+                      "ID",
+                      "JO",
+                      "KZ",
+                      "KE",
+                      "LV",
+                      "LT",
+                      "MY",
+                      "MT",
+                      "MD",
+                      "MC",
+                      "MA",
+                      "MM",
+                      "NZ",
+                      "NI",
+                      "NG",
+                      "MK",
+                      "NO",
+                      "PK",
+                      "PA",
+                      "PY",
+                      "PE",
+                      "PH",
+                      "PT",
+                      "RO",
+                      "SA",
+                      "SN",
+                      "RS",
+                      "SK",
+                      "SI",
+                      "KR",
+                      "LK",
+                      "CH",
+                      "TW",
+                      "TH",
+                      "TN",
+                      "TR",
+                      "UA",
+                      "UY",
+                      "VE",
+                      "VN"
+                    ]
+                  },
+                  "language": {
+                    "title": "Language",
+                    "type": "string",
+                    "description": "Two-letter language code. Leave empty for the country's main language. Example: \"es\" with country \"US\". Countries with more than one language: US: en/es; CA: en/fr; IN: en/hi; DZ: fr/ar; BE: fr/nl/de; CY: el/en; EG: ar/en; GR: el/en; HK: en/zh-TW; ID: en/id; IL: he/ar; MY: en/ms; MA: ar/fr; PK: en/ur; PH: en/tl; SG: en/zh-CN; CH: de/fr/it; UA: uk/ru; AE: ar/en; VN: en/vi."
+                  },
+                  "max_results": {
+                    "title": "Max results",
+                    "type": "integer",
+                    "description": "Only for \"ideas\" and \"suggestions\": maximum keywords to return (per seed in \"suggestions\" mode), 1 to 1,000. Each returned keyword with metrics is one charged result. Example: 30. Default: 50.",
+                    "default": 50,
+                    "minimum": 1,
+                    "maximum": 1000
+                  },
+                  "min_search_volume": {
+                    "title": "Minimum monthly search volume",
+                    "type": "integer",
+                    "description": "Return only keywords with at least this many monthly searches. Keywords below it are not returned and not charged. Example: 100. Default: 0 (no minimum).",
+                    "default": 0,
+                    "minimum": 0
+                  },
+                  "include_monthly_searches": {
+                    "title": "Include 12-month history",
+                    "type": "boolean",
+                    "description": "Add a monthly_searches array with the search volume of each of the last 12 months. Default: false, which keeps the output small.",
+                    "default": false
+                  },
+                  "include_ai_search_volume": {
+                    "title": "Include AI search volume",
+                    "type": "boolean",
+                    "description": "Also return ai_search_volume, an estimate of how often each keyword is used in AI assistants per month. Costs one extra lookup per batch plus one result for every keyword with AI data; where the data is not available, the field stays null and nothing extra is charged. Default: false.",
+                    "default": false
+                  }
+                },
+                "required": [
+                  "keywords"
+                ]
+              },
+              "example": {
+                "keywords": [
+                  "keyword research tool",
+                  "ai agents",
+                  "web scraping api"
+                ],
+                "country": "US"
               }
             }
           }
@@ -264,6 +909,12 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Authentication required or invalid token."
+          },
+          "408": {
+            "description": "Synchronous HTTP timeout. Check the existing run in Apify Console; do not automatically start another paid run."
           }
         }
       }
@@ -271,16 +922,32 @@
     "/acts/hirepulse~domain-seo-overview/run-sync-get-dataset-items": {
       "post": {
         "summary": "Domain SEO Overview",
-        "description": "Estimated organic traffic, ranking keywords, traffic value in USD and competitor domains. Pay per result on Apify Store.\nApify Store Page: https://apify.com/hirepulse/domain-seo-overview",
+        "description": "Estimated organic traffic, ranking keywords, traffic value in USD and competitor domains. Pay per result on Apify Store.\nApify Store Page: https://apify.com/hirepulse/domain-seo-overview\nApify Store Page: https://apify.com/hirepulse/domain-seo-overview",
         "operationId": "run_domain_seo_overview",
         "parameters": [
           {
-            "name": "token",
+            "name": "maxTotalChargeUsd",
             "in": "query",
             "required": true,
-            "description": "Your Apify API Token (get $5/month free at https://apify.com/pricing)",
+            "description": "Maximum total Actor run charge in USD. Required by this contract, capped at $1. A cap can produce partial results.",
             "schema": {
-              "type": "string"
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1
+            },
+            "example": 0.25
+          },
+          {
+            "name": "restartOnError",
+            "in": "query",
+            "required": false,
+            "description": "Disable automatic Actor restart.",
+            "schema": {
+              "type": "boolean",
+              "enum": [
+                false
+              ],
+              "default": false
             }
           }
         ],
@@ -289,13 +956,154 @@
           "content": {
             "application/json": {
               "schema": {
+                "title": "Domain SEO Overview input",
+                "description": "Get the estimated Google organic traffic, the number of ranking keywords, the top keywords and the organic competitors of any website.",
                 "type": "object",
-                "example": {
-                  "domains": [
-                    "stripe.com"
-                  ],
-                  "country": "US"
-                }
+                "properties": {
+                  "domains": {
+                    "title": "Domains",
+                    "type": "array",
+                    "description": "Required. Websites to analyze, one per item, up to 100 per run. Full URLs are reduced to the domain. Example: [\"stripe.com\", \"adyen.com\"].",
+                    "minItems": 1,
+                    "maxItems": 100,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "country": {
+                    "title": "Country",
+                    "type": "string",
+                    "description": "Country as a two-letter ISO code (e.g. US, GB, DE, AE). 94 countries are supported; the 20 most used are listed first. Default: \"US\".",
+                    "default": "US",
+                    "enum": [
+                      "US",
+                      "GB",
+                      "CA",
+                      "AU",
+                      "DE",
+                      "FR",
+                      "ES",
+                      "IT",
+                      "NL",
+                      "IN",
+                      "BR",
+                      "MX",
+                      "JP",
+                      "AE",
+                      "SG",
+                      "SE",
+                      "PL",
+                      "IE",
+                      "ZA",
+                      "IL",
+                      "AL",
+                      "DZ",
+                      "AO",
+                      "AR",
+                      "AM",
+                      "AT",
+                      "AZ",
+                      "BH",
+                      "BD",
+                      "BE",
+                      "BO",
+                      "BA",
+                      "BG",
+                      "BF",
+                      "KH",
+                      "CM",
+                      "CL",
+                      "CO",
+                      "CR",
+                      "CI",
+                      "HR",
+                      "CY",
+                      "CZ",
+                      "DK",
+                      "EC",
+                      "EG",
+                      "SV",
+                      "EE",
+                      "FI",
+                      "GH",
+                      "GR",
+                      "GT",
+                      "HK",
+                      "HU",
+                      "ID",
+                      "JO",
+                      "KZ",
+                      "KE",
+                      "LV",
+                      "LT",
+                      "MY",
+                      "MT",
+                      "MD",
+                      "MC",
+                      "MA",
+                      "MM",
+                      "NZ",
+                      "NI",
+                      "NG",
+                      "MK",
+                      "NO",
+                      "PK",
+                      "PA",
+                      "PY",
+                      "PE",
+                      "PH",
+                      "PT",
+                      "RO",
+                      "SA",
+                      "SN",
+                      "RS",
+                      "SK",
+                      "SI",
+                      "KR",
+                      "LK",
+                      "CH",
+                      "TW",
+                      "TH",
+                      "TN",
+                      "TR",
+                      "UA",
+                      "UY",
+                      "VE",
+                      "VN"
+                    ]
+                  },
+                  "language": {
+                    "title": "Language",
+                    "type": "string",
+                    "description": "Two-letter language code. Leave empty for the country's main language. Example: \"es\" with country \"US\". Countries with more than one language: US: en/es; CA: en/fr; IN: en/hi; DZ: fr/ar; BE: fr/nl/de; CY: el/en; EG: ar/en; GR: el/en; HK: en/zh-TW; ID: en/id; IL: he/ar; MY: en/ms; MA: ar/fr; PK: en/ur; PH: en/tl; SG: en/zh-CN; CH: de/fr/it; UA: uk/ru; AE: ar/en; VN: en/vi."
+                  },
+                  "top_keywords": {
+                    "title": "Top keywords per domain",
+                    "type": "integer",
+                    "description": "Ranking keywords to return per domain (organic positions 1 to 20, highest search volume first), 0 to 1,000. 0 skips this lookup and its fee: use 0 for a cheap overview only. Each returned keyword is one charged result. Default: 20. For a cheap agent check use top_keywords=0 and competitors=0 to request only the overview, without the keyword and competitor lookups.",
+                    "default": 20,
+                    "minimum": 0,
+                    "maximum": 1000
+                  },
+                  "competitors": {
+                    "title": "Competitors per domain",
+                    "type": "integer",
+                    "description": "Organic competitors to return per domain (sites ranking for the same keywords, most shared keywords first), 0 to 100. 0 skips this lookup and its fee. Each returned competitor is one charged result. Default: 10. For a cheap agent check use top_keywords=0 and competitors=0 to request only the overview, without the keyword and competitor lookups.",
+                    "default": 10,
+                    "minimum": 0,
+                    "maximum": 100
+                  }
+                },
+                "required": [
+                  "domains"
+                ]
+              },
+              "example": {
+                "domains": [
+                  "stripe.com"
+                ],
+                "country": "US"
               }
             }
           }
@@ -313,6 +1121,12 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Authentication required or invalid token."
+          },
+          "408": {
+            "description": "Synchronous HTTP timeout. Check the existing run in Apify Console; do not automatically start another paid run."
           }
         }
       }
@@ -320,16 +1134,32 @@
     "/acts/hirepulse~youtube-transcript-scraper/run-sync-get-dataset-items": {
       "post": {
         "summary": "YouTube Transcript Scraper",
-        "description": "Bulk transcripts of YouTube videos and Shorts with exact timestamps per segment. 3 free videos per run. Pay per result on Apify Store.\nApify Store Page: https://apify.com/hirepulse/youtube-transcript-scraper",
+        "description": "YouTube video and Shorts transcripts with timestamps. Free Apify plan: the first 3 videos of each run. See the Store page for pricing.\nApify Store Page: https://apify.com/hirepulse/youtube-transcript-scraper",
         "operationId": "run_youtube_transcript_scraper",
         "parameters": [
           {
-            "name": "token",
+            "name": "maxTotalChargeUsd",
             "in": "query",
             "required": true,
-            "description": "Your Apify API Token (get $5/month free at https://apify.com/pricing)",
+            "description": "Maximum total Actor run charge in USD. Required by this contract, capped at $1. A cap can produce partial results.",
             "schema": {
-              "type": "string"
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1
+            },
+            "example": 0.25
+          },
+          {
+            "name": "restartOnError",
+            "in": "query",
+            "required": false,
+            "description": "Disable automatic Actor restart.",
+            "schema": {
+              "type": "boolean",
+              "enum": [
+                false
+              ],
+              "default": false
             }
           }
         ],
@@ -338,13 +1168,42 @@
           "content": {
             "application/json": {
               "schema": {
+                "title": "YouTube Transcript Scraper input",
+                "description": "Give a list of YouTube videos and get the transcript of each one as clean text, with optional timestamps.",
                 "type": "object",
-                "example": {
-                  "videos": [
-                    "https://www.youtube.com/watch?v=jNQXAC9IVRw"
-                  ],
-                  "include_timestamps": true
-                }
+                "properties": {
+                  "videos": {
+                    "title": "Videos",
+                    "type": "array",
+                    "description": "Required. YouTube video URLs or 11-character video IDs, one per item, up to 1,000 per run. Regular links, youtu.be links, Shorts, embeds and live links all work. Example: [\"https://youtu.be/jNQXAC9IVRw\"]. Each delivered transcript is one charged result; videos without captions are not charged.",
+                    "minItems": 1,
+                    "maxItems": 1000,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "language": {
+                    "title": "Preferred language",
+                    "type": "string",
+                    "description": "Preferred caption language as a two-letter code. Example: \"es\". If the video has captions in it they are used; otherwise the main captions are returned and the language field says which. Leave empty for the main captions."
+                  },
+                  "include_timestamps": {
+                    "title": "Include timestamps",
+                    "type": "boolean",
+                    "description": "Add a segments array with the start time, duration and text of every caption line. Default: false, which keeps the output small.",
+                    "default": false
+                  }
+                },
+                "required": [
+                  "videos"
+                ]
+              },
+              "example": {
+                "videos": [
+                  "https://www.youtube.com/watch?v=jNQXAC9IVRw"
+                ],
+                "include_timestamps": true
               }
             }
           }
@@ -362,6 +1221,12 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Authentication required or invalid token."
+          },
+          "408": {
+            "description": "Synchronous HTTP timeout. Check the existing run in Apify Console; do not automatically start another paid run."
           }
         }
       }
@@ -369,16 +1234,32 @@
     "/acts/hirepulse~aliexpress-search-scraper/run-sync-get-dataset-items": {
       "post": {
         "summary": "AliExpress Search Scraper",
-        "description": "AliExpress product search results with price, discount, rating, sold count, image and product link. $2.50 per 1,000 products. 100 free products per run.\nApify Store Page: https://apify.com/hirepulse/aliexpress-search-scraper",
+        "description": "AliExpress search results with product title, price, discount, rating, sold count, image and product link. No seller name, shipping cost or delivery estimate, reviews or stock data. $2.50 per 1,000 products. Free Apify plan: 100 products per run.\nApify Store Page: https://apify.com/hirepulse/aliexpress-search-scraper",
         "operationId": "run_aliexpress_search_scraper",
         "parameters": [
           {
-            "name": "token",
+            "name": "maxTotalChargeUsd",
             "in": "query",
             "required": true,
-            "description": "Your Apify API Token (get $5/month free at https://apify.com/pricing)",
+            "description": "Maximum total Actor run charge in USD. Required by this contract, capped at $1. A cap can produce partial results.",
             "schema": {
-              "type": "string"
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1
+            },
+            "example": 0.25
+          },
+          {
+            "name": "restartOnError",
+            "in": "query",
+            "required": false,
+            "description": "Disable automatic Actor restart.",
+            "schema": {
+              "type": "boolean",
+              "enum": [
+                false
+              ],
+              "default": false
             }
           }
         ],
@@ -387,15 +1268,94 @@
           "content": {
             "application/json": {
               "schema": {
+                "title": "AliExpress Search Scraper input",
+                "description": "Search AliExpress like a shopper and get every product in the results as structured data.",
                 "type": "object",
-                "example": {
-                  "queries": [
-                    "wireless earbuds"
-                  ],
-                  "max_results_per_query": 60,
-                  "ship_to": "US",
-                  "currency": "USD"
-                }
+                "properties": {
+                  "queries": {
+                    "title": "Searches",
+                    "type": "array",
+                    "description": "Required. AliExpress search keywords, one per item, up to 20 per run. Example: [\"yoga mat\", \"usb c cable\"]. Keyword searches only; product page URLs are not supported.",
+                    "minItems": 1,
+                    "maxItems": 20,
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "max_results_per_query": {
+                    "title": "Max products per search",
+                    "type": "integer",
+                    "description": "Products to return per search, 1 to 1,200 (60 per page, up to 20 pages). Each returned product is one charged result. Free Apify plan: 100 products per run. Default: 60.",
+                    "minimum": 1,
+                    "maximum": 1200,
+                    "default": 60
+                  },
+                  "sort": {
+                    "title": "Sort by",
+                    "type": "string",
+                    "enum": [
+                      "best_match",
+                      "orders",
+                      "price_low",
+                      "price_high"
+                    ],
+                    "default": "best_match",
+                    "description": "Result order: \"best_match\" (AliExpress default), \"orders\" (most orders first, best for finding what sells), \"price_low\" or \"price_high\". Default: \"best_match\"."
+                  },
+                  "currency": {
+                    "title": "Currency",
+                    "type": "string",
+                    "enum": [
+                      "USD",
+                      "EUR",
+                      "GBP",
+                      "CAD",
+                      "AUD",
+                      "BRL",
+                      "MXN",
+                      "PLN",
+                      "ILS",
+                      "JPY",
+                      "KRW",
+                      "INR",
+                      "TRY",
+                      "CHF",
+                      "SEK"
+                    ],
+                    "default": "USD",
+                    "description": "Currency of all prices, one of the listed codes. Example: \"EUR\". Default: \"USD\"."
+                  },
+                  "ship_to": {
+                    "title": "Ship to country",
+                    "type": "string",
+                    "default": "US",
+                    "pattern": "^[A-Za-z]{2}$",
+                    "description": "Delivery country as a two-letter ISO code. Prices and availability follow it, as on the website. Example: \"DE\". Default: \"US\"."
+                  },
+                  "min_price": {
+                    "title": "Min price",
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Only products priced at or above this value, as a whole number. Example: 5. Optional."
+                  },
+                  "max_price": {
+                    "title": "Max price",
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Only products priced at or below this value, as a whole number. Example: 50. Optional; must not be below min_price."
+                  }
+                },
+                "required": [
+                  "queries"
+                ]
+              },
+              "example": {
+                "queries": [
+                  "wireless earbuds"
+                ],
+                "max_results_per_query": 60,
+                "ship_to": "US",
+                "currency": "USD"
               }
             }
           }
@@ -413,8 +1373,28 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Authentication required or invalid token."
+          },
+          "408": {
+            "description": "Synchronous HTTP timeout. Check the existing run in Apify Console; do not automatically start another paid run."
           }
         }
+      }
+    }
+  },
+  "security": [
+    {
+      "ApifyBearer": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "ApifyBearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Secret Apify API token. Supply it only in the Authorization header; never in a URL."
       }
     }
   }
