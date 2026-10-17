@@ -383,6 +383,9 @@
       gap: 1rem;
     }
   </style>
+  <script data-goatcounter="https://hirepulse.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <link rel="canonical" href="https://edtool79-collab.github.io/hirepulse-tools/labs/serpapi-to-mcp-migrator/">
+  <style>.grid-2>*,.grid-lab>*,.card{min-width:0;max-width:100%}.card pre,.card code{max-width:100%}.card pre{overflow-x:auto}.form-group,.form-group input,.form-group select{max-width:100%;min-width:0;box-sizing:border-box}code{overflow-wrap:anywhere}</style>
 </head>
 <body>
   <header>
@@ -397,7 +400,7 @@
           <span id="webmcp-text">WebMCP Ready — Tools Registered in Browser ModelContext</span>
         </span>
         <a href="./llms.txt" class="meta-tag">llms.txt</a>
-        <a href="https://apify.com/hirepulse" target="_blank" rel="noopener" class="meta-tag">Apify Store &nearr;</a>
+        <a href="https://apify.com/hirepulse" data-goatcounter-click="apify-store" target="_blank" rel="noopener" class="meta-tag">Apify Store &nearr;</a>
       </div>
     </div>
   </header>
@@ -410,7 +413,7 @@
       </p>
       <div class="meta-strip">
         <span class="meta-tag">Competitor Pricing Verified: 2026-10-16 (<a href="https://serpapi.com/pricing" target="_blank" rel="noopener">serpapi.com/pricing</a>)</span>
-        <span class="meta-tag">Apify Free Plan: $0/mo + $5 monthly credit, no credit card (<a href="https://apify.com/pricing" target="_blank" rel="noopener">apify.com/pricing</a>)</span>
+        <span class="meta-tag">Apify Free Plan: $0/mo + $5 monthly credit, no credit card (<a href="https://apify.com/pricing" data-goatcounter-click="apify-other" target="_blank" rel="noopener">apify.com/pricing</a>)</span>
         <span class="meta-tag">MCP Endpoint: <code>https://mcp.apify.com</code></span>
       </div>
     </section>
@@ -539,7 +542,7 @@
         <div>
           <h2 class="card-title" style="font-size:1.25rem;">Step 3: Fair &amp; Transparent Monthly Cost Calculator</h2>
           <p style="font-size:0.84rem; color:var(--muted);">
-            Compares verified SerpApi tiers (checked 2026-10-16 at <a href="https://serpapi.com/pricing" target="_blank" rel="noopener">serpapi.com/pricing</a>) against HirePulse pay-per-use pricing on the Apify Store (<a href="https://apify.com/pricing" target="_blank" rel="noopener">apify.com/pricing</a>).
+            Assumes the default 40 ads per SerpApi search, and counts an empty search as one SerpApi search (this is our assumption, not verified). Compares verified SerpApi tiers (checked 2026-10-16 at <a href="https://serpapi.com/pricing" target="_blank" rel="noopener">serpapi.com/pricing</a>) against HirePulse pay-per-use pricing on the Apify Store (<a href="https://apify.com/pricing" data-goatcounter-click="apify-other" target="_blank" rel="noopener">apify.com/pricing</a>).
           </p>
         </div>
         <span class="meta-tag" id="calc-mode-badge">Mode: Google Jobs</span>
@@ -642,7 +645,7 @@
         <a href="https://serpapi.com/pricing" target="_blank" rel="noopener">SerpApi Pricing</a> &middot;
         <a href="https://serpapi.com/google-jobs-api" target="_blank" rel="noopener">SerpApi Google Jobs API</a> &middot;
         <a href="https://serpapi.com/google-ads-transparency-center-api" target="_blank" rel="noopener">SerpApi Ads Transparency API</a> &middot;
-        <a href="https://apify.com/pricing" target="_blank" rel="noopener">Apify Pricing</a>
+        <a href="https://apify.com/pricing" data-goatcounter-click="apify-other" target="_blank" rel="noopener">Apify Pricing</a>
       </div>
       <div>
         <a href="./llms.txt">Read llms.txt for AI Agents</a>
@@ -861,25 +864,11 @@ console.log(\`Returned \${items.length} records\`, items[0]);`;
       // Empty queries still require 1 initial search on SerpApi (not errored/cached)
       const totalSerpSearches = (activeQueries * pagesPerActive) + emptyQueries;
 
-      let serpPlanName = '';
-      let serpCost = 0;
-      if (totalSerpSearches <= 250) {
-        serpPlanName = 'Free Plan (250 searches/mo)';
-        serpCost = 0;
-      } else if (totalSerpSearches <= 1000) {
-        serpPlanName = 'Starter Plan (1,000 searches/mo)';
-        serpCost = 25;
-      } else if (totalSerpSearches <= 5000) {
-        serpPlanName = 'Developer Plan (5,000 searches/mo)';
-        serpCost = 75;
-      } else if (totalSerpSearches <= 15000) {
-        serpPlanName = 'Production Plan (15,000 searches/mo)';
-        serpCost = 150;
-      } else {
-        const blocks = Math.ceil(totalSerpSearches / 15000);
-        serpPlanName = `${blocks}x Production Volume (~${(blocks * 15000).toLocaleString()} searches/mo)`;
-        serpCost = blocks * 150;
-      }
+      // Published SerpApi plans, checked 2026-10-16 at serpapi.com/pricing: [searches per month, name, price in USD]
+      const SERP_TIERS = [[250, 'Free Plan (250 searches/mo)', 0], [1000, 'Starter Plan (1,000 searches/mo)', 25], [5000, 'Developer Plan (5,000 searches/mo)', 75], [15000, 'Production Plan (15,000 searches/mo)', 150], [30000, 'Big Data Plan (30,000 searches/mo)', 275], [100000, 'Searcher Plan (100,000 searches/mo)', 725], [250000, 'Volume Plan (250,000 searches/mo)', 1475], [500000, 'Infrastructure Plan (500,000 searches/mo)', 2750], [1000000, 'Cloud 1M Plan (1,000,000 searches/mo)', 3750]];
+      const tier = SERP_TIERS.find(x => totalSerpSearches <= x[0]) || SERP_TIERS[SERP_TIERS.length - 1];
+      let serpPlanName = tier[1];
+      let serpCost = tier[2];
 
       // HirePulse Pay-per-use calculation
       let hpRawCost = 0;
@@ -946,7 +935,7 @@ console.log(\`Returned \${items.length} records\`, items[0]);`;
 
       if (res.totalSerpSearches <= 250) {
         verdictBox.classList.add('serp-wins');
-        verdictBox.innerHTML = `<strong>Transparent Recommendation: Both Can Cost $0/mo at This Volume.</strong> Because your workload requires only <strong>${res.totalSerpSearches}</strong> SerpApi page searches/month (&le; 250), <strong>SerpApi's Free plan ($0/mo for 250 searches)</strong> covers it at $0. On <strong>HirePulse</strong>, your usage is <strong>$${res.hpRawCost.toFixed(2)}/mo</strong>, which is also covered by the <strong>$5/month credit on the Free Apify plan</strong> ($0/mo, no credit card required at <a href="https://apify.com/pricing" target="_blank" rel="noopener">apify.com/pricing</a>) if your usage stays under $5.`;
+        verdictBox.innerHTML = `<strong>Transparent Recommendation: Both Can Cost $0/mo at This Volume.</strong> Because your workload requires only <strong>${res.totalSerpSearches}</strong> SerpApi page searches/month (&le; 250), <strong>SerpApi's Free plan ($0/mo for 250 searches)</strong> covers it at $0. On <strong>HirePulse</strong>, your usage is <strong>$${res.hpRawCost.toFixed(2)}/mo</strong>, which is also covered by the <strong>$5/month credit on the Free Apify plan</strong> ($0/mo, no credit card required at <a href="https://apify.com/pricing" data-goatcounter-click="apify-other" target="_blank" rel="noopener">apify.com/pricing</a>) if your usage stays under $5.`;
       } else if (res.serpCost < res.hpRawCost) {
         verdictBox.classList.add('serp-wins');
         verdictBox.innerHTML = `<strong>Transparent Recommendation: SerpApi ${res.serpPlanName} is cheaper here ($${res.serpCost}/mo vs. $${res.hpRawCost.toFixed(2)}/mo).</strong> At this specific mix of low pagination and high item volume, SerpApi's flat monthly tier costs less than per-item billing. Choose HirePulse if you prefer no monthly subscription lock-in, direct MCP agent integration, or up to 200 jobs in a single request.`;

@@ -294,6 +294,8 @@
       position: relative;
     }
   </style>
+  <script data-goatcounter="https://hirepulse.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <link rel="canonical" href="https://edtool79-collab.github.io/hirepulse-tools/labs/seo-keyword-intent-matrix/">
 </head>
 <body>
   <header>
@@ -308,7 +310,7 @@
           <span>WebMCP Ready — Tools Registered in Browser ModelContext</span>
         </span>
         <a href="./llms.txt" class="meta-tag">llms.txt</a>
-        <a href="https://apify.com/hirepulse" target="_blank" rel="noopener" class="meta-tag">Apify Store &nearr;</a>
+        <a href="https://apify.com/hirepulse" data-goatcounter-click="apify-store" target="_blank" rel="noopener" class="meta-tag">Apify Store &nearr;</a>
       </div>
     </div>
   </header>
@@ -322,7 +324,7 @@
       <div class="meta-strip">
         <span class="meta-tag">Actors: <code>hirepulse/keyword-search-volume</code> &amp; <code>hirepulse/domain-seo-overview</code></span>
         <span class="meta-tag">Verified Test Runs: 2026-10-15 (<code>run_id: g1gwfPeBP9v6eq5R0</code> &amp; <code>jY6YeadLRoRXKKFnE</code>)</span>
-        <span class="meta-tag">Apify Free Plan: $0/mo + $5 credit (<a href="https://apify.com/pricing" target="_blank" rel="noopener">apify.com/pricing</a>)</span>
+        <span class="meta-tag">Apify Free Plan: $0/mo + $5 credit (<a href="https://apify.com/pricing" data-goatcounter-click="apify-other" target="_blank" rel="noopener">apify.com/pricing</a>)</span>
       </div>
     </section>
 
@@ -425,13 +427,13 @@
           <div style="font-size:1.9rem; font-weight:800; font-family:var(--mono); color:var(--emerald);" id="seo-cost-display">$0.53</div>
           <div style="font-size:0.8rem; color:var(--muted);" id="seo-formula-breakdown">1 lookup &times; $0.03 ($0.03) + 100 keywords &times; $0.005 ($0.50)</div>
           <div style="font-size:0.78rem; color:#7dd3fc; margin-top:0.45rem;" id="seo-credit-coverage">
-            With Apify's Free plan ($5/mo credit, no credit card), you can run ~943 keywords at this batch size every month for $0.
+            On the Apify Free plan, real volume, CPC and difficulty are returned for the first 3 keywords of each run. Larger batches need a paid plan.
           </div>
         </div>
 
         <div style="font-size:0.78rem; color:var(--muted); line-height:1.5;">
           <strong>Free Plan Preview Note:</strong> <code>hirepulse/keyword-search-volume</code> provides real volume, CPC, and difficulty for the <strong>first 3 keywords of each run</strong> on the free plan (the free preview depends on availability and can be paused).<br />
-          <strong>Domain SEO Overview Price:</strong> Pay per result on the Apify Store (see the tool page for current prices).
+          <strong>Domain SEO Overview Price:</strong> $0.02 per lookup + $0.005 per returned record (a domain overview, a ranking keyword or a competitor). A domain overview alone is $0.025. A default run with 20 keywords and 10 competitors is $0.215. Domains without data are not charged a result.
         </div>
       </div>
     </div>
@@ -751,11 +753,7 @@
       document.getElementById('seo-cost-display').textContent = `$${res.total_usd.toFixed(3)}`;
       document.getElementById('seo-formula-breakdown').textContent =
         `${l} lookup(s) × $0.03 ($${res.lookup_fee_usd.toFixed(2)}) + ${n.toLocaleString()} keyword(s) × $0.005 ($${res.keyword_fee_usd.toFixed(3)})`;
-      const afterCredit = Math.max(0, res.total_usd - 5);
-      document.getElementById('seo-credit-coverage').textContent =
-        res.total_usd <= 5
-          ? `Covered ($0 out-of-pocket) by the $5/month credit on Apify's Free plan (no credit card required).`
-          : `$${afterCredit.toFixed(2)} after applying the $5/month credit on Apify's Free plan.`;
+      document.getElementById('seo-credit-coverage').textContent = 'On the Apify Free plan, real data is returned for the first 3 keywords of each run. This cost is for a paid-plan run.';
     }
 
     function copyMcpSnippet() {

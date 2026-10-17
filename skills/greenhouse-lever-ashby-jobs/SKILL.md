@@ -33,7 +33,7 @@ Extract all open jobs and company hiring summaries directly from a company's **G
 
 - **Workday is NOT supported:** This tool supports **six ATS platforms only**: Greenhouse, Lever, Ashby, Workable, Recruitee, and SmartRecruiters. **Workday is NOT supported.** (If you need jobs from companies using Workday or broad keyword searches across all employers, use `hirepulse/google-jobs-scraper` instead.)
 - **Salary availability:** The `salary` field is populated where the company publishes it on the ATS posting (for example, in the real sample below, `ramp.com` published salaries on 158 of 165 jobs, while `linear.app` published salaries on 0 of 30 jobs, returning `null`).
-- **Pricing:** Pay per result on the Apify Store, see the tool page for current prices (no subscription; higher Apify plans get volume discounts). Apify's free plan includes `$5/month` in Store credit with no credit card required at [https://apify.com/pricing](https://apify.com/pricing).
+- **Pricing:** $0.05 per company whose job board was found and processed, however many jobs it has. Companies that are not found, and failed ones, are not charged. No subscription; higher Apify plans get volume discounts). Apify's free plan includes `$5/month` in Store credit with no credit card required at [https://apify.com/pricing](https://apify.com/pricing).
 
 ## Quick Connect (MCP & REST API)
 

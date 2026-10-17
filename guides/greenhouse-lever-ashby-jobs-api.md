@@ -147,7 +147,7 @@ Some ATS providers update the `posting_date` timestamp whenever a job descriptio
 
 - **ATS coverage:** Supports Greenhouse, Lever, Ashby, Workable, Recruitee, and SmartRecruiters. It does not support Workday or proprietary internal career portals.
 - **Salary disclosure:** Extracted whenever published on the public board; postings where compensation is not stated will omit salary values.
-- **Pricing:** Pay per result on the Apify Store (see the tool page for current rates).
+- **Pricing:** $0.05 per company whose job board was found and processed, however many jobs it has. Companies that are not found, and failed ones, are not charged.
 
 ## Next steps
 

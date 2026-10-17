@@ -15,7 +15,7 @@
 - MCP: `https://mcp.apify.com?tools=hirepulse/youtube-transcript-scraper`
 - Apify Store: https://apify.com/hirepulse/youtube-transcript-scraper
 - Page: https://edtool79-collab.github.io/hirepulse-tools/youtube-transcript-api/
-- Price: See the Apify Store page: https://apify.com/hirepulse/youtube-transcript-scraper. Free Apify plan: the first 3 videos of each run.
+- Price: $0.003 per delivered transcript. Videos without captions, unavailable videos and failed fetches are not charged.. Free Apify plan: the first 3 videos of each run.
 
 ### Input
 

@@ -31,7 +31,7 @@ Extract full transcripts of YouTube videos and Shorts in bulk by video URL or vi
 - **Requires captions/subtitles on the video:** Extracts manual or auto-generated YouTube transcripts (`is_auto_generated: true/false`). Videos with no caption track or disabled transcripts cannot yield text.
 - **Pricing & Free Plan:**
   - **Free plan:** The first `3` videos of each run are included on the free plan.
-  - **Paid usage:** Pay per result on the Apify Store, see the tool page for current prices (no subscription; higher Apify plans get volume discounts).
+  - **Paid usage:** $0.003 per delivered transcript. Videos without captions, unavailable videos and failed fetches are not charged. No subscription; higher Apify plans get volume discounts).
   - **Apify Free Plan:** Apify's free account plan includes `$5/month` in Store credit with no credit card required ([https://apify.com/pricing](https://apify.com/pricing)).
 
 ## Quick Connect (MCP & REST API)

@@ -18,7 +18,7 @@
 - MCP: `https://mcp.apify.com?tools=hirepulse/ats-job-pulse`
 - Apify Store: https://apify.com/hirepulse/ats-job-pulse
 - Page: https://edtool79-collab.github.io/hirepulse-tools/ats-jobs-api/
-- Price: See the Apify Store page: https://apify.com/hirepulse/ats-job-pulse
+- Price: $0.05 per company whose job board was found and processed, however many jobs it has. Companies that are not found, and failed ones, are not charged.
 
 ### Input
 

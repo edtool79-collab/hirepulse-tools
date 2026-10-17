@@ -119,7 +119,7 @@ A domain overview reveals *how much* search visibility a site commands and ident
 ## Limitations and pricing
 
 - **Scope:** Provides estimated organic traffic, ranking keyword volumes, traffic valuation, and organic competitors. It does not provide backlink graphs, server log monitoring, or on-page technical SEO audits.
-- **Pricing:** Pay per result on the Apify Store (see the tool page for current rates).
+- **Pricing:** $0.02 per lookup + $0.005 per returned record (a domain overview, a ranking keyword or a competitor). A domain overview alone is $0.025. A default run with 20 keywords and 10 competitors is $0.215. Domains without data are not charged a result.
 
 ## Next steps
 

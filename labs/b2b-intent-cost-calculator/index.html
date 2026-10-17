@@ -84,6 +84,8 @@
 
   .free-tier { background: #064e3b; color: #d1fae5; border: 1px solid #065f46; border-radius: 10px; padding: 14px; margin-top: 16px; font-size: 0.9rem; }
 </style>
+  <script data-goatcounter="https://hirepulse.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <link rel="canonical" href="https://edtool79-collab.github.io/hirepulse-tools/labs/b2b-intent-cost-calculator/">
 </head>
 <body>
 
@@ -111,8 +113,8 @@
       </div>
 
       <div class="control-row">
-        <label>מחיר מתחרה לדוח (ש״ח)</label>
-        <input type="range" id="rivalPrice" min="0" max="100" value="15" step="1">
+        <label>העלות שאתה משלם היום לדוח חברה ($) — הערך שלך, לא נתון שלנו</label>
+        <input type="range" id="rivalPrice" min="0" max="10" value="0" step="0.05">
         <span class="val" id="valRival">₪15</span>
       </div>
 
@@ -145,7 +147,7 @@
       </div>
 
       <div class="json-viewer" id="jsonViewer">
-        {/* JSON live report */}
+        
       </div>
 
       <div class="note">
@@ -207,22 +209,20 @@ function calc(){
 
   elValDomains.textContent = formatNum(domains);
   elValReports.textContent = formatNum(fullReports);
-  elValRival.textContent = '₪' + rivalPrice.toFixed(0);
-  elRivalAmount.textContent = rivalPrice.toFixed(0);
+  elValRival.textContent = '$' + rivalPrice.toFixed(2);
+  elRivalAmount.textContent = rivalPrice.toFixed(2);
 
-  // Intent Radar: רק דוחות מלאים ניגבים, חינמי עד 5 חברות
-  const paidReports = Math.max(0, fullReports - FACTS.freePlanCompanies);
-  const costRadarUsd = paidReports * FACTS.pricePerReport;
-  const costRadarIls = costRadarUsd * 3.7; // approximate USD->ILS
+  // Intent Radar: $0.03 per full report. The free plan gives up to 5 companies per RUN, so it is not deducted here.
+  const costRadarUsd = fullReports * FACTS.pricePerReport;
 
   // Rival: עלות לכל דוח מלא (פישוט להשוואה שקופה)
-  const costRivalIls = fullReports * rivalPrice;
+  const costRivalUsd = fullReports * rivalPrice;
 
-  const save = costRivalIls - costRadarIls;
+  const save = costRivalUsd - costRadarUsd;
 
-  elCostRadar.textContent = formatUSD(costRadarUsd) + ' ≈ ' + formatILS(costRadarIls);
-  elCostRival.textContent = formatILS(costRivalIls);
-  elCostSave.innerHTML = formatILS(Math.max(0, save)) + ' <span class="save-badge">חיסכון משוער/חודש</span>';
+  elCostRadar.textContent = formatUSD(costRadarUsd);
+  elCostRival.textContent = formatUSD(costRivalUsd);
+  elCostSave.innerHTML = (rivalPrice > 0 ? formatUSD(Math.max(0, save)) : '—') + ' <span class="save-badge">הפרש לפי המחיר שהזנת</span>';
   elFreeUsed.textContent = Math.min(fullReports, FACTS.freePlanCompanies) + ' מ־' + FACTS.freePlanCompanies;
 
   // Live JSON report (דוח חי)
@@ -236,14 +236,8 @@ function calc(){
     calculation: {
       domains_per_month: domains,
       full_reports_requested: fullReports,
-      free_plan_companies_used: Math.min(fullReports, FACTS.freePlanCompanies),
-      paid_reports_charged: paidReports,
       price_per_report_usd: FACTS.pricePerReport,
-      total_cost_usd: costRadarUsd,
-      total_cost_ils: costRadarIls,
-      rival_price_ils_per_report: rivalPrice,
-      rival_total_ils: costRivalIls,
-      estimated_monthly_savings_ils: Math.max(0, save)
+      your_current_cost_usd_per_report: rivalPrice,
     },
     mcp: FACTS.mcpUrl
   };

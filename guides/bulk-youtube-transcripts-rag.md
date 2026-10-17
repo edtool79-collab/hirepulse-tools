@@ -151,7 +151,7 @@ Avoid naive character slicing (e.g., splitting text blindly every 500 characters
 ## Limitations and pricing
 
 - **Availability:** The scraper retrieves transcripts and captions that exist on the requested YouTube video or Short. If a creator has explicitly disabled all captions and no automated transcript is available, the video will not have transcript text.
-- **Pricing:** Pay per result on the Apify Store (see the tool page for current rates).
+- **Pricing:** $0.003 per delivered transcript. Videos without captions, unavailable videos and failed fetches are not charged.
 
 ## Next steps
 

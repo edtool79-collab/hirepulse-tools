@@ -1,44 +1,21 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
   "name": "io.github.edtool79-collab/hirepulse-mcp-gateway",
-  "description": "Zero-auth MCP server & intent router for 8 HirePulse tools: Company Intent, Google Ads, ATS & Google Jobs, Keyword Volume, Domain SEO, YouTube Transcripts & AliExpress.",
+  "description": "8 pay-per-use data tools by hirepulse, called through the Apify MCP server: Company Intent Radar, Google Ads Transparency, ATS Job Scraper, Google Jobs, Keyword Search Volume, Domain SEO Overview, YouTube Transcripts and AliExpress Search.",
   "version": "1.0.0",
   "homepage": "https://edtool79-collab.github.io/hirepulse-tools/",
   "repository": {
     "url": "https://github.com/edtool79-collab/hirepulse-tools",
     "source": "github"
   },
-  "configSchema": {
-    "type": "object",
-    "properties": {
-      "apifyToken": {
-        "type": "string",
-        "title": "Apify API Token (Optional)",
-        "description": "Optional Apify API token for live runs. Leave blank for instant Zero-Auth Preview Mode with verified real sample records (stripe.com, nike.com, adidas.com, ramp.com, linear.app). Free Apify plan includes $5/month credit with no credit card required at https://apify.com/pricing."
-      }
-    },
-    "required": []
-  },
   "remotes": [
     {
       "type": "streamable-http",
-      "url": "https://hirepulse-mcp-gateway.workers.dev/mcp",
+      "url": "https://mcp.apify.com?tools=hirepulse/company-intent-radar,hirepulse/google-ads-transparency-scraper,hirepulse/ats-job-pulse,hirepulse/google-jobs-scraper,hirepulse/keyword-search-volume,hirepulse/domain-seo-overview,hirepulse/youtube-transcript-scraper,hirepulse/aliexpress-search-scraper",
       "headers": [
         {
           "name": "Authorization",
-          "description": "Optional: Bearer <APIFY_TOKEN>. Leave empty to use Zero-Auth Preview Mode.",
-          "isRequired": false,
-          "isSecret": true
-        }
-      ]
-    },
-    {
-      "type": "sse",
-      "url": "https://hirepulse-mcp-gateway.workers.dev/sse",
-      "headers": [
-        {
-          "name": "Authorization",
-          "description": "Optional: Bearer <APIFY_TOKEN>. Leave empty to use Zero-Auth Preview Mode.",
+          "description": "Bearer <APIFY_TOKEN>, or sign in with OAuth in the MCP client.",
           "isRequired": false,
           "isSecret": true
         }
@@ -63,8 +40,8 @@
       "environmentVariables": [
         {
           "name": "APIFY_TOKEN",
-          "description": "Optional for the remote gateway; required for direct local stdio via @apify/actors-mcp-server. Free Apify plan gives $5/month credit (no credit card required) at https://apify.com/pricing.",
-          "isRequired": false,
+          "description": "Your Apify API token. Required for the local stdio server.",
+          "isRequired": true,
           "isSecret": true
         }
       ]

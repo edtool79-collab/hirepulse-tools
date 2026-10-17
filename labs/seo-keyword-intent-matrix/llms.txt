@@ -34,7 +34,7 @@ Browser agents supporting WebMCP (`navigator.modelContext` / `document.modelCont
   - Estimated organic traffic, ranking keywords, traffic value and competitor domains for any domain.
   - Overview fields include `organic_traffic_estimate`, `organic_keywords`, `organic_traffic_value_usd`, `keywords_top_3`, `keywords_top_10`, `keywords_top_20`, `keywords_new`, `keywords_up`, `keywords_down`, `keywords_lost`, `paid_keywords`, `paid_traffic_estimate`.
   - Ranked-keyword rows (`record_type: "ranked_keyword"`): `keyword`, `position`, `url`, `search_volume`, `cpc_usd`, `keyword_difficulty`, `search_intent`, `traffic_estimate`.
-  - **Price:** Pay per result on the Apify Store (see the tool page for current prices).
+  - **Price:** $0.02 per lookup + $0.005 per returned record (a domain overview, a ranking keyword or a competitor). A domain overview alone is $0.025. A default run with 20 keywords and 10 competitors is $0.215. Domains without data are not charged a result.
 - **Apify Free Plan (`https://apify.com/pricing`, checked 2026-10-16):** $0, with $5 per month to spend in Apify Store or on your own Actors ("No credit card required").
 
 ## Verified Sample Data Embedded (`2026-10-15` real test runs)

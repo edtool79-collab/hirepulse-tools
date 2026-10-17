@@ -29,7 +29,7 @@ Get estimated monthly organic search traffic (`organic_traffic_estimate`), total
 
 - **Bulk keyword list research:** If you have a specific list of target keywords (or a seed keyword) and want to check their search volume, CPC, and trend percentages independent of a domain, use `hirepulse/keyword-search-volume` instead.
 - **Multi-signal B2B intent (Hiring + Ads + SEO + MX):** If you also want open ATS job counts, active Google Ads status, and a 0–100 buying-intent score alongside SEO traffic in one call, use `hirepulse/company-intent-radar`.
-- **Pricing:** Pay per result on the Apify Store, see the tool page for current prices (no subscription; higher Apify plans get volume discounts). Apify's free account plan includes `$5/month` in Store credit with no credit card required ([https://apify.com/pricing](https://apify.com/pricing)).
+- **Pricing:** $0.02 per lookup + $0.005 per returned record (a domain overview, a ranking keyword or a competitor). A domain overview alone is $0.025. A default run with 20 keywords and 10 competitors is $0.215. Domains without data are not charged a result. No subscription; higher Apify plans get volume discounts). Apify's free account plan includes `$5/month` in Store credit with no credit card required ([https://apify.com/pricing](https://apify.com/pricing)).
 
 ## Quick Connect (MCP & REST API)
 

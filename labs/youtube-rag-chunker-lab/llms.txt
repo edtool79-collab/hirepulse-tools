@@ -22,7 +22,7 @@ Browser agents supporting WebMCP (`navigator.modelContext` / `document.modelCont
 - **Output Fields:** `video_id`, `url`, `title`, `channel`, `duration_seconds`, `language`, `is_auto_generated`, `transcript`, `word_count`, `segments` (array of `{ start, duration, text }`).
 - **Free Plan:** The first 3 videos of each run are free.
 - **Apify Free Plan (`https://apify.com/pricing`, checked 2026-10-16):** $0, with $5 per month to spend in Apify Store or on your own Actors ("No credit card required").
-- **Price:** Pay per result on the Apify Store (see the tool page on Apify Store for current prices).
+- **Price:** $0.003 per delivered transcript. Videos without captions, unavailable videos and failed fetches are not charged.
 
 ## Verified Sample Record Included (`2026-10-15` real test run)
 

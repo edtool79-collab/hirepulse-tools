@@ -17,7 +17,7 @@
 - MCP: `https://mcp.apify.com?tools=hirepulse/domain-seo-overview`
 - Apify Store: https://apify.com/hirepulse/domain-seo-overview
 - Page: https://edtool79-collab.github.io/hirepulse-tools/domain-seo-overview-api/
-- Price: See the Apify Store page: https://apify.com/hirepulse/domain-seo-overview
+- Price: $0.02 per lookup + $0.005 per returned record (a domain overview, a ranking keyword or a competitor). A domain overview alone is $0.025. A default run with 20 keywords and 10 competitors is $0.215. Domains without data are not charged a result.
 
 ### Input
 

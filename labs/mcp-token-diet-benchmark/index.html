@@ -86,6 +86,8 @@
   .comparison-table th, .comparison-table td { text-align: right; padding: 8px 10px; border-bottom: 1px solid var(--border); }
   .comparison-table th { color: var(--muted); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; }
 </style>
+  <script data-goatcounter="https://hirepulse.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+  <link rel="canonical" href="https://edtool79-collab.github.io/hirepulse-tools/labs/mcp-token-diet-benchmark/">
 </head>
 <body>
 
@@ -122,8 +124,16 @@
         </div>
       </div>
 
+      <div style="margin-top:20px;">
+        <h3 style="font-size:0.95rem; color:var(--accent-2); margin-bottom:8px">הדף הגולמי שהסוכן היה קורא</h3>
+        <div class="control-row">
+          <label>גודל הדף הגולמי (טוקנים) — המספר שלך</label>
+          <input type="number" id="rawTokens" placeholder="הזן מספר" min="0" step="1000">
+        </div>
+      </div>
+
       <div class="note">
-        כל הנתונים לדוגמה נלקחו מקובצי samples האמיתיים של HirePulse (מתוך FACTS.md). אין לייצר נתונים בדויה.
+        ה-JSON בדוגמה נלקח מקובצי ה-samples האמיתיים של HirePulse. מספר הטוקנים שלו הוא אומדן גס (כ-4 תווים לטוקן). את גודל הדף הגולמי הזן בעצמך: אנחנו לא מפרסמים מספר כזה.
       </div>
     </div>
 
@@ -199,8 +209,6 @@ const SAMPLES = {
     name: "Google Jobs — חיפוש משרות",
     tool: "hirepulse/google-jobs-scraper",
     mcp: "https://mcp.apify.com?tools=hirepulse/google-jobs-scraper",
-    rawHtmlTokens: 42000,
-    jsonTokens: 3800,
     jsonPreview: {
       query: "data engineer",
       country: "US",
@@ -220,8 +228,6 @@ const SAMPLES = {
     name: "Domain SEO Overview — סקירת דומיין",
     tool: "hirepulse/domain-seo-overview",
     mcp: "https://mcp.apify.com?tools=hirepulse/domain-seo-overview",
-    rawHtmlTokens: 31000,
-    jsonTokens: 2100,
     jsonPreview: {
       domain: "stripe.com",
       country: "US",
@@ -237,8 +243,6 @@ const SAMPLES = {
     name: "Keyword Search Volume — נפח חיפוש למילות מפתח",
     tool: "hirepulse/keyword-search-volume",
     mcp: "https://mcp.apify.com?tools=hirepulse/keyword-search-volume",
-    rawHtmlTokens: 28000,
-    jsonTokens: 1900,
     jsonPreview: {
       keyword: "ai agents",
       search_volume: 49500,
@@ -254,8 +258,6 @@ const SAMPLES = {
     name: "YouTube Transcript Scraper — תמלול עם חותמות זמן",
     tool: "hirepulse/youtube-transcript-scraper",
     mcp: "https://mcp.apify.com?tools=hirepulse/youtube-transcript-scraper",
-    rawHtmlTokens: 55000,
-    jsonTokens: 2600,
     jsonPreview: {
       video_id: "jNQXAC9IVRw",
       title: "Me at the zoo",
@@ -271,8 +273,6 @@ const SAMPLES = {
     name: "AliExpress Search Scraper — חיפוש מוצרים",
     tool: "hirepulse/aliexpress-search-scraper",
     mcp: "https://mcp.apify.com?tools=hirepulse/aliexpress-search-scraper",
-    rawHtmlTokens: 48000,
-    jsonTokens: 3200,
     jsonPreview: {
       product_id: "3256812924699567",
       title: "TWS True Wireless Stereo Headset...",
@@ -299,6 +299,7 @@ const elCostJson = document.getElementById('costJson');
 const elJsonViewer = document.getElementById('jsonViewer');
 const elMcpCode = document.getElementById('mcpCode');
 const elContextTokens = document.getElementById('contextTokens');
+const elRawTokens = document.getElementById('rawTokens');
 const elTokenPrice = document.getElementById('tokenPrice');
 
 function formatNum(n){ return new Intl.NumberFormat('he-IL').format(Math.round(n)); }
@@ -335,28 +336,29 @@ function render(){
   const ctx = parseInt(elContextTokens.value) || 0;
   const pricePer1k = parseFloat(elTokenPrice.value) || 0;
 
-  const raw = s.rawHtmlTokens;
-  const json = s.jsonTokens;
+  const raw = parseInt(elRawTokens.value) || 0;
+  const json = Math.ceil(JSON.stringify(s.jsonPreview).length / 4);
+  const hasRaw = raw > 0;
   const saved = raw - json;
   const pct = raw > 0 ? Math.round((saved/raw)*100) : 0;
   const usdSaved = (saved/1000) * pricePer1k;
   const costRaw = (raw/1000) * pricePer1k;
   const costJson = (json/1000) * pricePer1k;
 
-  elTokRaw.textContent = formatNum(raw);
+  elTokRaw.textContent = hasRaw ? formatNum(raw) : '—';
   elTokJson.textContent = formatNum(json);
-  elTokSaved.textContent = formatNum(saved);
-  elPctSaved.textContent = pct + '%';
-  elUsdSaved.textContent = formatUsd(usdSaved);
-  elCostRaw.textContent = formatUsd(costRaw);
+  elTokSaved.textContent = hasRaw ? formatNum(saved) : '—';
+  elPctSaved.textContent = hasRaw ? pct + '%' : '—';
+  elUsdSaved.textContent = hasRaw ? formatUsd(usdSaved) : '—';
+  elCostRaw.textContent = hasRaw ? formatUsd(costRaw) : '—';
   elCostJson.textContent = formatUsd(costJson);
 
   // השוואה מפורטת
   const rows = [
-    ['גודל מקור מלא (טוקנים)', formatNum(raw), formatNum(json), `-${formatNum(saved)}`],
-    ['אחוז חיסכון בטוקנים', '—', pct + '%', '—'],
-    ['עלות לסוכן לכל שליפה ($)', formatUsd(costRaw), formatUsd(costJson), `-${formatUsd(usdSaved)}`],
-    ['חלון הקשר שנצלה (%)', Math.min(100, Math.round((raw/ctx)*100)) + '%', Math.min(100, Math.round((json/ctx)*100)) + '%', '—'],
+    ['גודל (טוקנים, אומדן ל-JSON)', hasRaw ? formatNum(raw) : '—', formatNum(json), hasRaw ? `-${formatNum(saved)}` : '—'],
+    ['אחוז חיסכון בטוקנים', '—', hasRaw ? pct + '%' : '—', '—'],
+    ['עלות לסוכן לכל שליפה ($)', hasRaw ? formatUsd(costRaw) : '—', formatUsd(costJson), hasRaw ? `-${formatUsd(usdSaved)}` : '—'],
+    ['חלון הקשר שנצלה (%)', (hasRaw && ctx > 0 ? Math.min(100, Math.round((raw/ctx)*100)) + '%' : '—'), Math.min(100, Math.round((json/ctx)*100)) + '%', '—'],
     ['כלים של HirePulse זמינים', '90+ מדינות (Google Jobs)', 'פלט נקי ומובנה', '—']
   ];
   document.getElementById('comparisonBody').innerHTML = rows.map(r => `<tr><td class="lbl">${escapeHtml(r[0])}</td><td class="val">${r[1]}</td><td class="val">${r[2]}</td><td class="lbl">${r[3]}</td></tr>`).join('');
@@ -404,6 +406,7 @@ if (typeof document.modelContext !== 'undefined' && document.modelContext?.regis
 }
 
 elContextTokens.addEventListener('input', render);
+elRawTokens.addEventListener('input', render);
 elTokenPrice.addEventListener('input', render);
 
 render();
