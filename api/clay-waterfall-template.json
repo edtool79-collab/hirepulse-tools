@@ -2,9 +2,10 @@
   "name": "HirePulse Company Intent Radar (Clay HTTP Action)",
   "description": "One call to hirepulse/company-intent-radar per company domain: open jobs, Google ads running now, organic traffic and SEO trend, email provider, a 0-100 intent score and a one-line summary.",
   "method": "POST",
-  "url": "https://api.apify.com/v2/acts/hirepulse~company-intent-radar/run-sync-get-dataset-items?token={{apify_token}}",
+  "url": "https://api.apify.com/v2/acts/hirepulse~company-intent-radar/run-sync-get-dataset-items?maxTotalChargeUsd=0.10&restartOnError=false",
   "headers": {
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    "Authorization": "Bearer {{apify_token}}"
   },
   "body": {
     "domains": [
@@ -21,5 +22,5 @@
     "seo_trend": "data[0].seo_trend",
     "summary": "data[0].summary"
   },
-  "pricing_note": "$0.03 per company report, charged only when the full report was produced. The free Apify plan returns hiring and email signals for up to 5 companies per run; Google ads and SEO traffic need a paid Apify plan."
+  "pricing_note": "$0.03 per company report, charged only when the full report was produced. The free Apify plan returns hiring and email signals for up to 5 companies per run; Google ads and SEO traffic need a paid Apify plan. Each run also has the Actor-start event; the request has a $0.10 maximum charge cap. Check the existing Apify run before retrying a timeout."
 }

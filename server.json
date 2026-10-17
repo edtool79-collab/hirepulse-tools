@@ -1,48 +1,24 @@
 {
-  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
-  "name": "io.github.edtool79-collab/hirepulse-mcp-gateway",
-  "description": "8 pay-per-use data tools by hirepulse, called through the Apify MCP server: Company Intent Radar, Google Ads Transparency, ATS Job Scraper, Google Jobs, Keyword Search Volume, Domain SEO Overview, YouTube Transcripts and AliExpress Search.",
-  "version": "1.0.0",
-  "homepage": "https://edtool79-collab.github.io/hirepulse-tools/",
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.edtool79-collab/hirepulse-tools",
+  "description": "Jobs, ads, SEO, keywords, YouTube and AliExpress data for AI agents. Runs on Apify.",
+  "title": "HirePulse: Jobs, Ads, SEO, YouTube & AliExpress Data Tools",
   "repository": {
     "url": "https://github.com/edtool79-collab/hirepulse-tools",
     "source": "github"
   },
+  "version": "1.1.0",
+  "websiteUrl": "https://github.com/edtool79-collab/hirepulse-tools",
   "remotes": [
     {
       "type": "streamable-http",
-      "url": "https://mcp.apify.com?tools=hirepulse/company-intent-radar,hirepulse/google-ads-transparency-scraper,hirepulse/ats-job-pulse,hirepulse/google-jobs-scraper,hirepulse/keyword-search-volume,hirepulse/domain-seo-overview,hirepulse/youtube-transcript-scraper,hirepulse/aliexpress-search-scraper",
+      "url": "https://mcp.apify.com?tools=hirepulse/aliexpress-search-scraper,hirepulse/google-ads-transparency-scraper,hirepulse/company-intent-radar,hirepulse/google-jobs-scraper,hirepulse/ats-job-pulse,hirepulse/keyword-search-volume,hirepulse/domain-seo-overview,hirepulse/youtube-transcript-scraper",
       "headers": [
         {
-          "name": "Authorization",
-          "description": "Bearer <APIFY_TOKEN>, or sign in with OAuth in the MCP client.",
-          "isRequired": false,
-          "isSecret": true
-        }
-      ]
-    }
-  ],
-  "packages": [
-    {
-      "registryType": "npm",
-      "identifier": "@apify/actors-mcp-server",
-      "version": "latest",
-      "transport": {
-        "type": "stdio"
-      },
-      "packageArguments": [
-        {
-          "type": "named",
-          "name": "--tools",
-          "value": "hirepulse/google-ads-transparency-scraper,hirepulse/company-intent-radar,hirepulse/ats-job-pulse,hirepulse/google-jobs-scraper,hirepulse/keyword-search-volume,hirepulse/domain-seo-overview,hirepulse/youtube-transcript-scraper,hirepulse/aliexpress-search-scraper"
-        }
-      ],
-      "environmentVariables": [
-        {
-          "name": "APIFY_TOKEN",
-          "description": "Your Apify API token. Required for the local stdio server.",
+          "description": "Apify authentication: Bearer followed by your Apify token; OAuth-capable clients can obtain this token through Apify sign-in.",
           "isRequired": true,
-          "isSecret": true
+          "isSecret": true,
+          "name": "Authorization"
         }
       ]
     }
