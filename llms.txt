@@ -48,3 +48,6 @@ One SKILL.md per tool (when to use it, what it returns, its limits, its price): 
 - [Give your AI agent live data with MCP](https://edtool79-collab.github.io/hirepulse-tools/guides/ai-agent-live-data-mcp/)
 - [All guides](https://edtool79-collab.github.io/hirepulse-tools/guides/)
 - [Weekly tech hiring report](https://edtool79-collab.github.io/hirepulse-tools/hiring-report/)
+
+## Apify Tasks
+40 runnable tasks: /tasks-directory.md (human) and /apify-tasks-llms.txt (machine index).
