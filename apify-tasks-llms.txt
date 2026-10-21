@@ -1,7 +1,7 @@
 # HirePulse public Apify task examples
 Verified: 2026-10-21
-Count: 40
-Opening these URLs does not run an Actor.
+Count: 77
+Opening these pages does not run an Actor. Apify billing is separate from the independent HirePulse gateway.
 
 ## AliExpress product search to JSON
 Actor: hirepulse/aliexpress-search-scraper
@@ -38,12 +38,33 @@ Page: https://apify.com/hirepulse/aliexpress-search-scraper/examples/hp-growth-2
 Markdown: https://apify.com/hirepulse/aliexpress-search-scraper/examples/hp-growth-20261020-yoga-market-product-research.md
 Description: Research popular AliExpress yoga products. Search AliExpress products and export available product details for price comparison and ecommerce research. Set a keyword, currency, destination country and result limit. Prices and availability vary by region and time. Review counts are not review text. Search results are a snapshot, not guaranteed checkout prices, stock levels or a complete catalog.
 
+## Detect Datadog Applicant Tracking System
+Actor: hirepulse/ats-detector
+Task ID: ugIIZVauILANZpkEP
+Page: https://apify.com/hirepulse/ats-detector/examples/ats-detector-datadog-system
+Markdown: https://apify.com/hirepulse/ats-detector/examples/ats-detector-datadog-system.md
+Description: Identify Datadog recruiting software vendor and retrieve the public endpoint hosting their active job listings.
+
+## Discover Figma Recruiting Board & ATS Vendor
+Actor: hirepulse/ats-detector
+Task ID: 4MlKGOU3anipy7STn
+Page: https://apify.com/hirepulse/ats-detector/examples/ats-detector-figma-recruiting
+Markdown: https://apify.com/hirepulse/ats-detector/examples/ats-detector-figma-recruiting.md
+Description: Locate Figma public applicant tracking board and identify whether they use Greenhouse, Lever, Ashby, or Workable.
+
 ## Discover a company ATS and public careers board
 Actor: hirepulse/ats-detector
 Task ID: jSBJnwjyzB4XKbvkJ
 Page: https://apify.com/hirepulse/ats-detector/examples/hp-growth-20261020-company-ats-board-discovery
 Markdown: https://apify.com/hirepulse/ats-detector/examples/hp-growth-20261020-company-ats-board-discovery.md
 Description: Discover a company ATS and public careers board. Find which applicant tracking system a company uses and locate its public careers board. Use the result to prepare a recruiting workflow or enrich a B2B company record. This Actor returns board metadata, not a full job listing dataset. Unsupported, blocked or undiscovered boards are reported as unavailable; no finding does not prove the company has.
+
+## Find Cloudflare Careers System & Board URL
+Actor: hirepulse/ats-detector
+Task ID: eSJHhKusWnvg3M41n
+Page: https://apify.com/hirepulse/ats-detector/examples/ats-detector-cloudflare-careers
+Markdown: https://apify.com/hirepulse/ats-detector/examples/ats-detector-cloudflare-careers.md
+Description: Scan Cloudflare website to identify their enterprise recruiting engine and public applicant portal.
 
 ## Find Linear’s Recruiting Platform and Job Board
 Actor: hirepulse/ats-detector
@@ -59,6 +80,27 @@ Page: https://apify.com/hirepulse/ats-detector/examples/find-stripe-job-board
 Markdown: https://apify.com/hirepulse/ats-detector/examples/find-stripe-job-board.md
 Description: Find Stripe’s Recruiting Platform and Job Board. Find which applicant tracking system a company uses and locate its public careers board. Use the result to prepare a recruiting workflow or enrich a B2B company record. This Actor returns board metadata, not a full job listing dataset. Unsupported, blocked or undiscovered boards are reported as unavailable; no finding does not prove the company has.
 
+## Find Vercel Recruiting Platform & Careers Board
+Actor: hirepulse/ats-detector
+Task ID: xIEOBehS0mHIndzx2
+Page: https://apify.com/hirepulse/ats-detector/examples/ats-detector-vercel-board
+Markdown: https://apify.com/hirepulse/ats-detector/examples/ats-detector-vercel-board.md
+Description: Detect which applicant tracking system Vercel uses (Greenhouse, Lever, Ashby, etc.) and extract official job board URLs.
+
+## Collect Open Roles at Linear via Ashby ATS
+Actor: hirepulse/ats-job-pulse
+Task ID: QXUvhqmkWll3MrZ9e
+Page: https://apify.com/hirepulse/ats-job-pulse/examples/ats-job-pulse-linear-roles
+Markdown: https://apify.com/hirepulse/ats-job-pulse/examples/ats-job-pulse-linear-roles.md
+Description: Scrape active engineering, product, and design job listings directly from Linear official Ashby job board.
+
+## Extract Datadog Engineering Roles from Greenhouse
+Actor: hirepulse/ats-job-pulse
+Task ID: b2MhnHvZuxLTW6k1e
+Page: https://apify.com/hirepulse/ats-job-pulse/examples/ats-job-pulse-datadog-greenhouse
+Markdown: https://apify.com/hirepulse/ats-job-pulse/examples/ats-job-pulse-datadog-greenhouse.md
+Description: Collect open software engineering and infrastructure roles from Datadog public Greenhouse careers board.
+
 ## Find Engineering Jobs at Stripe
 Actor: hirepulse/ats-job-pulse
 Task ID: nVu7Uf9w089WknkM8
@@ -72,6 +114,13 @@ Task ID: pmY83H2b2r9t3m2Le
 Page: https://apify.com/hirepulse/ats-job-pulse/examples/hp-growth-20261020-lever-engineering-roles
 Markdown: https://apify.com/hirepulse/ats-job-pulse/examples/hp-growth-20261020-lever-engineering-roles.md
 Description: Find engineering roles on a Lever job board. Find open jobs and hiring signals from a company domain. Extract supported ATS job boards, filter roles, and export job records or a compact company summary. Workday is not supported. Salary and technology fields depend on what the source publishes. A first run cannot establish hiring velocity.
+
+## Scrape Figma Open Positions from Job Board
+Actor: hirepulse/ats-job-pulse
+Task ID: hC29pfJmVH4wKPm3M
+Page: https://apify.com/hirepulse/ats-job-pulse/examples/ats-job-pulse-figma-lever-jobs
+Markdown: https://apify.com/hirepulse/ats-job-pulse/examples/ats-job-pulse-figma-lever-jobs.md
+Description: Extract current open job vacancies, departments, and office locations from Figma supported ATS careers portal.
 
 ## Summarize Stripe Hiring by Team and Location
 Actor: hirepulse/ats-job-pulse
@@ -87,19 +136,61 @@ Page: https://apify.com/hirepulse/ats-job-pulse/examples/hp-growth-20261020-gree
 Markdown: https://apify.com/hirepulse/ats-job-pulse/examples/hp-growth-20261020-greenhouse-hiring-baseline.md
 Description: Track Greenhouse hiring changes over repeated runs. Find open jobs and hiring signals from a company domain. Extract supported ATS job boards, filter roles, and export job records or a compact company summary. Workday is not supported. Salary and technology fields depend on what the source publishes. A first run cannot establish hiring velocity.
 
-## Find company social profiles and contact pages
-Actor: hirepulse/company-contact-details-finder
-Task ID: WeQY4EBCg0nMvRKCI
-Page: https://apify.com/hirepulse/company-contact-details-finder/examples/hp-growth-20261020-company-social-and-contact-pages
-Markdown: https://apify.com/hirepulse/company-contact-details-finder/examples/hp-growth-20261020-company-social-and-contact-pages.md
-Description: Find company social profiles and contact pages. Find publicly listed business contact information from company websites. Export emails, phone numbers, social links and optional email-infrastructure observations in a company record. Only publicly accessible information is extracted. DNS/MX records do not verify that an individual mailbox exists or will accept email. Missing or blocked pages are.
+## Automated Vendor Due Diligence: Cloudflare
+Actor: hirepulse/b2b-account-research-agent
+Task ID: M7XUmyerH1xjATbcc
+Page: https://apify.com/hirepulse/b2b-account-research-agent/examples/b2b-research-cloudflare-due-diligence
+Markdown: https://apify.com/hirepulse/b2b-account-research-agent/examples/b2b-research-cloudflare-due-diligence.md
+Description: Gather objective public signals on Cloudflare including career department spread, edge software stack, and official contact endpoints.
 
-## Find public business contacts and inspect MX records
+## B2B Buying Signals & Hiring Audit for Notion
+Actor: hirepulse/b2b-account-research-agent
+Task ID: XSO8QeoHGu3yN0AGc
+Page: https://apify.com/hirepulse/b2b-account-research-agent/examples/b2b-research-notion-signals
+Markdown: https://apify.com/hirepulse/b2b-account-research-agent/examples/b2b-research-notion-signals.md
+Description: Investigate Notion enterprise growth through open positions, marketing tech stack, Google Ads presence, and public outreach details.
+
+## Build B2B Outbound Account Dossier for Stripe
+Actor: hirepulse/b2b-account-research-agent
+Task ID: 8LUAtSBh5nBGr48tU
+Page: https://apify.com/hirepulse/b2b-account-research-agent/examples/b2b-research-stripe-dossier
+Markdown: https://apify.com/hirepulse/b2b-account-research-agent/examples/b2b-research-stripe-dossier.md
+Description: Assemble a comprehensive B2B account research dossier for Stripe covering public hiring trends, observed tech stack, ad transparency records, and business contact links.
+
+## Full-Funnel Sales Intelligence for Datadog
+Actor: hirepulse/b2b-account-research-agent
+Task ID: EVFsyhtFp9jvd2Md3
+Page: https://apify.com/hirepulse/b2b-account-research-agent/examples/b2b-research-datadog-audit
+Markdown: https://apify.com/hirepulse/b2b-account-research-agent/examples/b2b-research-datadog-audit.md
+Description: Audit Datadog public enterprise footprint: hiring velocity, cloud telemetry technology, active search ads, and verified communications channels.
+
+## Pre-Sales Company Research: Linear App
+Actor: hirepulse/b2b-account-research-agent
+Task ID: 6AwCWAX3Mvfg3jVNY
+Page: https://apify.com/hirepulse/b2b-account-research-agent/examples/b2b-research-linear-sales
+Markdown: https://apify.com/hirepulse/b2b-account-research-agent/examples/b2b-research-linear-sales.md
+Description: Evaluate Linear for outbound sales prospecting by gathering public careers activity, web frameworks, and corporate contact profiles.
+
+## Target Account Intelligence for Vercel
+Actor: hirepulse/b2b-account-research-agent
+Task ID: WzxRUCT33mTqKQ4oi
+Page: https://apify.com/hirepulse/b2b-account-research-agent/examples/b2b-research-vercel-growth
+Markdown: https://apify.com/hirepulse/b2b-account-research-agent/examples/b2b-research-vercel-growth.md
+Description: Analyze Vercel business signals: engineering openings, web infrastructure, active Google Ads, and publicly listed company contacts.
+
+## Extract Vercel Public Business Contact Links
 Actor: hirepulse/company-contact-details-finder
-Task ID: WuR5wlqxhAlmq6tF9
-Page: https://apify.com/hirepulse/company-contact-details-finder/examples/hp-growth-20261020-public-contacts-and-mx
-Markdown: https://apify.com/hirepulse/company-contact-details-finder/examples/hp-growth-20261020-public-contacts-and-mx.md
-Description: Find public business contacts and inspect MX records. Find publicly listed business contact information from company websites. Export emails, phone numbers, social links and optional email-infrastructure observations in a company record. Only publicly accessible information is extracted. DNS/MX records do not verify that an individual mailbox exists or will accept email. Missing or blocked pages.
+Task ID: t8gPXUIdayaiUg5h9
+Page: https://apify.com/hirepulse/company-contact-details-finder/examples/company-contact-vercel-profiles
+Markdown: https://apify.com/hirepulse/company-contact-details-finder/examples/company-contact-vercel-profiles.md
+Description: Find publicly listed corporate emails, social profiles (GitHub, Twitter, LinkedIn), and support pages on vercel.com.
+
+## Find Datadog Corporate Communications Channels
+Actor: hirepulse/company-contact-details-finder
+Task ID: 2sPlpmUa9ZCoAzvxJ
+Page: https://apify.com/hirepulse/company-contact-details-finder/examples/company-contact-datadog-channels
+Markdown: https://apify.com/hirepulse/company-contact-details-finder/examples/company-contact-datadog-channels.md
+Description: Locate public inquiries email addresses, press contacts, and social media channels on datadoghq.com.
 
 ## Find Public Linear Contacts for B2B Research
 Actor: hirepulse/company-contact-details-finder
@@ -115,6 +206,48 @@ Page: https://apify.com/hirepulse/company-contact-details-finder/examples/find-s
 Markdown: https://apify.com/hirepulse/company-contact-details-finder/examples/find-stripe-public-business-contacts.md
 Description: Find Public Stripe Contacts for Business Outreach. Find publicly listed business contact information from company websites. Export emails, phone numbers, social links and optional email-infrastructure observations in a company record. Only publicly accessible information is extracted. DNS/MX records do not verify that an individual mailbox exists or will accept email. Missing or blocked pages are.
 
+## Find company social profiles and contact pages
+Actor: hirepulse/company-contact-details-finder
+Task ID: WeQY4EBCg0nMvRKCI
+Page: https://apify.com/hirepulse/company-contact-details-finder/examples/hp-growth-20261020-company-social-and-contact-pages
+Markdown: https://apify.com/hirepulse/company-contact-details-finder/examples/hp-growth-20261020-company-social-and-contact-pages.md
+Description: Find company social profiles and contact pages. Find publicly listed business contact information from company websites. Export emails, phone numbers, social links and optional email-infrastructure observations in a company record. Only publicly accessible information is extracted. DNS/MX records do not verify that an individual mailbox exists or will accept email. Missing or blocked pages are.
+
+## Find public business contacts and inspect MX records
+Actor: hirepulse/company-contact-details-finder
+Task ID: WuR5wlqxhAlmq6tF9
+Page: https://apify.com/hirepulse/company-contact-details-finder/examples/hp-growth-20261020-public-contacts-and-mx
+Markdown: https://apify.com/hirepulse/company-contact-details-finder/examples/hp-growth-20261020-public-contacts-and-mx.md
+Description: Find public business contacts and inspect MX records. Find publicly listed business contact information from company websites. Export emails, phone numbers, social links and optional email-infrastructure observations in a company record. Only publicly accessible information is extracted. DNS/MX records do not verify that an individual mailbox exists or will accept email. Missing or blocked pages.
+
+## Inspect Cloudflare Public Contact Directory
+Actor: hirepulse/company-contact-details-finder
+Task ID: c1yXo0bYDniX7OMVV
+Page: https://apify.com/hirepulse/company-contact-details-finder/examples/company-contact-cloudflare-directory
+Markdown: https://apify.com/hirepulse/company-contact-details-finder/examples/company-contact-cloudflare-directory.md
+Description: Extract official contact URLs, developer community endpoints, and social channels for Cloudflare.
+
+## Audit Figma Outbound Hiring & Intent Velocity
+Actor: hirepulse/company-intent-radar
+Task ID: hThLkU392ktUnm6ID
+Page: https://apify.com/hirepulse/company-intent-radar/examples/company-intent-figma-intent-audit
+Markdown: https://apify.com/hirepulse/company-intent-radar/examples/company-intent-figma-intent-audit.md
+Description: Examine Figma public careers board, frontend and design technology stack, and corporate infrastructure.
+
+## Evaluate Vercel Buying Signals & Growth Intent
+Actor: hirepulse/company-intent-radar
+Task ID: GCAUUg5Pw0k8zCvuA
+Page: https://apify.com/hirepulse/company-intent-radar/examples/company-intent-vercel-growth
+Markdown: https://apify.com/hirepulse/company-intent-radar/examples/company-intent-vercel-growth.md
+Description: Analyze Vercel public signals including careers hiring velocity, web technology stack, and infrastructure footprint.
+
+## Qualify Notion for B2B Sales Prospecting
+Actor: hirepulse/company-intent-radar
+Task ID: 7lYJhW9yLVoLuCDgm
+Page: https://apify.com/hirepulse/company-intent-radar/examples/company-intent-notion-prospecting
+Markdown: https://apify.com/hirepulse/company-intent-radar/examples/company-intent-notion-prospecting.md
+Description: Generate an intent score and evidence dossier for Notion based on observed open roles and website technologies.
+
 ## Qualify Stripe for B2B Sales Outreach
 Actor: hirepulse/company-intent-radar
 Task ID: VS0g6p2QNYsHSql5g
@@ -128,6 +261,55 @@ Task ID: wl5TG6hE0gKZiE8AX
 Page: https://apify.com/hirepulse/company-intent-radar/examples/research-linear-hiring-intent
 Markdown: https://apify.com/hirepulse/company-intent-radar/examples/research-linear-hiring-intent.md
 Description: Research Linear Hiring and Buying Intent. Qualify a company for B2B outreach using observed hiring, advertising, website technology and email infrastructure signals. Get one account report with supporting evidence and an explainable intent estimate. An intent score is an estimate, not proof of purchase intent or company growth. Missing evidence means unknown. Public mode does not measure SEO.
+
+## Score Datadog B2B Outbound Intent Signals
+Actor: hirepulse/company-intent-radar
+Task ID: OMi5EJJlOTbH96vAu
+Page: https://apify.com/hirepulse/company-intent-radar/examples/company-intent-datadog-sales
+Markdown: https://apify.com/hirepulse/company-intent-radar/examples/company-intent-datadog-sales.md
+Description: Evaluate Datadog outbound intent using public hiring signals, tech stack detections, and verified digital footprint.
+
+## Track Cloudflare Expansion & Tech Intent
+Actor: hirepulse/company-intent-radar
+Task ID: lNaMZfeA1eCyO67LZ
+Page: https://apify.com/hirepulse/company-intent-radar/examples/company-intent-cloudflare-signals
+Markdown: https://apify.com/hirepulse/company-intent-radar/examples/company-intent-cloudflare-signals.md
+Description: Monitor Cloudflare hiring trends across departments and tech infrastructure changes to gauge organizational expansion.
+
+## Audit Notion Public SEO Metadata & OpenGraph
+Actor: hirepulse/domain-seo-overview
+Task ID: 6iM1RJigg0ljxARU5
+Page: https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-notion-audit
+Markdown: https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-notion-audit.md
+Description: Inspect Notion homepage metadata, social preview tags, viewport configurations, and canonical URL structure.
+
+## Benchmark Linear App Website SEO Signals
+Actor: hirepulse/domain-seo-overview
+Task ID: U3B7tSAxiv6Ts4oqS
+Page: https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-linear-benchmark
+Markdown: https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-linear-benchmark.md
+Description: Extract Linear website title tags, meta descriptions, structured heading data, and sitemap endpoints.
+
+## Inspect Airbnb Website Technical SEO Signals
+Actor: hirepulse/domain-seo-overview
+Task ID: FnigztDcQccsqe33B
+Page: https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-airbnb-audit
+Markdown: https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-airbnb-audit.md
+Description: Audit Airbnb website metadata, canonical tags, language alternates, and sitemap availability using public signals.
+
+## Inspect Cloudflare Website SEO Architecture
+Actor: hirepulse/domain-seo-overview
+Task ID: Y5Eum4nglEUX5Utux
+Page: https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-cloudflare-check
+Markdown: https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-cloudflare-check.md
+Description: Extract Cloudflare public website meta tags, robots configuration, and structural sitemap signals for SEO benchmarking.
+
+## Inspect GitHub SEO Metadata & Sitemap Signals
+Actor: hirepulse/domain-seo-overview
+Task ID: lHTUlGj6VYB9bVCac
+Page: https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-github-metadata
+Markdown: https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-github-metadata.md
+Description: Inspect public HTML title tags, meta descriptions, OpenGraph tags, and robots directives on github.com.
 
 ## Inspect Stripe SEO Metadata and Public Sitemap
 Actor: hirepulse/domain-seo-overview
@@ -178,6 +360,41 @@ Page: https://apify.com/hirepulse/google-ads-transparency-scraper/examples/hp-gr
 Markdown: https://apify.com/hirepulse/google-ads-transparency-scraper/examples/hp-growth-20261020-advertiser-presence-summary.md
 Description: Summarize a domain Google Ads transparency presence. Research competitor advertising from Google Ads Transparency Center records. Enter company domains and export available creatives, formats, advertiser details and observed dates. Transparency records do not establish current ad delivery, exact targeting, advertising budget or spend. Availability and filters depend on the public source; an empty.
 
+## Find Cybersecurity & InfoSec Openings in US
+Actor: hirepulse/google-jobs-scraper
+Task ID: jVtEhFlXD9iUvjfeA
+Page: https://apify.com/hirepulse/google-jobs-scraper/examples/google-jobs-cybersecurity-analyst
+Markdown: https://apify.com/hirepulse/google-jobs-scraper/examples/google-jobs-cybersecurity-analyst.md
+Description: Search Google Jobs for information security analyst, SOC engineer, and cybersecurity specialist roles in the US.
+
+## Find DevOps & Platform Engineering Jobs in US
+Actor: hirepulse/google-jobs-scraper
+Task ID: LcniTOChJnGSQZn8D
+Page: https://apify.com/hirepulse/google-jobs-scraper/examples/google-jobs-devops-remote-us
+Markdown: https://apify.com/hirepulse/google-jobs-scraper/examples/google-jobs-devops-remote-us.md
+Description: Collect verified DevOps, SRE, and platform engineering positions from Google Jobs listings in the United States.
+
+## Find Product Management Jobs in New York
+Actor: hirepulse/google-jobs-scraper
+Task ID: WFxf2IFQ1llDQx7bP
+Page: https://apify.com/hirepulse/google-jobs-scraper/examples/google-jobs-product-manager-nyc
+Markdown: https://apify.com/hirepulse/google-jobs-scraper/examples/google-jobs-product-manager-nyc.md
+Description: Extract active product manager and technical product lead roles in New York City from Google Jobs search results.
+
+## Find Remote AI & ML Engineering Jobs
+Actor: hirepulse/google-jobs-scraper
+Task ID: y0UlbrHYprcabUMMy
+Page: https://apify.com/hirepulse/google-jobs-scraper/examples/google-jobs-ai-engineer-remote
+Markdown: https://apify.com/hirepulse/google-jobs-scraper/examples/google-jobs-ai-engineer-remote.md
+Description: Scrape recent Google Jobs postings for remote artificial intelligence and machine learning engineering roles across the US.
+
+## Find Remote Data Science & Analytics Roles
+Actor: hirepulse/google-jobs-scraper
+Task ID: NsPthU57nVnSgp1Al
+Page: https://apify.com/hirepulse/google-jobs-scraper/examples/google-jobs-data-scientist-remote
+Markdown: https://apify.com/hirepulse/google-jobs-scraper/examples/google-jobs-data-scientist-remote.md
+Description: Extract current remote data scientist, analytics engineer, and BI developer openings from Google Jobs.
+
 ## Find Remote Software Roles in Public Job Feeds
 Actor: hirepulse/google-jobs-scraper
 Task ID: cnzKuZYlO1gXImHtZ
@@ -206,12 +423,12 @@ Page: https://apify.com/hirepulse/keyword-search-volume/examples/find-crm-long-t
 Markdown: https://apify.com/hirepulse/keyword-search-volume/examples/find-crm-long-tail-keywords.md
 Description: Find CRM Long-Tail Keywords for Content Planning. Discover Google Autocomplete keyword suggestions from your seed phrases. Use the results for long-tail keyword research and content planning, with clear source and metric-availability fields. The current default is suggestions mode. It does not supply measured search volume, CPC, keyword difficulty or AI search volume; these fields remain null.
 
-## Find recruiting long-tail autocomplete suggestions
+## Find Keyword Suggestions for Cybersecurity Tools
 Actor: hirepulse/keyword-search-volume
-Task ID: US9U0qL38aGnSg61s
-Page: https://apify.com/hirepulse/keyword-search-volume/examples/hp-growth-20261020-recruiting-long-tail-suggestions
-Markdown: https://apify.com/hirepulse/keyword-search-volume/examples/hp-growth-20261020-recruiting-long-tail-suggestions.md
-Description: Find recruiting long-tail autocomplete suggestions. Discover Google Autocomplete keyword suggestions from your seed phrases. Use the results for long-tail keyword research and content planning, with clear source and metric-availability fields. The current default is suggestions mode. It does not supply measured search volume, CPC, keyword difficulty or AI search volume; these fields remain null.
+Task ID: i8cOboTpa67TFuUE8
+Page: https://apify.com/hirepulse/keyword-search-volume/examples/keyword-search-cybersecurity-tools
+Markdown: https://apify.com/hirepulse/keyword-search-volume/examples/keyword-search-cybersecurity-tools.md
+Description: Discover popular search terms and related search suggestions for cybersecurity software and security audits.
 
 ## Find SaaS content ideas from public autocomplete
 Actor: hirepulse/keyword-search-volume
@@ -219,6 +436,27 @@ Task ID: e5oX2aFrcIV5gPd54
 Page: https://apify.com/hirepulse/keyword-search-volume/examples/hp-growth-20261020-saas-autocomplete-content-ideas
 Markdown: https://apify.com/hirepulse/keyword-search-volume/examples/hp-growth-20261020-saas-autocomplete-content-ideas.md
 Description: Find SaaS content ideas from public autocomplete. Discover Google Autocomplete keyword suggestions from your seed phrases. Use the results for long-tail keyword research and content planning, with clear source and metric-availability fields. The current default is suggestions mode. It does not supply measured search volume, CPC, keyword difficulty or AI search volume; these fields remain null.
+
+## Find recruiting long-tail autocomplete suggestions
+Actor: hirepulse/keyword-search-volume
+Task ID: US9U0qL38aGnSg61s
+Page: https://apify.com/hirepulse/keyword-search-volume/examples/hp-growth-20261020-recruiting-long-tail-suggestions
+Markdown: https://apify.com/hirepulse/keyword-search-volume/examples/hp-growth-20261020-recruiting-long-tail-suggestions.md
+Description: Find recruiting long-tail autocomplete suggestions. Discover Google Autocomplete keyword suggestions from your seed phrases. Use the results for long-tail keyword research and content planning, with clear source and metric-availability fields. The current default is suggestions mode. It does not supply measured search volume, CPC, keyword difficulty or AI search volume; these fields remain null.
+
+## Generate Cloud Computing Search Keyword Ideas
+Actor: hirepulse/keyword-search-volume
+Task ID: vkgovbVRwMU7EngEU
+Page: https://apify.com/hirepulse/keyword-search-volume/examples/keyword-search-cloud-computing-ideas
+Markdown: https://apify.com/hirepulse/keyword-search-volume/examples/keyword-search-cloud-computing-ideas.md
+Description: Generate relevant search keyword suggestions for cloud computing, DevOps, and serverless architectures.
+
+## Research Ecommerce Automation Search Queries
+Actor: hirepulse/keyword-search-volume
+Task ID: DvTkGxKZV2affKgXH
+Page: https://apify.com/hirepulse/keyword-search-volume/examples/keyword-search-ecommerce-automation
+Markdown: https://apify.com/hirepulse/keyword-search-volume/examples/keyword-search-ecommerce-automation.md
+Description: Extract search query suggestions and related search topics for ecommerce automation and dropshipping.
 
 ## Check Stripe’s Marketing Tags and Website Stack
 Actor: hirepulse/website-tech-stack-detector
@@ -255,12 +493,33 @@ Page: https://apify.com/hirepulse/website-tech-stack-detector/examples/stripe-we
 Markdown: https://apify.com/hirepulse/website-tech-stack-detector/examples/stripe-website-tech-stack.md
 Description: Website tech stack detector for any domain. Enrich company records with observed website technologies, advertising pixels and public DNS email signals. Use the results to qualify accounts by their stack. Detection is based on visible page and DNS evidence. Consent controls, client-side loading and blocking can hide a technology. A pixel does not prove active advertising or advertising spend.
 
+## Download Tech Keynote Transcript with Timestamps
+Actor: hirepulse/youtube-transcript-scraper
+Task ID: AaiWxGBzNwcCqqvcN
+Page: https://apify.com/hirepulse/youtube-transcript-scraper/examples/youtube-transcript-tech-keynote
+Markdown: https://apify.com/hirepulse/youtube-transcript-scraper/examples/youtube-transcript-tech-keynote.md
+Description: Extract subtitle captions and timestamps from developer conference keynotes and technical presentations.
+
 ## Export available YouTube captions with timestamps
 Actor: hirepulse/youtube-transcript-scraper
 Task ID: HJgkiaXx4QY4CXaqq
 Page: https://apify.com/hirepulse/youtube-transcript-scraper/examples/hp-growth-20261020-timestamped-caption-export
 Markdown: https://apify.com/hirepulse/youtube-transcript-scraper/examples/hp-growth-20261020-timestamped-caption-export.md
 Description: Export available YouTube captions with timestamps. Turn YouTube videos into text for RAG, research and content workflows. Submit video URLs or IDs and retrieve available captions with optional timestamps. The Actor retrieves accessible captions; it does not transcribe audio or guarantee captions for every video. Unavailable, blocked, deleted or captionless videos return explained outcomes.
+
+## Extract MIT OpenCourseWare Lecture Transcript
+Actor: hirepulse/youtube-transcript-scraper
+Task ID: Nd6kkoAUWmz8CIcuH
+Page: https://apify.com/hirepulse/youtube-transcript-scraper/examples/youtube-transcript-podcast-lecture
+Markdown: https://apify.com/hirepulse/youtube-transcript-scraper/examples/youtube-transcript-podcast-lecture.md
+Description: Download clean full-text lecture transcript with timestamps from MIT OpenCourseWare educational video for study and AI summarization.
+
+## Extract TED Talk Video Transcript to Clean Text
+Actor: hirepulse/youtube-transcript-scraper
+Task ID: ifqZh7XS0cMDMmcfJ
+Page: https://apify.com/hirepulse/youtube-transcript-scraper/examples/youtube-transcript-ted-talk
+Markdown: https://apify.com/hirepulse/youtube-transcript-scraper/examples/youtube-transcript-ted-talk.md
+Description: Scrape closed captions and subtitles from popular TED Talk videos into formatted text suitable for LLM analysis.
 
 ## Extract YouTube Caption Text for Research
 Actor: hirepulse/youtube-transcript-scraper
@@ -282,3 +541,4 @@ Task ID: zVRRzcLLlxWueUwIg
 Page: https://apify.com/hirepulse/youtube-transcript-scraper/examples/youtube-rick-astley-transcript
 Markdown: https://apify.com/hirepulse/youtube-transcript-scraper/examples/youtube-rick-astley-transcript.md
 Description: YouTube video transcript to text. Turn YouTube videos into text for RAG, research and content workflows. Submit video URLs or IDs and retrieve available captions with optional timestamps. The Actor retrieves accessible captions; it does not transcribe audio or guarantee captions for every video. Unavailable, blocked, deleted or captionless videos return explained outcomes. Language availability.
+
