@@ -45,14 +45,14 @@ Page: https://apify.com/hirepulse/ats-detector/examples/hp-growth-20261020-compa
 Markdown: https://apify.com/hirepulse/ats-detector/examples/hp-growth-20261020-company-ats-board-discovery.md
 Description: Discover a company ATS and public careers board. Find which applicant tracking system a company uses and locate its public careers board. Use the result to prepare a recruiting workflow or enrich a B2B company record. This Actor returns board metadata, not a full job listing dataset. Unsupported, blocked or undiscovered boards are reported as unavailable; no finding does not prove the company has.
 
-## Find Linearג€™s Recruiting Platform and Job Board
+## Find Linear’s Recruiting Platform and Job Board
 Actor: hirepulse/ats-detector
 Task ID: hd7O3rwgM6Scs1Emh
 Page: https://apify.com/hirepulse/ats-detector/examples/find-linear-job-board
 Markdown: https://apify.com/hirepulse/ats-detector/examples/find-linear-job-board.md
 Description: Find Linear’s Recruiting Platform and Job Board. Find which applicant tracking system a company uses and locate its public careers board. Use the result to prepare a recruiting workflow or enrich a B2B company record. This Actor returns board metadata, not a full job listing dataset. Unsupported, blocked or undiscovered boards are reported as unavailable; no finding does not prove the company has.
 
-## Find Stripeג€™s Recruiting Platform and Job Board
+## Find Stripe’s Recruiting Platform and Job Board
 Actor: hirepulse/ats-detector
 Task ID: UdDkIO0aEYrcShd4M
 Page: https://apify.com/hirepulse/ats-detector/examples/find-stripe-job-board
@@ -220,7 +220,7 @@ Page: https://apify.com/hirepulse/keyword-search-volume/examples/hp-growth-20261
 Markdown: https://apify.com/hirepulse/keyword-search-volume/examples/hp-growth-20261020-saas-autocomplete-content-ideas.md
 Description: Find SaaS content ideas from public autocomplete. Discover Google Autocomplete keyword suggestions from your seed phrases. Use the results for long-tail keyword research and content planning, with clear source and metric-availability fields. The current default is suggestions mode. It does not supply measured search volume, CPC, keyword difficulty or AI search volume; these fields remain null.
 
-## Check Stripeג€™s Marketing Tags and Website Stack
+## Check Stripe’s Marketing Tags and Website Stack
 Actor: hirepulse/website-tech-stack-detector
 Task ID: ckxphQN4aMgXdNdxP
 Page: https://apify.com/hirepulse/website-tech-stack-detector/examples/check-stripe-marketing-stack
@@ -234,7 +234,7 @@ Page: https://apify.com/hirepulse/website-tech-stack-detector/examples/hp-growth
 Markdown: https://apify.com/hirepulse/website-tech-stack-detector/examples/hp-growth-20261020-ad-pixel-evidence.md
 Description: Detect advertising pixels on a company website. Enrich company records with observed website technologies, advertising pixels and public DNS email signals. Use the results to qualify accounts by their stack. Detection is based on visible page and DNS evidence. Consent controls, client-side loading and blocking can hide a technology. A pixel does not prove active advertising or advertising spend.
 
-## Identify Gymsharkג€™s Ecommerce and Marketing Tools
+## Identify Gymshark’s Ecommerce and Marketing Tools
 Actor: hirepulse/website-tech-stack-detector
 Task ID: bOUTFafigc3cbVTiH
 Page: https://apify.com/hirepulse/website-tech-stack-detector/examples/check-gymshark-ecommerce-stack

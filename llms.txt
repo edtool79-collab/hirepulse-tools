@@ -50,4 +50,4 @@ One SKILL.md per tool (when to use it, what it returns, its limits, its price): 
 - [Weekly tech hiring report](https://edtool79-collab.github.io/hirepulse-tools/hiring-report/)
 
 ## Apify Tasks
-40 runnable tasks: /tasks-directory.md (human) and /apify-tasks-llms.txt (machine index).
+40 runnable tasks: https://edtool79-collab.github.io/hirepulse-tools/tasks-directory.md (human) and https://edtool79-collab.github.io/hirepulse-tools/apify-tasks-llms.txt (machine index).
