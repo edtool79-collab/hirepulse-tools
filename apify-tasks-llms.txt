@@ -1,44 +1,284 @@
-# HirePulse — 40 runnable Apify Tasks (machine-readable index)
+# HirePulse public Apify task examples
+Verified: 2026-10-21
+Count: 40
+Opening these URLs does not run an Actor.
 
-- Identify Gymshark’s Ecommerce and Marketing Tools :: task=check-gymshark-ecommerce-stack :: actor=website-tech-stack-detector :: md=https://apify.com/hirepulse/website-tech-stack-detector.md :: run=https://console.apify.com/actors/tasks/bOUTFafigc3cbVTiH
-- Check Stripe’s Marketing Tags and Website Stack :: task=check-stripe-marketing-stack :: actor=website-tech-stack-detector :: md=https://apify.com/hirepulse/website-tech-stack-detector.md :: run=https://console.apify.com/actors/tasks/ckxphQN4aMgXdNdxP
-- Find Public Linear Contacts for B2B Research :: task=find-linear-public-business-contacts :: actor=company-contact-details-finder :: md=https://apify.com/hirepulse/company-contact-details-finder.md :: run=https://console.apify.com/actors/tasks/GKVxV6Ui1v6Vw5bt3
-- Find Public Stripe Contacts for Business Outreach :: task=find-stripe-public-business-contacts :: actor=company-contact-details-finder :: md=https://apify.com/hirepulse/company-contact-details-finder.md :: run=https://console.apify.com/actors/tasks/w6fPswI7CVedqLBeB
-- Detect advertising pixels on a company website :: task=hp-growth-20261020-ad-pixel-evidence :: actor=website-tech-stack-detector :: md=https://apify.com/hirepulse/website-tech-stack-detector.md :: run=https://console.apify.com/actors/tasks/bsJuQtqxnGqE2r56V
-- Find company social profiles and contact pages :: task=hp-growth-20261020-company-social-and-contact-pages :: actor=company-contact-details-finder :: md=https://apify.com/hirepulse/company-contact-details-finder.md :: run=https://console.apify.com/actors/tasks/WeQY4EBCg0nMvRKCI
-- Find public business contacts and inspect MX records :: task=hp-growth-20261020-public-contacts-and-mx :: actor=company-contact-details-finder :: md=https://apify.com/hirepulse/company-contact-details-finder.md :: run=https://console.apify.com/actors/tasks/WuR5wlqxhAlmq6tF9
-- Track website technology changes over repeated runs :: task=hp-growth-20261020-technology-change-baseline :: actor=website-tech-stack-detector :: md=https://apify.com/hirepulse/website-tech-stack-detector.md :: run=https://console.apify.com/actors/tasks/kdL8DiEfhDQRa5tON
-- Website tech stack detector for any domain :: task=stripe-website-tech-stack :: actor=website-tech-stack-detector :: md=https://apify.com/hirepulse/website-tech-stack-detector.md :: run=https://console.apify.com/actors/tasks/wbJSGnnjNhJIQb63z
-- Find B2B Keyword Suggestions with Google Autocomplete :: task=compare-business-software-keyword-demand :: actor=keyword-search-volume :: md=https://apify.com/hirepulse/keyword-search-volume.md :: run=https://console.apify.com/actors/tasks/8vcZYgpsTq8jZt12k
-- Research Data Engineer Roles in Public Job Feeds :: task=data-engineer-jobs-london :: actor=google-jobs-scraper :: md=https://apify.com/hirepulse/google-jobs-scraper.md :: run=https://console.apify.com/actors/tasks/mrat6CdnwDbUkFO7S
-- Find CRM Long-Tail Keywords for Content Planning :: task=find-crm-long-tail-keywords :: actor=keyword-search-volume :: md=https://apify.com/hirepulse/keyword-search-volume.md :: run=https://console.apify.com/actors/tasks/KyPZPc38cIagagsBo
-- Find Linear’s Recruiting Platform and Job Board :: task=find-linear-job-board :: actor=ats-detector :: md=https://apify.com/hirepulse/ats-detector.md :: run=https://console.apify.com/actors/tasks/hd7O3rwgM6Scs1Emh
-- Find Engineering Jobs at Stripe :: task=find-stripe-engineering-jobs :: actor=ats-job-pulse :: md=https://apify.com/hirepulse/ats-job-pulse.md :: run=https://console.apify.com/actors/tasks/nVu7Uf9w089WknkM8
-- Find Stripe’s Recruiting Platform and Job Board :: task=find-stripe-job-board :: actor=ats-detector :: md=https://apify.com/hirepulse/ats-detector.md :: run=https://console.apify.com/actors/tasks/UdDkIO0aEYrcShd4M
-- Discover a company ATS and public careers board :: task=hp-growth-20261020-company-ats-board-discovery :: actor=ats-detector :: md=https://apify.com/hirepulse/ats-detector.md :: run=https://console.apify.com/actors/tasks/jSBJnwjyzB4XKbvkJ
-- Track Greenhouse hiring changes over repeated runs :: task=hp-growth-20261020-greenhouse-hiring-baseline :: actor=ats-job-pulse :: md=https://apify.com/hirepulse/ats-job-pulse.md :: run=https://console.apify.com/actors/tasks/dTQxys2kKz2WO41Ql
-- Find engineering roles on a Lever job board :: task=hp-growth-20261020-lever-engineering-roles :: actor=ats-job-pulse :: md=https://apify.com/hirepulse/ats-job-pulse.md :: run=https://console.apify.com/actors/tasks/pmY83H2b2r9t3m2Le
-- Find recruiting long-tail autocomplete suggestions :: task=hp-growth-20261020-recruiting-long-tail-suggestions :: actor=keyword-search-volume :: md=https://apify.com/hirepulse/keyword-search-volume.md :: run=https://console.apify.com/actors/tasks/US9U0qL38aGnSg61s
-- Find SaaS content ideas from public autocomplete :: task=hp-growth-20261020-saas-autocomplete-content-ideas :: actor=keyword-search-volume :: md=https://apify.com/hirepulse/keyword-search-volume.md :: run=https://console.apify.com/actors/tasks/e5oX2aFrcIV5gPd54
-- Qualify Stripe for B2B Sales Outreach :: task=qualify-stripe-sales-intent :: actor=company-intent-radar :: md=https://apify.com/hirepulse/company-intent-radar.md :: run=https://console.apify.com/actors/tasks/VS0g6p2QNYsHSql5g
-- Find Remote Software Roles in Public Job Feeds :: task=remote-software-engineer-jobs-us :: actor=google-jobs-scraper :: md=https://apify.com/hirepulse/google-jobs-scraper.md :: run=https://console.apify.com/actors/tasks/cnzKuZYlO1gXImHtZ
-- Research Linear Hiring and Buying Intent :: task=research-linear-hiring-intent :: actor=company-intent-radar :: md=https://apify.com/hirepulse/company-intent-radar.md :: run=https://console.apify.com/actors/tasks/wl5TG6hE0gKZiE8AX
-- Summarize Stripe Hiring by Team and Location :: task=summarize-stripe-hiring :: actor=ats-job-pulse :: md=https://apify.com/hirepulse/ats-job-pulse.md :: run=https://console.apify.com/actors/tasks/H5T6kiFJPLghOEyhW
-- Research Adidas Google Ads Transparency Records :: task=check-adidas-advertising-presence :: actor=google-ads-transparency-scraper :: md=https://apify.com/hirepulse/google-ads-transparency-scraper.md :: run=https://console.apify.com/actors/tasks/KYuoidhbNI0Ajh1aL
-- Summarize a domain Google Ads transparency presence :: task=hp-growth-20261020-advertiser-presence-summary :: actor=google-ads-transparency-scraper :: md=https://apify.com/hirepulse/google-ads-transparency-scraper.md :: run=https://console.apify.com/actors/tasks/AzJaQWcIwYZZ43Pf9
-- Research competitor Google Ads creatives in the US :: task=hp-growth-20261020-us-competitor-ad-creatives :: actor=google-ads-transparency-scraper :: md=https://apify.com/hirepulse/google-ads-transparency-scraper.md :: run=https://console.apify.com/actors/tasks/SjPiW7qxGS73qrVFN
-- Research competitor YouTube ad creatives :: task=hp-growth-20261020-youtube-ad-creative-research :: actor=google-ads-transparency-scraper :: md=https://apify.com/hirepulse/google-ads-transparency-scraper.md :: run=https://console.apify.com/actors/tasks/tkpeOuwGt3pQ48JMT
-- Preview Nike Google Ads for Creative Research :: task=preview-nike-google-ads :: actor=google-ads-transparency-scraper :: md=https://apify.com/hirepulse/google-ads-transparency-scraper.md :: run=https://console.apify.com/actors/tasks/4Hii0aW05n96890bb
-- AliExpress product search to JSON :: task=aliexpress-yoga-mat-product-search :: actor=aliexpress-search-scraper :: md=https://apify.com/hirepulse/aliexpress-search-scraper.md :: run=https://console.apify.com/actors/tasks/jjBB53xYQThnEapXG
-- Compare Yoga Mat Prices for US Delivery :: task=compare-yoga-mat-prices-us :: actor=aliexpress-search-scraper :: md=https://apify.com/hirepulse/aliexpress-search-scraper.md :: run=https://console.apify.com/actors/tasks/O19KmMpEC5SDcFisW
-- Find Popular USB C Cables for US Buyers :: task=find-popular-usb-c-cables :: actor=aliexpress-search-scraper :: md=https://apify.com/hirepulse/aliexpress-search-scraper.md :: run=https://console.apify.com/actors/tasks/zxvjzKd6On7aq7Qma
-- Compare AliExpress USB-C product prices :: task=hp-growth-20261020-usb-c-price-research :: actor=aliexpress-search-scraper :: md=https://apify.com/hirepulse/aliexpress-search-scraper.md :: run=https://console.apify.com/actors/tasks/fVAisLFnzeysD2Z5d
-- Research popular AliExpress yoga products :: task=hp-growth-20261020-yoga-market-product-research :: actor=aliexpress-search-scraper :: md=https://apify.com/hirepulse/aliexpress-search-scraper.md :: run=https://console.apify.com/actors/tasks/qQygOGO6LBqE3CBNk
-- Extract YouTube Captions with Timestamps :: task=extract-youtube-captions-with-timestamps :: actor=youtube-transcript-scraper :: md=https://apify.com/hirepulse/youtube-transcript-scraper.md :: run=https://console.apify.com/actors/tasks/RfrGwaYcUDoe8L5Ra
-- Extract YouTube Caption Text for Research :: task=extract-youtube-text-for-research :: actor=youtube-transcript-scraper :: md=https://apify.com/hirepulse/youtube-transcript-scraper.md :: run=https://console.apify.com/actors/tasks/zfgDP8jwfsSWxSWcJ
-- Export available YouTube captions with timestamps :: task=hp-growth-20261020-timestamped-caption-export :: actor=youtube-transcript-scraper :: md=https://apify.com/hirepulse/youtube-transcript-scraper.md :: run=https://console.apify.com/actors/tasks/HJgkiaXx4QY4CXaqq
-- YouTube video transcript to text :: task=youtube-rick-astley-transcript :: actor=youtube-transcript-scraper :: md=https://apify.com/hirepulse/youtube-transcript-scraper.md :: run=https://console.apify.com/actors/tasks/zVRRzcLLlxWueUwIg
-- Inspect Stripe SEO Metadata and Public Sitemap :: task=benchmark-stripe-organic-search :: actor=domain-seo-overview :: md=https://apify.com/hirepulse/domain-seo-overview.md :: run=https://console.apify.com/actors/tasks/ggChW29oswKSzeuUE
-- Research Shopify Website Metadata and Keyword Ideas :: task=find-shopify-ranking-keywords :: actor=domain-seo-overview :: md=https://apify.com/hirepulse/domain-seo-overview.md :: run=https://console.apify.com/actors/tasks/RkmaxHJLmFRM6BfiI
+## AliExpress product search to JSON
+Actor: hirepulse/aliexpress-search-scraper
+Task ID: jjBB53xYQThnEapXG
+Page: https://apify.com/hirepulse/aliexpress-search-scraper/examples/aliexpress-yoga-mat-product-search
+Markdown: https://apify.com/hirepulse/aliexpress-search-scraper/examples/aliexpress-yoga-mat-product-search.md
+Description: AliExpress product search to JSON. Search AliExpress products and export available product details for price comparison and ecommerce research. Set a keyword, currency, destination country and result limit. Prices and availability vary by region and time. Review counts are not review text. Search results are a snapshot, not guaranteed checkout prices, stock levels or a complete catalog.
 
-MCP: https://gethirepulse.xyz/mcp | Catalog: https://gethirepulse.xyz/v1/catalog | Directory: /tasks-directory.md
+## Compare AliExpress USB-C product prices
+Actor: hirepulse/aliexpress-search-scraper
+Task ID: fVAisLFnzeysD2Z5d
+Page: https://apify.com/hirepulse/aliexpress-search-scraper/examples/hp-growth-20261020-usb-c-price-research
+Markdown: https://apify.com/hirepulse/aliexpress-search-scraper/examples/hp-growth-20261020-usb-c-price-research.md
+Description: Compare AliExpress USB-C product prices. Search AliExpress products and export available product details for price comparison and ecommerce research. Set a keyword, currency, destination country and result limit. Prices and availability vary by region and time. Review counts are not review text. Search results are a snapshot, not guaranteed checkout prices, stock levels or a complete catalog.
+
+## Compare Yoga Mat Prices for US Delivery
+Actor: hirepulse/aliexpress-search-scraper
+Task ID: O19KmMpEC5SDcFisW
+Page: https://apify.com/hirepulse/aliexpress-search-scraper/examples/compare-yoga-mat-prices-us
+Markdown: https://apify.com/hirepulse/aliexpress-search-scraper/examples/compare-yoga-mat-prices-us.md
+Description: Compare Yoga Mat Prices for US Delivery. Search AliExpress products and export available product details for price comparison and ecommerce research. Set a keyword, currency, destination country and result limit. Prices and availability vary by region and time. Review counts are not review text. Search results are a snapshot, not guaranteed checkout prices, stock levels or a complete catalog.
+
+## Find Popular USB C Cables for US Buyers
+Actor: hirepulse/aliexpress-search-scraper
+Task ID: zxvjzKd6On7aq7Qma
+Page: https://apify.com/hirepulse/aliexpress-search-scraper/examples/find-popular-usb-c-cables
+Markdown: https://apify.com/hirepulse/aliexpress-search-scraper/examples/find-popular-usb-c-cables.md
+Description: Find Popular USB C Cables for US Buyers. Search AliExpress products and export available product details for price comparison and ecommerce research. Set a keyword, currency, destination country and result limit. Prices and availability vary by region and time. Review counts are not review text. Search results are a snapshot, not guaranteed checkout prices, stock levels or a complete catalog.
+
+## Research popular AliExpress yoga products
+Actor: hirepulse/aliexpress-search-scraper
+Task ID: qQygOGO6LBqE3CBNk
+Page: https://apify.com/hirepulse/aliexpress-search-scraper/examples/hp-growth-20261020-yoga-market-product-research
+Markdown: https://apify.com/hirepulse/aliexpress-search-scraper/examples/hp-growth-20261020-yoga-market-product-research.md
+Description: Research popular AliExpress yoga products. Search AliExpress products and export available product details for price comparison and ecommerce research. Set a keyword, currency, destination country and result limit. Prices and availability vary by region and time. Review counts are not review text. Search results are a snapshot, not guaranteed checkout prices, stock levels or a complete catalog.
+
+## Discover a company ATS and public careers board
+Actor: hirepulse/ats-detector
+Task ID: jSBJnwjyzB4XKbvkJ
+Page: https://apify.com/hirepulse/ats-detector/examples/hp-growth-20261020-company-ats-board-discovery
+Markdown: https://apify.com/hirepulse/ats-detector/examples/hp-growth-20261020-company-ats-board-discovery.md
+Description: Discover a company ATS and public careers board. Find which applicant tracking system a company uses and locate its public careers board. Use the result to prepare a recruiting workflow or enrich a B2B company record. This Actor returns board metadata, not a full job listing dataset. Unsupported, blocked or undiscovered boards are reported as unavailable; no finding does not prove the company has.
+
+## Find Linearג€™s Recruiting Platform and Job Board
+Actor: hirepulse/ats-detector
+Task ID: hd7O3rwgM6Scs1Emh
+Page: https://apify.com/hirepulse/ats-detector/examples/find-linear-job-board
+Markdown: https://apify.com/hirepulse/ats-detector/examples/find-linear-job-board.md
+Description: Find Linear’s Recruiting Platform and Job Board. Find which applicant tracking system a company uses and locate its public careers board. Use the result to prepare a recruiting workflow or enrich a B2B company record. This Actor returns board metadata, not a full job listing dataset. Unsupported, blocked or undiscovered boards are reported as unavailable; no finding does not prove the company has.
+
+## Find Stripeג€™s Recruiting Platform and Job Board
+Actor: hirepulse/ats-detector
+Task ID: UdDkIO0aEYrcShd4M
+Page: https://apify.com/hirepulse/ats-detector/examples/find-stripe-job-board
+Markdown: https://apify.com/hirepulse/ats-detector/examples/find-stripe-job-board.md
+Description: Find Stripe’s Recruiting Platform and Job Board. Find which applicant tracking system a company uses and locate its public careers board. Use the result to prepare a recruiting workflow or enrich a B2B company record. This Actor returns board metadata, not a full job listing dataset. Unsupported, blocked or undiscovered boards are reported as unavailable; no finding does not prove the company has.
+
+## Find Engineering Jobs at Stripe
+Actor: hirepulse/ats-job-pulse
+Task ID: nVu7Uf9w089WknkM8
+Page: https://apify.com/hirepulse/ats-job-pulse/examples/find-stripe-engineering-jobs
+Markdown: https://apify.com/hirepulse/ats-job-pulse/examples/find-stripe-engineering-jobs.md
+Description: Find Engineering Jobs at Stripe. Find open jobs and hiring signals from a company domain. Extract supported ATS job boards, filter roles, and export job records or a compact company summary. Workday is not supported. Salary and technology fields depend on what the source publishes. A first run cannot establish hiring velocity.
+
+## Find engineering roles on a Lever job board
+Actor: hirepulse/ats-job-pulse
+Task ID: pmY83H2b2r9t3m2Le
+Page: https://apify.com/hirepulse/ats-job-pulse/examples/hp-growth-20261020-lever-engineering-roles
+Markdown: https://apify.com/hirepulse/ats-job-pulse/examples/hp-growth-20261020-lever-engineering-roles.md
+Description: Find engineering roles on a Lever job board. Find open jobs and hiring signals from a company domain. Extract supported ATS job boards, filter roles, and export job records or a compact company summary. Workday is not supported. Salary and technology fields depend on what the source publishes. A first run cannot establish hiring velocity.
+
+## Summarize Stripe Hiring by Team and Location
+Actor: hirepulse/ats-job-pulse
+Task ID: H5T6kiFJPLghOEyhW
+Page: https://apify.com/hirepulse/ats-job-pulse/examples/summarize-stripe-hiring
+Markdown: https://apify.com/hirepulse/ats-job-pulse/examples/summarize-stripe-hiring.md
+Description: Summarize Stripe Hiring by Team and Location. Find open jobs and hiring signals from a company domain. Extract supported ATS job boards, filter roles, and export job records or a compact company summary. Workday is not supported. Salary and technology fields depend on what the source publishes. A first run cannot establish hiring velocity.
+
+## Track Greenhouse hiring changes over repeated runs
+Actor: hirepulse/ats-job-pulse
+Task ID: dTQxys2kKz2WO41Ql
+Page: https://apify.com/hirepulse/ats-job-pulse/examples/hp-growth-20261020-greenhouse-hiring-baseline
+Markdown: https://apify.com/hirepulse/ats-job-pulse/examples/hp-growth-20261020-greenhouse-hiring-baseline.md
+Description: Track Greenhouse hiring changes over repeated runs. Find open jobs and hiring signals from a company domain. Extract supported ATS job boards, filter roles, and export job records or a compact company summary. Workday is not supported. Salary and technology fields depend on what the source publishes. A first run cannot establish hiring velocity.
+
+## Find company social profiles and contact pages
+Actor: hirepulse/company-contact-details-finder
+Task ID: WeQY4EBCg0nMvRKCI
+Page: https://apify.com/hirepulse/company-contact-details-finder/examples/hp-growth-20261020-company-social-and-contact-pages
+Markdown: https://apify.com/hirepulse/company-contact-details-finder/examples/hp-growth-20261020-company-social-and-contact-pages.md
+Description: Find company social profiles and contact pages. Find publicly listed business contact information from company websites. Export emails, phone numbers, social links and optional email-infrastructure observations in a company record. Only publicly accessible information is extracted. DNS/MX records do not verify that an individual mailbox exists or will accept email. Missing or blocked pages are.
+
+## Find public business contacts and inspect MX records
+Actor: hirepulse/company-contact-details-finder
+Task ID: WuR5wlqxhAlmq6tF9
+Page: https://apify.com/hirepulse/company-contact-details-finder/examples/hp-growth-20261020-public-contacts-and-mx
+Markdown: https://apify.com/hirepulse/company-contact-details-finder/examples/hp-growth-20261020-public-contacts-and-mx.md
+Description: Find public business contacts and inspect MX records. Find publicly listed business contact information from company websites. Export emails, phone numbers, social links and optional email-infrastructure observations in a company record. Only publicly accessible information is extracted. DNS/MX records do not verify that an individual mailbox exists or will accept email. Missing or blocked pages.
+
+## Find Public Linear Contacts for B2B Research
+Actor: hirepulse/company-contact-details-finder
+Task ID: GKVxV6Ui1v6Vw5bt3
+Page: https://apify.com/hirepulse/company-contact-details-finder/examples/find-linear-public-business-contacts
+Markdown: https://apify.com/hirepulse/company-contact-details-finder/examples/find-linear-public-business-contacts.md
+Description: Find Public Linear Contacts for B2B Research. Find publicly listed business contact information from company websites. Export emails, phone numbers, social links and optional email-infrastructure observations in a company record. Only publicly accessible information is extracted. DNS/MX records do not verify that an individual mailbox exists or will accept email. Missing or blocked pages are.
+
+## Find Public Stripe Contacts for Business Outreach
+Actor: hirepulse/company-contact-details-finder
+Task ID: w6fPswI7CVedqLBeB
+Page: https://apify.com/hirepulse/company-contact-details-finder/examples/find-stripe-public-business-contacts
+Markdown: https://apify.com/hirepulse/company-contact-details-finder/examples/find-stripe-public-business-contacts.md
+Description: Find Public Stripe Contacts for Business Outreach. Find publicly listed business contact information from company websites. Export emails, phone numbers, social links and optional email-infrastructure observations in a company record. Only publicly accessible information is extracted. DNS/MX records do not verify that an individual mailbox exists or will accept email. Missing or blocked pages are.
+
+## Qualify Stripe for B2B Sales Outreach
+Actor: hirepulse/company-intent-radar
+Task ID: VS0g6p2QNYsHSql5g
+Page: https://apify.com/hirepulse/company-intent-radar/examples/qualify-stripe-sales-intent
+Markdown: https://apify.com/hirepulse/company-intent-radar/examples/qualify-stripe-sales-intent.md
+Description: Qualify Stripe for B2B Sales Outreach. Qualify a company for B2B outreach using observed hiring, advertising, website technology and email infrastructure signals. Get one account report with supporting evidence and an explainable intent estimate. An intent score is an estimate, not proof of purchase intent or company growth. Missing evidence means unknown. Public mode does not measure SEO.
+
+## Research Linear Hiring and Buying Intent
+Actor: hirepulse/company-intent-radar
+Task ID: wl5TG6hE0gKZiE8AX
+Page: https://apify.com/hirepulse/company-intent-radar/examples/research-linear-hiring-intent
+Markdown: https://apify.com/hirepulse/company-intent-radar/examples/research-linear-hiring-intent.md
+Description: Research Linear Hiring and Buying Intent. Qualify a company for B2B outreach using observed hiring, advertising, website technology and email infrastructure signals. Get one account report with supporting evidence and an explainable intent estimate. An intent score is an estimate, not proof of purchase intent or company growth. Missing evidence means unknown. Public mode does not measure SEO.
+
+## Inspect Stripe SEO Metadata and Public Sitemap
+Actor: hirepulse/domain-seo-overview
+Task ID: ggChW29oswKSzeuUE
+Page: https://apify.com/hirepulse/domain-seo-overview/examples/benchmark-stripe-organic-search
+Markdown: https://apify.com/hirepulse/domain-seo-overview/examples/benchmark-stripe-organic-search.md
+Description: Inspect Stripe SEO Metadata and Public Sitemap. Build a Domain SEO Overview from public website evidence: page metadata, sitemap observations and keyword suggestions. Use it to inspect a site before a technical SEO audit or competitor review. Public mode does not measure organic traffic, ranking positions, search volume, CPC or indexed-page counts. Those fields remain null when unavailable.
+
+## Research Shopify Website Metadata and Keyword Ideas
+Actor: hirepulse/domain-seo-overview
+Task ID: RkmaxHJLmFRM6BfiI
+Page: https://apify.com/hirepulse/domain-seo-overview/examples/find-shopify-ranking-keywords
+Markdown: https://apify.com/hirepulse/domain-seo-overview/examples/find-shopify-ranking-keywords.md
+Description: Research Shopify Website Metadata and Keyword Ideas. Build a Domain SEO Overview from public website evidence: page metadata, sitemap observations and keyword suggestions. Use it to inspect a site before a technical SEO audit or competitor review. Public mode does not measure organic traffic, ranking positions, search volume, CPC or indexed-page counts. Those fields remain null when unavailable.
+
+## Preview Nike Google Ads for Creative Research
+Actor: hirepulse/google-ads-transparency-scraper
+Task ID: 4Hii0aW05n96890bb
+Page: https://apify.com/hirepulse/google-ads-transparency-scraper/examples/preview-nike-google-ads
+Markdown: https://apify.com/hirepulse/google-ads-transparency-scraper/examples/preview-nike-google-ads.md
+Description: Preview Nike Google Ads for Creative Research. Research competitor advertising from Google Ads Transparency Center records. Enter company domains and export available creatives, formats, advertiser details and observed dates. Transparency records do not establish current ad delivery, exact targeting, advertising budget or spend. Availability and filters depend on the public source; an empty.
+
+## Research Adidas Google Ads Transparency Records
+Actor: hirepulse/google-ads-transparency-scraper
+Task ID: KYuoidhbNI0Ajh1aL
+Page: https://apify.com/hirepulse/google-ads-transparency-scraper/examples/check-adidas-advertising-presence
+Markdown: https://apify.com/hirepulse/google-ads-transparency-scraper/examples/check-adidas-advertising-presence.md
+Description: Research Adidas Google Ads Transparency Records. Research competitor advertising from Google Ads Transparency Center records. Enter company domains and export available creatives, formats, advertiser details and observed dates. Transparency records do not establish current ad delivery, exact targeting, advertising budget or spend. Availability and filters depend on the public source; an empty.
+
+## Research competitor Google Ads creatives in the US
+Actor: hirepulse/google-ads-transparency-scraper
+Task ID: SjPiW7qxGS73qrVFN
+Page: https://apify.com/hirepulse/google-ads-transparency-scraper/examples/hp-growth-20261020-us-competitor-ad-creatives
+Markdown: https://apify.com/hirepulse/google-ads-transparency-scraper/examples/hp-growth-20261020-us-competitor-ad-creatives.md
+Description: Research competitor Google Ads creatives in the US. Research competitor advertising from Google Ads Transparency Center records. Enter company domains and export available creatives, formats, advertiser details and observed dates. Transparency records do not establish current ad delivery, exact targeting, advertising budget or spend. Availability and filters depend on the public source; an empty.
+
+## Research competitor YouTube ad creatives
+Actor: hirepulse/google-ads-transparency-scraper
+Task ID: tkpeOuwGt3pQ48JMT
+Page: https://apify.com/hirepulse/google-ads-transparency-scraper/examples/hp-growth-20261020-youtube-ad-creative-research
+Markdown: https://apify.com/hirepulse/google-ads-transparency-scraper/examples/hp-growth-20261020-youtube-ad-creative-research.md
+Description: Research competitor YouTube ad creatives. Research competitor advertising from Google Ads Transparency Center records. Enter company domains and export available creatives, formats, advertiser details and observed dates. Transparency records do not establish current ad delivery, exact targeting, advertising budget or spend. Availability and filters depend on the public source; an empty response.
+
+## Summarize a domain Google Ads transparency presence
+Actor: hirepulse/google-ads-transparency-scraper
+Task ID: AzJaQWcIwYZZ43Pf9
+Page: https://apify.com/hirepulse/google-ads-transparency-scraper/examples/hp-growth-20261020-advertiser-presence-summary
+Markdown: https://apify.com/hirepulse/google-ads-transparency-scraper/examples/hp-growth-20261020-advertiser-presence-summary.md
+Description: Summarize a domain Google Ads transparency presence. Research competitor advertising from Google Ads Transparency Center records. Enter company domains and export available creatives, formats, advertiser details and observed dates. Transparency records do not establish current ad delivery, exact targeting, advertising budget or spend. Availability and filters depend on the public source; an empty.
+
+## Find Remote Software Roles in Public Job Feeds
+Actor: hirepulse/google-jobs-scraper
+Task ID: cnzKuZYlO1gXImHtZ
+Page: https://apify.com/hirepulse/google-jobs-scraper/examples/remote-software-engineer-jobs-us
+Markdown: https://apify.com/hirepulse/google-jobs-scraper/examples/remote-software-engineer-jobs-us.md
+Description: Find Remote Software Roles in Public Job Feeds. Search job listings by keyword or company domain and return structured records for recruiting and job-market research. This Actor provides a Google Jobs alternative using public ATS boards and job feeds by default. Public-feed coverage differs from Google Jobs search results. Country and city filters are source-dependent; some sources rank matches.
+
+## Research Data Engineer Roles in Public Job Feeds
+Actor: hirepulse/google-jobs-scraper
+Task ID: mrat6CdnwDbUkFO7S
+Page: https://apify.com/hirepulse/google-jobs-scraper/examples/data-engineer-jobs-london
+Markdown: https://apify.com/hirepulse/google-jobs-scraper/examples/data-engineer-jobs-london.md
+Description: Research Data Engineer Roles in Public Job Feeds. Search job listings by keyword or company domain and return structured records for recruiting and job-market research. This Actor provides a Google Jobs alternative using public ATS boards and job feeds by default. Public-feed coverage differs from Google Jobs search results. Country and city filters are source-dependent; some sources rank matches.
+
+## Find B2B Keyword Suggestions with Google Autocomplete
+Actor: hirepulse/keyword-search-volume
+Task ID: 8vcZYgpsTq8jZt12k
+Page: https://apify.com/hirepulse/keyword-search-volume/examples/compare-business-software-keyword-demand
+Markdown: https://apify.com/hirepulse/keyword-search-volume/examples/compare-business-software-keyword-demand.md
+Description: Find B2B Keyword Suggestions with Google Autocomplete. Discover Google Autocomplete keyword suggestions from your seed phrases. Use the results for long-tail keyword research and content planning, with clear source and metric-availability fields. The current default is suggestions mode. It does not supply measured search volume, CPC, keyword difficulty or AI search volume; these fields remain.
+
+## Find CRM Long-Tail Keywords for Content Planning
+Actor: hirepulse/keyword-search-volume
+Task ID: KyPZPc38cIagagsBo
+Page: https://apify.com/hirepulse/keyword-search-volume/examples/find-crm-long-tail-keywords
+Markdown: https://apify.com/hirepulse/keyword-search-volume/examples/find-crm-long-tail-keywords.md
+Description: Find CRM Long-Tail Keywords for Content Planning. Discover Google Autocomplete keyword suggestions from your seed phrases. Use the results for long-tail keyword research and content planning, with clear source and metric-availability fields. The current default is suggestions mode. It does not supply measured search volume, CPC, keyword difficulty or AI search volume; these fields remain null.
+
+## Find recruiting long-tail autocomplete suggestions
+Actor: hirepulse/keyword-search-volume
+Task ID: US9U0qL38aGnSg61s
+Page: https://apify.com/hirepulse/keyword-search-volume/examples/hp-growth-20261020-recruiting-long-tail-suggestions
+Markdown: https://apify.com/hirepulse/keyword-search-volume/examples/hp-growth-20261020-recruiting-long-tail-suggestions.md
+Description: Find recruiting long-tail autocomplete suggestions. Discover Google Autocomplete keyword suggestions from your seed phrases. Use the results for long-tail keyword research and content planning, with clear source and metric-availability fields. The current default is suggestions mode. It does not supply measured search volume, CPC, keyword difficulty or AI search volume; these fields remain null.
+
+## Find SaaS content ideas from public autocomplete
+Actor: hirepulse/keyword-search-volume
+Task ID: e5oX2aFrcIV5gPd54
+Page: https://apify.com/hirepulse/keyword-search-volume/examples/hp-growth-20261020-saas-autocomplete-content-ideas
+Markdown: https://apify.com/hirepulse/keyword-search-volume/examples/hp-growth-20261020-saas-autocomplete-content-ideas.md
+Description: Find SaaS content ideas from public autocomplete. Discover Google Autocomplete keyword suggestions from your seed phrases. Use the results for long-tail keyword research and content planning, with clear source and metric-availability fields. The current default is suggestions mode. It does not supply measured search volume, CPC, keyword difficulty or AI search volume; these fields remain null.
+
+## Check Stripeג€™s Marketing Tags and Website Stack
+Actor: hirepulse/website-tech-stack-detector
+Task ID: ckxphQN4aMgXdNdxP
+Page: https://apify.com/hirepulse/website-tech-stack-detector/examples/check-stripe-marketing-stack
+Markdown: https://apify.com/hirepulse/website-tech-stack-detector/examples/check-stripe-marketing-stack.md
+Description: Check Stripe’s Marketing Tags and Website Stack. Enrich company records with observed website technologies, advertising pixels and public DNS email signals. Use the results to qualify accounts by their stack. Detection is based on visible page and DNS evidence. Consent controls, client-side loading and blocking can hide a technology. A pixel does not prove active advertising or advertising spend.
+
+## Detect advertising pixels on a company website
+Actor: hirepulse/website-tech-stack-detector
+Task ID: bsJuQtqxnGqE2r56V
+Page: https://apify.com/hirepulse/website-tech-stack-detector/examples/hp-growth-20261020-ad-pixel-evidence
+Markdown: https://apify.com/hirepulse/website-tech-stack-detector/examples/hp-growth-20261020-ad-pixel-evidence.md
+Description: Detect advertising pixels on a company website. Enrich company records with observed website technologies, advertising pixels and public DNS email signals. Use the results to qualify accounts by their stack. Detection is based on visible page and DNS evidence. Consent controls, client-side loading and blocking can hide a technology. A pixel does not prove active advertising or advertising spend.
+
+## Identify Gymsharkג€™s Ecommerce and Marketing Tools
+Actor: hirepulse/website-tech-stack-detector
+Task ID: bOUTFafigc3cbVTiH
+Page: https://apify.com/hirepulse/website-tech-stack-detector/examples/check-gymshark-ecommerce-stack
+Markdown: https://apify.com/hirepulse/website-tech-stack-detector/examples/check-gymshark-ecommerce-stack.md
+Description: Identify Gymshark’s Ecommerce and Marketing Tools. Enrich company records with observed website technologies, advertising pixels and public DNS email signals. Use the results to qualify accounts by their stack. Detection is based on visible page and DNS evidence. Consent controls, client-side loading and blocking can hide a technology. A pixel does not prove active advertising or advertising.
+
+## Track website technology changes over repeated runs
+Actor: hirepulse/website-tech-stack-detector
+Task ID: kdL8DiEfhDQRa5tON
+Page: https://apify.com/hirepulse/website-tech-stack-detector/examples/hp-growth-20261020-technology-change-baseline
+Markdown: https://apify.com/hirepulse/website-tech-stack-detector/examples/hp-growth-20261020-technology-change-baseline.md
+Description: Track website technology changes over repeated runs. Enrich company records with observed website technologies, advertising pixels and public DNS email signals. Use the results to qualify accounts by their stack. Detection is based on visible page and DNS evidence. Consent controls, client-side loading and blocking can hide a technology. A pixel does not prove active advertising or advertising.
+
+## Website tech stack detector for any domain
+Actor: hirepulse/website-tech-stack-detector
+Task ID: wbJSGnnjNhJIQb63z
+Page: https://apify.com/hirepulse/website-tech-stack-detector/examples/stripe-website-tech-stack
+Markdown: https://apify.com/hirepulse/website-tech-stack-detector/examples/stripe-website-tech-stack.md
+Description: Website tech stack detector for any domain. Enrich company records with observed website technologies, advertising pixels and public DNS email signals. Use the results to qualify accounts by their stack. Detection is based on visible page and DNS evidence. Consent controls, client-side loading and blocking can hide a technology. A pixel does not prove active advertising or advertising spend.
+
+## Export available YouTube captions with timestamps
+Actor: hirepulse/youtube-transcript-scraper
+Task ID: HJgkiaXx4QY4CXaqq
+Page: https://apify.com/hirepulse/youtube-transcript-scraper/examples/hp-growth-20261020-timestamped-caption-export
+Markdown: https://apify.com/hirepulse/youtube-transcript-scraper/examples/hp-growth-20261020-timestamped-caption-export.md
+Description: Export available YouTube captions with timestamps. Turn YouTube videos into text for RAG, research and content workflows. Submit video URLs or IDs and retrieve available captions with optional timestamps. The Actor retrieves accessible captions; it does not transcribe audio or guarantee captions for every video. Unavailable, blocked, deleted or captionless videos return explained outcomes.
+
+## Extract YouTube Caption Text for Research
+Actor: hirepulse/youtube-transcript-scraper
+Task ID: zfgDP8jwfsSWxSWcJ
+Page: https://apify.com/hirepulse/youtube-transcript-scraper/examples/extract-youtube-text-for-research
+Markdown: https://apify.com/hirepulse/youtube-transcript-scraper/examples/extract-youtube-text-for-research.md
+Description: Extract YouTube Caption Text for Research. Turn YouTube videos into text for RAG, research and content workflows. Submit video URLs or IDs and retrieve available captions with optional timestamps. The Actor retrieves accessible captions; it does not transcribe audio or guarantee captions for every video. Unavailable, blocked, deleted or captionless videos return explained outcomes. Language.
+
+## Extract YouTube Captions with Timestamps
+Actor: hirepulse/youtube-transcript-scraper
+Task ID: RfrGwaYcUDoe8L5Ra
+Page: https://apify.com/hirepulse/youtube-transcript-scraper/examples/extract-youtube-captions-with-timestamps
+Markdown: https://apify.com/hirepulse/youtube-transcript-scraper/examples/extract-youtube-captions-with-timestamps.md
+Description: Extract YouTube Captions with Timestamps. Turn YouTube videos into text for RAG, research and content workflows. Submit video URLs or IDs and retrieve available captions with optional timestamps. The Actor retrieves accessible captions; it does not transcribe audio or guarantee captions for every video. Unavailable, blocked, deleted or captionless videos return explained outcomes. Language.
+
+## YouTube video transcript to text
+Actor: hirepulse/youtube-transcript-scraper
+Task ID: zVRRzcLLlxWueUwIg
+Page: https://apify.com/hirepulse/youtube-transcript-scraper/examples/youtube-rick-astley-transcript
+Markdown: https://apify.com/hirepulse/youtube-transcript-scraper/examples/youtube-rick-astley-transcript.md
+Description: YouTube video transcript to text. Turn YouTube videos into text for RAG, research and content workflows. Submit video URLs or IDs and retrieve available captions with optional timestamps. The Actor retrieves accessible captions; it does not transcribe audio or guarantee captions for every video. Unavailable, blocked, deleted or captionless videos return explained outcomes. Language availability.
