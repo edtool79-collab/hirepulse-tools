@@ -1,6 +1,6 @@
 # HirePulse published Apify tasks
 
-**80 published tasks**, checked on October 22, 2026 against the Apify API. 159/160 public HTML/Markdown URLs returned HTTP 200.
+**80 published tasks**, checked on October 22, 2026 against the Apify API. 160/160 public HTML/Markdown URLs returned HTTP 200.
 
 Tasks are saved input presets. Opening a page does not execute it. Review the Actor pricing and limitations before running.
 
@@ -9,8 +9,6 @@ Domain SEO native mode returns public website evidence, not measured traffic or 
 The [HirePulse gateway](https://gethirepulse.xyz/mcp) has separate tools and x402 billing.
 
 [Machine-readable index](apify-tasks-llms.txt)
-
-The Linear Domain SEO HTML URL currently has a cached redirect on Apify. Its Markdown page works and is used as the link below while the cache refreshes.
 
 ## ai-search-brand-visibility-radar
 
@@ -92,7 +90,7 @@ The Linear Domain SEO HTML URL currently has a cached redirect on Apify. Its Mar
 | Published task | Observed use case | Agent-readable page |
 |---|---|---|
 | [Audit Notion Public SEO Metadata & OpenGraph](https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-notion-audit) | Inspect Notion homepage metadata, social preview tags, viewport configurations, and canonical URL structure. Public evidence only: no measured traffic, rankings or search volume. Output below is the column schema, not an actual result. Actor start fees still apply; review Pricing. | [Markdown](https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-notion-audit.md) |
-| [Benchmark Linear App Website SEO Signals](https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-linear-benchmark.md) | Inspect Linear website metadata, sitemap observations and autocomplete suggestions. No measured organic traffic, search rankings or search volume. Output below is a column schema, not a measured sample. Actor start fees still apply; review Pricing. | [Markdown](https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-linear-benchmark.md) |
+| [Benchmark Linear App Website SEO Signals](https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-linear-benchmark) | Inspect Linear website metadata, sitemap observations and autocomplete suggestions. No measured organic traffic, search rankings or search volume. Output below is a column schema, not a measured sample. Actor start fees still apply; review Pricing. | [Markdown](https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-linear-benchmark.md) |
 | [Inspect Airbnb Website Technical SEO Signals](https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-airbnb-audit) | Audit Airbnb website metadata, canonical tags, language alternates, and sitemap availability using public signals. Public evidence only: no measured traffic, rankings or search volume. Output below is the column schema, not an actual result. Actor start fees still apply; review Pricing. | [Markdown](https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-airbnb-audit.md) |
 | [Inspect Cloudflare Website SEO Architecture](https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-cloudflare-check) | Extract Cloudflare public website meta tags, robots configuration, and structural sitemap signals for SEO benchmarking. Public evidence only: no measured traffic, rankings or search volume. Output below is the column schema, not an actual result. Actor start fees still apply; review Pricing. | [Markdown](https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-cloudflare-check.md) |
 | [Inspect GitHub SEO Metadata & Sitemap Signals](https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-github-metadata) | Inspect public HTML title tags, meta descriptions, OpenGraph tags, and robots directives on github.com. Public evidence only: no measured traffic, rankings or search volume. Output below is the column schema, not an actual result. Actor start fees still apply; review Pricing. | [Markdown](https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-github-metadata.md) |
