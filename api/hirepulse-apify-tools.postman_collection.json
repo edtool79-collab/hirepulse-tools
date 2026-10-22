@@ -220,7 +220,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"domains\": [\n    \"stripe.com\"\n  ],\n  \"country\": \"US\"\n}"
+          "raw": "{\n  \"domains\": [\n    \"example.com\"\n  ],\n  \"country\": \"US\",\n  \"top_keywords\": 0,\n  \"competitors\": 0,\n  \"use_paid_upstream\": false\n}"
         },
         "url": {
           "raw": "https://api.apify.com/v2/acts/hirepulse~domain-seo-overview/run-sync-get-dataset-items?token={{apify_token}}",
@@ -243,7 +243,7 @@
             }
           ]
         },
-        "description": "Estimated organic traffic, ranking keywords, traffic value in USD and competitor domains. Pay per result on Apify Store.\n\nApify Store: https://apify.com/hirepulse/domain-seo-overview\nDocumentation: https://edtool79-collab.github.io/hirepulse-tools/"
+        "description": "Public-evidence preview only: metadata, sitemap and autocomplete; no measured traffic/rank/search volume. Actor start fees still apply. Review live Apify Pricing."
       },
       "response": []
     },

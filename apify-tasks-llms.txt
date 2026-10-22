@@ -1,7 +1,14 @@
 # HirePulse public Apify task examples
-Verified: 2026-10-21
-Count: 77
-Opening these pages does not run an Actor. Apify billing is separate from the independent HirePulse gateway.
+Verified: 2026-10-22
+Count: 80
+Opening pages does not run an Actor. Review pricing. Apify and the independent HirePulse gateway have separate billing.
+
+## Audit Linear AI crawler readiness
+Actor: hirepulse/ai-search-brand-visibility-radar
+Task ID: lhOpd7UmbzLWZDQpr
+Page: https://apify.com/hirepulse/ai-search-brand-visibility-radar/examples/linear-ai-crawler-readiness
+Markdown: https://apify.com/hirepulse/ai-search-brand-visibility-radar/examples/linear-ai-crawler-readiness.md
+Description: Inspect robots directives, headers, llms.txt and JSON-LD. Local readiness audit, not AI-answer citations. $0.02 per returned report; blocked homepage produces diagnostic OUTPUT only.
 
 ## AliExpress product search to JSON
 Actor: hirepulse/aliexpress-search-scraper
@@ -281,49 +288,49 @@ Actor: hirepulse/domain-seo-overview
 Task ID: 6iM1RJigg0ljxARU5
 Page: https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-notion-audit
 Markdown: https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-notion-audit.md
-Description: Inspect Notion homepage metadata, social preview tags, viewport configurations, and canonical URL structure.
+Description: Inspect Notion homepage metadata, social preview tags, viewport configurations, and canonical URL structure. Public evidence only: no measured traffic, rankings or search volume. Output below is the column schema, not an actual result. Actor start fees still apply; review Pricing.
 
 ## Benchmark Linear App Website SEO Signals
 Actor: hirepulse/domain-seo-overview
 Task ID: U3B7tSAxiv6Ts4oqS
 Page: https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-linear-benchmark
 Markdown: https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-linear-benchmark.md
-Description: Extract Linear website title tags, meta descriptions, structured heading data, and sitemap endpoints.
+Description: Inspect Linear website metadata, sitemap observations and autocomplete suggestions. No measured organic traffic, search rankings or search volume. Output below is a column schema, not a measured sample. Actor start fees still apply; review Pricing.
 
 ## Inspect Airbnb Website Technical SEO Signals
 Actor: hirepulse/domain-seo-overview
 Task ID: FnigztDcQccsqe33B
 Page: https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-airbnb-audit
 Markdown: https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-airbnb-audit.md
-Description: Audit Airbnb website metadata, canonical tags, language alternates, and sitemap availability using public signals.
+Description: Audit Airbnb website metadata, canonical tags, language alternates, and sitemap availability using public signals. Public evidence only: no measured traffic, rankings or search volume. Output below is the column schema, not an actual result. Actor start fees still apply; review Pricing.
 
 ## Inspect Cloudflare Website SEO Architecture
 Actor: hirepulse/domain-seo-overview
 Task ID: Y5Eum4nglEUX5Utux
 Page: https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-cloudflare-check
 Markdown: https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-cloudflare-check.md
-Description: Extract Cloudflare public website meta tags, robots configuration, and structural sitemap signals for SEO benchmarking.
+Description: Extract Cloudflare public website meta tags, robots configuration, and structural sitemap signals for SEO benchmarking. Public evidence only: no measured traffic, rankings or search volume. Output below is the column schema, not an actual result. Actor start fees still apply; review Pricing.
 
 ## Inspect GitHub SEO Metadata & Sitemap Signals
 Actor: hirepulse/domain-seo-overview
 Task ID: lHTUlGj6VYB9bVCac
 Page: https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-github-metadata
 Markdown: https://apify.com/hirepulse/domain-seo-overview/examples/domain-seo-github-metadata.md
-Description: Inspect public HTML title tags, meta descriptions, OpenGraph tags, and robots directives on github.com.
+Description: Inspect public HTML title tags, meta descriptions, OpenGraph tags, and robots directives on github.com. Public evidence only: no measured traffic, rankings or search volume. Output below is the column schema, not an actual result. Actor start fees still apply; review Pricing.
 
 ## Inspect Stripe SEO Metadata and Public Sitemap
 Actor: hirepulse/domain-seo-overview
 Task ID: ggChW29oswKSzeuUE
 Page: https://apify.com/hirepulse/domain-seo-overview/examples/benchmark-stripe-organic-search
 Markdown: https://apify.com/hirepulse/domain-seo-overview/examples/benchmark-stripe-organic-search.md
-Description: Inspect Stripe SEO Metadata and Public Sitemap. Build a Domain SEO Overview from public website evidence: page metadata, sitemap observations and keyword suggestions. Use it to inspect a site before a technical SEO audit or competitor review. Public mode does not measure organic traffic, ranking positions, search volume, CPC or indexed-page counts. Those fields remain null when unavailable.
+Description: Inspect Stripe website metadata, sitemap observations and autocomplete suggestions. Public evidence only; no measured traffic, search rankings or search volumes. The Output section is a column schema, not a measured sample. Actor start fees still apply; review Pricing.
 
 ## Research Shopify Website Metadata and Keyword Ideas
 Actor: hirepulse/domain-seo-overview
 Task ID: RkmaxHJLmFRM6BfiI
 Page: https://apify.com/hirepulse/domain-seo-overview/examples/find-shopify-ranking-keywords
 Markdown: https://apify.com/hirepulse/domain-seo-overview/examples/find-shopify-ranking-keywords.md
-Description: Research Shopify Website Metadata and Keyword Ideas. Build a Domain SEO Overview from public website evidence: page metadata, sitemap observations and keyword suggestions. Use it to inspect a site before a technical SEO audit or competitor review. Public mode does not measure organic traffic, ranking positions, search volume, CPC or indexed-page counts. Those fields remain null when unavailable.
+Description: Inspect Shopify website metadata and autocomplete keyword suggestions. Autocomplete order is not a ranking and search volumes are unavailable. The Output section is a column schema, not a measured sample. Actor start fees still apply; review Pricing.
 
 ## Preview Nike Google Ads for Creative Research
 Actor: hirepulse/google-ads-transparency-scraper
@@ -457,6 +464,20 @@ Task ID: DvTkGxKZV2affKgXH
 Page: https://apify.com/hirepulse/keyword-search-volume/examples/keyword-search-ecommerce-automation
 Markdown: https://apify.com/hirepulse/keyword-search-volume/examples/keyword-search-ecommerce-automation.md
 Description: Extract search query suggestions and related search topics for ecommerce automation and dropshipping.
+
+## Inspect a live MCP tool catalog
+Actor: hirepulse/mcp-x402-server-grader
+Task ID: 53OuTxWAOsFK5n7rB
+Page: https://apify.com/hirepulse/mcp-x402-server-grader/examples/hirepulse-mcp-evidence-audit
+Markdown: https://apify.com/hirepulse/mcp-x402-server-grader/examples/hirepulse-mcp-evidence-audit.md
+Description: Fetch the HirePulse MCP catalog and generate local documentation review drafts. No official Glama grade or remote edits. $0.01 per returned evidence report.
+
+## Draft llms.txt from Untuckit products
+Actor: hirepulse/shopify-to-llms-generator
+Task ID: Ne9MATn1DF7ftiXj7
+Page: https://apify.com/hirepulse/shopify-to-llms-generator/examples/untuckit-catalog-llms-draft
+Markdown: https://apify.com/hirepulse/shopify-to-llms-generator/examples/untuckit-catalog-llms-draft.md
+Description: Sample five products from an accessible public store feed and draft llms.txt. Not UCP or a live deployment. $0.02 per report with products; blocked/empty feeds emit no result charge.
 
 ## Check Stripe’s Marketing Tags and Website Stack
 Actor: hirepulse/website-tech-stack-detector

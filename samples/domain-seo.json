@@ -1,110 +1,148 @@
 {
   "meta": {
     "actor": "hirepulse/domain-seo-overview",
-    "run_id": "jY6YeadLRoRXKKFnE",
-    "status": "SUCCEEDED",
-    "build": "1.0.6",
-    "started_at": "2026-10-15T16:34:15.159Z",
-    "status_message": "1 of 1 domains analyzed, 6 records returned.",
+    "run_id": "F6jSH06H1MvqU2SQ1",
+    "started_at": "2026-10-21T19:06:49.419Z",
     "input": {
       "domains": [
-        "stripe.com"
+        "example.com"
       ],
-      "top_keywords": 5,
-      "competitors": 0
+      "top_keywords": 0,
+      "competitors": 0,
+      "country": "US",
+      "use_paid_upstream": false
     },
-    "note": "Real owner test run on 2026-10-15, saved as-is for website examples."
+    "note": "Existing owner run, not a new customer run. Raw Actor note about no charges refers to custom lookup/result events; start fees can still apply.",
+    "status": "SUCCEEDED",
+    "build": "1.0.19",
+    "status_message": "1 public-page records; SEO metrics unavailable. No external paid upstream used."
   },
   "items": [
     {
       "record_type": "domain_overview",
-      "domain": "stripe.com",
+      "domain": "example.com",
       "country": "US",
       "language": "en",
       "has_data": true,
-      "organic_traffic_estimate": 688494,
-      "organic_keywords": 115829,
-      "organic_traffic_value_usd": 8338941,
-      "keywords_top_3": 19298,
-      "keywords_top_10": 50840,
-      "keywords_top_20": 78460,
-      "keywords_new": 59404,
-      "keywords_up": 23927,
-      "keywords_down": 22077,
-      "keywords_lost": 72928,
-      "paid_keywords": 14,
-      "paid_traffic_estimate": 128,
-      "note": null
-    },
-    {
-      "record_type": "ranked_keyword",
-      "domain": "stripe.com",
-      "country": "US",
-      "language": "en",
-      "keyword": "stripe",
-      "position": 1,
-      "url": "https://stripe.com/",
-      "search_volume": 823000,
-      "cpc_usd": 1.1,
-      "keyword_difficulty": 51,
-      "search_intent": "informational",
-      "traffic_estimate": 252314
-    },
-    {
-      "record_type": "ranked_keyword",
-      "domain": "stripe.com",
-      "country": "US",
-      "language": "en",
-      "keyword": "p o",
-      "position": 16,
-      "url": "https://stripe.com/resources/more/what-is-a-po-number-on-an-invoice",
-      "search_volume": 550000,
-      "cpc_usd": 9.79,
-      "keyword_difficulty": 0,
-      "search_intent": "informational",
-      "traffic_estimate": 1
-    },
-    {
-      "record_type": "ranked_keyword",
-      "domain": "stripe.com",
-      "country": "US",
-      "language": "en",
-      "keyword": "po",
-      "position": 14,
-      "url": "https://stripe.com/resources/more/what-is-a-po-number-on-an-invoice",
-      "search_volume": 550000,
-      "cpc_usd": 9.79,
-      "keyword_difficulty": 0,
-      "search_intent": "informational",
-      "traffic_estimate": 1316
-    },
-    {
-      "record_type": "ranked_keyword",
-      "domain": "stripe.com",
-      "country": "US",
-      "language": "en",
-      "keyword": "receipts",
-      "position": 4,
-      "url": "https://stripe.com/resources/more/receipt-template-what-to-include-and-templates-for-different-use-cases",
-      "search_volume": 450000,
-      "cpc_usd": 7.66,
-      "keyword_difficulty": 17,
-      "search_intent": "informational",
-      "traffic_estimate": 1110
-    },
-    {
-      "record_type": "ranked_keyword",
-      "domain": "stripe.com",
-      "country": "US",
-      "language": "en",
-      "keyword": "fw 9",
-      "position": 15,
-      "url": "https://stripe.com/resources/more/what-is-w-9-form",
-      "search_volume": 368000,
-      "cpc_usd": 3.79,
-      "keyword_difficulty": 22,
-      "search_intent": "informational",
-      "traffic_estimate": 0
+      "data_source": "public_evidence_engine",
+      "public_page_available": null,
+      "page_title": "Example Domain",
+      "http_status": null,
+      "organic_traffic_estimate": null,
+      "organic_keywords": null,
+      "organic_traffic_value_usd": null,
+      "keywords_top_3": null,
+      "keywords_top_10": null,
+      "keywords_top_20": null,
+      "keywords_new": null,
+      "keywords_up": null,
+      "keywords_down": null,
+      "keywords_lost": null,
+      "paid_keywords": null,
+      "paid_traffic_estimate": null,
+      "note": "Public evidence only: the page title, meta description, sitemap and the URLs it lists, and keyword suggestions from Google Autocomplete. Organic traffic, domain rank, ranking keywords and indexed pages need a paid SEO database and are null here. Autocomplete position is not an organic ranking. No paid data provider was called and nothing was charged.",
+      "provider_mode": "native",
+      "free_fallback": true,
+      "metrics_available": false,
+      "provider_cost_usd": 0,
+      "meta_description": null,
+      "sitemap_present": false,
+      "sitemap_urls_found": null,
+      "sitemap_urls_sample": null,
+      "top_ranking_keywords": [
+        {
+          "keyword": "example",
+          "suggestion_position": 1,
+          "search_intent": "navigational",
+          "source": "google_autocomplete",
+          "search_volume": null,
+          "cpc_usd": null,
+          "ranking": null
+        },
+        {
+          "keyword": "example cover letter",
+          "suggestion_position": 2,
+          "search_intent": "navigational",
+          "source": "google_autocomplete",
+          "search_volume": null,
+          "cpc_usd": null,
+          "ranking": null
+        },
+        {
+          "keyword": "example resume",
+          "suggestion_position": 3,
+          "search_intent": "navigational",
+          "source": "google_autocomplete",
+          "search_volume": null,
+          "cpc_usd": null,
+          "ranking": null
+        },
+        {
+          "keyword": "example synonym",
+          "suggestion_position": 4,
+          "search_intent": "navigational",
+          "source": "google_autocomplete",
+          "search_volume": null,
+          "cpc_usd": null,
+          "ranking": null
+        },
+        {
+          "keyword": "example abbreviation",
+          "suggestion_position": 5,
+          "search_intent": "navigational",
+          "source": "google_autocomplete",
+          "search_volume": null,
+          "cpc_usd": null,
+          "ranking": null
+        },
+        {
+          "keyword": "example of a metaphor",
+          "suggestion_position": 6,
+          "search_intent": "navigational",
+          "source": "google_autocomplete",
+          "search_volume": null,
+          "cpc_usd": null,
+          "ranking": null
+        },
+        {
+          "keyword": "example com",
+          "suggestion_position": 7,
+          "search_intent": "navigational",
+          "source": "google_autocomplete",
+          "search_volume": null,
+          "cpc_usd": null,
+          "ranking": null
+        },
+        {
+          "keyword": "examples of irony",
+          "suggestion_position": 8,
+          "search_intent": "navigational",
+          "source": "google_autocomplete",
+          "search_volume": null,
+          "cpc_usd": null,
+          "ranking": null
+        },
+        {
+          "keyword": "examples of the mandela effect",
+          "suggestion_position": 9,
+          "search_intent": "navigational",
+          "source": "google_autocomplete",
+          "search_volume": null,
+          "cpc_usd": null,
+          "ranking": null
+        },
+        {
+          "keyword": "examples of complex carbohydrates",
+          "suggestion_position": 10,
+          "search_intent": "navigational",
+          "source": "google_autocomplete",
+          "search_volume": null,
+          "cpc_usd": null,
+          "ranking": null
+        }
+      ],
+      "domain_rank": null,
+      "indexed_pages_estimate": null
     }
   ]
 }

@@ -922,7 +922,7 @@
     "/acts/hirepulse~domain-seo-overview/run-sync-get-dataset-items": {
       "post": {
         "summary": "Domain SEO Overview",
-        "description": "Estimated organic traffic, ranking keywords, traffic value in USD and competitor domains. Pay per result on Apify Store.\nApify Store Page: https://apify.com/hirepulse/domain-seo-overview\nApify Store Page: https://apify.com/hirepulse/domain-seo-overview",
+        "description": "Public-evidence preview: website metadata, sitemap observations and autocomplete suggestions. No measured organic traffic, rankings, search volumes or CPC in native mode. Null database fields are not estimates. Native lookup/result events are not charged; Actor start fees still apply. Review live pricing. https://apify.com/hirepulse/domain-seo-overview",
         "operationId": "run_domain_seo_overview",
         "parameters": [
           {
@@ -1101,9 +1101,12 @@
               },
               "example": {
                 "domains": [
-                  "stripe.com"
+                  "example.com"
                 ],
-                "country": "US"
+                "country": "US",
+                "top_keywords": 0,
+                "competitors": 0,
+                "use_paid_upstream": false
               }
             }
           }

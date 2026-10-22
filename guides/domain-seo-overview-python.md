@@ -1,130 +1,31 @@
-# Domain SEO overview API: compare estimated organic traffic
+# Domain SEO API: inspect public website metadata
 
-> Compare websites by estimated organic traffic, ranking keywords and traffic value with a simple API call from Python.
+> Inspect metadata, sitemap observations and autocomplete suggestions; native mode does not measure traffic or rankings.
 
-"How much organic search traffic does this company get?" is a fundamental question in marketing research, sales qualification, and competitive benchmarking.
+# Inspect website evidence before an SEO audit
 
-When evaluating a single website, typing the URL into a web-based SEO platform works fine. But when you need to benchmark 40 competitors in a weekly dashboard, enrich 500 outbound prospect domains in Clay or HubSpot, or equip an AI agent with live market intelligence, manual lookups become a bottleneck. Furthermore, adding dedicated seats to legacy SEO suites simply to check traffic metrics costs hundreds of dollars per user each month.
+Domain SEO Overview currently offers a public-evidence preview: website titles, meta descriptions, sitemap observations and autocomplete suggestions. This is useful for initial website triage, not for measuring a company's search performance.
 
-The [Domain SEO Overview API](https://edtool79-collab.github.io/hirepulse-tools/domain-seo-overview-api/) solves this by turning domain names into structured search intelligence over a simple HTTP API. You pass target domains, and receive estimated organic search traffic, ranking keyword counts, organic traffic valuations, and organic competitor domains as clean JSON.
+## What the current mode cannot measure
 
-## Core intelligence returned per domain
+Organic traffic, ranking positions, keyword search volumes, CPC and traffic value require a separately configured SEO data source. They remain null in the native preview. Autocomplete suggestions are neither ranking keywords nor search-volume measurements. A sitemap count is not Google's indexed-page count.
 
-For each submitted website, the API provides high-level search performance metrics:
+## Start with a bounded example
 
-- **Estimated organic traffic:** Algorithmic monthly visit estimates derived from Google search rankings and keyword click-through curves.
-- **Ranking keyword volume:** The total number of organic search queries for which the domain ranks in Google's top 100 positions.
-- **Traffic value:** The estimated financial value of the domain's organic search traffic, calculated against equivalent Google Ads CPC bidding costs.
-- **Top ranking keywords:** The specific search queries driving the largest share of the domain's organic traffic.
-- **Organic competitors:** Other websites competing for the same search keywords, along with the degree of shared keyword overlap.
+Open the Actor at https://apify.com/hirepulse/domain-seo-overview and use:
 
-## Quick start with cURL
-
-You can query a domain overview synchronously via Apify's API endpoint:
-
-```bash
-curl --fail-with-body -X POST "https://api.apify.com/v2/acts/hirepulse~domain-seo-overview/run-sync-get-dataset-items?token=YOUR_APIFY_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-  "domains": [
-    "notion.so"
-  ],
-  "country": "US"
-}'
+```json
+{"domains":["example.com"],"country":"US","top_keywords":0,"competitors":0,"use_paid_upstream":false}
 ```
 
-This request inspects `notion.so` within the US search index, returning structured traffic estimates and ranking metrics directly in the HTTP response.
+For REST, use the Apify API endpoint `POST /v2/acts/hirepulse~domain-seo-overview/run-sync-get-dataset-items`, pass your Apify token in the Authorization Bearer header and set `maxTotalChargeUsd=0.10&restartOnError=false`. These are instructions; this page does not run anything.
 
-## Building a Python prospect enrichment script
+## Pricing and output
 
-Using `apify-client`, you can enrich a list of domains and rank them by organic search footprint:
+The native mode does not emit custom domain-lookup or domain-result charge events. The Actor start event and applicable Apify charges still apply, so this is not a promise of a free run. Review the live Pricing tab before starting. Keep `use_paid_upstream=false` for the preview.
 
-```bash
-pip install apify-client
-```
+Read `provider_mode`, `metrics_available`, `data_source` and `note` in the returned JSON. Public example Output tables show column definitions and can include fields that are null in this mode; they are not measured sample data. A dated, actual owner-run sample is shown on the Domain SEO tool page and in `samples/domain-seo.json`.
 
-```python
-import os
-import json
-from pathlib import Path
-from apify_client import ApifyClient
-
-# Initialize the client with your Apify token
-client = ApifyClient(os.environ.get("APIFY_TOKEN", "YOUR_APIFY_TOKEN"))
-
-# Define target domains for evaluation
-target_domains = ["notion.so"]
-
-run_input = {
-    "domains": target_domains,
-    "country": "US"
-}
-
-# Call the Domain SEO Overview Actor synchronously
-run = client.actor("hirepulse/domain-seo-overview").call(run_input=run_input)
-
-if not run or run.get("status") != "SUCCEEDED":
-    raise RuntimeError(f"Actor failed with status: {run.get('status')}")
-
-# Retrieve the dataset records
-overview_records = list(client.dataset(run["defaultDatasetId"]).iterate_items())
-print(f"Retrieved overview data for {len(overview_records)} domain(s).\n")
-
-# Process and format the search metrics
-enriched_companies = []
-for record in overview_records:
-    domain = record.get("domain", "Unknown")
-    traffic = record.get("organic_traffic_estimate", 0)
-    keywords = record.get("organic_keywords", 0)
-    traffic_val = record.get("organic_traffic_value_usd", 0)
-    competitors = record.get("competitor_domains", [])
-
-    enriched_companies.append({
-        "domain": domain,
-        "est_monthly_traffic": traffic,
-        "ranking_keywords": keywords,
-        "traffic_value_usd": traffic_val,
-        "top_competitors": competitors
-    })
-
-    print(f"Domain: {domain}")
-    print(f"  Est. Organic Traffic: {traffic:,} visits/mo")
-    print(f"  Ranking Keywords: {keywords:,}")
-    if traffic_val:
-        print(f"  Est. Traffic Value: ${traffic_val:,.2f}")
-    if competitors:
-        print(f"  Competitors: {', '.join(competitors[:4])}")
-    print()
-
-# Save enriched data
-Path("seo_enrichment.json").write_text(
-    json.dumps(enriched_companies, indent=2, ensure_ascii=False),
-    encoding="utf-8"
-)
-```
-
-## Engineering considerations: estimates vs. server logs
-
-When integrating SEO metrics into customer dashboards or sales scoring models, keep these technical principles in mind:
-
-### 1. Organic traffic is an algorithmic estimate
-Search volume APIs estimate traffic by combining observed search ranking positions with statistical click-through rate (CTR) curves. They do not measure direct server visits or private Google Analytics pageviews. Use these metrics for relative benchmarking (e.g., "Competitor A has 5x the search footprint of Competitor B"), not as an exact accounting of web traffic.
-
-### 2. Traffic value reflects advertising equivalency
-The "traffic value" metric represents what an advertiser would expect to pay in Google Ads clicks to generate the equivalent volume of traffic for those same keywords. It is a benchmark of search commerciality, not the website's revenue.
-
-### 3. Combining domain overviews with keyword lookups
-A domain overview reveals *how much* search visibility a site commands and identifies its organic rivals. To analyze specific search queries and CPCs in detail, pipe the domain's top keywords into the [Keyword Search Volume API](https://edtool79-collab.github.io/hirepulse-tools/keyword-search-volume-api/).
-
-## Limitations and pricing
-
-- **Scope:** Provides estimated organic traffic, ranking keyword volumes, traffic valuation, and organic competitors. It does not provide backlink graphs, server log monitoring, or on-page technical SEO audits.
-- **Pricing:** $0.02 per lookup + $0.005 per returned record (a domain overview, a ranking keyword or a competitor). A domain overview alone is $0.025. A default run with 20 keywords and 10 competitors is $0.215. Domains without data are not charged a result.
-
-## Next steps
-
-- [Open Domain SEO Overview on the Apify Store](https://apify.com/hirepulse/domain-seo-overview)
-- Review full input documentation on the [tool page](https://edtool79-collab.github.io/hirepulse-tools/domain-seo-overview-api/)
-- For individual keyword volumes and CPC analysis, see [Keyword search volume API](https://edtool79-collab.github.io/hirepulse-tools/guides/keyword-search-volume-api/), or combine SEO data with hiring and advertising intelligence in [Hiring signals for sales](https://edtool79-collab.github.io/hirepulse-tools/guides/hiring-signals-for-sales/)
+The separate HirePulse gateway at https://gethirepulse.xyz/mcp has its own tools and x402 prices. An Apify purchase does not provide prepaid gateway credit.
 
 Source page: https://edtool79-collab.github.io/hirepulse-tools/guides/domain-seo-overview-python/

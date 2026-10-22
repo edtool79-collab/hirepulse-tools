@@ -372,61 +372,106 @@ One record from a real test run on 2026-10-15:
 
 ## Domain SEO Overview (`hirepulse/domain-seo-overview`)
 
-**Use it when:** You need estimated organic traffic, ranking keywords, traffic value and competitor domains for a domain.
+**Use it when:** Inspect website titles, meta descriptions, sitemap observations and Google Autocomplete suggestions. Native mode does not measure organic traffic, ranking positions, keyword search volumes or CPC; unavailable metrics remain null.
 
-**Not for:** Exact analytics. The numbers are estimates; report them as estimates.
+**Not for:** Organic traffic estimates, measured search rankings, search volumes or CPC in native mode.
 
 - MCP: `https://mcp.apify.com?tools=hirepulse/domain-seo-overview`
 - Apify Store: https://apify.com/hirepulse/domain-seo-overview
 - Page: https://edtool79-collab.github.io/hirepulse-tools/domain-seo-overview-api/
-- Price: $0.02 per lookup + $0.005 per returned record (a domain overview, a ranking keyword or a competitor). A domain overview alone is $0.025. A default run with 20 keywords and 10 competitors is $0.215. Domains without data are not charged a result.
+- Price: Native/public-evidence mode emits no domain-lookup or domain-result charges. An Actor start event is still listed at $0.00005 per GB (minimum one event), and applicable Apify charges may apply. Review the live Pricing tab. Paid SEO-database events are separate and are not activated by this example.
 
 ### Input
 
 | Field | Type | Required / default | Notes |
 | --- | --- | --- | --- |
-| `domains` | array of strings | required | For example ["notion.so"]. |
-| `country` | string | default "US" | Country code. |
-| `language` | string | optional |  |
-| `top_keywords` | integer | default 20 |  |
-| `competitors` | integer | default 10 |  |
+| `domains` | array of strings | required | Public website domains. |
+| `country` | string | default US | Country code; not proof of database coverage. |
+| `top_keywords` | integer | set 0 for this preview | Autocomplete suggestions are not ranking keywords. |
+| `competitors` | integer | set 0 for this preview | No measured competitor SEO dataset is promised. |
+| `use_paid_upstream` | boolean | false | Owner opt-in for a separately configured paid upstream; leave false for this preview. |
 
 Input of the test run below:
 
 ```json
 {
   "domains": [
-    "stripe.com"
+    "example.com"
   ],
-  "top_keywords": 5,
-  "competitors": 0
+  "top_keywords": 0,
+  "competitors": 0,
+  "country": "US",
+  "use_paid_upstream": false
 }
 ```
 
 ### Output example
 
-One record from a real test run on 2026-10-15:
+One record from a real test run on 2026-10-21 (long text and lists shortened):
 
 ```json
 {
   "record_type": "domain_overview",
-  "domain": "stripe.com",
+  "domain": "example.com",
   "country": "US",
   "language": "en",
   "has_data": true,
-  "organic_traffic_estimate": 688494,
-  "organic_keywords": 115829,
-  "organic_traffic_value_usd": 8338941,
-  "keywords_top_3": 19298,
-  "keywords_top_10": 50840,
-  "keywords_top_20": 78460,
-  "keywords_new": 59404,
-  "keywords_up": 23927,
-  "keywords_down": 22077,
-  "keywords_lost": 72928,
-  "paid_keywords": 14,
-  "paid_traffic_estimate": 128,
-  "note": null
+  "data_source": "public_evidence_engine",
+  "public_page_available": null,
+  "page_title": "Example Domain",
+  "http_status": null,
+  "organic_traffic_estimate": null,
+  "organic_keywords": null,
+  "organic_traffic_value_usd": null,
+  "keywords_top_3": null,
+  "keywords_top_10": null,
+  "keywords_top_20": null,
+  "keywords_new": null,
+  "keywords_up": null,
+  "keywords_down": null,
+  "keywords_lost": null,
+  "paid_keywords": null,
+  "paid_traffic_estimate": null,
+  "note": "Public evidence only: the page title, meta description, sitemap and the URLs it lists, and keyword suggestions from Google Autocomplete. Organic traffic, domain rank, ranking keywords and indexed pages need a paid SEO database and are null here. Autocomplete position is not an organic ranking. No pa…",
+  "provider_mode": "native",
+  "free_fallback": true,
+  "metrics_available": false,
+  "provider_cost_usd": 0,
+  "meta_description": null,
+  "sitemap_present": false,
+  "sitemap_urls_found": null,
+  "sitemap_urls_sample": null,
+  "top_ranking_keywords": [
+    {
+      "keyword": "example",
+      "suggestion_position": 1,
+      "search_intent": "navigational",
+      "source": "google_autocomplete",
+      "search_volume": null,
+      "cpc_usd": null,
+      "ranking": null
+    },
+    {
+      "keyword": "example cover letter",
+      "suggestion_position": 2,
+      "search_intent": "navigational",
+      "source": "google_autocomplete",
+      "search_volume": null,
+      "cpc_usd": null,
+      "ranking": null
+    },
+    {
+      "keyword": "example resume",
+      "suggestion_position": 3,
+      "search_intent": "navigational",
+      "source": "google_autocomplete",
+      "search_volume": null,
+      "cpc_usd": null,
+      "ranking": null
+    }
+  ],
+  "domain_rank": null,
+  "indexed_pages_estimate": null
 }
 ```
 
