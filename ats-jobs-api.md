@@ -85,4 +85,10 @@ One record from a real test run on 2026-10-15 (long text and lists shortened):
 - REST: `POST https://api.apify.com/v2/acts/hirepulse~<tool-id>/run-sync-get-dataset-items?maxTotalChargeUsd=0.10&restartOnError=false` with the input as the JSON body and `Authorization: Bearer <APIFY_TOKEN>` in the header. Start with one query or domain.
 - Billing depends on the tool and delivered events; see its price and free-plan limits. Actor-start charges also apply. Inspect an existing run after a timeout before retrying a paid request.
 
+## Call it from your AI agent without Apify
+
+- Endpoint: `POST https://gethirepulse.xyz/v1/ats-jobs` with a JSON body such as `{"domain":"linear.app"}`
+- Price: $0.01 per successful call. The first 5 successful calls per day are free (shared across all gateway tools). No API key required.
+- This gateway is a separate service from the Apify Actor: its input, limits and price are its own. Catalog: https://gethirepulse.xyz/v1/catalog
+
 Source page: https://edtool79-collab.github.io/hirepulse-tools/ats-jobs-api/

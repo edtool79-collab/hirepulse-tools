@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <!-- Deep Obsidian Canvas Vignette -->
+    <radialGradient id="bgVignette" cx="50%" cy="50%" r="72%">
+      <stop offset="0%" stop-color="#121626" />
+      <stop offset="50%" stop-color="#0d101a" />
+      <stop offset="100%" stop-color="#07080f" />
+    </radialGradient>
+
+    <!-- Ambient Violet Aurora Bloom -->
+    <radialGradient id="auroraViolet" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#b4a0ff" stop-opacity="0.16" />
+      <stop offset="45%" stop-color="#9d80f8" stop-opacity="0.06" />
+      <stop offset="100%" stop-color="#9d80f8" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Ambient Mint Aurora Bloom -->
+    <radialGradient id="auroraMint" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#a7f3d0" stop-opacity="0.22" />
+      <stop offset="45%" stop-color="#34d399" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#34d399" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Subtle Pulse Aura Filter -->
+    <filter id="auraGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="32" result="blurWide" />
+      <feGaussianBlur stdDeviation="12" result="blurTight" />
+      <feMerge>
+        <feMergeNode in="blurWide" />
+        <feMergeNode in="blurTight" />
+      </feMerge>
+    </filter>
+
+    <filter id="nodeAuraGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="34" result="blurWide" />
+      <feGaussianBlur stdDeviation="14" result="blurTight" />
+      <feMerge>
+        <feMergeNode in="blurWide" />
+        <feMergeNode in="blurTight" />
+      </feMerge>
+    </filter>
+
+    <!-- Crisp Pulse Stroke Gradient -->
+    <linearGradient id="strokeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#9f84f8" />
+      <stop offset="28%" stop-color="#bca5ff" />
+      <stop offset="46%" stop-color="#d6cbff" />
+      <stop offset="68%" stop-color="#b8a1ff" />
+      <stop offset="100%" stop-color="#b4a0ff" />
+    </linearGradient>
+
+    <!-- 3D Dimensional Mint Node Gradient -->
+    <radialGradient id="mintOrb" cx="35%" cy="32%" r="68%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="20%" stop-color="#d1fae5" />
+      <stop offset="55%" stop-color="#a7f3d0" />
+      <stop offset="85%" stop-color="#5eead4" />
+      <stop offset="100%" stop-color="#2dd4bf" />
+    </radialGradient>
+  </defs>
+
+  <!-- 1. Background Fill -->
+  <rect width="1024" height="1024" fill="url(#bgVignette)" />
+
+  <!-- 2. Ambient Lighting Blooms -->
+  <circle cx="427.4" cy="382.3" r="280" fill="url(#auroraViolet)" />
+  <circle cx="756.8" cy="505.9" r="240" fill="url(#auroraMint)" />
+
+  <!-- 3. Pulse Aura / Backlight Glow -->
+  <path d="M 232.2 505.9 L 354.2 505.9 L 427.4 347.3 L 537.2 676.7 L 622.6 505.9 L 732.4 505.9" fill="none" stroke="#b4a0ff" stroke-width="64" stroke-linecap="round" stroke-linejoin="round" opacity="0.45" filter="url(#auraGlow)" />
+
+  <!-- 4. Mint Node Aura / Backlight Glow -->
+  <circle cx="756.8" cy="505.9" r="68" fill="#a7f3d0" opacity="0.55" filter="url(#nodeAuraGlow)" />
+
+  <!-- 5. CRISP VECTOR PULSE STROKE -->
+  <path d="M 232.2 505.9 L 354.2 505.9 L 427.4 347.3 L 537.2 676.7 L 622.6 505.9 L 732.4 505.9" fill="none" stroke="url(#strokeGradient)" stroke-width="46" stroke-linecap="round" stroke-linejoin="round" />
+
+  <!-- 6. CRISP MINT NODE -->
+  <circle cx="756.8" cy="505.9" r="58" fill="url(#mintOrb)" />
+</svg>
