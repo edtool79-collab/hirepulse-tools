@@ -53,13 +53,28 @@ Actor event charges, start charges, subscription-tier discounts and platform cos
 
 Missing evidence is unknown, not zero. No native SEO or keyword example measures visits, Google rank, monthly search volume or CPC. A CrUX popularity bucket is not a traffic estimate. Read the selected Actor's input and output documentation for coverage and billing conditions.
 
+## 🔗 Recommended 1-Click Workflows & Tool Pairings
+
+Accelerate agentic and manual workflows by piping complementary tools together:
+
+1. **ATS Hiring Intelligence Pipeline:**
+   - **Step 1:** Run [ATS Detector](https://apify.com/hirepulse/ats-detector) (Free actor fee) on company domains (`stripe.com`, `linear.app`) to locate active job board slugs/URLs.
+   - **Step 2:** Pipe board slugs into [ATS Job Scraper](https://apify.com/hirepulse/ats-job-pulse) to extract structured roles, salaries, and detected tech stack with 1-click execution.
+
+2. **SEO & Competitor Research Pipeline:**
+   - **Step 1:** Run [Domain SEO Overview](https://apify.com/hirepulse/domain-seo-overview) on competitor domains for metadata, sitemaps, and core keywords.
+   - **Step 2:** Deep-dive into organic autocomplete and search suggestions with [Keyword Research](https://apify.com/hirepulse/keyword-search-volume).
+
+3. **E-Commerce & Agentic Catalog Pipeline:**
+   - **Step 1:** Analyze market pricing and popular goods with [AliExpress Search Scraper](https://apify.com/hirepulse/aliexpress-search-scraper).
+   - **Step 2:** Structure store product listings into machine-readable agent context using [Store Catalog to llms.txt Draft](https://apify.com/hirepulse/shopify-to-llms-generator).
+
 ## Documentation and discovery
 
-<<<<<<< HEAD
-## Listed in the MCP Registry
-
-Each tool is published in the official [MCP Registry](https://registry.modelcontextprotocol.io) as `io.github.edtool79-collab/<tool-name>`.
-
+- [Tool summaries and input examples](llms-full.txt)
+- [Existing public example-task directory](tasks-directory.md): a published link is a starting configuration, not proof of a successful current run.
+- [Documentation site](https://edtool79-collab.github.io/hirepulse-tools/): individual pages can have different update dates; the live Actor page and schema are the source for current behavior and pricing.
+- [MCP Registry](https://registry.modelcontextprotocol.io): Each tool is published in the official MCP Registry as `io.github.edtool79-collab/<tool-name>`. Registry publication is a separate step from editing this repository. Do not infer that all 15 individual listings exist from this README.
 
 ## ⚡ n8n Workflow Automation Suite
 
@@ -70,9 +85,3 @@ Check out our pre-built, production-ready n8n workflows in the [`/n8n`](./n8n) d
 2. **[Competitor Ads & Hiring Surge Monitor](./n8n/2-competitor-ads-and-hiring-monitor.json)**: Weekly automated intelligence scanner alerting your team to competitor expansion and paid advertising moves.
 
 👉 **[Explore the n8n Suite Documentation & Quickstart Guide](./n8n/README.md)**
-=======
-- [Tool summaries and input examples](llms-full.txt)
-- [Existing public example-task directory](tasks-directory.md): a published link is a starting configuration, not proof of a successful current run.
-- [Documentation site](https://edtool79-collab.github.io/hirepulse-tools/): individual pages can have different update dates; the live Actor page and schema are the source for current behavior and pricing.
-- [MCP Registry](https://registry.modelcontextprotocol.io): Registry publication is a separate step from editing this repository. Do not infer that all 15 individual listings exist from this README.
->>>>>>> origin/main
