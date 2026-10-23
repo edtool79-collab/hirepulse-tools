@@ -84,4 +84,7 @@ Check out our pre-built, production-ready n8n workflows in the [`/n8n`](./n8n) d
 1. **[B2B Intent Pre-Filter & Zero-Waste Enrichment](./n8n/1-b2b-intent-prefilter-enrichment.json)**: Enriches domains with Tech Stack, ATS Hiring Intent, and Google Ads spend, pre-filters deterministically with zero AI cost, and cuts LLM prompt token usage by **97.6%**.
 2. **[Competitor Ads & Hiring Surge Monitor](./n8n/2-competitor-ads-and-hiring-monitor.json)**: Weekly automated intelligence scanner alerting your team to competitor expansion and paid advertising moves.
 
-👉 **[Explore the n8n Suite Documentation & Quickstart Guide](./n8n/README.md)**
+👉 **[Explore the n8n Suite Documentation & Quickstart Guide](./n8n/README.md)**  
+🧮 **[Interactive n8n AI Token Bleed ROI Calculator](./calculator.html)**: Calculate exact token waste and monthly dollar savings vs. raw scraping.  
+📚 **[Cheaper Clay Alternative Guide: $6.15 vs. $200 per 1k leads](./guides/n8n-clay-alternative-cheaper.md)**  
+📚 **[Zero-Token B2B Lead Enrichment Benchmark](./guides/zero-token-b2b-lead-enrichment.md)**

@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'none';
+    script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com;
+    style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com;
+    connect-src 'self' https://raw.githubusercontent.com;
+    img-src 'self' data: https://github.githubassets.com;
+    font-src 'self';
+    base-uri 'none';
+    form-action 'none';
+    frame-ancestors 'none';
+  ">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>n8n AI Token Bleed & Lead Enrichment ROI Calculator | HirePulse</title>
+  <meta name="description" content="Calculate monthly LLM token waste on raw HTML web scraping vs. zero-waste structured JSON signals with deterministic n8n pre-filtering.">
+  <meta property="og:title" content="n8n AI Token Bleed & Lead Enrichment ROI Calculator">
+  <meta property="og:description" content="Stop burning thousands on LLM tokens. Compare raw web scraping with structured HirePulse B2B intent signals.">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            },
+            dark: {
+              bg: '#0B0F17',
+              card: '#111827',
+              cardHover: '#1F2937',
+              border: '#1F293D',
+              borderLight: '#374151'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom range slider styling */
+    input[type=range] {
+      -webkit-appearance: none;
+      background: #1f293d;
+      border-radius: 9999px;
+      height: 8px;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 22px;
+      width: 22px;
+      border-radius: 50%;
+      background: #6366f1;
+      cursor: pointer;
+      border: 2px solid #ffffff;
+      box-shadow: 0 0 10px rgba(99, 102, 241, 0.6);
+      transition: all 0.15s ease-in-out;
+    }
+    input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+      background: #4f46e5;
+    }
+  </style>
+</head>
+<body class="bg-[#0B0F17] text-slate-100 min-h-screen font-sans antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- Top Announcement Bar -->
+  <header class="border-b border-slate-800/80 bg-slate-900/60 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <span class="inline-flex items-center justify-center p-2 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+        </span>
+        <div>
+          <span class="font-bold text-slate-100 tracking-tight text-lg">HirePulse</span>
+          <span class="text-xs ml-2 px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-medium">n8n Growth Suite</span>
+        </div>
+      </div>
+      <div class="flex items-center space-x-3">
+        <a href="https://github.com/edtool79-collab/hirepulse-tools" target="_blank" rel="noopener noreferrer" class="text-xs sm:text-sm text-slate-400 hover:text-slate-200 transition-colors flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-800 hover:border-slate-700 bg-slate-900">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+          </svg>
+          <span>GitHub Repo</span>
+        </a>
+        <a href="https://raw.githubusercontent.com/edtool79-collab/hirepulse-tools/main/n8n/1-b2b-intent-prefilter-enrichment.json" download="1-b2b-intent-prefilter-enrichment.json" class="text-xs sm:text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-500 transition-colors px-3 py-1.5 rounded-lg shadow-sm shadow-indigo-600/30 flex items-center gap-1.5">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+          <span>Get n8n JSON</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-20">
+    <div class="text-center max-w-3xl mx-auto mb-12">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold mb-4">
+        <span>🔥 Stop LLM Token Bleed</span>
+        <span class="text-slate-600">•</span>
+        <span>Deterministic Pre-Filtering in n8n</span>
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-extrabold text-slate-100 tracking-tight leading-tight">
+        n8n AI Token Bleed & Lead Enrichment <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-300 to-emerald-400">ROI Calculator</span>
+      </h1>
+      <p class="mt-4 text-slate-400 text-base sm:text-lg leading-relaxed">
+        Discover how much money and LLM context your automated workflows burn on bloated raw HTML scraping vs. clean, structured HirePulse intent JSON combined with 0-token deterministic JavaScript pre-filtering.
+      </p>
+    </div>
+
+    <!-- Calculator Grid Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      
+      <!-- LEFT COLUMN: INPUT CONTROLS (5 cols on lg) -->
+      <section class="lg:col-span-5 space-y-6">
+        
+        <!-- Input Card -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-xl backdrop-blur-sm">
+          <h2 class="text-lg font-bold text-slate-100 flex items-center gap-2 mb-6">
+            <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+            </svg>
+            <span>Workflow Parameters</span>
+          </h2>
+
+          <!-- 1. Monthly Leads Volume Slider + Input -->
+          <div class="mb-6">
+            <div class="flex items-center justify-between mb-2">
+              <label for="leadInput" class="text-sm font-semibold text-slate-300">Monthly Leads Processed</label>
+              <div class="flex items-center gap-1.5 bg-slate-950 border border-slate-700/80 rounded-lg px-2.5 py-1">
+                <span class="text-slate-400 text-xs font-mono">Leads:</span>
+                <input type="number" id="leadInput" min="100" max="50000" step="100" value="2500" 
+                  class="w-20 bg-transparent text-right font-mono font-bold text-indigo-400 text-sm focus:outline-none">
+              </div>
+            </div>
+
+            <!-- Slider -->
+            <input type="range" id="leadSlider" min="100" max="50000" step="100" value="2500" class="w-full cursor-pointer mb-3">
+
+            <!-- Presets -->
+            <div class="flex flex-wrap gap-2 text-xs">
+              <button type="button" class="preset-btn px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors" data-value="500">Seed (500)</button>
+              <button type="button" class="preset-btn px-2.5 py-1 rounded-md bg-indigo-600/30 border border-indigo-500/50 text-indigo-300 transition-colors active-preset" data-value="2500">Growth (2.5k)</button>
+              <button type="button" class="preset-btn px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors" data-value="10000">Scale (10k)</button>
+              <button type="button" class="preset-btn px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors" data-value="50000">Enterprise (50k)</button>
+            </div>
+          </div>
+
+          <!-- 2. AI Model Selection -->
+          <div class="mb-6">
+            <label class="block text-sm font-semibold text-slate-300 mb-2">LLM Model For Outreach & Classification</label>
+            <div class="grid grid-cols-1 gap-2.5" id="modelSelector">
+              
+              <!-- GPT-4o -->
+              <label class="model-option flex items-center justify-between p-3 rounded-xl border border-indigo-500 bg-indigo-950/20 cursor-pointer transition-all">
+                <div class="flex items-center gap-3">
+                  <input type="radio" name="ai_model" value="gpt-4o" checked class="text-indigo-600 focus:ring-indigo-500 bg-slate-900 border-slate-700">
+                  <div>
+                    <div class="text-sm font-bold text-slate-100">OpenAI GPT-4o</div>
+                    <div class="text-xs text-slate-400">$2.50 / 1M Input • $10.00 / 1M Output</div>
+                  </div>
+                </div>
+                <span class="text-xs px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 font-mono">Premium</span>
+              </label>
+
+              <!-- GPT-4o-mini -->
+              <label class="model-option flex items-center justify-between p-3 rounded-xl border border-slate-800 bg-slate-950/50 hover:border-slate-700 cursor-pointer transition-all">
+                <div class="flex items-center gap-3">
+                  <input type="radio" name="ai_model" value="gpt-4o-mini" class="text-indigo-600 focus:ring-indigo-500 bg-slate-900 border-slate-700">
+                  <div>
+                    <div class="text-sm font-bold text-slate-100">OpenAI GPT-4o-mini</div>
+                    <div class="text-xs text-slate-400">$0.15 / 1M Input • $0.60 / 1M Output</div>
+                  </div>
+                </div>
+                <span class="text-xs px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 font-mono">Cost-Opt</span>
+              </label>
+
+              <!-- Claude 3.5 Sonnet -->
+              <label class="model-option flex items-center justify-between p-3 rounded-xl border border-slate-800 bg-slate-950/50 hover:border-slate-700 cursor-pointer transition-all">
+                <div class="flex items-center gap-3">
+                  <input type="radio" name="ai_model" value="claude-3-5-sonnet" class="text-indigo-600 focus:ring-indigo-500 bg-slate-900 border-slate-700">
+                  <div>
+                    <div class="text-sm font-bold text-slate-100">Anthropic Claude 3.5 Sonnet</div>
+                    <div class="text-xs text-slate-400">$3.00 / 1M Input • $15.00 / 1M Output</div>
+                  </div>
+                </div>
+                <span class="text-xs px-2 py-0.5 rounded bg-purple-500/10 text-purple-300 border border-purple-500/20 font-mono">High-Logic</span>
+              </label>
+
+            </div>
+          </div>
+
+          <!-- 3. Current Scraping Method -->
+          <div class="mb-6">
+            <label class="block text-sm font-semibold text-slate-300 mb-2">Legacy Ingestion / Scraper Method</label>
+            <div class="grid grid-cols-1 gap-2.5" id="methodSelector">
+              
+              <!-- Raw HTML -->
+              <label class="method-option flex items-center justify-between p-3 rounded-xl border border-indigo-500 bg-indigo-950/20 cursor-pointer transition-all">
+                <div class="flex items-center gap-3">
+                  <input type="radio" name="scrape_method" value="raw_html" checked class="text-indigo-600 focus:ring-indigo-500 bg-slate-900 border-slate-700">
+                  <div>
+                    <div class="text-sm font-bold text-slate-100">Raw HTML DOM Scrape</div>
+                    <div class="text-xs text-slate-400">Messy scripts, CSS, navs, boilerplates</div>
+                  </div>
+                </div>
+                <span class="text-xs font-mono text-rose-400 bg-rose-500/10 border border-rose-500/20 px-2 py-0.5 rounded">~25,000 tok/lead</span>
+              </label>
+
+              <!-- Firecrawl / Headless -->
+              <label class="method-option flex items-center justify-between p-3 rounded-xl border border-slate-800 bg-slate-950/50 hover:border-slate-700 cursor-pointer transition-all">
+                <div class="flex items-center gap-3">
+                  <input type="radio" name="scrape_method" value="firecrawl" class="text-indigo-600 focus:ring-indigo-500 bg-slate-900 border-slate-700">
+                  <div>
+                    <div class="text-sm font-bold text-slate-100">Firecrawl / Clean HTML DOM</div>
+                    <div class="text-xs text-slate-400">Pruned HTML elements & headless render</div>
+                  </div>
+                </div>
+                <span class="text-xs font-mono text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded">~5,000 tok/lead</span>
+              </label>
+
+              <!-- Clean Markdown -->
+              <label class="method-option flex items-center justify-between p-3 rounded-xl border border-slate-800 bg-slate-950/50 hover:border-slate-700 cursor-pointer transition-all">
+                <div class="flex items-center gap-3">
+                  <input type="radio" name="scrape_method" value="clean_markdown" class="text-indigo-600 focus:ring-indigo-500 bg-slate-900 border-slate-700">
+                  <div>
+                    <div class="text-sm font-bold text-slate-100">Clean Markdown Reader</div>
+                    <div class="text-xs text-slate-400">Jina reader / text markdown conversion</div>
+                  </div>
+                </div>
+                <span class="text-xs font-mono text-sky-400 bg-sky-500/10 border border-sky-500/20 px-2 py-0.5 rounded">~1,500 tok/lead</span>
+              </label>
+
+            </div>
+          </div>
+
+          <!-- Advanced Accordion Toggle -->
+          <div class="border-t border-slate-800 pt-4">
+            <button type="button" id="toggleAdvanced" class="flex items-center justify-between w-full text-xs font-semibold text-slate-400 hover:text-slate-200 transition-colors">
+              <span class="flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span>Fine-Tuning: ICP Pre-Filter & Token Overhead</span>
+              </span>
+              <svg id="advancedArrow" class="w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            <!-- Advanced Content -->
+            <div id="advancedSettings" class="hidden mt-4 space-y-4 text-xs">
+              <div>
+                <div class="flex justify-between text-slate-300 font-semibold mb-1">
+                  <span>Deterministic ICP Disqualification Rate</span>
+                  <span id="disqualifyRateLabel" class="text-indigo-400 font-mono font-bold">70%</span>
+                </div>
+                <input type="range" id="disqualifySlider" min="0" max="90" step="5" value="70" class="w-full">
+                <p class="text-slate-500 text-[11px] mt-1 leading-normal">
+                  In n8n, a JavaScript Code node scores domain tech, jobs, & ads for $0. Unqualified leads are routed to cold storage before any AI model is ever triggered!
+                </p>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-slate-300 font-semibold mb-1">
+                  <span>HirePulse Structured JSON Tokens / Lead</span>
+                  <span class="text-emerald-400 font-mono font-bold">~350 tokens</span>
+                </div>
+                <p class="text-slate-500 text-[11px]">
+                  Replaces huge DOMs with clean fields: ATS status, verified open jobs, detected tech stack, and live Google Ads keywords.
+                </p>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-slate-300 font-semibold mb-1">
+                  <span>Average AI Hook Output Tokens</span>
+                  <span id="outputTokensLabel" class="text-slate-300 font-mono font-bold">150 tokens</span>
+                </div>
+                <input type="range" id="outputTokensSlider" min="50" max="500" step="25" value="150" class="w-full">
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Explanatory Badge Card -->
+        <div class="bg-gradient-to-br from-indigo-950/40 via-slate-900 to-slate-950 border border-indigo-500/20 rounded-2xl p-5 shadow-lg">
+          <div class="flex items-start gap-3">
+            <span class="p-2 rounded-lg bg-indigo-500/10 text-indigo-400 shrink-0">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+              </svg>
+            </span>
+            <div>
+              <h3 class="text-sm font-bold text-slate-200">The "AI Token Bleed" Equation</h3>
+              <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+                Most teams send 25,000 raw DOM tokens to an LLM just to realize 70% of targets aren't hiring or have no budget. HirePulse cuts the input payload to 350 tokens and kills the 70% bad leads with zero-cost code.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- RIGHT COLUMN: LIVE OUTPUT & ROI REPORT (7 cols on lg) -->
+      <section class="lg:col-span-7 space-y-6">
+        
+        <!-- Hero Savings Card -->
+        <div class="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-900 to-indigo-950/50 border border-indigo-500/30 rounded-2xl p-6 sm:p-8 shadow-2xl">
+          <div class="absolute -right-16 -top-16 w-56 h-56 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none"></div>
+          <div class="absolute -left-16 -bottom-16 w-56 h-56 bg-emerald-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+          <div class="relative z-10">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+              <span class="text-xs uppercase tracking-wider font-bold text-indigo-400 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                Calculated ROI & Token Bleed Elimination
+              </span>
+              <span id="savingsBadge" class="text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+                98.8% Cost Reduction
+              </span>
+            </div>
+
+            <!-- Big Stat Numbers -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 my-4">
+              <div>
+                <div class="text-xs font-semibold text-slate-400">Total Monthly Savings</div>
+                <div class="text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-200 font-mono mt-1" id="monthlySavingsVal">
+                  $158.22
+                </div>
+                <div class="text-xs text-slate-500 mt-1">Direct budget retained each month</div>
+              </div>
+
+              <div>
+                <div class="text-xs font-semibold text-slate-400">Annualized Cash Retained</div>
+                <div class="text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300 font-mono mt-1" id="annualSavingsVal">
+                  $1,898.64
+                </div>
+                <div class="text-xs text-slate-500 mt-1">Annual savings for your business</div>
+              </div>
+            </div>
+
+            <!-- Comparative Visualizer Bar -->
+            <div class="mt-6 pt-6 border-t border-slate-800">
+              <div class="flex justify-between text-xs font-semibold mb-2">
+                <span class="text-rose-400 flex items-center gap-1">
+                  <span>Legacy Ingestion:</span>
+                  <span id="legacyMonthlyVal" class="font-mono font-bold">$172.50/mo</span>
+                </span>
+                <span class="text-emerald-400 flex items-center gap-1">
+                  <span>HirePulse + n8n:</span>
+                  <span id="hirepulseMonthlyVal" class="font-mono font-bold">$14.28/mo</span>
+                </span>
+              </div>
+
+              <!-- Bar graphic -->
+              <div class="w-full h-4 bg-slate-950 rounded-full overflow-hidden flex border border-slate-800 p-0.5">
+                <div id="hirepulseBar" class="h-full bg-emerald-500 rounded-full transition-all duration-300" style="width: 8.3%;"></div>
+                <div id="legacyBar" class="h-full bg-rose-500/40 rounded-full transition-all duration-300" style="width: 91.7%;"></div>
+              </div>
+              <div class="flex justify-between text-[11px] text-slate-500 mt-1 font-mono">
+                <span>Green = Optimized Cost</span>
+                <span id="tokenReductionPct">99.4% tokens eliminated</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Key Metrics Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          
+          <div class="bg-slate-900 border border-slate-800/90 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] font-semibold text-slate-400">Tokens Saved / Mo</div>
+            <div class="text-lg font-black text-indigo-400 font-mono mt-1" id="tokensSavedVal">62.5M</div>
+            <div class="text-[10px] text-slate-500 mt-0.5">tokens freed up</div>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800/90 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] font-semibold text-slate-400">Pure AI Burn Saved</div>
+            <div class="text-lg font-black text-emerald-400 font-mono mt-1" id="aiBurnSavedVal">$158.22</div>
+            <div class="text-[10px] text-slate-500 mt-0.5">zero prompt waste</div>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800/90 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] font-semibold text-slate-400">Disqualified ($0 AI)</div>
+            <div class="text-lg font-black text-amber-400 font-mono mt-1" id="disqualifiedLeadsVal">1,750</div>
+            <div class="text-[10px] text-slate-500 mt-0.5">pre-filtered in JS</div>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800/90 rounded-xl p-3.5 text-center">
+            <div class="text-[11px] font-semibold text-slate-400">ROI Multiplier</div>
+            <div class="text-lg font-black text-purple-400 font-mono mt-1" id="roiMultiplierVal">12.1x</div>
+            <div class="text-[10px] text-slate-500 mt-0.5">efficiency gain</div>
+          </div>
+
+        </div>
+
+        <!-- Detailed Breakdown Table -->
+        <div class="bg-slate-900/80 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+          <div class="px-5 py-3.5 border-b border-slate-800 flex items-center justify-between">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">Detailed Line-Item Breakdown</h3>
+            <span class="text-[11px] text-slate-500 font-mono">1 Lead = 1 Domain</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-950/60 text-slate-400 font-semibold border-b border-slate-800">
+                <tr>
+                  <th class="py-2.5 px-4">Metric / Resource</th>
+                  <th class="py-2.5 px-4 text-rose-400">Legacy Method</th>
+                  <th class="py-2.5 px-4 text-emerald-400">HirePulse + n8n</th>
+                  <th class="py-2.5 px-4 text-indigo-400 font-bold">Variance</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800/60 font-mono text-slate-300 text-[11px]">
+                <tr>
+                  <td class="py-2 px-4 font-sans text-slate-300">Prompt Tokens / Lead</td>
+                  <td class="py-2 px-4 text-rose-300" id="tbLegacyTokensPerLead">25,000</td>
+                  <td class="py-2 px-4 text-emerald-300">350</td>
+                  <td class="py-2 px-4 text-indigo-400 font-bold" id="tbTokenReductionRatio">-98.6%</td>
+                </tr>
+                <tr>
+                  <td class="py-2 px-4 font-sans text-slate-300">Leads Reaching LLM</td>
+                  <td class="py-2 px-4 text-rose-300" id="tbLegacyLeadsReaching">2,500 (100%)</td>
+                  <td class="py-2 px-4 text-emerald-300" id="tbHirepulseLeadsReaching">750 (30%)</td>
+                  <td class="py-2 px-4 text-indigo-400 font-bold" id="tbFilteredVariance">-70.0%</td>
+                </tr>
+                <tr>
+                  <td class="py-2 px-4 font-sans text-slate-300">Total Monthly LLM Tokens</td>
+                  <td class="py-2 px-4 text-rose-300" id="tbLegacyTotalTokens">62,875,000</td>
+                  <td class="py-2 px-4 text-emerald-300" id="tbHirepulseTotalTokens">375,000</td>
+                  <td class="py-2 px-4 text-indigo-400 font-bold" id="tbTotalTokensVariance">-99.4%</td>
+                </tr>
+                <tr>
+                  <td class="py-2 px-4 font-sans text-slate-300">Monthly LLM Cost</td>
+                  <td class="py-2 px-4 text-rose-300" id="tbLegacyLlmCost">$160.00</td>
+                  <td class="py-2 px-4 text-emerald-300" id="tbHirepulseLlmCost">$1.78</td>
+                  <td class="py-2 px-4 text-emerald-400 font-bold" id="tbLlmCostVariance">-$158.22</td>
+                </tr>
+                <tr>
+                  <td class="py-2 px-4 font-sans text-slate-300">Data / Proxy Ingestion Cost</td>
+                  <td class="py-2 px-4 text-rose-300" id="tbLegacyScrapeCost">$12.50</td>
+                  <td class="py-2 px-4 text-emerald-300" id="tbHirepulseScrapeCost">$12.50</td>
+                  <td class="py-2 px-4 text-slate-500 font-bold">$0.00</td>
+                </tr>
+                <tr class="bg-slate-950/80 font-bold">
+                  <td class="py-3 px-4 font-sans text-slate-100">Total Monthly Expenditure</td>
+                  <td class="py-3 px-4 text-rose-400" id="tbLegacyTotalCost">$172.50</td>
+                  <td class="py-3 px-4 text-emerald-400" id="tbHirepulseTotalCost">$14.28</td>
+                  <td class="py-3 px-4 text-emerald-300 font-black" id="tbTotalSavingsVariance">-$158.22</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Call to Action Box -->
+        <div class="bg-gradient-to-r from-indigo-900/50 via-slate-900 to-indigo-950 border border-indigo-500/40 rounded-2xl p-6 sm:p-7 shadow-2xl">
+          <div class="sm:flex sm:items-center sm:justify-between gap-6">
+            <div class="mb-4 sm:mb-0">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-semibold mb-2">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                Zero-Code Ready Workflow
+              </span>
+              <h3 class="text-lg font-bold text-slate-100">Deploy the Zero-Waste n8n Workflow</h3>
+              <p class="text-xs text-slate-400 mt-1 max-w-md">
+                Pre-built deterministic JS scoring + compact HirePulse payload. Eliminates 97.6%+ of LLM prompt tokens on day one.
+              </p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 shrink-0">
+              <a href="https://raw.githubusercontent.com/edtool79-collab/hirepulse-tools/main/n8n/1-b2b-intent-prefilter-enrichment.json" download="1-b2b-intent-prefilter-enrichment.json" target="_blank" rel="noopener noreferrer" class="inline-flex justify-center items-center gap-2 px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 font-semibold text-white text-xs sm:text-sm shadow-lg shadow-indigo-600/30 transition-all transform active:scale-95">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                <span>Download Workflow JSON</span>
+              </a>
+
+              <button type="button" id="copyUrlBtn" class="inline-flex justify-center items-center gap-1.5 px-3.5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-medium transition-all">
+                <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                </svg>
+                <span id="copyUrlText">Copy URL</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+
+    <!-- 3-Column Educational Feature Cards -->
+    <div class="mt-16 pt-12 border-t border-slate-800 grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6">
+        <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center mb-4">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+        </div>
+        <h3 class="text-base font-bold text-slate-200">1. Raw DOM Token Bloat</h3>
+        <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+          Standard web scrapers capture mega-sized DOM trees filled with CSS classes, JavaScript tags, tracking scripts, and cookie banners. You are paying top-tier LLMs $2.50 to $3.00 per million tokens just to parse useless noise.
+        </p>
+      </div>
+
+      <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6">
+        <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center mb-4">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+          </svg>
+        </div>
+        <h3 class="text-base font-bold text-slate-200">2. Paying AI to Disqualify</h3>
+        <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+          In typical lead pipelines, 60% to 80% of accounts do not match your ICP (e.g. no open jobs, legacy stack). Naive systems pass all 100% through the LLM, burning budget on dead leads. Our n8n workflow filters them for $0 in JavaScript.
+        </p>
+      </div>
+
+      <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6">
+        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center mb-4">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+        </div>
+        <h3 class="text-base font-bold text-slate-200">3. Structured HirePulse JSON</h3>
+        <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+          HirePulse returns pure structured evidence (Greenhouse/Lever/Workday jobs, Google Ads keywords, detected technology stack) in ~350 tokens. Clean signal, zero hallucinations, and maximum LLM cost reduction.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- FAQ Accordion -->
+    <div class="mt-12 bg-slate-900/40 border border-slate-800 rounded-2xl p-6 max-w-4xl mx-auto">
+      <h3 class="text-sm font-bold text-slate-200 uppercase tracking-wider mb-4 flex items-center gap-2">
+        <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>Frequently Asked Questions</span>
+      </h3>
+
+      <div class="space-y-4 text-xs">
+        <div>
+          <h4 class="font-semibold text-slate-300">How does the 97.6% - 99% token reduction work mathematically?</h4>
+          <p class="text-slate-400 mt-1 leading-relaxed">
+            Raw DOM scrapes take 15,000 to 25,000 prompt tokens per page. In contrast, HirePulse extracts only the relevant signals into a compact ~350 token JSON payload. Furthermore, the deterministic n8n JavaScript node filters out ~70% of disqualified companies before calling the LLM, reducing the total tokens consumed across a batch of 2,500 leads from 62.8M down to 375k.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="font-semibold text-slate-300">Can I import this workflow into self-hosted n8n?</h4>
+          <p class="text-slate-400 mt-1 leading-relaxed">
+            Yes! The provided workflow JSON is 100% compatible with both self-hosted n8n (Docker/npm) and n8n Cloud. It requires zero custom plugins; just enter your Apify API token and OpenAI API key in standard n8n credentials.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="font-semibold text-slate-300">What data providers does HirePulse use?</h4>
+          <p class="text-slate-400 mt-1 leading-relaxed">
+            HirePulse queries live, verifiable evidence: official company ATS endpoints (Greenhouse, Lever, Ashby, Workable), public Google Ads Transparency data, and accessible website DNS/markup technologies. Zero synthetic estimations or stale databases.
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-800/80 py-8 text-center text-xs text-slate-500 bg-slate-950">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        <span>HirePulse Growth Suite • Open Source MIT</span>
+      </div>
+      <div class="flex items-center space-x-6">
+        <a href="https://github.com/edtool79-collab/hirepulse-tools" target="_blank" rel="noopener noreferrer" class="hover:text-slate-400 transition-colors">GitHub Repository</a>
+        <a href="https://apify.com/hirepulse" target="_blank" rel="noopener noreferrer" class="hover:text-slate-400 transition-colors">Apify Store</a>
+        <a href="https://gethirepulse.xyz" target="_blank" rel="noopener noreferrer" class="hover:text-slate-400 transition-colors">Gateway & MCP</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript Reactive Logic -->
+  <script>
+    (function () {
+      // Configuration & Pricing Constants
+      const MODEL_PRICES = {
+        'gpt-4o': { inputPer1M: 2.50, outputPer1M: 10.00, name: 'GPT-4o' },
+        'gpt-4o-mini': { inputPer1M: 0.15, outputPer1M: 0.60, name: 'GPT-4o-mini' },
+        'claude-3-5-sonnet': { inputPer1M: 3.00, outputPer1M: 15.00, name: 'Claude 3.5 Sonnet' }
+      };
+
+      const SCRAPE_METHOD_TOKENS = {
+        'raw_html': { tokens: 25000, name: 'Raw HTML Scrape' },
+        'firecrawl': { tokens: 5000, name: 'Firecrawl DOM' },
+        'clean_markdown': { tokens: 1500, name: 'Clean Markdown' }
+      };
+
+      const HIREPULSE_INPUT_TOKENS = 350;
+      const SCRAPE_PROVIDER_FEE_PER_LEAD = 0.005; // ~$0.005 per lead proxy/scraper/actor execution
+
+      // Reactive State
+      const state = {
+        leads: 2500,
+        model: 'gpt-4o',
+        method: 'raw_html',
+        disqualifyRate: 70, // percent
+        outputTokens: 150
+      };
+
+      // DOM Elements
+      const leadSlider = document.getElementById('leadSlider');
+      const leadInput = document.getElementById('leadInput');
+      const presetButtons = document.querySelectorAll('.preset-btn');
+      const modelOptions = document.querySelectorAll('input[name="ai_model"]');
+      const methodOptions = document.querySelectorAll('input[name="scrape_method"]');
+      const disqualifySlider = document.getElementById('disqualifySlider');
+      const disqualifyRateLabel = document.getElementById('disqualifyRateLabel');
+      const outputTokensSlider = document.getElementById('outputTokensSlider');
+      const outputTokensLabel = document.getElementById('outputTokensLabel');
+
+      const toggleAdvanced = document.getElementById('toggleAdvanced');
+      const advancedSettings = document.getElementById('advancedSettings');
+      const advancedArrow = document.getElementById('advancedArrow');
+
+      // Output Elements
+      const monthlySavingsVal = document.getElementById('monthlySavingsVal');
+      const annualSavingsVal = document.getElementById('annualSavingsVal');
+      const savingsBadge = document.getElementById('savingsBadge');
+      const legacyMonthlyVal = document.getElementById('legacyMonthlyVal');
+      const hirepulseMonthlyVal = document.getElementById('hirepulseMonthlyVal');
+      const hirepulseBar = document.getElementById('hirepulseBar');
+      const legacyBar = document.getElementById('legacyBar');
+      const tokenReductionPct = document.getElementById('tokenReductionPct');
+
+      const tokensSavedVal = document.getElementById('tokensSavedVal');
+      const aiBurnSavedVal = document.getElementById('aiBurnSavedVal');
+      const disqualifiedLeadsVal = document.getElementById('disqualifiedLeadsVal');
+      const roiMultiplierVal = document.getElementById('roiMultiplierVal');
+
+      // Table Elements
+      const tbLegacyTokensPerLead = document.getElementById('tbLegacyTokensPerLead');
+      const tbTokenReductionRatio = document.getElementById('tbTokenReductionRatio');
+      const tbLegacyLeadsReaching = document.getElementById('tbLegacyLeadsReaching');
+      const tbHirepulseLeadsReaching = document.getElementById('tbHirepulseLeadsReaching');
+      const tbFilteredVariance = document.getElementById('tbFilteredVariance');
+      const tbLegacyTotalTokens = document.getElementById('tbLegacyTotalTokens');
+      const tbHirepulseTotalTokens = document.getElementById('tbHirepulseTotalTokens');
+      const tbTotalTokensVariance = document.getElementById('tbTotalTokensVariance');
+      const tbLegacyLlmCost = document.getElementById('tbLegacyLlmCost');
+      const tbHirepulseLlmCost = document.getElementById('tbHirepulseLlmCost');
+      const tbLlmCostVariance = document.getElementById('tbLlmCostVariance');
+      const tbLegacyScrapeCost = document.getElementById('tbLegacyScrapeCost');
+      const tbHirepulseScrapeCost = document.getElementById('tbHirepulseScrapeCost');
+      const tbLegacyTotalCost = document.getElementById('tbLegacyTotalCost');
+      const tbHirepulseTotalCost = document.getElementById('tbHirepulseTotalCost');
+      const tbTotalSavingsVariance = document.getElementById('tbTotalSavingsVariance');
+
+      // Copy Button
+      const copyUrlBtn = document.getElementById('copyUrlBtn');
+      const copyUrlText = document.getElementById('copyUrlText');
+      const WORKFLOW_URL = "https://raw.githubusercontent.com/edtool79-collab/hirepulse-tools/main/n8n/1-b2b-intent-prefilter-enrichment.json";
+
+      // Number formatting helpers
+      function formatMoney(amount) {
+        return '$' + amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+
+      function formatCompactTokens(num) {
+        if (num >= 1000000000) return (num / 1000000000).toFixed(1) + 'B';
+        if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+        if (num >= 1000) return (num / 1000).toFixed(0) + 'k';
+        return num.toString();
+      }
+
+      function formatNumber(num) {
+        return Math.round(num).toLocaleString('en-US');
+      }
+
+      // Calculation Engine
+      function calculate() {
+        const L = state.leads;
+        const model = MODEL_PRICES[state.model];
+        const method = SCRAPE_METHOD_TOKENS[state.method];
+        const disqFraction = state.disqualifyRate / 100;
+        const outTokens = state.outputTokens;
+
+        // Legacy Method:
+        // All L leads are scraped and passed to LLM (0% pre-filtered before AI)
+        const legacyTokensPerLead = method.tokens;
+        const legacyTotalPromptTokens = L * legacyTokensPerLead;
+        const legacyTotalOutputTokens = L * outTokens;
+        const legacyTotalTokens = legacyTotalPromptTokens + legacyTotalOutputTokens;
+
+        const legacyLlmInputCost = (legacyTotalPromptTokens / 1000000) * model.inputPer1M;
+        const legacyLlmOutputCost = (legacyTotalOutputTokens / 1000000) * model.outputPer1M;
+        const legacyLlmTotalCost = legacyLlmInputCost + legacyLlmOutputCost;
+        const legacyScraperCost = L * SCRAPE_PROVIDER_FEE_PER_LEAD;
+        const legacyTotalCost = legacyLlmTotalCost + legacyScraperCost;
+
+        // HirePulse Method:
+        // Pre-filter drops disqFraction of leads deterministically with $0 AI cost!
+        const qualifiedFraction = 1 - disqFraction;
+        const qualifiedLeads = L * qualifiedFraction;
+        const disqualifiedLeads = L * disqFraction;
+
+        const hpPromptTokensPerQualified = HIREPULSE_INPUT_TOKENS;
+        const hpTotalPromptTokens = qualifiedLeads * hpPromptTokensPerQualified;
+        const hpTotalOutputTokens = qualifiedLeads * outTokens;
+        const hpTotalTokens = hpTotalPromptTokens + hpTotalOutputTokens;
+
+        const hpLlmInputCost = (hpTotalPromptTokens / 1000000) * model.inputPer1M;
+        const hpLlmOutputCost = (hpTotalOutputTokens / 1000000) * model.outputPer1M;
+        const hpLlmTotalCost = hpLlmInputCost + hpLlmOutputCost;
+        const hpScraperCost = L * SCRAPE_PROVIDER_FEE_PER_LEAD;
+        const hpTotalCost = hpLlmTotalCost + hpScraperCost;
+
+        // Variance & Savings
+        const monthlySavings = Math.max(0, legacyTotalCost - hpTotalCost);
+        const annualSavings = monthlySavings * 12;
+        const savingsPercent = legacyTotalCost > 0 ? (monthlySavings / legacyTotalCost) * 100 : 0;
+
+        const tokensSaved = Math.max(0, legacyTotalTokens - hpTotalTokens);
+        const tokenReductionPercent = legacyTotalTokens > 0 ? (tokensSaved / legacyTotalTokens) * 100 : 0;
+        const pureAiBurnSaved = Math.max(0, legacyLlmTotalCost - hpLlmTotalCost);
+
+        const roiMultiplier = hpTotalCost > 0 ? (legacyTotalCost / hpTotalCost) : 1;
+
+        // Update DOM
+        monthlySavingsVal.textContent = formatMoney(monthlySavings);
+        annualSavingsVal.textContent = formatMoney(annualSavings);
+        savingsBadge.textContent = savingsPercent.toFixed(1) + '% Cost Reduction';
+
+        legacyMonthlyVal.textContent = formatMoney(legacyTotalCost) + '/mo';
+        hirepulseMonthlyVal.textContent = formatMoney(hpTotalCost) + '/mo';
+
+        const totalCostSum = legacyTotalCost + hpTotalCost;
+        const hpBarPercent = totalCostSum > 0 ? Math.max(5, (hpTotalCost / totalCostSum) * 100) : 10;
+        const legacyBarPercent = 100 - hpBarPercent;
+        hirepulseBar.style.width = hpBarPercent.toFixed(1) + '%';
+        legacyBar.style.width = legacyBarPercent.toFixed(1) + '%';
+        tokenReductionPct.textContent = tokenReductionPercent.toFixed(1) + '% tokens eliminated';
+
+        tokensSavedVal.textContent = formatCompactTokens(tokensSaved);
+        aiBurnSavedVal.textContent = formatMoney(pureAiBurnSaved);
+        disqualifiedLeadsVal.textContent = formatNumber(disqualifiedLeads);
+        roiMultiplierVal.textContent = roiMultiplier.toFixed(1) + 'x';
+
+        // Table updates
+        tbLegacyTokensPerLead.textContent = formatNumber(legacyTokensPerLead);
+        const tokenRatio = ((legacyTokensPerLead - hpPromptTokensPerQualified) / legacyTokensPerLead) * 100;
+        tbTokenReductionRatio.textContent = '-' + tokenRatio.toFixed(1) + '%';
+
+        tbLegacyLeadsReaching.textContent = `${formatNumber(L)} (100%)`;
+        tbHirepulseLeadsReaching.textContent = `${formatNumber(qualifiedLeads)} (${(qualifiedFraction * 100).toFixed(0)}%)`;
+        tbFilteredVariance.textContent = `-${(disqFraction * 100).toFixed(0)}% pre-filtered`;
+
+        tbLegacyTotalTokens.textContent = formatNumber(legacyTotalTokens);
+        tbHirepulseTotalTokens.textContent = formatNumber(hpTotalTokens);
+        tbTotalTokensVariance.textContent = '-' + tokenReductionPercent.toFixed(1) + '%';
+
+        tbLegacyLlmCost.textContent = formatMoney(legacyLlmTotalCost);
+        tbHirepulseLlmCost.textContent = formatMoney(hpLlmTotalCost);
+        tbLlmCostVariance.textContent = '-' + formatMoney(pureAiBurnSaved);
+
+        tbLegacyScrapeCost.textContent = formatMoney(legacyScraperCost);
+        tbHirepulseScrapeCost.textContent = formatMoney(hpScraperCost);
+
+        tbLegacyTotalCost.textContent = formatMoney(legacyTotalCost);
+        tbHirepulseTotalCost.textContent = formatMoney(hpTotalCost);
+        tbTotalSavingsVariance.textContent = '-' + formatMoney(monthlySavings);
+      }
+
+      // Event Listeners
+      leadSlider.addEventListener('input', function (e) {
+        state.leads = parseInt(e.target.value, 10);
+        leadInput.value = state.leads;
+        updatePresetActiveState(state.leads);
+        calculate();
+      });
+
+      leadInput.addEventListener('input', function (e) {
+        let val = parseInt(e.target.value, 10);
+        if (isNaN(val)) val = 100;
+        if (val > 50000) val = 50000;
+        if (val < 100) val = 100;
+        state.leads = val;
+        leadSlider.value = val;
+        updatePresetActiveState(val);
+        calculate();
+      });
+
+      presetButtons.forEach(btn => {
+        btn.addEventListener('click', function () {
+          const val = parseInt(this.getAttribute('data-value'), 10);
+          state.leads = val;
+          leadSlider.value = val;
+          leadInput.value = val;
+          updatePresetActiveState(val);
+          calculate();
+        });
+      });
+
+      function updatePresetActiveState(currentVal) {
+        presetButtons.forEach(btn => {
+          const val = parseInt(btn.getAttribute('data-value'), 10);
+          if (val === currentVal) {
+            btn.classList.add('bg-indigo-600/30', 'border', 'border-indigo-500/50', 'text-indigo-300');
+            btn.classList.remove('bg-slate-800', 'text-slate-300');
+          } else {
+            btn.classList.remove('bg-indigo-600/30', 'border', 'border-indigo-500/50', 'text-indigo-300');
+            btn.classList.add('bg-slate-800', 'text-slate-300');
+          }
+        });
+      }
+
+      // AI Model Radio
+      modelOptions.forEach(opt => {
+        opt.addEventListener('change', function () {
+          state.model = this.value;
+          document.querySelectorAll('#modelSelector .model-option').forEach(card => {
+            card.classList.remove('border-indigo-500', 'bg-indigo-950/20');
+            card.classList.add('border-slate-800', 'bg-slate-950/50');
+          });
+          const parent = this.closest('.model-option');
+          if (parent) {
+            parent.classList.add('border-indigo-500', 'bg-indigo-950/20');
+            parent.classList.remove('border-slate-800', 'bg-slate-950/50');
+          }
+          calculate();
+        });
+      });
+
+      // Scrape Method Radio
+      methodOptions.forEach(opt => {
+        opt.addEventListener('change', function () {
+          state.method = this.value;
+          document.querySelectorAll('#methodSelector .method-option').forEach(card => {
+            card.classList.remove('border-indigo-500', 'bg-indigo-950/20');
+            card.classList.add('border-slate-800', 'bg-slate-950/50');
+          });
+          const parent = this.closest('.method-option');
+          if (parent) {
+            parent.classList.add('border-indigo-500', 'bg-indigo-950/20');
+            parent.classList.remove('border-slate-800', 'bg-slate-950/50');
+          }
+          calculate();
+        });
+      });
+
+      // Advanced Settings
+      disqualifySlider.addEventListener('input', function (e) {
+        state.disqualifyRate = parseInt(e.target.value, 10);
+        disqualifyRateLabel.textContent = state.disqualifyRate + '%';
+        calculate();
+      });
+
+      outputTokensSlider.addEventListener('input', function (e) {
+        state.outputTokens = parseInt(e.target.value, 10);
+        outputTokensLabel.textContent = state.outputTokens + ' tokens';
+        calculate();
+      });
+
+      toggleAdvanced.addEventListener('click', function () {
+        const isHidden = advancedSettings.classList.toggle('hidden');
+        if (isHidden) {
+          advancedArrow.classList.remove('rotate-180');
+        } else {
+          advancedArrow.classList.add('rotate-180');
+        }
+      });
+
+      // Copy URL Button
+      copyUrlBtn.addEventListener('click', function () {
+        navigator.clipboard.writeText(WORKFLOW_URL).then(() => {
+          copyUrlText.textContent = "Copied!";
+          copyUrlBtn.classList.add('text-emerald-400', 'border-emerald-500/50');
+          setTimeout(() => {
+            copyUrlText.textContent = "Copy URL";
+            copyUrlBtn.classList.remove('text-emerald-400', 'border-emerald-500/50');
+          }, 2000);
+        }).catch(() => {
+          // Fallback
+          prompt("Copy Workflow URL:", WORKFLOW_URL);
+        });
+      });
+
+      // Initial run
+      calculate();
+    })();
+  </script>
+</body>
+</html>
