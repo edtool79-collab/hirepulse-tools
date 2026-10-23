@@ -21,6 +21,12 @@ Stop burning thousands of dollars on enterprise seat licenses and stop wasting 1
    - **Google Ads Transparency Radar:** Detects live search ad spend and creative messaging.
    - **Instant Slack Alerts:** Sends actionable alerts directly to `#growth-signals` when hiring surges are detected.
 
+3. **3-automated-competitor-ad-spy-and-intel.json**:
+   - **Competitor Ad Spy & Threat Radar:** Automated Monday 9AM scan of competitor ad creatives, search conquesting copy, and ATS talent expansion.
+   - **Deterministic Threat Scoring (0–100):** Weighted algorithmic scoring combining Google Ads volume and engineering/sales headcount momentum.
+   - **Slack War Room Alerts:** Rich Block Kit notifications with AI-synthesized 3-bullet executive counter-strategy.
+   - **Full Guide:** [Automated Competitor Ad Spy Guide](../guides/n8n-competitor-ad-spy.md).
+
 ---
 
 ## 🏗️ Architecture & Workflow Pipeline

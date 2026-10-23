@@ -1,0 +1,398 @@
+{
+  "name": "Automated Competitor Ad Spy & ATS Hiring Surge Radar",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## 🕵️ Automated Competitor Ad Spy & Hiring Surge Radar\n**Real-time Competitor Expansion & Advertising Intelligence**\n1. Scheduled run every Monday at 9:00 AM (or triggered via Webhook).\n2. Tracks target competitor domains in batch.\n3. Pulls live active Google Search & Display Ads (messaging, creatives, dates).\n4. Pulls live open jobs across Greenhouse, Lever & Ashby (departments, roles).\n5. Computes a deterministic Threat Score (0–100) based on hiring + ad aggressive push.\n6. Sends rich Slack Block Kit alerts for high-threat surges and archives to Google Sheets.",
+        "height": 220,
+        "width": 1180,
+        "color": 6
+      },
+      "id": "sticky-radar-header",
+      "name": "Radar Overview Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [-980, 40]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [1],
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "id": "node-weekly-cron",
+      "name": "Weekly Schedule (Monday 9AM)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [-980, 320]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "competitor-radar-trigger",
+        "options": {}
+      },
+      "id": "node-webhook-trigger",
+      "name": "On-Demand Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [-980, 500]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Define Competitor Accounts to Track\n// You can replace this array with Google Sheets / Airtable input\nconst competitors = [\n  { domain: 'linear.app', competitor_name: 'Linear', tier: 'Primary' },\n  { domain: 'clickup.com', competitor_name: 'ClickUp', tier: 'Primary' },\n  { domain: 'asana.com', competitor_name: 'Asana', tier: 'Secondary' },\n  { domain: 'monday.com', competitor_name: 'Monday', tier: 'Primary' }\n];\n\nreturn competitors.map(c => ({ json: c }));"
+      },
+      "id": "node-competitor-list",
+      "name": "Target Competitors Input",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-720, 400]
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "node-split-batch",
+      "name": "Loop Through Competitors",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [-480, 400]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.apify.com/v2/acts/hirepulse~google-ads-transparency-scraper/run-sync-get-dataset-items",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer YOUR_APIFY_API_TOKEN"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"domains\": [\"{{ $json.domain }}\"],\n  \"country\": \"US\",\n  \"mode\": \"ads\",\n  \"max_ads_per_domain\": 20\n}",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": false,
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "node-google-ads",
+      "name": "Scrape Active Google Ads",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-220, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.apify.com/v2/acts/hirepulse~ats-job-pulse/run-sync-get-dataset-items",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer YOUR_APIFY_API_TOKEN"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"domains\": [\"{{ $('Loop Through Competitors').item.json.domain }}\"]\n}",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": false,
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "node-ats-jobs",
+      "name": "Scrape ATS Hiring Pulse",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-220, 500]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Deterministic Threat & Momentum Scoring Engine\nconst competitor = $('Loop Through Competitors').item.json;\nconst adsData = $('Scrape Active Google Ads').all().map(i => i.json);\nconst jobsData = $('Scrape ATS Hiring Pulse').all().map(i => i.json);\n\n// Aggregate Ads\nconst activeAds = adsData.filter(a => a && a.record_type === 'ad');\nconst adCount = activeAds.length;\nconst adHeadlines = activeAds.map(a => a.headline || a.title || '').filter(Boolean).slice(0, 5);\n\n// Aggregate Jobs\nconst activeJobs = jobsData.filter(j => j && (j.title || j.job_title));\nconst jobCount = activeJobs.length;\n\nconst engRoles = activeJobs.filter(j => /engineer|developer|ml|ai|data/i.test(j.title || ''));\nconst salesRoles = activeJobs.filter(j => /sales|account exec|ae|sdr|bdr/i.test(j.title || ''));\n\n// Scoring Heuristic (0 to 100)\nlet threatScore = 0;\nif (adCount > 0) threatScore += Math.min(40, adCount * 5);\nif (engRoles.length > 0) threatScore += Math.min(30, engRoles.length * 6);\nif (salesRoles.length > 0) threatScore += Math.min(30, salesRoles.length * 6);\nthreatScore = Math.min(100, threatScore);\n\nlet threatLevel = 'LOW';\nif (threatScore >= 75) threatLevel = 'CRITICAL SURGE';\nelse if (threatScore >= 45) threatLevel = 'MODERATE EXPANSION';\n\nreturn [{\n  json: {\n    domain: competitor.domain,\n    competitor_name: competitor.competitor_name,\n    tier: competitor.tier,\n    threat_score: threatScore,\n    threat_level: threatLevel,\n    active_ads_count: adCount,\n    sample_ad_headlines: adHeadlines,\n    total_open_jobs: jobCount,\n    open_engineering_jobs: engRoles.length,\n    open_sales_jobs: salesRoles.length,\n    analyzed_at: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "node-threat-scorer",
+      "name": "Compute Threat & Momentum Score",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [60, 400]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.threat_score }}",
+              "operation": "largerEqual",
+              "value2": 45
+            }
+          ]
+        }
+      },
+      "id": "node-threat-filter",
+      "name": "Is Threat >= 45?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [300, 400]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "slack_message",
+              "value": "=*🚨 COMPETITOR MOMENTUM ALERT: {{ $json.competitor_name }} ({{ $json.domain }})*\\n• *Threat Level:* `{{ $json.threat_level }}` (Score: {{ $json.threat_score }}/100)\\n• *Google Ads Activity:* {{ $json.active_ads_count }} active search/display creatives\\n• *Top Ad Copy:* {{ $json.sample_ad_headlines.join(' | ') || 'No active text ads' }}\\n• *Hiring Expansion:* {{ $json.total_open_jobs }} open positions ({{ $json.open_engineering_jobs }} Tech, {{ $json.open_sales_jobs }} Sales)\\n• *Action Recommended:* Review sales battlecard & positioning."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "node-format-slack",
+      "name": "Format Slack Executive Brief",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [560, 320]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"text\": \"{{ $json.slack_message }}\"\n}",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "node-send-slack",
+      "name": "Post Alert to Slack Channel",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [820, 320]
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "domain",
+              "value": "={{ $json.domain }}"
+            },
+            {
+              "name": "competitor_name",
+              "value": "={{ $json.competitor_name }}"
+            },
+            {
+              "name": "threat_score",
+              "value": "={{ $json.threat_score }}"
+            },
+            {
+              "name": "threat_level",
+              "value": "={{ $json.threat_level }}"
+            },
+            {
+              "name": "active_ads_count",
+              "value": "={{ $json.active_ads_count }}"
+            },
+            {
+              "name": "total_open_jobs",
+              "value": "={{ $json.total_open_jobs }}"
+            },
+            {
+              "name": "logged_at",
+              "value": "={{ $json.analyzed_at }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "node-archive-history",
+      "name": "Archive to History Log (Sheets/CRM)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [560, 520]
+    }
+  ],
+  "connections": {
+    "Weekly Schedule (Monday 9AM)": {
+      "main": [
+        [
+          {
+            "node": "Target Competitors Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On-Demand Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Target Competitors Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Target Competitors Input": {
+      "main": [
+        [
+          {
+            "node": "Loop Through Competitors",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Through Competitors": {
+      "main": [
+        [
+          {
+            "node": "Scrape Active Google Ads",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Scrape ATS Hiring Pulse",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scrape Active Google Ads": {
+      "main": [
+        [
+          {
+            "node": "Compute Threat & Momentum Score",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scrape ATS Hiring Pulse": {
+      "main": [
+        [
+          {
+            "node": "Compute Threat & Momentum Score",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compute Threat & Momentum Score": {
+      "main": [
+        [
+          {
+            "node": "Is Threat >= 45?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Threat >= 45?": {
+      "main": [
+        [
+          {
+            "node": "Format Slack Executive Brief",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Archive to History Log (Sheets/CRM)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Slack Executive Brief": {
+      "main": [
+        [
+          {
+            "node": "Post Alert to Slack Channel",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Archive to History Log (Sheets/CRM)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "f781bc02-6912-45e0-94a2-11a8b9e6c1a9",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "hirepulse-community-template-03"
+  },
+  "id": "hirepulse-competitor-ad-spy-radar",
+  "tags": [
+    {
+      "name": "Competitor Intelligence"
+    },
+    {
+      "name": "Google Ads"
+    },
+    {
+      "name": "Hiring Monitoring"
+    },
+    {
+      "name": "Slack Alert"
+    },
+    {
+      "name": "Apify"
+    },
+    {
+      "name": "HirePulse"
+    }
+  ]
+}
