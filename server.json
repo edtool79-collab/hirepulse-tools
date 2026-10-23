@@ -1,18 +1,18 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.edtool79-collab/hirepulse-tools",
-  "description": "Jobs, ads, SEO, keywords, YouTube and AliExpress data for AI agents. Runs on Apify.",
-  "title": "HirePulse: Jobs, Ads, SEO, YouTube & AliExpress Data Tools",
+  "description": "15 Apify Actors for company data, jobs, public website signals, captions and AI readiness.",
+  "title": "HirePulse: Public Company Data, Jobs, Website Signals & AI Readiness",
   "repository": {
     "url": "https://github.com/edtool79-collab/hirepulse-tools",
     "source": "github"
   },
-  "version": "1.1.0",
+  "version": "1.1.1",
   "websiteUrl": "https://github.com/edtool79-collab/hirepulse-tools",
   "remotes": [
     {
       "type": "streamable-http",
-      "url": "https://mcp.apify.com?tools=hirepulse/aliexpress-search-scraper,hirepulse/google-ads-transparency-scraper,hirepulse/company-intent-radar,hirepulse/google-jobs-scraper,hirepulse/ats-job-pulse,hirepulse/keyword-search-volume,hirepulse/domain-seo-overview,hirepulse/youtube-transcript-scraper",
+      "url": "https://mcp.apify.com?tools=hirepulse/ats-detector,hirepulse/ats-job-pulse,hirepulse/google-jobs-scraper,hirepulse/b2b-account-research-agent,hirepulse/company-intent-radar,hirepulse/website-tech-stack-detector,hirepulse/company-contact-details-finder,hirepulse/google-ads-transparency-scraper,hirepulse/domain-seo-overview,hirepulse/keyword-search-volume,hirepulse/aliexpress-search-scraper,hirepulse/youtube-transcript-scraper,hirepulse/mcp-x402-server-grader,hirepulse/ai-search-brand-visibility-radar,hirepulse/shopify-to-llms-generator",
       "headers": [
         {
           "description": "Apify authentication: Bearer followed by your Apify token; OAuth-capable clients can obtain this token through Apify sign-in.",
