@@ -1,0 +1,108 @@
+{
+  "name": "Deterministic B2B Lead Intent Pre-Filter & Enrichment (HirePulse)",
+  "description": "Zero-waste B2B lead enrichment: Enriches domains via HirePulse Apify API (Tech Stack, Hiring Intent, Ads), pre-filters deterministically (saving 97.6% LLM tokens), and personalizes outreach with OpenAI gpt-4o-mini.",
+  "tags": ["b2b", "sales", "hirepulse", "openai", "crm", "enrichment"],
+  "pieces": ["@activepieces/piece-google-sheets", "@activepieces/piece-http", "@activepieces/piece-openai"],
+  "template": {
+    "displayName": "B2B Intent Pre-Filter & Enrichment",
+    "trigger": {
+      "name": "trigger_lead_input",
+      "displayName": "New Lead in Google Sheet",
+      "type": "PIECE_TRIGGER",
+      "settings": {
+        "pieceName": "@activepieces/piece-google-sheets",
+        "pieceVersion": "~0.5.0",
+        "triggerName": "new_row",
+        "input": {}
+      },
+      "nextAction": {
+        "name": "step_hirepulse_enrichment",
+        "displayName": "HirePulse Unified B2B Enrichment",
+        "type": "PIECE",
+        "settings": {
+          "pieceName": "@activepieces/piece-http",
+          "pieceVersion": "~0.4.0",
+          "actionName": "send_request",
+          "input": {
+            "method": "POST",
+            "url": "https://api.apify.com/v2/acts/hirepulse~b2b-account-research-agent/run-sync-get-dataset-items",
+            "headers": {
+              "Authorization": "Bearer {{connections.apify_token}}",
+              "Content-Type": "application/json"
+            },
+            "body": {
+              "domain": "{{trigger_lead_input.domain}}",
+              "companyName": "{{trigger_lead_input.company_name}}",
+              "includeHiring": true,
+              "includeTechStack": true,
+              "includeGoogleAds": true
+            }
+          }
+        },
+        "nextAction": {
+          "name": "step_branch_qualification",
+          "displayName": "Is Qualified High-Intent Lead?",
+          "type": "BRANCH",
+          "settings": {
+            "conditions": [
+              [
+                {
+                  "firstValue": "{{step_hirepulse_enrichment.body[0].hiring_intent.active_count}}",
+                  "operator": "GREATER_THAN",
+                  "secondValue": "0"
+                }
+              ]
+            ]
+          },
+          "onSuccessAction": {
+            "name": "step_openai_personalizer",
+            "displayName": "Generate 3-Sentence Hook (OpenAI)",
+            "type": "PIECE",
+            "settings": {
+              "pieceName": "@activepieces/piece-openai",
+              "pieceVersion": "~0.4.0",
+              "actionName": "ask_chatgpt",
+              "input": {
+                "model": "gpt-4o-mini",
+                "temperature": 0.3,
+                "prompt": "Write a 3-sentence personalized B2B cold email to {{trigger_lead_input.contact_name}} at {{trigger_lead_input.domain}} based on verified tech ({{step_hirepulse_enrichment.body[0].tech_stack}}) and hiring for {{step_hirepulse_enrichment.body[0].hiring_intent.open_roles}}."
+              }
+            },
+            "nextAction": {
+              "name": "step_sync_crm",
+              "displayName": "Sync to Google Sheets / CRM",
+              "type": "PIECE",
+              "settings": {
+                "pieceName": "@activepieces/piece-google-sheets",
+                "pieceVersion": "~0.5.0",
+                "actionName": "insert_row",
+                "input": {
+                  "domain": "{{trigger_lead_input.domain}}",
+                  "status": "QUALIFIED_READY",
+                  "hook": "{{step_openai_personalizer.text}}"
+                }
+              },
+              "nextAction": null
+            }
+          },
+          "onFailureAction": {
+            "name": "step_dead_lead_log",
+            "displayName": "Log Disqualified Lead ($0 AI Cost)",
+            "type": "PIECE",
+            "settings": {
+              "pieceName": "@activepieces/piece-google-sheets",
+              "pieceVersion": "~0.5.0",
+              "actionName": "insert_row",
+              "input": {
+                "domain": "{{trigger_lead_input.domain}}",
+                "status": "DISQUALIFIED_STAGNANT",
+                "recheck": "90_DAYS"
+              }
+            },
+            "nextAction": null
+          }
+        }
+      }
+    }
+  }
+}

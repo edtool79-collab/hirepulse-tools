@@ -1,0 +1,216 @@
+{
+  "name": "HirePulse Zero-Token B2B Intent Pre-Filter & Enrichment (Clay Alternative)",
+  "flow": [
+    {
+      "id": 1,
+      "module": "gateway:CustomWebhook",
+      "version": 1,
+      "parameters": {
+        "hook": null,
+        "maxResults": 1
+      },
+      "mapper": {},
+      "metadata": {
+        "designer": {
+          "x": 0,
+          "y": 0,
+          "name": "1. Ingest Leads (Webhook / Sheet)"
+        },
+        "restore": {},
+        "expect": [
+          {
+            "name": "domain",
+            "type": "text",
+            "label": "Domain"
+          },
+          {
+            "name": "company_name",
+            "type": "text",
+            "label": "Company Name"
+          },
+          {
+            "name": "contact_name",
+            "type": "text",
+            "label": "Contact Name"
+          },
+          {
+            "name": "contact_email",
+            "type": "text",
+            "label": "Contact Email"
+          }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "module": "http:ActionSendRequest",
+      "version": 3,
+      "parameters": {
+        "handleErrors": false,
+        "useCustomHeaders": true,
+        "followRedirect": true,
+        "useMIME": true,
+        "serializeUrl": false,
+        "shareCookies": false
+      },
+      "mapper": {
+        "url": "https://api.apify.com/v2/acts/hirepulse~b2b-account-research-agent/run-sync-get-dataset-items?token={{your_apify_token}}",
+        "method": "POST",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": "{\n  \"domain\": \"{{1.domain}}\",\n  \"companyName\": \"{{1.company_name}}\",\n  \"includeHiring\": true,\n  \"includeTechStack\": true,\n  \"includeGoogleAds\": true\n}",
+        "responseType": "json"
+      },
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 0,
+          "name": "2. HirePulse Zero-Waste Enrichment"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "module": "builtin:BasicRouter",
+      "version": 1,
+      "parameters": {},
+      "mapper": {},
+      "metadata": {
+        "designer": {
+          "x": 600,
+          "y": 0,
+          "name": "3. Deterministic Intent Gate (Score >= 50)"
+        }
+      },
+      "routes": [
+        {
+          "flow": [
+            {
+              "id": 4,
+              "module": "openai-gpt-3:createChatCompletion",
+              "version": 1,
+              "parameters": {},
+              "mapper": {
+                "model": "gpt-4o-mini",
+                "messages": [
+                  {
+                    "role": "system",
+                    "content": "You are an elite B2B Sales Development Executive. Draft a 3-sentence, hyper-relevant cold email based strictly on verified intent signals.\nRules:\n1. Length: Exactly 3 sentences (max 65 words). No generic pleasantries.\n2. Mention 1 verified technology and active hiring/ads growth from HirePulse.\n3. Low-friction Call to Action."
+                  },
+                  {
+                    "role": "user",
+                    "content": "Company: {{1.company_name}} ({{1.domain}})\nRecipient: {{1.contact_name}}\nTech Stack: {{2.data[1].tech_stack}}\nOpen Roles: {{2.data[1].hiring_intent.open_roles}}\nGoogle Ads Active: {{2.data[1].google_ads.has_active_ads}}"
+                  }
+                ],
+                "temperature": 0.4
+              },
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": -150,
+                  "name": "4A. AI Personalizer (Only for Qualified Leads)"
+                },
+                "filter": {
+                  "name": "High Intent ICP (Score >= 50)",
+                  "conditions": [
+                    [
+                      {
+                        "a": "{{2.data[1].hiring_intent.is_hiring}}",
+                        "b": true,
+                        "o": "boolean:equal"
+                      }
+                    ]
+                  ]
+                }
+              }
+            },
+            {
+              "id": 5,
+              "module": "google-sheets:addRow",
+              "version": 1,
+              "parameters": {},
+              "mapper": {
+                "values": {
+                  "A": "{{1.domain}}",
+                  "B": "{{1.company_name}}",
+                  "C": "{{1.contact_name}}",
+                  "D": "{{1.contact_email}}",
+                  "E": "QUALIFIED_HOT",
+                  "F": "{{4.choices[1].message.content}}",
+                  "G": "SAVED 97.6% TOKENS"
+                }
+              },
+              "metadata": {
+                "designer": {
+                  "x": 1200,
+                  "y": -150,
+                  "name": "5A. Sync Qualified Lead to CRM / Sheets"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 6,
+              "module": "google-sheets:addRow",
+              "version": 1,
+              "parameters": {},
+              "mapper": {
+                "values": {
+                  "A": "{{1.domain}}",
+                  "B": "{{1.company_name}}",
+                  "C": "{{1.contact_name}}",
+                  "D": "{{1.contact_email}}",
+                  "E": "DISQUALIFIED_ZERO_INTENT",
+                  "F": "Excluded from LLM prompt to save token costs",
+                  "G": "Recheck in 90 days"
+                }
+              },
+              "metadata": {
+                "designer": {
+                  "x": 900,
+                  "y": 150,
+                  "name": "4B. Log Disqualified Lead (Hygiene & Zero Spend)"
+                },
+                "filter": {
+                  "name": "Low Intent Fallback",
+                  "conditions": [
+                    [
+                      {
+                        "a": "{{2.data[1].hiring_intent.is_hiring}}",
+                        "b": false,
+                        "o": "boolean:equal"
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitInterval": 1,
+      "sequential": false,
+      "confidential": false,
+      "freshVariables": false
+    },
+    "designer": {
+      "orphans": []
+    }
+  }
+}

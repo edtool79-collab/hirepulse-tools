@@ -88,3 +88,20 @@ Check out our pre-built, production-ready n8n workflows in the [`/n8n`](./n8n) d
 🧮 **[Interactive n8n AI Token Bleed ROI Calculator](./calculator.html)**: Calculate exact token waste and monthly dollar savings vs. raw scraping.  
 📚 **[Cheaper Clay Alternative Guide: $6.15 vs. $200 per 1k leads](./guides/n8n-clay-alternative-cheaper.md)**  
 📚 **[Zero-Token B2B Lead Enrichment Benchmark](./guides/zero-token-b2b-lead-enrichment.md)**
+
+
+## 🧩 Make.com & Activepieces Suites (Clay Alternative)
+
+Build enterprise-grade B2B outbound workflows on Make.com or self-hosted Activepieces for 96% less than Clay or Apollo:
+- **Make.com Scenario Blueprint:** [/make/b2b-intent-prefilter-blueprint.json](./make/b2b-intent-prefilter-blueprint.json)
+- **Make.com Setup Guide:** [How to Build a Clay Alternative in Make.com for 90% Less Cost](./guides/make-clay-alternative-cheaper.md)
+- **Activepieces Flow:** [/activepieces/b2b-intent-prefilter-flow.json](./activepieces/b2b-intent-prefilter-flow.json)
+
+## 📊 Industry Reports & Research Studies
+
+- **[Empirical Study: 500 AI Startups Tech Stacks & Hiring Trends](./guides/viral-data-study-500-startups.md)**: Discover why 34.5% of ad-spending AI startups have 0 open engineering positions, and how deterministic multi-signal extraction saved 96.7% in research data costs.
+
+## 🤖 AI Registries & Ecosystem Directories
+
+- **[MCP & AI Agent Directory Submission Pack](./docs/AI_REGISTRIES_SUBMISSION_PACK.md)**: Ready-to-use profiles and streamable HTTP manifests for Smithery.ai, Glama.ai, PulseMCP, TAAFT, and Futurepedia.
+- **[Apify Store SEO & Keyword Strategy](./docs/APIFY_STORE_SEO_KEYWORD_PLAN.md)**: Master keyword matrix and ranking guide for all 15 Actors and 80 Tasks.
