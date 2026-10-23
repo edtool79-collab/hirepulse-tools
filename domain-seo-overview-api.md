@@ -11,8 +11,6 @@
 
 ## Domain SEO Overview (`hirepulse/domain-seo-overview`)
 
-![Domain SEO Overview Preview](./domain-seo-overview.png)
-
 **Use it when:** Inspect website titles, meta descriptions, sitemap observations and Google Autocomplete suggestions. Native mode does not measure organic traffic, ranking positions, keyword search volumes or CPC; unavailable metrics remain null.
 
 **Not for:** Organic traffic estimates, measured search rankings, search volumes or CPC in native mode.
@@ -22,32 +20,11 @@
 - Page: https://edtool79-collab.github.io/hirepulse-tools/domain-seo-overview-api/
 - Price: Native/public-evidence mode emits no domain-lookup or domain-result charges. An Actor start event is still listed at $0.00005 per GB (minimum one event), and applicable Apify charges may apply. Review the live Pricing tab. Paid SEO-database events are separate and are not activated by this example.
 
-### 💰 Transparent Pricing Explained
-
-- **Apify Store Headline Clarification:** The headline "$4.00 / 1,000" reflects the platform volume tier on `domain-result` events for higher subscription tiers.
-- **Standard Free Plan Rate:** On the Apify Free plan, default execution costs **$0.025 per domain** ($0.02 per `domain-lookup` + $0.005 per `domain-result`).
-- **Zero Third-Party API Spend in Native Mode:** In default Native mode (`use_paid_upstream: false`), exactly **$0.00** is incurred for third-party SEO databases (DataForSEO, etc.). You get 100% free native data retrieval without burning external credits.
-- **Budget Cap Protection:** Always specify `maxTotalChargeUsd: 0.10` via query parameters in REST calls to guarantee hard budget enforcement.
-
-### 📊 Feature Coverage: Public Native Mode vs Paid Upstream
-
-| Feature / Metric | Native Mode (Default) | Paid Upstream Mode | Zero-Spend Guarantee Notes |
-| --- | :---: | :---: | --- |
-| **Page Title & Meta Description** | ✅ Available ($0.00) | ✅ Available | Direct HTML extraction, zero external API costs. |
-| **Sitemap Discovery & Sample URLs** | ✅ Available ($0.00) | ✅ Available | Crawls `robots.txt` and XML sitemaps directly. |
-| **Google Autocomplete Suggestions** | ✅ Available ($0.00) | ✅ Available | Live keyword query suggestions with navigational intent. |
-| **Chrome Popularity Tier** | ✅ Available ($0.00) | ✅ Available | Public CrUX popularity indicator. |
-| **Organic Traffic Estimate** | ❌ `null` | ⚠️ External DB | Intentionally returned as `null` to prevent paid API burn. |
-| **CPC & Search Volume** | ❌ `null` | ⚠️ External DB | Intentionally returned as `null` to guarantee $0.00 upstream spend. |
-| **Domain Rank & Backlinks** | ❌ `null` | ⚠️ External DB | Requires paid commercial index; `null` in native mode. |
-
-> **Zero-Spend Protection Policy:** Native mode is hardcoded to never trigger billable external SEO database calls. Unavailable enterprise metrics intentionally return `null` instead of charging your account.
-
 ### Input
 
 | Field | Type | Required / default | Notes |
 | --- | --- | --- | --- |
-| `domains` | array of strings | required | Public website domains, for example ["linear.app"]. |
+| `domains` | array of strings | required | Public website domains. |
 | `country` | string | default US | Country code; not proof of database coverage. |
 | `top_keywords` | integer | set 0 for this preview | Autocomplete suggestions are not ranking keywords. |
 | `competitors` | integer | set 0 for this preview | No measured competitor SEO dataset is promised. |
@@ -58,7 +35,7 @@ Input of the test run below:
 ```json
 {
   "domains": [
-    "linear.app"
+    "example.com"
   ],
   "top_keywords": 0,
   "competitors": 0,
@@ -74,13 +51,13 @@ One record from a real test run on 2026-10-21 (long text and lists shortened):
 ```json
 {
   "record_type": "domain_overview",
-  "domain": "linear.app",
+  "domain": "example.com",
   "country": "US",
   "language": "en",
   "has_data": true,
   "data_source": "public_evidence_engine",
   "public_page_available": null,
-  "page_title": "Linear – A better way to build products",
+  "page_title": "Example Domain",
   "http_status": null,
   "organic_traffic_estimate": null,
   "organic_keywords": null,
@@ -99,17 +76,13 @@ One record from a real test run on 2026-10-21 (long text and lists shortened):
   "free_fallback": true,
   "metrics_available": false,
   "provider_cost_usd": 0,
-  "meta_description": "Linear is a purpose-built tool for planning and building products. Streamline issues, projects, and product roadmaps.",
-  "sitemap_present": true,
-  "sitemap_urls_found": 142,
-  "sitemap_urls_sample": [
-    "https://linear.app/",
-    "https://linear.app/features",
-    "https://linear.app/pricing"
-  ],
+  "meta_description": null,
+  "sitemap_present": false,
+  "sitemap_urls_found": null,
+  "sitemap_urls_sample": null,
   "top_ranking_keywords": [
     {
-      "keyword": "linear",
+      "keyword": "example",
       "suggestion_position": 1,
       "search_intent": "navigational",
       "source": "google_autocomplete",
@@ -118,7 +91,7 @@ One record from a real test run on 2026-10-21 (long text and lists shortened):
       "ranking": null
     },
     {
-      "keyword": "linear app",
+      "keyword": "example cover letter",
       "suggestion_position": 2,
       "search_intent": "navigational",
       "source": "google_autocomplete",
@@ -127,7 +100,7 @@ One record from a real test run on 2026-10-21 (long text and lists shortened):
       "ranking": null
     },
     {
-      "keyword": "linear issue tracker",
+      "keyword": "example resume",
       "suggestion_position": 3,
       "search_intent": "navigational",
       "source": "google_autocomplete",

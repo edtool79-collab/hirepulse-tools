@@ -845,26 +845,3 @@ Selected fields of one record from a real test run:
   "status": "ready"
 }
 ```
-
-
-## Technical Guide: Cheaper Clay Alternative with n8n and HirePulse (`guides/n8n-clay-alternative-cheaper.md`)
-
-How to replace expensive seat licenses ($149–$800/mo) and credit waterfalls on Clay and Apollo with self-hosted n8n and HirePulse pay-per-result Actors.
-
-- **Guide URL:** https://edtool79-collab.github.io/hirepulse-tools/guides/n8n-clay-alternative-cheaper.md
-- **Target Actor:** `hirepulse/b2b-account-research-agent`
-- **Cost Benchmark for 1,000 Leads:**
-  - Clay (Pro/Enterprise): ~$200.00 – $250.00
-  - Apollo.io: ~$180.00
-  - Raw HTML Scraper + GPT-4o: ~$65.00
-  - **HirePulse + n8n Suite: $6.15** (Enrichment: $6.08, Deterministic Filter: $0.00, LLM: $0.043).
-- **Core Strategy:** Deterministic JavaScript ICP Pre-Filter drops 60–80% of unqualified accounts before calling AI, reducing LLM context tokens by 97.6%.
-
-## Technical Guide: Zero-Token B2B Lead Enrichment (`guides/zero-token-b2b-lead-enrichment.md`)
-
-Empirical study and architectural pattern solving LLM context window bleed in autonomous agent pipelines.
-
-- **Guide URL:** https://edtool79-collab.github.io/hirepulse-tools/guides/zero-token-b2b-lead-enrichment.md
-- **The Metric:** Raw HTML DOM (212,480 tokens) vs. HirePulse Compact JSON (188 tokens).
-- **Token Reduction:** **99.91% prompt token savings** (18x faster latency: 0.4s vs 9.4s).
-- **Payload Schema:** Returns structured `tech_stack`, verified `ats` job counts, and `google_ads` signals with zero HTML/CSS DOM overhead.

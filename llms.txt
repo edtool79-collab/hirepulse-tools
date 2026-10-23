@@ -58,11 +58,3 @@ One SKILL.md per tool (when to use it, what it returns, its limits, its price): 
 
 ## Apify Tasks
 80 published task presets: https://edtool79-collab.github.io/hirepulse-tools/tasks-directory.md (human) and https://edtool79-collab.github.io/hirepulse-tools/apify-tasks-llms.txt (machine index).
-
-
-## Technical Guides & Architecture Blueprints
-
-- [Cheaper Clay Alternative: n8n + HirePulse B2B Enrichment](guides/n8n-clay-alternative-cheaper.md): Complete guide on replacing $200/mo Clay/Apollo subscriptions with self-hosted n8n and HirePulse Apify Actors ($6.15 per 1,000 leads, 96.9% cost reduction).
-- [Zero-Token B2B Lead Enrichment: Solving LLM Token Bleed](guides/zero-token-b2b-lead-enrichment.md): Empirical benchmark comparing 212,000 raw HTML DOM tokens vs 188 compact structured JSON tokens (99.91% token reduction) in AI agent pipelines.
-- [n8n AI Token Bleed ROI Calculator](calculator.html): Interactive calculator measuring token waste and monthly cost reduction.
-- [n8n Workflow Automation Suite](n8n/README.md): Pre-built importable workflows for zero-waste B2B lead enrichment, deterministic ICP filtering, and competitor hiring/ads monitoring.
