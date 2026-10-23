@@ -53,6 +53,8 @@ One SKILL.md per tool (when to use it, what it returns, its limits, its price): 
 ## Guides
 
 - [Give your AI agent live data with MCP](https://edtool79-collab.github.io/hirepulse-tools/guides/ai-agent-live-data-mcp/)
+- [Audit an MCP server: tool schemas, token efficiency and x402 evidence](https://edtool79-collab.github.io/hirepulse-tools/guides/audit-mcp-server-tools/)
+- [Website tech stack API: detect CMS, frameworks and pixels in Python](https://edtool79-collab.github.io/hirepulse-tools/guides/website-tech-stack-python/)
 - [All guides](https://edtool79-collab.github.io/hirepulse-tools/guides/)
 - [Weekly tech hiring report](https://edtool79-collab.github.io/hirepulse-tools/hiring-report/)
 
