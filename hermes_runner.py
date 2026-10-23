@@ -1,15 +1,22 @@
 #!/usr/bin/env python3
 """
-HERMES AUTONOMOUS GROWTH RUNNER (Gemini Free Tier Engine)
----------------------------------------------------------
+HERMES AUTONOMOUS GROWTH RUNNER (Model-Agnostic Engine)
+------------------------------------------------------
 Autonomously generates, verifies, and deploys high-impact developer guides
 for https://edtool79-collab.github.io/hirepulse-tools/
+
+Supports ANY language model via:
+1. Standard OpenAI-compatible API (OpenAI, OpenRouter, DeepSeek, Groq, Ollama, vLLM)
+   Configured via: LLM_API_KEY / OPENAI_API_KEY, LLM_BASE_URL / OPENAI_BASE_URL, LLM_MODEL / OPENAI_MODEL
+2. Google Gemini REST API
+   Configured via: GEMINI_API_KEY, GEMINI_MODEL
 
 Usage:
   python hermes_runner.py --once
   python hermes_runner.py --topic "custom topic" --tool "ats-jobs-api"
   python hermes_runner.py --cron-loop 6
   python hermes_runner.py --status
+  python hermes_runner.py --dry-run
 """
 
 import os
@@ -19,6 +26,8 @@ import time
 import shutil
 import argparse
 import subprocess
+import urllib.request
+import urllib.error
 from pathlib import Path
 from datetime import datetime
 
@@ -35,11 +44,6 @@ GUIDES_DATA_PATH = ASTRO_DIR / "src" / "data" / "guides.json"
 GUIDES_CONTENT_DIR = ASTRO_DIR / "src" / "content" / "guides"
 LLMS_TXT_PATH = ASTRO_DIR / "public" / "llms.txt"
 STATE_FILE = ASTRO_DIR / "hermes_state.json"
-
-# Gemini API Endpoint (Free Tier via Google AI Studio)
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
-GEMINI_MODEL = "gemini-2.5-flash"
-GEMINI_ENDPOINT = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent"
 
 # High-Intent Curated Topic Ideas Pool
 PREVETTED_TOPIC_QUEUE = [
@@ -123,7 +127,7 @@ Strict Requirements:
 5. Headings must be level 2 (##) to support the sidebar TOC.
 6. Provide a verified cURL request and a complete, production-ready Python script using apify-client.
 7. Include explicit, honest technical limitations matching HirePulse catalog standards.
-8. Do NOT wrap JSON in backticks if possible, return raw JSON string."""
+8. Do NOT wrap JSON in markdown backticks if possible, return raw parseable JSON string."""
 
 def load_state():
     if STATE_FILE.exists():
@@ -136,33 +140,94 @@ def load_state():
 def save_state(state):
     STATE_FILE.write_text(json.dumps(state, indent=2, ensure_ascii=False), encoding="utf-8")
 
-def call_gemini(prompt: str) -> str:
-    import urllib.request
-    import urllib.error
+class ModelClient:
+    """Model-agnostic LLM caller supporting OpenAI-compatible and Gemini APIs."""
+    def __init__(self, model=None, api_key=None, api_base=None):
+        self.api_key = api_key or os.environ.get("LLM_API_KEY") or os.environ.get("OPENAI_API_KEY") or os.environ.get("GEMINI_API_KEY")
+        self.api_base = api_base or os.environ.get("LLM_BASE_URL") or os.environ.get("OPENAI_BASE_URL")
+        self.model = model or os.environ.get("LLM_MODEL") or os.environ.get("OPENAI_MODEL") or os.environ.get("GEMINI_MODEL")
 
-    if not GEMINI_API_KEY:
-        raise ValueError("GEMINI_API_KEY environment variable is not set. Get a free key at https://aistudio.google.com/")
+        # Auto-detect mode
+        if not self.api_base and os.environ.get("GEMINI_API_KEY") and not os.environ.get("OPENAI_API_KEY"):
+            self.mode = "gemini"
+            if not self.model:
+                self.model = "gemini-2.0-flash"
+        else:
+            self.mode = "openai_compatible"
+            if not self.api_base:
+                self.api_base = "https://api.openai.com/v1"
+            if not self.model:
+                self.model = "gpt-4o-mini"
 
-    url = f"{GEMINI_ENDPOINT}?key={GEMINI_API_KEY}"
-    headers = {"Content-Type": "application/json"}
-    payload = {
-        "contents": [
-            {"role": "user", "parts": [{"text": f"{SYSTEM_PROMPT}\n\nTask: {prompt}"}]}
-        ],
-        "generationConfig": {
-            "temperature": 0.2,
-            "responseMimeType": "application/json"
+    def generate(self, user_prompt: str) -> str:
+        if not self.api_key:
+            raise ValueError(
+                "No API Key found! Set LLM_API_KEY, OPENAI_API_KEY, or GEMINI_API_KEY in your environment, "
+                "or pass --api-key <key> on the command line."
+            )
+
+        if self.mode == "gemini":
+            return self._call_gemini(user_prompt)
+        return self._call_openai_compatible(user_prompt)
+
+    def _call_openai_compatible(self, user_prompt: str) -> str:
+        endpoint = f"{self.api_base.rstrip('/')}/chat/completions"
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {self.api_key}"
         }
-    }
+        if "openrouter.ai" in endpoint:
+            headers["HTTP-Referer"] = "https://edtool79-collab.github.io/hirepulse-tools/"
+            headers["X-Title"] = "Hermes Growth Agent"
 
-    req = urllib.request.Request(url, data=json.dumps(payload).encode("utf-8"), headers=headers, method="POST")
-    try:
-        with urllib.request.urlopen(req, timeout=90) as response:
-            res_data = json.loads(response.read().decode("utf-8"))
-            return res_data["candidates"][0]["content"]["parts"][0]["text"]
-    except urllib.error.HTTPError as e:
-        err_msg = e.read().decode("utf-8")
-        raise RuntimeError(f"Gemini API HTTP Error {e.code}: {err_msg}")
+        payload = {
+            "model": self.model,
+            "messages": [
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": f"Task: {user_prompt}"}
+            ],
+            "temperature": 0.2
+        }
+
+        req = urllib.request.Request(
+            endpoint,
+            data=json.dumps(payload).encode("utf-8"),
+            headers=headers,
+            method="POST"
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=120) as response:
+                res_data = json.loads(response.read().decode("utf-8"))
+                return res_data["choices"][0]["message"]["content"]
+        except urllib.error.HTTPError as e:
+            err_msg = e.read().decode("utf-8")
+            raise RuntimeError(f"OpenAI-Compatible API HTTP Error {e.code}: {err_msg}")
+
+    def _call_gemini(self, user_prompt: str) -> str:
+        endpoint = f"https://generativelanguage.googleapis.com/v1beta/models/{self.model}:generateContent?key={self.api_key}"
+        headers = {"Content-Type": "application/json"}
+        payload = {
+            "contents": [
+                {"role": "user", "parts": [{"text": f"{SYSTEM_PROMPT}\n\nTask: {user_prompt}"}]}
+            ],
+            "generationConfig": {
+                "temperature": 0.2,
+                "responseMimeType": "application/json"
+            }
+        }
+        req = urllib.request.Request(
+            endpoint,
+            data=json.dumps(payload).encode("utf-8"),
+            headers=headers,
+            method="POST"
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=120) as response:
+                res_data = json.loads(response.read().decode("utf-8"))
+                return res_data["candidates"][0]["content"]["parts"][0]["text"]
+        except urllib.error.HTTPError as e:
+            err_msg = e.read().decode("utf-8")
+            raise RuntimeError(f"Gemini API HTTP Error {e.code}: {err_msg}")
 
 def run_cmd(cmd, cwd=None):
     res = subprocess.run(cmd, cwd=cwd, shell=True, capture_output=True, text=True)
@@ -170,7 +235,7 @@ def run_cmd(cmd, cwd=None):
 
 def build_and_verify():
     print(f"[*] Running verification build in {ASTRO_DIR}...")
-    code, out, err = run_cmd("npm run build", cwd=ASTRO_DIR)
+    code, out, err = run_cmd("cmd /c npm run build", cwd=ASTRO_DIR)
     if code != 0:
         print("[!] Build failed!")
         print(err or out)
@@ -184,15 +249,8 @@ def sync_and_publish(slug, title):
     if not dist_dir.exists():
         raise FileNotFoundError(f"Dist dir {dist_dir} does not exist.")
 
-    # Copy dist to static repo
-    for item in dist_dir.iterdir():
-        dest = SITE_REPO_DIR / item.name
-        if item.is_dir():
-            if dest.exists():
-                shutil.rmtree(dest)
-            shutil.copytree(item, dest)
-        else:
-            shutil.copy2(item, dest)
+    # Copy dist to static repo excluding .git
+    run_cmd(f'robocopy "{dist_dir}" "{SITE_REPO_DIR}" /E /XD .git /R:1 /W:1')
 
     print("[*] Staging git changes in distribution repo...")
     run_cmd("git add .", cwd=SITE_REPO_DIR)
@@ -210,7 +268,6 @@ def sync_and_publish(slug, title):
     ping_indexnow(slug)
 
 def ping_indexnow(slug):
-    import urllib.request
     canonical_url = f"https://edtool79-collab.github.io/hirepulse-tools/guides/{slug}/"
     print(f"[*] Pinging IndexNow for {canonical_url}...")
     payload = {
@@ -231,31 +288,32 @@ def ping_indexnow(slug):
     except Exception as e:
         print(f"[-] IndexNow ping non-fatal notice: {e}")
 
-def execute_generation_cycle(topic_spec=None):
+def execute_generation_cycle(topic_spec=None, client=None, dry_run=False):
+    if client is None:
+        client = ModelClient()
+
     state = load_state()
     published = set(state.get("published_slugs", []))
 
     if not topic_spec:
-        # Pick next unpublished topic
         for candidate in PREVETTED_TOPIC_QUEUE:
             if candidate["slug"] not in published:
                 topic_spec = candidate
                 break
 
     if not topic_spec:
-        print("[*] All pre-vetted topics have been published! You can provide a custom topic with --topic.")
-        return
+        print("[*] All pre-vetted topics have been published! Provide a custom topic with --topic.")
+        return False
 
     slug = topic_spec["slug"]
     print(f"\n=======================================================")
-    print(f"[*] Starting Hermes Growth Cycle for: {slug}")
+    print(f"[*] Starting Hermes Growth Cycle: {slug}")
     print(f"[*] Tool: {topic_spec['tool']} | Category: {topic_spec['category']}")
+    print(f"[*] Model Engine: {client.model} ({client.mode})")
     print(f"=======================================================\n")
 
-    # Read existing guides.json
     guides_json = json.loads(GUIDES_DATA_PATH.read_text(encoding="utf-8"))
     
-    # Prompt Gemini
     prompt = f"""Create a technical guide for:
 Title: {topic_spec['title']}
 Slug: {slug}
@@ -264,13 +322,12 @@ Category: {topic_spec['category']}
 Meta Description: {topic_spec['description']}
 Related: {json.dumps(topic_spec.get('related', []))}
 """
-    print("[*] Querying Google Gemini (Free Tier)...")
-    raw_response = call_gemini(prompt)
+    print("[*] Requesting completion from LLM...")
+    raw_response = client.generate(prompt)
 
     try:
         data = json.loads(raw_response)
     except Exception:
-        # Strip potential markdown codefence
         clean_text = raw_response.strip().removeprefix("```json").removeprefix("```").removesuffix("```").strip()
         data = json.loads(clean_text)
 
@@ -294,11 +351,19 @@ Related: {json.dumps(topic_spec.get('related', []))}
         print("[!] Build verification failed. Rolling back changes...")
         if mdx_file.exists():
             mdx_file.unlink()
-        # Restore guides.json
         reverted_guides = [g for g in guides_json if g["slug"] != slug]
         GUIDES_DATA_PATH.write_text(json.dumps(reverted_guides, indent=2, ensure_ascii=False), encoding="utf-8")
         print("[!] Rollback complete. Aborting cycle.")
         return False
+
+    if dry_run:
+        print("[*] Dry run mode enabled: Reverting build files and skipping git push.")
+        if mdx_file.exists():
+            mdx_file.unlink()
+        reverted_guides = [g for g in guides_json if g["slug"] != slug]
+        GUIDES_DATA_PATH.write_text(json.dumps(reverted_guides, indent=2, ensure_ascii=False), encoding="utf-8")
+        print("[+] Dry run test succeeded cleanly!")
+        return True
 
     # Append to llms.txt non-destructively
     if LLMS_TXT_PATH.exists():
@@ -326,19 +391,26 @@ Related: {json.dumps(topic_spec.get('related', []))}
     return True
 
 def main():
-    parser = argparse.ArgumentParser(description="Hermes Autonomous Gemini Growth Runner")
+    parser = argparse.ArgumentParser(description="Hermes Model-Agnostic Growth Runner")
     parser.add_argument("--once", action="store_true", help="Execute one autonomous publication cycle")
     parser.add_argument("--cron-loop", type=int, help="Run continuously with an interval of N hours")
     parser.add_argument("--topic", type=str, help="Custom topic title")
     parser.add_argument("--tool", type=str, help="Canonical tool slug for custom topic")
     parser.add_argument("--category", type=str, default="Automation", help="Category for custom topic")
     parser.add_argument("--status", action="store_true", help="Show published topics and queue status")
+    parser.add_argument("--dry-run", action="store_true", help="Generate and test build without git commit/push")
+    parser.add_argument("--model", type=str, help="LLM model name (overrides env)")
+    parser.add_argument("--api-base", type=str, help="Base URL for OpenAI-compatible endpoint")
+    parser.add_argument("--api-key", type=str, help="API Key for the model provider")
 
     args = parser.parse_args()
+
+    client = ModelClient(model=args.model, api_key=args.api_key, api_base=args.api_base)
 
     if args.status:
         state = load_state()
         print("=== HERMES GROWTH AGENT STATUS ===")
+        print(f"Engine Model: {client.model} ({client.mode})")
         print(f"Total Published: {len(state.get('published_slugs', []))}")
         for item in state.get("history", []):
             print(f" - [{item['timestamp']}] {item['slug']} ({item['tool']})")
@@ -357,11 +429,11 @@ def main():
             "description": f"Comprehensive guide to {args.topic} using HirePulse APIs and Python.",
             "related": ["ai-agent-live-data-mcp", "n8n-data-api-workflow"]
         }
-        execute_generation_cycle(topic_spec)
+        execute_generation_cycle(topic_spec, client=client, dry_run=args.dry_run)
         return
 
     if args.once:
-        execute_generation_cycle()
+        execute_generation_cycle(client=client, dry_run=args.dry_run)
         return
 
     if args.cron_loop:
@@ -369,7 +441,7 @@ def main():
         print(f"[*] Starting Hermes loop every {args.cron_loop} hours ({interval_sec}s)...")
         while True:
             try:
-                execute_generation_cycle()
+                execute_generation_cycle(client=client, dry_run=args.dry_run)
             except Exception as e:
                 print(f"[!] Cycle error: {e}")
             print(f"[*] Sleeping for {args.cron_loop} hours...")
