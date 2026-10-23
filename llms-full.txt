@@ -845,3 +845,94 @@ Selected fields of one record from a real test run:
   "status": "ready"
 }
 ```
+
+
+# Guides
+
+> Step-by-step technical guides with runnable cURL and Python code. Every guide has a plain-Markdown twin at guides/<slug>.md for direct agent consumption.
+
+# How to scrape AliExpress search results with Python
+> Get AliExpress search results as JSON with Python: titles, prices in your currency, ratings, orders sold and links. No browser, 60 products per page.
+- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/aliexpress-search-python/
+- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/aliexpress-search-python.md
+- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/aliexpress-search-api/
+# How to see every Google ad a competitor runs
+> See every Google ad a competitor runs from just their domain: creative previews, formats and active dates. Python, cURL and alerts.
+- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/competitor-google-ads/
+- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/competitor-google-ads.md
+- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/google-ads-transparency-api/
+# Google Jobs API: get job listings as JSON with Python
+> Pull Google Jobs listings as JSON with Python: title, company, location, parsed salary, source and apply link, for any search and country.
+- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/google-jobs-json-python/
+- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/google-jobs-json-python.md
+- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/google-jobs-api/
+# Find companies hiring now: a hiring-signals workflow for sales
+> Find companies that are hiring right now and rank them for outreach: open jobs, Google ads, SEO trend and an intent score per domain.
+- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/hiring-signals-for-sales/
+- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/hiring-signals-for-sales.md
+- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/company-intent-signals-api/
+# Keyword search volume API: bulk volume and CPC in Python
+> Get Google search volume, CPC and competition for keywords in bulk with Python, plus keyword ideas. Pay per lookup, no SEO tool subscription.
+- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/keyword-search-volume-api/
+- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/keyword-search-volume-api.md
+- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/keyword-search-volume-api/
+# Fix YouTube Transcript IP Blocks & RAG Extraction
+> Download YouTube transcripts in bulk with timestamps and bypass IP blocks. Extract clean chunks for LangChain, LlamaIndex, Chroma and RAG.
+- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/bulk-youtube-transcripts-rag/
+- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/bulk-youtube-transcripts-rag.md
+- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/youtube-transcript-api/
+# Give your AI agent live data with MCP
+> Give your AI agent live business data: connect pay-per-use data tools through Apify MCP server to Claude Desktop, Cursor and custom agents.
+- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/ai-agent-live-data-mcp/
+- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/ai-agent-live-data-mcp.md
+- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/keyword-search-volume-api/
+# Scrape Greenhouse, Lever & Ashby Jobs Without API Keys
+> Extract every open job from Greenhouse, Lever, Ashby, and Workable boards without employer API keys. Complete Python scraping guide.
+- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/greenhouse-lever-ashby-jobs-api/
+- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/greenhouse-lever-ashby-jobs-api.md
+- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/ats-jobs-api/
+# Domain SEO API: inspect public website metadata
+> Inspect metadata, sitemap observations and autocomplete suggestions; native mode does not measure traffic or rankings.
+- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/domain-seo-overview-python/
+- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/domain-seo-overview-python.md
+- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/domain-seo-overview-api/
+# Build an n8n data API workflow with a real JSON input
+> Build an n8n workflow that pulls competitor Google ads on a schedule, checks the JSON and sends only new ads to Slack.
+- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/n8n-data-api-workflow/
+- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/n8n-data-api-workflow.md
+- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/google-ads-transparency-api/
+# Audit an MCP server: tool schemas, token efficiency and x402 evidence
+> Grade any public MCP server or x402 endpoint with Python: tool counts, schema typing, token efficiency and payment challenge structure for $0.01 per report.
+- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/audit-mcp-server-tools/
+- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/audit-mcp-server-tools.md
+- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/mcp-x402-grader/
+# Website tech stack API: detect CMS, frameworks and pixels in Python
+> Detect what any website runs in bulk with Python: CMS, frameworks, hosting, analytics and ad pixels with evidence and confidence levels, per-domain pricing.
+- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/website-tech-stack-python/
+- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/website-tech-stack-python.md
+- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/website-tech-stack-api/
+# ATS detector API: find any company's job board in Python
+> Detect which ATS a company runs (Greenhouse, Lever, Ashby) from its domain and get the official careers board URL with Python. Free Actor, no employer keys.
+- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/ats-detector-python/
+- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/ats-detector-python.md
+- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/ats-detector-api/
+# Company contacts finder API: public emails and socials in Python
+> Extract public corporate emails, inquiry forms, phone numbers and verified social profiles per domain with Python. Only public evidence — no private inbox guessing.
+- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/company-contacts-python/
+- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/company-contacts-python.md
+- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/company-contacts-api/
+# B2B account research in Python: hiring, tech and email signals per domain
+> Turn company domains into account dossiers with Python: live open-job counts, named technologies from postings, mail provider and public contacts for $0.005 per profile.
+- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/b2b-account-research-python/
+- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/b2b-account-research-python.md
+- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/b2b-account-research-api/
+# AI visibility audit in Python: check if AI crawlers can read your site
+> Audit any domain's AI-crawler readiness with Python: robots.txt rules for GPTBot, ClaudeBot, PerplexityBot, llms.txt presence, JSON-LD and headers for $0.02 per report.
+- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/ai-visibility-audit-python/
+- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/ai-visibility-audit-python.md
+- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/ai-visibility-radar/
+# Shopify catalog to llms.txt: make your store readable by AI agents
+> Generate llms.txt drafts from a public Shopify or WooCommerce feed with Python: sampled product titles, pricing, variants and specs for $0.02 per report.
+- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/shopify-catalog-llms-txt/
+- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/shopify-catalog-llms-txt.md
+- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/store-to-llms-generator/
