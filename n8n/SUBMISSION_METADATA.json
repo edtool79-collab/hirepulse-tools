@@ -1,0 +1,41 @@
+{
+  "title": "Complete B2B Lead Enrichment & Intent Pre-Filter without Expensive Subscriptions",
+  "short_description": "Enrich B2B domains with live tech stack, ATS hiring signals, and Google Ads spend via Apify, pre-filter deterministically to save 97.6% LLM tokens, and generate personalized cold outreach.",
+  "category": "Sales",
+  "tags": [
+    "Sales",
+    "Lead Generation",
+    "Data Enrichment",
+    "Apify",
+    "HirePulse",
+    "Cost Reduction",
+    "OpenAI",
+    "CRM"
+  ],
+  "nodes_used": [
+    "n8n-nodes-base.manualTrigger",
+    "n8n-nodes-base.code",
+    "@apify/n8n-nodes-apify.apify",
+    "n8n-nodes-base.if",
+    "n8n-nodes-base.openAi",
+    "n8n-nodes-base.set",
+    "n8n-nodes-base.stickyNote"
+  ],
+  "author": {
+    "name": "HirePulse Growth Engineering",
+    "url": "https://apify.com/hirepulse"
+  },
+  "license": "MIT",
+  "version": "1.0.0",
+  "requirements": [
+    "Free Apify Account ($5/mo free platform credit included)",
+    "OpenAI API Key (or local LLM via Ollama)"
+  ],
+  "key_features": [
+    "Zero-waste enrichment combining Tech Stack, ATS Hiring Intent, and Google Ads spend",
+    "Deterministic JavaScript ICP pre-filtering before invoking AI models",
+    "97.6% reduction in LLM prompt tokens compared to raw HTML DOM scraping",
+    "Automatic high-intent lead qualification and dead-lead hygiene routing",
+    "Out-of-the-box pinData test fixtures for immediate 1-click testing"
+  ]
+}

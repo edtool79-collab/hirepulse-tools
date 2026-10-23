@@ -1,0 +1,233 @@
+{
+  "name": "B2B Hiring Surge & Google Ads Intent Radar to Slack",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## 📡 B2B Competitor & Target Account Growth Radar\n**Real-time Intent Monitoring via ATS & Google Ads**\n1. Runs on a weekly schedule (or webhook trigger).\n2. Scrapes target account job openings across ATS portals (Greenhouse, Lever, etc.) via HirePulse ATS Job Pulse.\n3. Checks whether the account has live hiring momentum (>= 1 role).\n4. Pulls live Google Ads Transparency data for active ad campaigns and messaging.\n5. Sends high-priority Slack notifications to the sales team.",
+        "height": 220,
+        "width": 1160,
+        "color": 6
+      },
+      "id": "sticky-radar-header",
+      "name": "Radar Overview Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [160, 40]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [1],
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "id": "node-weekly-cron",
+      "name": "Weekly Schedule (Monday 9AM)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [200, 300]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "domain",
+              "value": "linear.app"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "node-target-accounts",
+      "name": "Target Accounts",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 2,
+      "position": [420, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/hirepulse~ats-job-pulse/run-sync-get-dataset-items",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-apify-payment-protocol",
+              "value": "x402"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"companies\": [\"{{ $json.domain }}\"],\n  \"max_jobs_per_company\": 25\n}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "node-ats-job-pulse",
+      "name": "HirePulse ATS Job Pulse",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [640, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.length }}",
+              "operation": "largerEqual",
+              "value2": 1
+            }
+          ]
+        }
+      },
+      "id": "node-has-open-roles",
+      "name": "Has Open Roles?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [860, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/hirepulse~google-ads-transparency-scraper/run-sync-get-dataset-items",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-apify-payment-protocol",
+              "value": "x402"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"domains\": [\"{{ $('Target Accounts').item.json.domain }}\"],\n  \"mode\": \"summary\"\n}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "node-google-ads-radar",
+      "name": "HirePulse Google Ads Transparency",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [1080, 200]
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": "#growth-signals",
+        "text": "=🚀 *High Intent Account Alert: {{ $('Target Accounts').item.json.domain }}*\n• *Active Jobs:* {{ $('HirePulse ATS Job Pulse').all().length }} open positions found on ATS.\n• *Google Ads:* {{ $json.active_ads_count ? $json.active_ads_count : 'Running active campaigns' }}\n• *Action:* Initiate outbound sequence to VP of Engineering / Marketing.",
+        "otherOptions": {}
+      },
+      "id": "node-slack-alert",
+      "name": "Slack High-Intent Alert",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.1,
+      "position": [1320, 200]
+    }
+  ],
+  "connections": {
+    "Weekly Schedule (Monday 9AM)": {
+      "main": [
+        [
+          {
+            "node": "Target Accounts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Target Accounts": {
+      "main": [
+        [
+          {
+            "node": "HirePulse ATS Job Pulse",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HirePulse ATS Job Pulse": {
+      "main": [
+        [
+          {
+            "node": "Has Open Roles?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Open Roles?": {
+      "main": [
+        [
+          {
+            "node": "HirePulse Google Ads Transparency",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HirePulse Google Ads Transparency": {
+      "main": [
+        [
+          {
+            "node": "Slack High-Intent Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "c42ef8a1-79e5-4f71-a472-e19ad8e7a022",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "hirepulse-community-template-02"
+  },
+  "id": "hirepulse-competitor-growth-radar",
+  "tags": [
+    {
+      "name": "B2B Sales"
+    },
+    {
+      "name": "Hiring Monitoring"
+    },
+    {
+      "name": "Intent Data"
+    },
+    {
+      "name": "Slack Alerts"
+    },
+    {
+      "name": "Apify"
+    },
+    {
+      "name": "HirePulse"
+    }
+  ],
+  "pinData": {
+    "Target Accounts": [
+      {
+        "domain": "linear.app"
+      }
+    ]
+  }
+}
