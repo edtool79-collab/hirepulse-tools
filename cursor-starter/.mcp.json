@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "hirepulse-remote-mcp": {
+      "url": "https://gethirepulse.xyz/mcp",
+      "headers": {
+        "X-Client-Source": "cursor-agency-starter"
+      }
+    },
+    "hirepulse-apify-actors": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@apify/actors-mcp-server",
+        "--actors",
+        "hirepulse/google-ads-transparency-scraper,hirepulse/website-tech-stack-detector,hirepulse/company-contact-details-finder,hirepulse/ats-job-pulse,hirepulse/company-intent-radar"
+      ],
+      "env": {
+        "APIFY_TOKEN": "${env:APIFY_API_TOKEN}"
+      }
+    }
+  }
+}

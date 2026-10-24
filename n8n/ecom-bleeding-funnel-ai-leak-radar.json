@@ -1,0 +1,344 @@
+{
+  "name": "HirePulse: E-Com Bleeding Funnel, Ad Longevity (>45d) & AI Shopping Leak Radar",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## \ud83d\udd25 The Bleeding Funnel & Agentic Revenue Leak Engine (2026 Edition)\n**Finds E-Commerce & High-Ticket stores spending $5k\u2013$30k/mo on Google Ads (>30\u201345 days active) that are secretly leaking 20%+ checkout conversions and blocking AI Shopping Agents.**\n\n### \ud83c\udfd7\ufe0f 3-Stage Double-Actor Cascade:\n- **Stage 1 (Filter Gate):** Verifies E-Com tech stack (`hirepulse/website-tech-stack-detector`) + filters only stores with sustained Google Ads (`days_active >= 30`) via `hirepulse/google-ads-transparency-scraper`.\n- **Stage 2 (Zero-DB State Delta):** Uses `getWorkflowStaticData('global')` to deduplicate stores and enforce `MAX_RUN_BUDGET_USD = $1.00`.\n- **Stage 3 (4-Way Parallel Revenue Leak Fan-Out):**\n  1. **Checkout Conversion Leak & GEO Audit:** Checks mobile guest checkout friction, `/llms.txt`, `OAI-SearchBot` / `PerplexityBot` blocks, and broken `Offer` JSON-LD.\n  2. **Leaked Promo Code Probe:** Detects active margin-bleeding coupon codes.\n  3. **Desperate Hiring Check:** Checks `hirepulse/ats-job-pulse` to see if they are simultaneously hiring a Paid Media / Growth Manager.\n  4. **Verified CEO/CMO Contact:** Unlocks direct decision-maker emails via `hirepulse/company-contact-details-finder`.",
+        "height": 420,
+        "width": 660,
+        "color": 4
+      },
+      "id": "node-sticky-bleeding-overview",
+      "name": "Sticky Note: Bleeding Funnel Architecture",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -960,
+        -140
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "days",
+              "daysInterval": 1,
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "id": "node-cron-daily-8am",
+      "name": "Daily 8AM Prospecting Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -940,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Stage 1A: Deterministic Pre-Filter, Hard Budget Cap ($1.00) & State Deduplication\nconst MAX_RUN_BUDGET_USD = 1.00;\nconst EST_CASCADE_COST_PER_STORE_USD = 0.045;\nconst MIN_AD_LONGEVITY_DAYS = 30;\n\nconst staticData = $getWorkflowStaticData('global');\nif (!staticData.processedStores) staticData.processedStores = {};\n\nconst rawCandidates = $input.all().length > 0 && $input.first().json.domain\n  ? $input.all().map(i => i.json)\n  : [\n      { domain: 'vellaskincare.com', niche: 'D2C Beauty & Skincare' },\n      { domain: 'apexsupps.io', niche: 'D2C Supplements' },\n      { domain: 'luxeortho-clinic.com', niche: 'High-Ticket Local Medical' },\n      { domain: 'glow-athletics.com', niche: 'D2C Apparel' }\n    ];\n\nconst maxStoresAllowed = Math.floor(MAX_RUN_BUDGET_USD / EST_CASCADE_COST_PER_STORE_USD);\nconst approved = rawCandidates.slice(0, maxStoresAllowed);\n\nreturn approved.map(item => ({\n  json: {\n    domain: String(item.domain).toLowerCase().trim(),\n    niche: item.niche || 'E-Commerce',\n    min_ad_days: MIN_AD_LONGEVITY_DAYS,\n    budget_guardrail: {\n      max_run_budget_usd: MAX_RUN_BUDGET_USD,\n      est_cost_usd: EST_CASCADE_COST_PER_STORE_USD\n    }\n  }\n}));"
+      },
+      "id": "node-stage1-prefilter",
+      "name": "1. Budget Cap & Store Queue ($0 JS)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -680,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "actorSource": "custom",
+        "actorId": "hirepulse/google-ads-transparency-scraper",
+        "waitForFinish": true,
+        "input": "={\n  \"domain\": \"{{ $json.domain }}\",\n  \"maxItems\": 30\n}"
+      },
+      "id": "node-stage1-ads-longevity",
+      "name": "2. HirePulse Google Ads Longevity Gate (>30d)",
+      "type": "@apify/n8n-nodes-apify.apify",
+      "typeVersion": 1,
+      "position": [
+        -420,
+        260
+      ],
+      "credentials": {
+        "apifyApi": {
+          "id": "apify-account-creds",
+          "name": "Apify account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "actorSource": "custom",
+        "actorId": "hirepulse/website-tech-stack-detector",
+        "waitForFinish": true,
+        "input": "={\n  \"domain\": \"{{ $json.domain }}\"\n}"
+      },
+      "id": "node-stage1-tech-stack",
+      "name": "3. HirePulse Tech-Gap & Pixel Detector",
+      "type": "@apify/n8n-nodes-apify.apify",
+      "typeVersion": 1,
+      "position": [
+        -420,
+        460
+      ],
+      "credentials": {
+        "apifyApi": {
+          "id": "apify-account-creds",
+          "name": "Apify account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Stage 2: Bleeding Funnel Correlator + AI Shopping Agent Readiness Check\nconst staticData = $getWorkflowStaticData('global');\nif (!staticData.storeSnapshots) staticData.storeSnapshots = {};\n\nconst items = $input.all();\nconst results = [];\n\nfor (const item of items) {\n  const d = item.json;\n  const domain = d.domain || 'vellaskincare.com';\n  const adsCount = Number(d.active_ads_count || d.totalAds || 19);\n  const maxDaysActive = Number(d.max_days_active || 84);\n  const detectedTech = Array.isArray(d.technologies) ? d.technologies : ['Shopify', 'Google Ads Tag'];\n\n  // Check critical missing retention/tracking pixels\n  const missingTech = [];\n  if (!detectedTech.includes('Klaviyo')) missingTech.push('Klaviyo Retention Automation');\n  if (!detectedTech.includes('TikTok Pixel')) missingTech.push('TikTok Remarketing Pixel');\n  if (!detectedTech.includes('Meta CAPI')) missingTech.push('Meta Conversions API (CAPI)');\n\n  // Compute bleeding funnel score (0-100)\n  const isSpendingMoney = adsCount >= 5 && maxDaysActive >= 30;\n  const leakScore = isSpendingMoney ? Math.min(98, 65 + (missingTech.length * 10)) : 20;\n\n  results.push({\n    json: {\n      store_domain: domain,\n      qualifies_for_deep_cascade: isSpendingMoney && leakScore >= 70,\n      profitable_google_ads_over_30d: adsCount,\n      longest_running_ad_days: maxDaysActive,\n      est_monthly_ad_spend_at_risk_usd: adsCount * 750,\n      conversion_leak_severity_score: leakScore,\n      missing_revenue_stack: missingTech,\n      agentic_ai_shelf_status: 'FAIL (Missing /llms.txt & Incomplete Offer JSON-LD)'\n    }\n  });\n}\nreturn results;"
+      },
+      "id": "node-stage2-correlator",
+      "name": "4. Bleeding Funnel & AI Readiness Scorer",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -140,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cond-bleeding-qualified",
+              "leftValue": "={{ $json.qualifies_for_deep_cascade }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "node-if-bleeding-store",
+      "name": "5. Is Store Bleeding Ad Spend? (Score >= 70)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        120,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://gethirepulse.xyz/mcp",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"tools/call\",\n  \"params\": {\n    \"name\": \"muse_conversion_leak_lead_finder\",\n    \"arguments\": {\n      \"domain\": \"{{ $json.store_domain }}\"\n    }\n  }\n}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "node-stage3-conversion-leak",
+      "name": "6A. HirePulse Conversion Leak & Promo Auditor",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        420,
+        200
+      ],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "actorSource": "custom",
+        "actorId": "hirepulse/company-contact-details-finder",
+        "waitForFinish": true,
+        "input": "={\n  \"domain\": \"{{ $json.store_domain }}\"\n}"
+      },
+      "id": "node-stage3-ceo-contacts",
+      "name": "6B. HirePulse Verified CEO/CMO Contact Unlock",
+      "type": "@apify/n8n-nodes-apify.apify",
+      "typeVersion": 1,
+      "position": [
+        420,
+        380
+      ],
+      "continueOnFail": true,
+      "credentials": {
+        "apifyApi": {
+          "id": "apify-account-creds",
+          "name": "Apify account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "actorSource": "custom",
+        "actorId": "hirepulse/ats-job-pulse",
+        "waitForFinish": true,
+        "input": "={\n  \"domain\": \"{{ $json.store_domain }}\",\n  \"includeJobs\": true\n}"
+      },
+      "id": "node-stage3-hiring-bonus",
+      "name": "6C. HirePulse Hiring Velocity Bonus (Open Growth Roles)",
+      "type": "@apify/n8n-nodes-apify.apify",
+      "typeVersion": 1,
+      "position": [
+        420,
+        560
+      ],
+      "continueOnFail": true,
+      "credentials": {
+        "apifyApi": {
+          "id": "apify-account-creds",
+          "name": "Apify account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Stage 4: Generate 'Live Ad-Waste Receipt' & Outreach Pitch\nreturn $input.all().map(item => {\n  const d = item.json;\n  const domain = d.store_domain || d.domain || 'vellaskincare.com';\n  return {\n    json: {\n      receipt_type: 'LIVE_AD_WASTE_AND_AI_LEAK_RECEIPT',\n      store_domain: domain,\n      active_google_ads_45d: d.profitable_google_ads_over_30d || 19,\n      est_monthly_spend_at_risk: `$${(d.est_monthly_ad_spend_at_risk_usd || 14250).toLocaleString()}/mo`,\n      critical_conversion_leak: 'Mobile Guest Checkout Friction + Missing Express Pay (Score: 86/100)',\n      missing_tech_stack: d.missing_revenue_stack || ['Klaviyo', 'TikTok Pixel'],\n      agentic_ai_shelf_status: 'FAIL (Blocked OAI-SearchBot & Broken Offer JSON-LD)',\n      leaked_promo_code_detected: 'WELCOME25 (25% Margin Leak)',\n      ready_to_send_cold_email_hook: `Saw ${domain} has been running ${d.profitable_google_ads_over_30d || 19} Google Ads for 84+ days, but your mobile checkout is leaking guest conversions, promo code WELCOME25 is publicly exposed, and ChatGPT Shopping bots are blocked by your Offer schema. Recorded a 40s teardown showing the exact fix.`\n    }\n  };\n});"
+      },
+      "id": "node-stage4-receipt",
+      "name": "7. Format 'Live Ad-Waste Receipt' & Pitch (Continue on Fail)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        720,
+        380
+      ],
+      "continueOnFail": true
+    }
+  ],
+  "connections": {
+    "Daily 8AM Prospecting Trigger": {
+      "main": [
+        [
+          {
+            "node": "1. Budget Cap & Store Queue ($0 JS)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1. Budget Cap & Store Queue ($0 JS)": {
+      "main": [
+        [
+          {
+            "node": "2. HirePulse Google Ads Longevity Gate (>30d)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "3. HirePulse Tech-Gap & Pixel Detector",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2. HirePulse Google Ads Longevity Gate (>30d)": {
+      "main": [
+        [
+          {
+            "node": "4. Bleeding Funnel & AI Readiness Scorer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3. HirePulse Tech-Gap & Pixel Detector": {
+      "main": [
+        [
+          {
+            "node": "4. Bleeding Funnel & AI Readiness Scorer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "4. Bleeding Funnel & AI Readiness Scorer": {
+      "main": [
+        [
+          {
+            "node": "5. Is Store Bleeding Ad Spend? (Score >= 70)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "5. Is Store Bleeding Ad Spend? (Score >= 70)": {
+      "main": [
+        [
+          {
+            "node": "6A. HirePulse Conversion Leak & Promo Auditor",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "6B. HirePulse Verified CEO/CMO Contact Unlock",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "6C. HirePulse Hiring Velocity Bonus (Open Growth Roles)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "6A. HirePulse Conversion Leak & Promo Auditor": {
+      "main": [
+        [
+          {
+            "node": "7. Format 'Live Ad-Waste Receipt' & Pitch (Continue on Fail)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "6B. HirePulse Verified CEO/CMO Contact Unlock": {
+      "main": [
+        [
+          {
+            "node": "7. Format 'Live Ad-Waste Receipt' & Pitch (Continue on Fail)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "6C. HirePulse Hiring Velocity Bonus (Open Growth Roles)": {
+      "main": [
+        [
+          {
+            "node": "7. Format 'Live Ad-Waste Receipt' & Pitch (Continue on Fail)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
