@@ -1,9 +1,10 @@
 # HirePulse public data tools for AI agents
 
-Fifteen public HirePulse Actors on [Apify](https://apify.com/hirepulse), verified October 22, 2026. Choose a tool by the evidence it returns. Use its current Input and Pricing tabs before running it; this directory does not promise free runs or complete source coverage.
+Sixteen public HirePulse Actors on [Apify](https://apify.com/hirepulse), verified October 24, 2026. Choose a tool by the evidence it returns. Use its current Input and Pricing tabs before running it; this directory does not promise free runs or complete source coverage.
 
 | Actor | Use it for | Important limit |
 |---|---|---|
+| [TikTok Product Research](https://apify.com/hirepulse/viral-product-radar) | Product-video evidence and same-video growth | Baseline first; six-hour minimum, capped collection opt-in; no sales forecasts |
 | [ATS Detector: Find a Company's Job Board (Free)](https://apify.com/hirepulse/ats-detector) | Find a public ATS job-board URL from a company domain. | No Actor fee; Apify platform usage can cost money. Missing boards are not proof that a company is not hiring. [Pricing](https://apify.com/hirepulse/ats-detector/pricing) |
 | [ATS Job Scraper: Greenhouse, Lever, Ashby, Workable & More](https://apify.com/hirepulse/ats-job-pulse) | Read supported public ATS boards and return jobs or a company summary. | Coverage depends on supported boards and accessible evidence; missing salary data stays unavailable. [Pricing](https://apify.com/hirepulse/ats-job-pulse/pricing) |
 | [Google Jobs Alternative: ATS & Public Job Listings](https://apify.com/hirepulse/google-jobs-scraper) | Search supported public career and ATS job listings by query. | Default public mode is an alternative source route, not measured live Google Jobs SERP coverage. Availability and fields vary. [Pricing](https://apify.com/hirepulse/google-jobs-scraper/pricing) |
@@ -22,13 +23,13 @@ Fifteen public HirePulse Actors on [Apify](https://apify.com/hirepulse), verifie
 
 ## Connect through Apify MCP
 
-Configure an MCP client with the Actors you need. The following URL requests all 15; remove entries to narrow the selection. OAuth-capable clients use Apify sign-in. Clients supporting token authentication can send `Authorization: Bearer <APIFY_TOKEN>`; keep credentials out of URLs, source control and logs.
+Configure an MCP client with the Actors you need. The following URL requests all 16; remove entries to narrow the selection. OAuth-capable clients use Apify sign-in. Clients supporting token authentication can send `Authorization: Bearer <APIFY_TOKEN>`; keep credentials out of URLs, source control and logs.
 
 ```json
 {
   "mcpServers": {
     "hirepulse": {
-      "url": "https://mcp.apify.com?tools=hirepulse/ats-detector,hirepulse/ats-job-pulse,hirepulse/google-jobs-scraper,hirepulse/b2b-account-research-agent,hirepulse/company-intent-radar,hirepulse/website-tech-stack-detector,hirepulse/company-contact-details-finder,hirepulse/google-ads-transparency-scraper,hirepulse/domain-seo-overview,hirepulse/keyword-search-volume,hirepulse/aliexpress-search-scraper,hirepulse/youtube-transcript-scraper,hirepulse/mcp-x402-server-grader,hirepulse/ai-search-brand-visibility-radar,hirepulse/shopify-to-llms-generator"
+      "url": "https://mcp.apify.com?tools=hirepulse/ats-detector,hirepulse/ats-job-pulse,hirepulse/google-jobs-scraper,hirepulse/b2b-account-research-agent,hirepulse/company-intent-radar,hirepulse/website-tech-stack-detector,hirepulse/company-contact-details-finder,hirepulse/google-ads-transparency-scraper,hirepulse/domain-seo-overview,hirepulse/keyword-search-volume,hirepulse/aliexpress-search-scraper,hirepulse/youtube-transcript-scraper,hirepulse/mcp-x402-server-grader,hirepulse/ai-search-brand-visibility-radar,hirepulse/shopify-to-llms-generator,hirepulse/viral-product-radar"
     }
   }
 }
@@ -74,7 +75,7 @@ Accelerate agentic and manual workflows by piping complementary tools together:
 - [Tool summaries and input examples](llms-full.txt)
 - [Existing public example-task directory](tasks-directory.md): a published link is a starting configuration, not proof of a successful current run.
 - [Documentation site](https://edtool79-collab.github.io/hirepulse-tools/): individual pages can have different update dates; the live Actor page and schema are the source for current behavior and pricing.
-- [MCP Registry](https://registry.modelcontextprotocol.io): Each tool is published in the official MCP Registry as `io.github.edtool79-collab/<tool-name>`. Registry publication is a separate step from editing this repository. Do not infer that all 15 individual listings exist from this README.
+- [MCP Registry](https://registry.modelcontextprotocol.io): Each tool is published in the official MCP Registry as `io.github.edtool79-collab/<tool-name>`. Registry publication is a separate step from editing this repository. Do not infer that all 16 individual listings exist from this README.
 
 ## ⚡ n8n Workflow Automation Suite
 
@@ -104,4 +105,11 @@ Build enterprise-grade B2B outbound workflows on Make.com or self-hosted Activep
 ## 🤖 AI Registries & Ecosystem Directories
 
 - **[MCP & AI Agent Directory Submission Pack](./docs/AI_REGISTRIES_SUBMISSION_PACK.md)**: Ready-to-use profiles and streamable HTTP manifests for Smithery.ai, Glama.ai, PulseMCP, TAAFT, and Futurepedia.
-- **[Apify Store SEO & Keyword Strategy](./docs/APIFY_STORE_SEO_KEYWORD_PLAN.md)**: Master keyword matrix and ranking guide for all 15 Actors and 80 Tasks.
+- **[Apify Store SEO & Keyword Strategy](./docs/APIFY_STORE_SEO_KEYWORD_PLAN.md)**: Master keyword matrix and ranking guide for all 16 Actors and 80 Tasks.
+
+
+## TikTok product research
+
+$0.02 per delivered report; Clockworks collection is separate and capped ($0.04 total by default).
+
+[First-run guide](tiktok-product-research-api/) · [Agent documentation](tiktok-product-research-api.md).

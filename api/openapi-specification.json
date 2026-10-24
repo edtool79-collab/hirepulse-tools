@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "HirePulse Apify Data Tools API",
-    "description": "Input contracts for eight HirePulse data tools running on Apify. Provide an Apify token using the Authorization: Bearer header. Every call must specify maxTotalChargeUsd, up to the $1 limit documented here. This synchronous API can time out after 300 seconds; a timeout or lost connection does not prove the Actor stopped. Check the existing run in Apify Console before starting another paid run. https://docs.apify.com/api/v2/actor-run-sync-get-dataset-items-post",
+    "description": "Input contracts for nine HirePulse data tools running on Apify. Provide an Apify token using the Authorization: Bearer header. Every call must specify maxTotalChargeUsd, up to the $1 limit documented here. This synchronous API can time out after 300 seconds; a timeout or lost connection does not prove the Actor stopped. Check the existing run in Apify Console before starting another paid run. https://docs.apify.com/api/v2/actor-run-sync-get-dataset-items-post",
     "version": "1.0.0",
     "contact": {
       "name": "HirePulse",
@@ -1359,6 +1359,157 @@
                 "max_results_per_query": 60,
                 "ship_to": "US",
                 "currency": "USD"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Synchronous run completed and dataset items returned as a JSON array",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required or invalid token."
+          },
+          "408": {
+            "description": "Synchronous HTTP timeout. Check the existing run in Apify Console; do not automatically start another paid run."
+          }
+        }
+      }
+    },
+    "/acts/hirepulse~viral-product-radar/run-sync-get-dataset-items": {
+      "post": {
+        "summary": "TikTok Product Research and Video Growth",
+        "description": "Research a bounded cohort of product-related TikTok videos. $0.02 per delivered product report, plus separately capped Clockworks collection with explicit allow_paid_upstream=true. First observation creates a baseline; repeat the same state_id after6+ hours. No sales or profit forecasts. Parent maxTotalChargeUsd does not cover the separate upstream_max_charge_usd cap.",
+        "operationId": "run_tiktok_product_research",
+        "parameters": [
+          {
+            "name": "maxTotalChargeUsd",
+            "in": "query",
+            "required": true,
+            "description": "Maximum total Actor run charge in USD. Required by this contract, capped at $1. A cap can produce partial results.",
+            "schema": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1
+            },
+            "example": 0.25
+          },
+          {
+            "name": "restartOnError",
+            "in": "query",
+            "required": false,
+            "description": "Disable automatic Actor restart.",
+            "schema": {
+              "type": "boolean",
+              "enum": [
+                false
+              ],
+              "default": false
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "keywords": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 80
+                    },
+                    "maxItems": 20,
+                    "default": [
+                      "mini projector"
+                    ],
+                    "description": "Start with one specific product. Each delivered product report costs $0.02; the collection cap is shared across all keywords."
+                  },
+                  "upstream_source": {
+                    "type": "string",
+                    "enum": [
+                      "public",
+                      "clockworks"
+                    ],
+                    "default": "clockworks",
+                    "description": "Cloud quick start: select Clockworks and check the collection consent box. Select public only to import an existing video_snapshot; direct anonymous cloud collection is not supported."
+                  },
+                  "allow_paid_upstream": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Required for live collection, off by default. At most upstream_max_charge_usd for all products together, plus $0.02 per delivered report. Import an existing export to avoid collection fees."
+                  },
+                  "upstream_max_charge_usd": {
+                    "type": "number",
+                    "minimum": 0.01,
+                    "maximum": 0.1,
+                    "default": 0.04,
+                    "description": "Hard total PPE limit split across all product keywords. First observations use a hashtag source; subsequent runs refresh the same tracked video URLs. Parent Actor platform usage is separate."
+                  },
+                  "max_items": {
+                    "type": "integer",
+                    "default": 10,
+                    "minimum": 1,
+                    "maximum": 100,
+                    "description": "Maximum parsed records per source and keyword; rounded sales counters remain display-only."
+                  },
+                  "state_id": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9_-]{1,64}$",
+                    "default": "default",
+                    "description": "Use the same ID for repeat observations of one watchlist. Different IDs isolate histories."
+                  },
+                  "video_snapshot": {
+                    "type": "object",
+                    "description": "Optional existing public-data export. Supply its actual collection time, source label and up to 100 records. No upstream service is started. Native and Clockworks JSON field names are supported."
+                  },
+                  "video_urls": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "maxItems": 20,
+                    "description": "Optional public TikTok video URLs. Only videos matching a keyword contribute linked sound evidence."
+                  },
+                  "deliver_all_reports": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Deliver baselines, watch reports and candidates for every new observation. Each delivered report is billable. Reimporting the same acknowledged observation is suppressed. False selects the legacy alert/baseline feed."
+                  },
+                  "analysis_mode": {
+                    "type": "string",
+                    "enum": [
+                      "product_videos"
+                    ],
+                    "default": "product_videos"
+                  }
+                },
+                "additionalProperties": false
+              },
+              "example": {
+                "keywords": [
+                  "mini projector"
+                ],
+                "analysis_mode": "product_videos",
+                "upstream_source": "clockworks",
+                "allow_paid_upstream": true,
+                "upstream_max_charge_usd": 0.04,
+                "max_items": 10,
+                "state_id": "my-product-research",
+                "deliver_all_reports": true
               }
             }
           }
