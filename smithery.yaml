@@ -1,4 +1,35 @@
-# hirepulse does not host its own MCP server and has no Smithery deployment.
-# The tools are called through the Apify MCP server (no install needed):
-#   https://mcp.apify.com?tools=hirepulse/<tool>   (several tools: comma-separated)
-# Details: https://edtool79-collab.github.io/hirepulse-tools/llms.txt
+# Smithery.ai MCP Server Configuration for HirePulse
+# Documentation: https://smithery.ai/docs
+# Upstream Gateway: https://gethirepulse.xyz/mcp
+
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      gatewayUrl:
+        type: string
+        title: "HirePulse Gateway URL"
+        description: "The remote Streamable HTTP MCP gateway endpoint (default: https://gethirepulse.xyz/mcp)"
+        default: "https://gethirepulse.xyz/mcp"
+      apiKey:
+        type: string
+        title: "API Key / Bearer Token"
+        description: "Optional Authorization Bearer token for authenticated identity or quota expansion"
+  commandFunction: |-
+    (config) => {
+      const url = config?.gatewayUrl || "https://gethirepulse.xyz/mcp";
+      const args = ["-y", "mcp-remote", url];
+      const env = {};
+      if (config?.apiKey) {
+        args.push("--header", `Authorization: Bearer ${config.apiKey}`);
+        env.HIREPULSE_API_TOKEN = config.apiKey;
+      }
+      return {
+        command: "npx",
+        args,
+        env
+      };
+    }
+  exampleConfig:
+    gatewayUrl: "https://gethirepulse.xyz/mcp"
