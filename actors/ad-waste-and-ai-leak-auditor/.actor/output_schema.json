@@ -1,0 +1,11 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "title": "Ad-Waste & AI Conversion Leak Receipt",
+  "properties": {
+    "overview": {
+      "type": "string",
+      "title": "Live Ad-Waste & AI Readiness Audit Results",
+      "template": "{{links.apiDefaultDatasetUrl}}/items?view=overview"
+    }
+  }
+}

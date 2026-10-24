@@ -1,0 +1,63 @@
+{
+  "actorSpecification": 1,
+  "fields": {},
+  "views": {
+    "overview": {
+      "title": "Live Ad-Waste & AI Leak Receipt",
+      "transformation": {
+        "fields": [
+          "domain",
+          "audit_status",
+          "bleeding_funnel_score",
+          "platform_detected",
+          "missing_revenue_pixels",
+          "ai_shopping_readiness_grade",
+          "ai_crawler_access",
+          "decision_maker_contacts",
+          "cold_outreach_pitch"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "domain": {
+            "label": "Store / Domain",
+            "format": "text"
+          },
+          "audit_status": {
+            "label": "Status",
+            "format": "text"
+          },
+          "bleeding_funnel_score": {
+            "label": "Leak Score (0-100)",
+            "format": "number"
+          },
+          "platform_detected": {
+            "label": "Platform",
+            "format": "text"
+          },
+          "missing_revenue_pixels": {
+            "label": "Missing Pixels / Tech",
+            "format": "array"
+          },
+          "ai_shopping_readiness_grade": {
+            "label": "AI Shopping Grade (GEO)",
+            "format": "text"
+          },
+          "ai_crawler_access": {
+            "label": "AI Bot Access",
+            "format": "object"
+          },
+          "decision_maker_contacts": {
+            "label": "Contacts / Unlock Status",
+            "format": "object"
+          },
+          "cold_outreach_pitch": {
+            "label": "Ready-to-Send Agency Pitch",
+            "format": "text"
+          }
+        }
+      }
+    }
+  }
+}

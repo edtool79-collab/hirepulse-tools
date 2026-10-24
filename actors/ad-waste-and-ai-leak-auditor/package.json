@@ -1,0 +1,16 @@
+{
+  "name": "ad-waste-and-ai-leak-auditor",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "HirePulse Ad-Waste & AI Conversion Leak Auditor (E-Com, GEO & Contacts)",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "node src/main.js"
+  },
+  "dependencies": {
+    "apify": "^3.2.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

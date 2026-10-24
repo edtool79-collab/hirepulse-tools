@@ -1,0 +1,18 @@
+{
+  "actorSpecification": 1,
+  "name": "ad-waste-and-ai-leak-auditor",
+  "title": "Ad-Waste & AI Conversion Leak Auditor: E-Com, GEO & Contacts",
+  "description": "Audit E-Commerce & B2B domains for Google Ads spend longevity, mobile checkout conversion leaks, missing retention pixels (Klaviyo, Meta CAPI, TikTok), AI Shopping Agent readiness (/llms.txt, OAI-SearchBot, Offer JSON-LD), and public contacts. 100% cookieless JSON for n8n, Make & MCP.",
+  "version": "1.0",
+  "buildTag": "latest",
+  "meta": {
+    "templateId": "js-crawlee-empty"
+  },
+  "input": "./input_schema.json",
+  "output": "./output_schema.json",
+  "dockerfile": "../Dockerfile",
+  "readme": "../README.md",
+  "storages": {
+    "dataset": "./dataset_schema.json"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "title": "Ad-Waste & AI Conversion Leak Auditor Input",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "domains": {
+      "title": "Target Store / Business Domains",
+      "type": "array",
+      "description": "List of store or company domains to audit (e.g. ['gymshark.com', 'glossier.com']). Automatically normalizes URLs.",
+      "editor": "stringList",
+      "default": [
+        "gymshark.com",
+        "allbirds.com"
+      ],
+      "prefill": [
+        "gymshark.com",
+        "allbirds.com"
+      ]
+    },
+    "checkAiShoppingReadiness": {
+      "title": "Audit 2026 AI Shopping Agent Readiness (GEO)",
+      "type": "boolean",
+      "description": "Checks /llms.txt availability, robots.txt AI crawler rules (OAI-SearchBot, PerplexityBot, ClaudeBot), and Product/Offer JSON-LD schema completeness.",
+      "default": true
+    },
+    "checkConversionAndTechLeaks": {
+      "title": "Audit Checkout Friction & Missing Ad Pixels",
+      "type": "boolean",
+      "description": "Detects e-commerce platform (Shopify, WooCommerce, etc.) and checks for missing retention/remarketing pixels (Klaviyo, Meta CAPI, TikTok Pixel, GA4).",
+      "default": true
+    },
+    "checkContactsAndHiring": {
+      "title": "Extract Decision-Maker Contacts & Hiring Signals",
+      "type": "boolean",
+      "description": "Extracts public decision-maker emails, social links, DNS mail records, and checks for open marketing/growth job postings.",
+      "default": true
+    },
+    "workspaceStateKey": {
+      "title": "Delta State Tracking Key (Optional for Daily Cron)",
+      "type": "string",
+      "description": "Optional identifier to track changes between runs (emits NEW_LEAK_DETECTED or TECH_STACK_CHANGED).",
+      "editor": "textfield",
+      "default": "default-agency-radar"
+    }
+  },
+  "required": []
+}
