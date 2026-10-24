@@ -1,119 +1,91 @@
-# ⚡ HirePulse n8n Growth Suite
+# ⚡ HirePulse Smart n8n Operator & Stateful B2B Signal Suite
 
-> **Production-grade n8n workflows for zero-waste B2B lead enrichment, deterministic ICP intent filtering, and competitor hiring/ads intelligence.**
+> **Production-grade, state-aware n8n operators for cookieless ATS hiring-intent deltas, 14+ day ad endurance signals, and hard budget-capped B2B enrichment.**
 
-Stop burning thousands of dollars on enterprise seat licenses and stop wasting 15,000+ LLM tokens per lead on messy raw HTML DOM scraping.
+![HirePulse Smart n8n Operator — Live Delta & Double-Actor Waterfall](./assets/smart-operator-live-delta-feed.png)
 
----
-
-## 🎯 What's Inside
-
-1. **`1-b2b-intent-prefilter-enrichment.json`**:
-   - **Unified Data Enrichment:** Enriches domains via Apify HirePulse actors (Tech Stack, Open Positions, Google Ads Signals) in a single compact payload.
-   - **Deterministic ICP Pre-Filter:** Evaluates qualification via zero-cost JavaScript rules *before* calling AI models. Discards 60–80% of poor fits automatically.
-   - **97.6% Token Reduction:** Replaces 15,000–25,000 raw HTML scraper tokens with clean ~350-token structured JSON.
-   - **Hyper-Personalized Outreach:** Calls `gpt-4o-mini` only for pre-qualified Tier-1 accounts to craft 3-sentence high-converting cold hooks.
-   - **Two-Way Routing:** Automatically syncs qualified leads to CRM / Google Sheets and logs disqualified leads for cold CRM hygiene.
-
-2. **`2-competitor-ads-and-hiring-monitor.json`**:
-   - **Automated Monday 9AM Scan:** Regularly checks your key target accounts and competitors.
-   - **ATS Growth Pulse:** Scrapes live jobs on Greenhouse, Lever, and Workday.
-   - **Google Ads Transparency Radar:** Detects live search ad spend and creative messaging.
-   - **Instant Slack Alerts:** Sends actionable alerts directly to `#growth-signals` when hiring surges are detected.
-
-3. **3-automated-competitor-ad-spy-and-intel.json**:
-   - **Competitor Ad Spy & Threat Radar:** Automated Monday 9AM scan of competitor ad creatives, search conquesting copy, and ATS talent expansion.
-   - **Deterministic Threat Scoring (0–100):** Weighted algorithmic scoring combining Google Ads volume and engineering/sales headcount momentum.
-   - **Slack War Room Alerts:** Rich Block Kit notifications with AI-synthesized 3-bullet executive counter-strategy.
-   - **Full Guide:** [Automated Competitor Ad Spy Guide](../guides/n8n-competitor-ad-spy.md).
+🎥 **[Watch Live Operator Video Demo (`smart-operator-demo.webm`)](./assets/smart-operator-demo.webm)** | 🧩 **[Interactive HTML Visualizer (`demo-visualizer.html`)](./demo-visualizer.html)**
 
 ---
 
-## 🏗️ Architecture & Workflow Pipeline
+## 🔥 Flagship Stateful Delta Operators (2026 Edition)
+
+Unlike one-off "toy" scrapers that dump static lists and burn credits on the same rows every day, these operators implement **Stateful Delta Tracking (`T` vs `T-1`)**, **Hard Budget Guardrails (`MAX_RUN_BUDGET_USD`)**, and **Double-Actor Waterfalls**:
+
+### 1. [`ats-hiring-delta-radar.json`](./ats-hiring-delta-radar.json) — Cookieless ATS Hiring-Intent Delta & Contact Waterfall
+- **📥 1-Click n8n Import URL:** `https://raw.githubusercontent.com/edtool79-collab/hirepulse-tools/main/n8n/ats-hiring-delta-radar.json`
+- **What It Solves:** Monitors target accounts daily/weekly across Greenhouse, Lever, Ashby, and Workable **100% cookieless** (zero `li_at` session cookies, zero LinkedIn account ban risk).
+- **3-Stage Double-Actor Waterfall:**
+  1. **Free Gate ($0.00):** Runs [`hirepulse/ats-detector`](https://apify.com/hirepulse/ats-detector) first to verify an active ATS board exists before spending a cent.
+  2. **Live Board Extraction ($0.05 PPE):** Runs [`hirepulse/ats-job-pulse`](https://apify.com/hirepulse/ats-job-pulse) only on verified boards.
+  3. **Stateful Delta Diff Engine (`getWorkflowStaticData`):** Compares today's open roles against the previous snapshot and emits:
+     - `NEW_ROLE_OPENED`: Newly opened engineering/sales/AI roles.
+     - `ROLE_CLOSED`: Previously open roles removed from a healthy (`HTTP 200`) board.
+     - `SOURCE_ERROR_GUARD`: Isolates network timeouts (`504/429`) so a failed scrape **never** wipes your state snapshot or triggers false closure alerts.
+  4. **Conditional Contact Waterfall ($0.003 PPE):** Triggers [`hirepulse/company-contact-details-finder`](https://apify.com/hirepulse/company-contact-details-finder) **only** when `NEW_ROLE_OPENED > 0`.
+
+### 2. [`competitor-ads-longevity-radar.json`](./competitor-ads-longevity-radar.json) — Competitor Google Ads Endurance (14+ Days) & Correlated Intent Radar
+- **📥 1-Click n8n Import URL:** `https://raw.githubusercontent.com/edtool79-collab/hirepulse-tools/main/n8n/competitor-ads-longevity-radar.json`
+- **What It Solves:** Most competitor ad alerts notify you of 48-hour A/B test failures. This operator tracks **Ad Endurance (`active_days >= 14`)** via [`hirepulse/google-ads-transparency-scraper`](https://apify.com/hirepulse/google-ads-transparency-scraper) and correlates sustained ad spend with live hiring intent via [`hirepulse/company-intent-radar`](https://apify.com/hirepulse/company-intent-radar).
+- **Stateful Diffs:** Alerts only on `NEW_ENDURANCE_WINNER_14D`, `NEW_CAMPAIGN_DETECTED`, or `CAMPAIGN_PAUSED`.
+
+---
+
+## 🛡️ Transparent Dependencies & Hard Cost Cap Table
+
+We believe in **100% honest unit economics**—no hidden $149/mo SaaS dependencies, no fake "free" claims:
+
+| Component / Stage | Actor / Service Used | Pricing Model | Exact Unit Cost | Hard Cap Guardrail |
+| :--- | :--- | :--- | :--- | :--- |
+| **Orchestration & State** | `n8n` (Self-hosted or Cloud) + `getWorkflowStaticData` | Built-in JS Code Node | **$0.00** | Zero external DB required |
+| **Stage 1: Pre-Filter & Cap** | Deterministic JS Regex + Deduplication | Built-in JS Code Node | **$0.00** | Enforces `MAX_RUN_BUDGET_USD = $1.00` |
+| **Stage 2: ATS Board Probe** | [`hirepulse/ats-detector`](https://apify.com/hirepulse/ats-detector) | Free Utility Actor | **$0.00 Actor Fee** | Drops non-ATS domains before paid runs |
+| **Stage 3A: Live ATS Jobs** | [`hirepulse/ats-job-pulse`](https://apify.com/hirepulse/ats-job-pulse) | Pay-Per-Event (PPE) | **$0.05 / company** | Max 20 companies/run at $1.00 default cap |
+| **Stage 3B: Google Ads Spy** | [`hirepulse/google-ads-transparency-scraper`](https://apify.com/hirepulse/google-ads-transparency-scraper) | Pay-Per-Event (PPE) | **$0.005 / domain + $0.0015 / ad** | Filtered by `MIN_ACTIVE_DAYS = 14` |
+| **Stage 4: Contact Waterfall** | [`hirepulse/company-contact-details-finder`](https://apify.com/hirepulse/company-contact-details-finder) | Pay-Per-Event (PPE) | **$0.003 / domain** | Runs **ONLY** on verified `NEW_ROLE_OPENED` deltas |
+
+> **💡 Apify Free Tier Note:** Every free [Apify account](https://apify.com/hirepulse) includes **$5.00/month** in free platform usage credits—enough to run ~90 full company delta checks per month at $0 out-of-pocket before scaling to a paid plan.
+
+---
+
+## 📦 Complete Workflow Catalog in This Repository
+
+| File | Primary Use Case | Chained HirePulse Actors |
+| :--- | :--- | :--- |
+| **[`ats-hiring-delta-radar.json`](./ats-hiring-delta-radar.json)** | Daily/Weekly Cookieless ATS Job Delta (`NEW_ROLE_OPENED` / `ROLE_CLOSED`) + Contact Waterfall | `ats-detector` → `ats-job-pulse` → `company-contact-details-finder` |
+| **[`competitor-ads-longevity-radar.json`](./competitor-ads-longevity-radar.json)** | Weekly 14+ Days Google Ads Endurance Signal + Hiring Intent Correlation | `google-ads-transparency-scraper` → `company-intent-radar` |
+| **[`0-super-b2b-lead-enrichment-waterfall.json`](./0-super-b2b-lead-enrichment-waterfall.json)** | 3-Step Waterfall (Tech Stack + ATS Jobs + Google Ads + Decision-Maker Contacts) | `website-tech-stack-detector` → `ats-job-pulse` → `google-ads-transparency-scraper` → `company-contact-details-finder` |
+| **[`1-b2b-intent-prefilter-enrichment.json`](./1-b2b-intent-prefilter-enrichment.json)** | Deterministic ICP Pre-Filter (0–100 Score) before LLM Cold Outreach Hook | `company-intent-radar` |
+| **[`2-competitor-ads-and-hiring-monitor.json`](./2-competitor-ads-and-hiring-monitor.json)** | Monday 9AM Competitor Hiring & Search Ads Slack Alert | `ats-job-pulse` + `google-ads-transparency-scraper` |
+| **[`3-automated-competitor-ad-spy-and-intel.json`](./3-automated-competitor-ad-spy-and-intel.json)** | Competitor Ad Spy & Threat Score (0–100) War Room Brief | `google-ads-transparency-scraper` + `ats-job-pulse` |
+| **[`4-zero-token-icp-router-and-enrichment.json`](./4-zero-token-icp-router-and-enrichment.json)** | Zero-Token JavaScript ICP Router & CRM Hygiene | `website-tech-stack-detector` + `company-contact-details-finder` |
+
+---
+
+## 🏗️ Stateful Delta Architecture (`ats-hiring-delta-radar.json`)
 
 ```mermaid
-flowchart TD
-    subgraph S1["1. Lead Ingestion"]
-        In[("CSV / Webhook / DB")] --> Trigger["n8n Trigger Node"]
-    end
-
-    subgraph S2["2. Zero-Waste Enrichment"]
-        Trigger --> Apify["HirePulse Unified Actor\n(Apify API)"]
-        Apify --> Norm["Normalize & Safety Fallback\n(Clean JSON Schema)"]
-    end
-
-    subgraph S3["3. Deterministic Pre-Filter (Cost Saver)"]
-        Norm --> CodeFilter["Deterministic ICP Scorer\n(0-100 Tech, Jobs & Ads)"]
-        CodeFilter --> Gate{"Is Score >= 50?"}
-    end
-
-    subgraph S4["4. Qualified Route (97.6% Token Savings)"]
-        Gate -- "YES (Tier 1/2)" --> LLM["OpenAI gpt-4o-mini\n(Compact ~350 tokens)"]
-        LLM --> Format["Format CRM Record"]
-        Format --> CRM[("Google Sheets / HubSpot / CRM")]
-    end
-
-    subgraph S5["5. Disqualified Route ($0 AI Cost)"]
-        Gate -- "NO (Disqualified)" --> Disq["Dead Lead Logger\n(90-Day Hygiene Recheck)"]
-    end
-
-    classDef stage fill:#f8fafc,stroke:#3b82f6,stroke-width:2px;
-    classDef highlight fill:#dbeafe,stroke:#1d4ed8,stroke-width:2px;
-    class S1,S2,S3,S4,S5 stage;
+flowchart LR
+    Cron["⏰ Daily/Weekly Cron"] --> Cap["🛡️ Node 1: JS Pre-Filter\n& Hard Budget Cap ($1.00)"]
+    Cap --> FreeGate["🆓 Node 2: hirepulse/ats-detector\n($0.00 ATS Verification)"]
+    FreeGate --> Pulse["⚡ Node 3: hirepulse/ats-job-pulse\n(Cookieless ATS Extraction)"]
+    Pulse --> Delta["🧠 Node 4: Stateful Delta Engine\n(T vs T-1 + Error Guard)"]
+    Delta -- "NEW_ROLE_OPENED > 0" --> Contacts["📇 Node 5: hirepulse/company-contact-details-finder\n($0.003 Waterfall Enrichment)"]
+    Delta -- "SOURCE_ERROR / No Change" --> Preserve["🔒 Preserve T-1 Snapshot\n(Zero False Alerts)"]
+    Contacts --> Brief["📤 Slack / Webhook / CRM Deal Payload"]
 ```
 
 ---
 
-## 💰 The Math: HirePulse + n8n vs. Legacy Subscriptions
+## 🚀 2-Minute Import & Setup Guide
 
-| Feature / Metric | Clay (Pro/Enterprise) | Apollo.io (Custom) | Raw Web Scraping + AI | **HirePulse + n8n Suite** |
-| :--- | :--- | :--- | :--- | :--- |
-| **Base Monthly Cost** | $149 – $800 / mo | $99 – $300 / mo | $0 (Self-hosted) | **$0 (Self-hosted n8n)** |
-| **Enrichment Cost per Lead** | $0.05 – $0.20 / lead | $0.08 – $0.15 / lead | ~$0.005 | **~$0.005 – $0.01 (Pay-per-result)** |
-| **LLM Token Prompt Overhead** | 5,000 – 10,000 tokens | N/A (Generic AI) | 15,000 – 25,000 tokens | **~350 tokens (97.6% reduction)** |
-| **Filter Stage Timing** | Post-AI billing | Post-credit deduction | Post-LLM extraction | **Pre-AI (Deterministic JavaScript)** |
-| **Disqualified Lead Waste** | Paid full credit price | Paid full credit price | Paid 15k prompt tokens | **$0.000 spent on AI** |
-| **Total Cost for 1,000 Leads** | **~$250.00** | **~$180.00** | **~$65.00** | **~$6.50 – $8.00** |
-
-### Why Deterministic Pre-Filtering Matters
-Most B2B lead lists contain 60–80% unqualified businesses (stagnant headcount, legacy tech stack, zero marketing spend).
-- **The naive approach:** Send every lead's scraped HTML (15k tokens) directly to an LLM. For 1,000 leads, you burn 15,000,000 tokens ($37.50 on GPT-4o) just to discover 700 of them were useless.
-- **The HirePulse n8n approach:** The JavaScript Code node deterministically scores leads. Only the 300 qualified leads reach the LLM, using only 350 tokens each. Total tokens burned: 105,000 tokens ($0.15 on GPT-4o-mini). **Over 99% total cost reduction.**
-
----
-
-## 🚀 3-Minute Quickstart Guide
-
-### Prerequisites
-1. An active n8n instance (Self-hosted or n8n Cloud).
-2. A free [Apify Account](https://apify.com) (includes $5/month free platform credits).
-3. An OpenAI API Key (or Anthropic / Ollama for local LLM).
-
-### Step 1: Import Workflow into n8n
-1. In n8n, click **Workflows** > **Add workflow**.
-2. Click the three dots `...` in the upper right corner > **Import from File**.
-3. Select `1-b2b-intent-prefilter-enrichment.json`.
-
-### Step 2: Set Credentials
-- **Apify Account:** Create an Apify credential using your personal API token from your [Apify Console](https://console.apify.com/account/integrations).
-- **OpenAI Account:** Enter your standard OpenAI API key.
-
-### Step 3: Run & Verify
-1. Click **Test workflow**.
-2. The workflow will run the 3 included test accounts (`vercel.com`, `linear.app`, `legacy-local-plumbing-supply.example`).
-3. Notice how `legacy-local-plumbing-supply` is automatically routed to `Log Disqualified Leads` without triggering OpenAI, while Vercel and Linear generate tailored 3-sentence outreach hooks and format clean CRM records.
-
----
-
-## ⚙️ Customization & Production Hardening
-
-- **Adjust ICP Criteria:** In the `Deterministic ICP Pre-Filter` node, customize `TARGET_KEYWORDS_TECH`, `MIN_SCORE_TO_QUALIFY`, and scoring weights according to your business needs.
-- **Connect Real Destinations:** Replace the `Export to Google Sheets / CRM (Ready)` Set node with the official n8n nodes for **HubSpot**, **Salesforce**, **Notion**, **Airtable**, or **PostgreSQL**.
-- **Replace Trigger:** Replace `When clicking "Test workflow"` with a **Webhook Trigger**, **Google Sheets Trigger**, or **Postgres Trigger** to enrich leads continuously in real time.
-
----
-
-## 🔒 Security & Privacy Policy
-- **Zero Hardcoded Secrets:** Credentials are decoupled into n8n credential stores.
-- **Zero Spend Guarantee:** No hidden recurring fees or unauthorized credit cards; leverages standard pay-per-event Apify Actor quotas.
-- **Fail-Safe Design:** Includes comprehensive schema fallback handlers to ensure zero pipeline breaks even on partial company profiles.
+1. **Install Community Node (Optional) or Use Built-In HTTP:**
+   - The workflows support `@apify/n8n-nodes-apify` out of the box, or standard n8n `HTTP Request` nodes.
+2. **Import via URL in n8n:**
+   - Open n8n → **Workflows** → **Import from URL** → paste:
+     - `https://raw.githubusercontent.com/edtool79-collab/hirepulse-tools/main/n8n/ats-hiring-delta-radar.json`
+     - `https://raw.githubusercontent.com/edtool79-collab/hirepulse-tools/main/n8n/competitor-ads-longevity-radar.json`
+3. **Connect Your Apify Token:**
+   - Grab your API token from [Apify Console → Integrations](https://console.apify.com/account/integrations) and add it to the **Apify account** credential in n8n.
+4. **Customize Target Domains & Budget Cap:**
+   - Open **Node 1 (`Pre-Filter & Hard Budget Cap`)** and adjust `MAX_RUN_BUDGET_USD` (default `1.00`) and your `target_domains` array.

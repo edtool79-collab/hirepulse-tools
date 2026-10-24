@@ -1,0 +1,192 @@
+{
+  "name": "Competitor Ads Longevity Radar (14+ Days Filter) & Landing Page Tech Audit",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## 📊 Flagship #2: Competitor Ads Longevity & Tech Audit Radar\n**Built for Performance Agencies, Growth Teams & SaaS PMMs (The Agency Multiplier)**\n\n### Key Engineering Highlights:\n- **Actor 1 (`hirepulse/google-ads-transparency-scraper`):** Pulls active Google Ads Transparency creatives, formats, and `first_shown` / `last_shown` timestamps by domain.\n- **14+ Days Endurance Filter (`Code Node`):** Automatically separates short-lived test ads (<14 days) from enduring campaigns (`14+ days active`) and newly launched ads since last week's run.\n- **Ad ID Deduplication:** Stores seen `ad_id` hashes so your weekly agency report only highlights *new* launches and newly matured 14-day campaigns.\n- **Actor 2 (`hirepulse/website-tech-stack-detector`):** Audits the competitor's domain for ad pixels (Meta Pixel, Google Ads tag, GA4) and CMS changes.",
+        "height": 290,
+        "width": 1140,
+        "color": 5
+      },
+      "id": "sticky-header-ads",
+      "name": "Agency Radar Overview",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -960,
+        -20
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 7 * * 1"
+            }
+          ]
+        }
+      },
+      "id": "node-weekly-monday-cron",
+      "name": "Weekly Agency Cron (Monday 07:00)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -940,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================================================\n// COMPETITOR WATCHLIST & UPFRONT COST CAP\n// ============================================================================\nconst MAX_RUN_BUDGET_USD = 0.50;\nconst MIN_ENDURANCE_DAYS = 14;\n\nconst competitors = [\n  { client_account: 'Acme SaaS', competitor_domain: 'monday.com' },\n  { client_account: 'Acme SaaS', competitor_domain: 'clickup.com' },\n  { client_account: 'Acme SaaS', competitor_domain: 'notion.so' }\n];\n\nreturn competitors.map(c => ({\n  json: {\n    ...c,\n    domain: c.competitor_domain.toLowerCase().trim(),\n    min_endurance_days: MIN_ENDURANCE_DAYS,\n    max_run_budget_usd: MAX_RUN_BUDGET_USD\n  }\n}));"
+      },
+      "id": "node-competitor-list",
+      "name": "1. Competitor Watchlist & Budget Cap",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -680,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "actorSource": "custom",
+        "actorId": "hirepulse/google-ads-transparency-scraper",
+        "waitForFinish": true,
+        "input": "={\n  \"domain\": \"{{ $json.domain }}\",\n  \"maxAds\": 25\n}"
+      },
+      "id": "node-google-ads-actor",
+      "name": "2. HirePulse Google Ads Transparency Scraper",
+      "type": "@apify/n8n-nodes-apify.apify",
+      "typeVersion": 1,
+      "position": [
+        -400,
+        360
+      ],
+      "credentials": {
+        "apifyApi": {
+          "id": "apify-account-creds",
+          "name": "Apify account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================================================\n// 14+ DAYS ENDURANCE & AD DEDUPLICATION ENGINE\n// Note: Longevity (14+ days active) is used as a campaign endurance signal,\n// not a guaranteed measure of advertiser ROAS.\n// ============================================================================\nconst staticData = $getWorkflowStaticData('global');\nif (!staticData.seenAdIds) {\n  staticData.seenAdIds = {};\n}\n\nconst items = $input.all();\nconst digest = [];\n\nfor (const item of items) {\n  const row = item.json;\n  const domain = String(row.domain || row.competitor_domain || 'unknown');\n  const ads = Array.isArray(row.ads) ? row.ads : [];\n\n  const enduringAds = [];\n  const newlyLaunchedAds = [];\n  let discardedShortTests = 0;\n\n  for (const ad of ads) {\n    const adId = String(ad.id || ad.creative_id || ad.ad_id || ad.preview_url || '');\n    if (!adId) continue;\n\n    const firstShown = ad.first_shown ? new Date(ad.first_shown).getTime() : Date.now();\n    const lastShown = ad.last_shown ? new Date(ad.last_shown).getTime() : Date.now();\n    const daysActive = Math.max(1, Math.round((lastShown - firstShown) / (1000 * 60 * 60 * 24)));\n\n    const wasSeenBefore = Boolean(staticData.seenAdIds[adId]);\n    staticData.seenAdIds[adId] = { domain, first_tracked: new Date().toISOString(), daysActive };\n\n    if (daysActive >= 14) {\n      enduringAds.push({\n        ad_id: adId,\n        format: ad.format || 'TEXT/IMAGE',\n        days_active: daysActive,\n        signal_type: 'ENDURING_14_PLUS_DAYS',\n        headline: ad.headline || ad.title || 'Active Creative',\n        preview_url: ad.preview_url || ad.link || ''\n      });\n    } else if (!wasSeenBefore) {\n      newlyLaunchedAds.push({\n        ad_id: adId,\n        format: ad.format || 'TEXT/IMAGE',\n        days_active: daysActive,\n        signal_type: 'NEW_LAUNCH_THIS_WEEK',\n        headline: ad.headline || ad.title || 'New Creative',\n        preview_url: ad.preview_url || ad.link || ''\n      });\n    } else {\n      discardedShortTests++;\n    }\n  }\n\n  digest.push({\n    json: {\n      domain,\n      total_ads_scanned: ads.length,\n      enduring_14d_ads_count: enduringAds.length,\n      new_launches_count: newlyLaunchedAds.length,\n      discarded_short_tests: discardedShortTests,\n      should_audit_landing_tech: enduringAds.length > 0 || newlyLaunchedAds.length > 0,\n      enduring_ads_sample: enduringAds.slice(0, 5),\n      new_launches_sample: newlyLaunchedAds.slice(0, 5)\n    }\n  });\n}\n\nreturn digest;"
+      },
+      "id": "node-longevity-filter",
+      "name": "3. 14+ Days Endurance & Deduplication Filter ($0)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -120,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.should_audit_landing_tech }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "node-if-active-advertiser",
+      "name": "4. Gate: Has Enduring or New Ads?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        160,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "actorSource": "custom",
+        "actorId": "hirepulse/website-tech-stack-detector",
+        "waitForFinish": true,
+        "input": "={\n  \"domain\": \"{{ $json.domain }}\"\n}"
+      },
+      "id": "node-landing-tech-audit",
+      "name": "5. HirePulse Landing Page Pixel & Tech Detector (Actor #2)",
+      "type": "@apify/n8n-nodes-apify.apify",
+      "typeVersion": 1,
+      "position": [
+        440,
+        260
+      ],
+      "credentials": {
+        "apifyApi": {
+          "id": "apify-account-creds",
+          "name": "Apify account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Weekly Agency Cron (Monday 07:00)": {
+      "main": [
+        [
+          {
+            "node": "1. Competitor Watchlist & Budget Cap",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1. Competitor Watchlist & Budget Cap": {
+      "main": [
+        [
+          {
+            "node": "2. HirePulse Google Ads Transparency Scraper",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2. HirePulse Google Ads Transparency Scraper": {
+      "main": [
+        [
+          {
+            "node": "3. 14+ Days Endurance & Deduplication Filter ($0)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3. 14+ Days Endurance & Deduplication Filter ($0)": {
+      "main": [
+        [
+          {
+            "node": "4. Gate: Has Enduring or New Ads?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "4. Gate: Has Enduring or New Ads?": {
+      "main": [
+        [
+          {
+            "node": "5. HirePulse Landing Page Pixel & Tech Detector (Actor #2)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

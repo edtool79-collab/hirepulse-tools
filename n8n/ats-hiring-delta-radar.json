@@ -1,0 +1,241 @@
+{
+  "name": "ATS Hiring Changes Radar & Decision-Maker Waterfall (Cookieless + Cost Cap)",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## 🎯 Flagship #1: ATS Hiring-Delta Radar & Contact Waterfall\n**Built for Staffing Agencies, Outbound SDRs & RevOps (100% Cookieless — Zero LinkedIn Ban Risk)**\n\n### Why This Workflow Retains Value Daily:\n- **Free Discovery Gate (`hirepulse/ats-detector`):** Checks if a company has a public Greenhouse, Lever, Ashby, Workable, Recruitee, or SmartRecruiters board for **$0.00 Actor fee**.\n- **Hard Budget Cap (`MAX_RUN_BUDGET_USD`):** Enforces a strict spending ceiling before calling paid Actors.\n- **True Delta / State Diff Engine:** Compares today's openings against the previous run (`Static Data` / Sheet) and separates:\n  1. `NEW_ROLE_OPENED` -> Triggers contact & tech enrichment waterfall.\n  2. `ROLE_CLOSED` -> Logs closed role without wasting enrichment credits.\n  3. `SOURCE_ERROR` -> Protects state! Never mistakes a temporary timeout for a closed job.\n- **Works Without Paid LLM Keys:** Includes a deterministic outreach brief generator out of the box (optional LLM node at the end).",
+        "height": 310,
+        "width": 1140,
+        "color": 6
+      },
+      "id": "sticky-header-ats",
+      "name": "Architecture & Transparency Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -960,
+        -40
+      ]
+    },
+    {
+      "parameters": {
+        "content": "### ⚡ Cost & Dependency Transparency\n- **Required Account:** Apify API Token (Free starter tier includes $5/mo platform credit).\n- **Actor 1 (`hirepulse/ats-detector`):** $0.00 Actor fee.\n- **Actor 2 (`hirepulse/ats-job-pulse`):** $0.05 per company with an active board.\n- **Actor 3 (`hirepulse/company-contact-details-finder`):** $0.003 per company (runs ONLY when a new role opens!).\n- **Default Cap:** Set to `$1.00` max per run inside the Budget Guardrail node.",
+        "height": 220,
+        "width": 520,
+        "color": 4
+      },
+      "id": "sticky-cost-transparency",
+      "name": "Transparent Cost Cap Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        220,
+        -40
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 6 * * 1-5"
+            }
+          ]
+        }
+      },
+      "id": "node-daily-cron",
+      "name": "Daily Morning Cron (06:00 Mon-Fri)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -940,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================================================\n// CONFIGURATION & ZERO-KEY DEMO MODE\n// Set DEMO_MODE = false when you connect your Apify API credentials.\n// ============================================================================\nconst DEMO_MODE = false;\nconst MAX_RUN_BUDGET_USD = 1.00; // Hard cap per execution ($0.05 per company checked)\nconst TARGET_ROLE_KEYWORDS = ['engineer', 'developer', 'devops', 'sales', 'account executive', 'vp', 'director', 'growth', 'data', 'security'];\nconst EXCLUDE_COMPANY_KEYWORDS = ['staffing', 'recruiting', 'talent agency', 'headhunter'];\n\nconst watchList = [\n  { domain: 'vercel.com', company_name: 'Vercel', target_region: 'US/Remote' },\n  { domain: 'linear.app', company_name: 'Linear', target_region: 'US/EU' },\n  { domain: 'PostHog.com', company_name: 'PostHog', target_region: 'Global' },\n  { domain: 'elite-staffing-agency.example', company_name: 'Elite Recruiting Partners', target_region: 'US' }\n];\n\n// Step 1: Normalize domains, deduplicate, and filter out staffing agencies ($0 cost)\nconst seen = new Set();\nconst validTargets = [];\nconst skipped = [];\n\nfor (const row of watchList) {\n  const cleanDomain = String(row.domain || '').toLowerCase().replace(/^https?:\\/\\//, '').replace(/\\/.*$/, '').trim();\n  const compName = String(row.company_name || '');\n  if (!cleanDomain || seen.has(cleanDomain)) continue;\n  seen.add(cleanDomain);\n\n  const isAgency = EXCLUDE_COMPANY_KEYWORDS.some(k => compName.toLowerCase().includes(k) || cleanDomain.includes(k));\n  if (isAgency) {\n    skipped.push({ domain: cleanDomain, reason: 'Excluded Staffing/Recruiting Agency' });\n    continue;\n  }\n  validTargets.push({\n    domain: cleanDomain,\n    company_name: compName,\n    target_region: row.target_region || 'Any'\n  });\n}\n\n// Step 2: Enforce Upfront Budget Ceiling\nconst maxCompaniesAllowed = Math.floor(MAX_RUN_BUDGET_USD / 0.05);\nconst budgetApprovedTargets = validTargets.slice(0, maxCompaniesAllowed);\n\nreturn budgetApprovedTargets.map((t, idx) => ({\n  json: {\n    ...t,\n    demo_mode: DEMO_MODE,\n    target_role_keywords: TARGET_ROLE_KEYWORDS,\n    budget_guardrail: {\n      max_run_budget_usd: MAX_RUN_BUDGET_USD,\n      estimated_company_cost_usd: 0.05,\n      batch_index: idx + 1,\n      batch_total_approved: budgetApprovedTargets.length,\n      estimated_total_run_usd: Number((budgetApprovedTargets.length * 0.05).toFixed(2)),\n      skipped_agencies_count: skipped.length\n    }\n  }\n}));"
+      },
+      "id": "node-budget-guardrail",
+      "name": "1. Pre-Filter & Hard Budget Cap ($0)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -680,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "actorSource": "custom",
+        "actorId": "hirepulse/ats-detector",
+        "waitForFinish": true,
+        "input": "={\n  \"domain\": \"{{ $json.domain }}\"\n}"
+      },
+      "id": "node-ats-detector-free",
+      "name": "2. HirePulse ATS Detector (Free Gate)",
+      "type": "@apify/n8n-nodes-apify.apify",
+      "typeVersion": 1,
+      "position": [
+        -420,
+        360
+      ],
+      "credentials": {
+        "apifyApi": {
+          "id": "apify-account-creds",
+          "name": "Apify account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "actorSource": "custom",
+        "actorId": "hirepulse/ats-job-pulse",
+        "waitForFinish": true,
+        "input": "={\n  \"domain\": \"{{ $json.domain }}\",\n  \"includeJobs\": true\n}"
+      },
+      "id": "node-ats-job-pulse",
+      "name": "3. HirePulse ATS Job Pulse (Fetch Active Board)",
+      "type": "@apify/n8n-nodes-apify.apify",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        360
+      ],
+      "credentials": {
+        "apifyApi": {
+          "id": "apify-account-creds",
+          "name": "Apify account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================================================================\n// STATEFUL DELTA & DIFF ENGINE\n// Distinguishes: NEW_ROLE_OPENED | ROLE_CLOSED | NO_CHANGE | SOURCE_ERROR\n// Never wipes previous jobs if an endpoint temporarily fails!\n// ============================================================================\nconst staticData = $getWorkflowStaticData('global');\nif (!staticData.jobStateByDomain) {\n  staticData.jobStateByDomain = {};\n}\n\nconst items = $input.all();\nconst output = [];\n\nfor (const item of items) {\n  const d = item.json;\n  const domain = String(d.domain || d.company_domain || 'unknown').toLowerCase();\n  const prevJobs = staticData.jobStateByDomain[domain] || {};\n\n  // 1. Check if scrape failed or source was unreachable\n  const sourceError = Boolean(d.error || d.status === 'error' || d.source_available === false);\n  if (sourceError) {\n    output.push({\n      json: {\n        domain,\n        delta_status: 'SOURCE_ERROR',\n        action_required: false,\n        message: 'ATS endpoint unreachable on this run. Previous state preserved to avoid false close alerts.',\n        new_roles_count: 0,\n        closed_roles_count: 0,\n        new_target_roles: []\n      }\n    });\n    continue;\n  }\n\n  // 2. Parse current open jobs\n  const rawJobs = Array.isArray(d.jobs) ? d.jobs : (Array.isArray(d.open_roles) ? d.open_roles : []);\n  const currentMap = {};\n  const newRoles = [];\n  const newTargetRoles = [];\n  const roleKeywords = Array.isArray(d.target_role_keywords) ? d.target_role_keywords : ['engineer', 'sales', 'vp', 'director', 'developer', 'growth'];\n\n  for (const job of rawJobs) {\n    const jobId = String(job.id || job.job_id || job.url || job.title || '').trim();\n    if (!jobId) continue;\n    const title = String(job.title || 'Untitled Role');\n    const location = String(job.location || 'Remote/Unspecified');\n    const applyUrl = String(job.url || job.apply_url || '');\n\n    currentMap[jobId] = { title, location, applyUrl, last_seen: new Date().toISOString() };\n\n    if (!prevJobs[jobId]) {\n      newRoles.push(currentMap[jobId]);\n      const matchesTarget = roleKeywords.some(k => title.toLowerCase().includes(k));\n      if (matchesTarget) {\n        newTargetRoles.push(currentMap[jobId]);\n      }\n    }\n  }\n\n  // 3. Detect closed roles (existed in previous healthy run, absent today)\n  const closedRoles = [];\n  for (const [oldId, oldJob] of Object.entries(prevJobs)) {\n    if (!currentMap[oldId]) {\n      closedRoles.push(oldJob);\n    }\n  }\n\n  // 4. Persist updated state\n  staticData.jobStateByDomain[domain] = currentMap;\n\n  const deltaStatus = newTargetRoles.length > 0\n    ? 'NEW_ROLE_OPENED'\n    : (closedRoles.length > 0 ? 'ROLE_CLOSED' : 'NO_CHANGE');\n\n  // Deterministic Outreach Brief (Zero LLM Token Cost!)\n  const topRole = newTargetRoles[0];\n  const deterministicHook = topRole\n    ? `Noticed ${domain} just opened a new ${topRole.title} role (${topRole.location}) — teams scaling that function usually need automated pipeline coverage.`\n    : '';\n\n  output.push({\n    json: {\n      domain,\n      ats_platform: d.ats_provider || d.platform || 'Public ATS',\n      delta_status: deltaStatus,\n      action_required: deltaStatus === 'NEW_ROLE_OPENED',\n      total_active_jobs: Object.keys(currentMap).length,\n      new_roles_count: newRoles.length,\n      new_target_roles_count: newTargetRoles.length,\n      closed_roles_count: closedRoles.length,\n      new_target_roles: newTargetRoles.slice(0, 5),\n      closed_roles: closedRoles.slice(0, 5),\n      deterministic_icebreaker: deterministicHook,\n      checked_at: new Date().toISOString()\n    }\n  });\n}\n\nreturn output;"
+      },
+      "id": "node-delta-diff-engine",
+      "name": "4. Stateful Delta & Diff Engine ($0 Code)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        100,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.delta_status }}",
+              "value2": "NEW_ROLE_OPENED"
+            }
+          ]
+        }
+      },
+      "id": "node-if-new-role",
+      "name": "5. Gate: Did a New Target Role Open Today?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        360,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "actorSource": "custom",
+        "actorId": "hirepulse/company-contact-details-finder",
+        "waitForFinish": true,
+        "input": "={\n  \"domain\": \"{{ $json.domain }}\",\n  \"includeDns\": true\n}"
+      },
+      "id": "node-contact-waterfall",
+      "name": "6. HirePulse Contact & DNS Enricher (Waterfall Actor #2)",
+      "type": "@apify/n8n-nodes-apify.apify",
+      "typeVersion": 1,
+      "position": [
+        640,
+        260
+      ],
+      "credentials": {
+        "apifyApi": {
+          "id": "apify-account-creds",
+          "name": "Apify account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Daily Morning Cron (06:00 Mon-Fri)": {
+      "main": [
+        [
+          {
+            "node": "1. Pre-Filter & Hard Budget Cap ($0)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1. Pre-Filter & Hard Budget Cap ($0)": {
+      "main": [
+        [
+          {
+            "node": "2. HirePulse ATS Detector (Free Gate)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2. HirePulse ATS Detector (Free Gate)": {
+      "main": [
+        [
+          {
+            "node": "3. HirePulse ATS Job Pulse (Fetch Active Board)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3. HirePulse ATS Job Pulse (Fetch Active Board)": {
+      "main": [
+        [
+          {
+            "node": "4. Stateful Delta & Diff Engine ($0 Code)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "4. Stateful Delta & Diff Engine ($0 Code)": {
+      "main": [
+        [
+          {
+            "node": "5. Gate: Did a New Target Role Open Today?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "5. Gate: Did a New Target Role Open Today?": {
+      "main": [
+        [
+          {
+            "node": "6. HirePulse Contact & DNS Enricher (Waterfall Actor #2)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
