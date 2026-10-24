@@ -1,10 +1,372 @@
 {
   "$schema": "https://static.smithery.ai/server-card.schema.json",
-  "name": "hirepulse-mcp",
-  "description": "8 pay-per-use data tools for AI agents: Google Ads Transparency, ATS Job Boards, Company Intent Signals, Google Jobs, Keyword Volume & CPC, Domain SEO, YouTube Transcripts, and AliExpress.",
+  "serverInfo": {
+    "name": "hirepulse-tools",
+    "version": "1.0.0",
+    "description": "15 pay-per-use data APIs and MCP tools for AI agents: job search, ATS boards, competitor Google Ads, company intent, tech stacks, SEO, and transcripts."
+  },
   "homepage": "https://edtool79-collab.github.io/hirepulse-tools/",
-  "repository": "https://github.com/edtool79-collab/hirepulse-tools",
-  "remoteUrl": "https://mcp.apify.com?tools=hirepulse/company-intent-radar,hirepulse/google-ads-transparency-scraper,hirepulse/ats-job-pulse,hirepulse/google-jobs-scraper,hirepulse/keyword-search-volume,hirepulse/domain-seo-overview,hirepulse/youtube-transcript-scraper,hirepulse/aliexpress-search-scraper",
-  "transports": ["streamable-http", "sse", "stdio"],
-  "freeTier": "$5/month Apify platform credit included with no credit card required at https://apify.com/pricing"
+  "repository": "https://github.com/edtool79-collab/hirepulse-tools/",
+  "remoteUrl": "https://gethirepulse.xyz/mcp",
+  "transports": [
+    "streamable-http",
+    "sse",
+    "stdio"
+  ],
+  "capabilities": {
+    "tools": {
+      "listChanged": false
+    }
+  },
+  "freeTier": "5 free calls/day per IP at https://gethirepulse.xyz or $5/month Apify platform credit",
+  "sisterGateway": "https://gethirepulse.xyz",
+  "tools": [
+    {
+      "name": "aliexpress_search_scraper",
+      "description": "Export AliExpress search results to a spreadsheet without coding: product title, price in your currency, original price and discount, rating, units sold, image and product link. 60 products per page. Also as JSON for Python, n8n and AI agents.",
+      "price": "$2.50 per 1,000 products (pay per result, no subscription). Free Apify plan: 100 products per run.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "queries": {
+            "type": "array",
+            "default": [
+              "wireless earbuds"
+            ]
+          },
+          "max_results_per_query": {
+            "type": "number",
+            "default": 120
+          },
+          "ship_to": {
+            "type": "string",
+            "default": "US"
+          },
+          "currency": {
+            "type": "string",
+            "default": "USD"
+          }
+        }
+      }
+    },
+    {
+      "name": "google_ads_transparency_scraper",
+      "description": "Extract live Google ads by domain from Google Ads Transparency Center. Get ad preview images, formats and first/last shown dates as clean JSON.",
+      "price": "$0.005 per domain checked + $0.0015 per ad returned. Domains with no ads cost $0.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "domains": {
+            "type": "array",
+            "default": [
+              "nike.com"
+            ]
+          },
+          "country": {
+            "type": "string",
+            "default": "US"
+          },
+          "max_ads_per_domain": {
+            "type": "number",
+            "default": 40
+          },
+          "mode": {
+            "type": "string",
+            "default": "ads"
+          }
+        }
+      }
+    },
+    {
+      "name": "company_intent_radar",
+      "description": "Enrich any company domain with live hiring data, active Google ads, SEO traffic and intent scores in a single pay-per-use API call.",
+      "price": "$0.03 per company report, charged only when the full report was produced. Free plan: hiring and email signals for 5 companies.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "domains": {
+            "type": "array",
+            "default": [
+              "stripe.com",
+              "notion.so"
+            ]
+          },
+          "country": {
+            "type": "string",
+            "default": "US"
+          }
+        }
+      }
+    },
+    {
+      "name": "ats_job_pulse",
+      "description": "Extract open jobs, published salary ranges and the technologies they mention from Greenhouse, Lever, Ashby, Workable, Recruitee and SmartRecruiters. Pay-per-use ATS data API.",
+      "price": "$0.05 per company whose job board was found and processed, however many jobs it has. Companies that are not found, and failed ones, are not charged.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "companies": {
+            "type": "array",
+            "default": [
+              "stripe.com",
+              "notion.so"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "google_jobs_scraper",
+      "description": "Search Google Jobs in 90+ countries. Extract job titles, company names, parsed salaries, contract types and direct apply links as clean JSON.",
+      "price": "$0.005 per search that returns jobs + $0.001 per job.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "queries": {
+            "type": "array",
+            "default": [
+              "data engineer"
+            ]
+          },
+          "country": {
+            "type": "string",
+            "default": "US"
+          },
+          "max_jobs_per_query": {
+            "type": "number",
+            "default": 50
+          }
+        }
+      }
+    },
+    {
+      "name": "keyword_search_volume",
+      "description": "Google monthly search volume, CPC and competition for your keywords, plus keyword ideas, in bulk via API.",
+      "price": "$0.03 per lookup + $0.005 per keyword result.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "keywords": {
+            "type": "array",
+            "default": [
+              "running shoes",
+              "trail running shoes"
+            ]
+          },
+          "country": {
+            "type": "string",
+            "default": "US"
+          }
+        }
+      }
+    },
+    {
+      "name": "domain_seo_overview",
+      "description": "Inspect website titles, meta descriptions, sitemap observations and Google Autocomplete suggestions. Native mode does not measure organic traffic, ranking positions, keyword search volumes or CPC; unavailable metrics remain null.",
+      "price": "Native/public-evidence mode emits no domain-lookup or domain-result charges. An Actor start event is still listed at $0.00005 per GB (minimum one event), and applicable Apify charges may apply. Review the live Pricing tab. Paid SEO-database events are separate and are not activated by this example.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "domains": {
+            "type": "array",
+            "default": [
+              "example.com"
+            ]
+          },
+          "country": {
+            "type": "string",
+            "default": "US"
+          },
+          "top_keywords": {
+            "type": "number",
+            "default": 0
+          },
+          "competitors": {
+            "type": "number",
+            "default": 0
+          },
+          "use_paid_upstream": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      }
+    },
+    {
+      "name": "youtube_transcript_scraper",
+      "description": "Get transcripts of YouTube videos and Shorts in bulk, with timestamps, as JSON or plain text.",
+      "price": "$0.003 per delivered transcript. Videos without captions, unavailable videos and failed fetches are not charged.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "videos": {
+            "type": "array",
+            "default": [
+              "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "website_tech_stack_detector",
+      "description": "Enrich company domains with observed website technologies, advertising pixels, frontend frameworks, and DNS email signals in a single API call.",
+      "price": "$0.005 per domain checked + $0.001 per detected tech. Domains with no stack cost $0.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "domains": {
+            "type": "array",
+            "default": [
+              "stripe.com",
+              "linear.app"
+            ]
+          },
+          "mode": {
+            "type": "string",
+            "default": "technologies"
+          }
+        }
+      }
+    },
+    {
+      "name": "ats_detector",
+      "description": "Detect which applicant tracking system any company uses (Greenhouse, Lever, Ashby, Workable, etc.) and extract official careers board endpoints.",
+      "price": "$0.005 per domain checked. Undetected boards cost $0.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "domains": {
+            "type": "array",
+            "default": [
+              "linear.app",
+              "datadoghq.com"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "company_contact_details_finder",
+      "description": "Find publicly listed business contact information from company websites. Export corporate emails, phone numbers, contact forms, and social links.",
+      "price": "$0.005 per domain checked + $0.001 per public contact found.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "domains": {
+            "type": "array",
+            "default": [
+              "stripe.com",
+              "vercel.com"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "b2b_account_research_agent",
+      "description": "Autonomous account intelligence combining careers hiring velocity, web technology stack, Google ads presence, and verified digital footprint into a structured dossier.",
+      "price": "$0.05 per company research dossier produced.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "domains": {
+            "type": "array",
+            "default": [
+              "stripe.com",
+              "cloudflare.com"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "ai_search_brand_visibility_radar",
+      "description": "Audit website readiness for AI search engines and crawler agents (Perplexity, ChatGPT, Claude). Inspect robots directives, headers, llms.txt, and JSON-LD schema.",
+      "price": "$0.02 per returned brand visibility audit report.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "domains": {
+            "type": "array",
+            "default": [
+              "linear.app"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "mcp_x402_server_grader",
+      "description": "Benchmark MCP server tools and x402 payment configurations. Audits tool schema descriptions, token efficiency, payment challenges, and Base network readiness.",
+      "price": "$0.01 per returned evidence audit report.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "server_url": {
+            "type": "string",
+            "default": "https://gethirepulse.xyz/mcp"
+          }
+        }
+      }
+    },
+    {
+      "name": "shopify_to_llms_generator",
+      "description": "Sample product catalogs from accessible public store feeds and draft an agent-ready llms.txt format with structured product attributes, prices, and variants.",
+      "price": "$0.02 per generated catalog document report.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "store_url": {
+            "type": "string",
+            "default": "https://untuckit.com"
+          }
+        }
+      }
+    },
+    {
+      "name": "viral_product_radar",
+      "description": "Research product-related TikTok videos with source links, creator breadth and history. Measure growth on the same videos after6+ hours; no sales forecasts.",
+      "price": "$0.02 per delivered report; Clockworks collection is separate and capped ($0.04 total by default).",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "keywords": {
+            "type": "array",
+            "default": [
+              "mini projector"
+            ]
+          },
+          "analysis_mode": {
+            "type": "string",
+            "default": "product_videos"
+          },
+          "upstream_source": {
+            "type": "string",
+            "default": "clockworks"
+          },
+          "allow_paid_upstream": {
+            "type": "boolean",
+            "default": true
+          },
+          "upstream_max_charge_usd": {
+            "type": "number",
+            "default": 0.04
+          },
+          "max_items": {
+            "type": "number",
+            "default": 10
+          },
+          "state_id": {
+            "type": "string",
+            "default": "my-product-research"
+          },
+          "deliver_all_reports": {
+            "type": "boolean",
+            "default": true
+          }
+        }
+      }
+    }
+  ]
 }

@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "HirePulse Tools",
+  "name_for_model": "hirepulse_tools",
+  "description_for_human": "Pay-per-use data APIs for AI agents and developers: job boards, company intent signals, Google ads transparency, tech stacks, transcripts.",
+  "description_for_model": "Access 15 live data APIs for jobs, company intelligence, tech stacks, Google ads, and e-commerce without subscriptions.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://edtool79-collab.github.io/hirepulse-tools/openapi.json"
+  },
+  "logo_url": "https://edtool79-collab.github.io/hirepulse-tools/brand/logo.svg",
+  "contact_email": "support@gethirepulse.xyz",
+  "legal_info_url": "https://edtool79-collab.github.io/hirepulse-tools/"
+}

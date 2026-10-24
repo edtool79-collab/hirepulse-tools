@@ -1,0 +1,13 @@
+{
+  "agent_permissions": {
+    "crawl": true,
+    "cache": "72h",
+    "cite": true,
+    "train": false,
+    "reproduce_limited": "facts_only"
+  },
+  "contact": "https://gethirepulse.xyz/contact",
+  "documentation": "https://edtool79-collab.github.io/hirepulse-tools/",
+  "mcp_endpoint": "https://gethirepulse.xyz/mcp",
+  "x402_gateway": "https://gethirepulse.xyz"
+}

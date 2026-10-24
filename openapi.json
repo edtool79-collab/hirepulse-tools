@@ -1,0 +1,3050 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "HirePulse Tools & AI Agent APIs",
+    "description": "Pay-per-use data APIs and MCP tool endpoints for AI agents, developers and growth teams. Provides live job search, ATS boards, Google Ads transparency, company intent signals, tech stacks, and transcripts.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "HirePulse",
+      "url": "https://edtool79-collab.github.io/hirepulse-tools/"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://gethirepulse.xyz",
+      "description": "HirePulse Remote Agent Gateway (x402 over Base USDC / Free Tier)"
+    },
+    {
+      "url": "https://api.apify.com/v2",
+      "description": "Apify Production Cloud Gateway"
+    }
+  ],
+  "paths": {
+    "/v1/aliexpress-search-api": {
+      "post": {
+        "summary": "AliExpress Search Scraper",
+        "description": "Export AliExpress search results to a spreadsheet without coding: product title, price in your currency, original price and discount, rating, units sold, image and product link. 60 products per page. Also as JSON for Python, n8n and AI agents.\n\nPrice: $2.50 per 1,000 products (pay per result, no subscription). Free Apify plan: 100 products per run.",
+        "operationId": "aliexpress_search_scraper",
+        "tags": [
+          "AliExpress Search Scraper"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "queries": {
+                    "type": "array",
+                    "default": [
+                      "wireless earbuds"
+                    ]
+                  },
+                  "max_results_per_query": {
+                    "type": "number",
+                    "default": 120
+                  },
+                  "ship_to": {
+                    "type": "string",
+                    "default": "US"
+                  },
+                  "currency": {
+                    "type": "string",
+                    "default": "USD"
+                  }
+                }
+              },
+              "example": {
+                "queries": [
+                  "wireless earbuds"
+                ],
+                "max_results_per_query": 120,
+                "ship_to": "US",
+                "currency": "USD"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": []
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/aliexpress-search-api",
+                      "description": "AliExpress Search Scraper"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/acts/hirepulse~aliexpress-search-scraper/run-sync-get-dataset-items": {
+      "post": {
+        "summary": "AliExpress Search Scraper",
+        "description": "Export AliExpress search results to a spreadsheet without coding: product title, price in your currency, original price and discount, rating, units sold, image and product link. 60 products per page. Also as JSON for Python, n8n and AI agents.\n\nPrice: $2.50 per 1,000 products (pay per result, no subscription). Free Apify plan: 100 products per run.",
+        "operationId": "aliexpress_search_scraper",
+        "tags": [
+          "AliExpress Search Scraper"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "queries": {
+                    "type": "array",
+                    "default": [
+                      "wireless earbuds"
+                    ]
+                  },
+                  "max_results_per_query": {
+                    "type": "number",
+                    "default": 120
+                  },
+                  "ship_to": {
+                    "type": "string",
+                    "default": "US"
+                  },
+                  "currency": {
+                    "type": "string",
+                    "default": "USD"
+                  }
+                }
+              },
+              "example": {
+                "queries": [
+                  "wireless earbuds"
+                ],
+                "max_results_per_query": 120,
+                "ship_to": "US",
+                "currency": "USD"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": []
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/aliexpress-search-api",
+                      "description": "AliExpress Search Scraper"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/v1/google-ads-transparency-api": {
+      "post": {
+        "summary": "Google Ads Transparency Scraper",
+        "description": "Extract live Google ads by domain from Google Ads Transparency Center. Get ad preview images, formats and first/last shown dates as clean JSON.\n\nPrice: $0.005 per domain checked + $0.0015 per ad returned. Domains with no ads cost $0.",
+        "operationId": "google_ads_transparency_scraper",
+        "tags": [
+          "Google Ads Transparency Scraper"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "domains": {
+                    "type": "array",
+                    "default": [
+                      "nike.com"
+                    ]
+                  },
+                  "country": {
+                    "type": "string",
+                    "default": "US"
+                  },
+                  "max_ads_per_domain": {
+                    "type": "number",
+                    "default": 40
+                  },
+                  "mode": {
+                    "type": "string",
+                    "default": "ads"
+                  }
+                }
+              },
+              "example": {
+                "domains": [
+                  "nike.com"
+                ],
+                "country": "US",
+                "max_ads_per_domain": 40,
+                "mode": "ads"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "domain": "nike.com",
+                  "advertiser_name": "Nike, Inc.",
+                  "advertiser_verified": true,
+                  "format": "text",
+                  "first_shown": "2023-11-16T21:51:37Z",
+                  "last_shown": "2026-10-14T15:10:53Z",
+                  "days_running": 1062
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/google-ads-transparency-api",
+                      "description": "Google Ads Transparency Scraper"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/acts/hirepulse~google-ads-transparency-scraper/run-sync-get-dataset-items": {
+      "post": {
+        "summary": "Google Ads Transparency Scraper",
+        "description": "Extract live Google ads by domain from Google Ads Transparency Center. Get ad preview images, formats and first/last shown dates as clean JSON.\n\nPrice: $0.005 per domain checked + $0.0015 per ad returned. Domains with no ads cost $0.",
+        "operationId": "google_ads_transparency_scraper",
+        "tags": [
+          "Google Ads Transparency Scraper"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "domains": {
+                    "type": "array",
+                    "default": [
+                      "nike.com"
+                    ]
+                  },
+                  "country": {
+                    "type": "string",
+                    "default": "US"
+                  },
+                  "max_ads_per_domain": {
+                    "type": "number",
+                    "default": 40
+                  },
+                  "mode": {
+                    "type": "string",
+                    "default": "ads"
+                  }
+                }
+              },
+              "example": {
+                "domains": [
+                  "nike.com"
+                ],
+                "country": "US",
+                "max_ads_per_domain": 40,
+                "mode": "ads"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "domain": "nike.com",
+                  "advertiser_name": "Nike, Inc.",
+                  "advertiser_verified": true,
+                  "format": "text",
+                  "first_shown": "2023-11-16T21:51:37Z",
+                  "last_shown": "2026-10-14T15:10:53Z",
+                  "days_running": 1062
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/google-ads-transparency-api",
+                      "description": "Google Ads Transparency Scraper"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/v1/company-intent-signals-api": {
+      "post": {
+        "summary": "Company Intent Radar",
+        "description": "Enrich any company domain with live hiring data, active Google ads, SEO traffic and intent scores in a single pay-per-use API call.\n\nPrice: $0.03 per company report, charged only when the full report was produced. Free plan: hiring and email signals for 5 companies.",
+        "operationId": "company_intent_radar",
+        "tags": [
+          "Company Intent Radar"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "domains": {
+                    "type": "array",
+                    "default": [
+                      "stripe.com",
+                      "notion.so"
+                    ]
+                  },
+                  "country": {
+                    "type": "string",
+                    "default": "US"
+                  }
+                }
+              },
+              "example": {
+                "domains": [
+                  "stripe.com",
+                  "notion.so"
+                ],
+                "country": "US"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "domain": "stripe.com",
+                  "intent_score": 85,
+                  "open_jobs": 727,
+                  "ads_running_now": true,
+                  "email_provider": "Google Workspace"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/company-intent-signals-api",
+                      "description": "Company Intent Radar"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/acts/hirepulse~company-intent-radar/run-sync-get-dataset-items": {
+      "post": {
+        "summary": "Company Intent Radar",
+        "description": "Enrich any company domain with live hiring data, active Google ads, SEO traffic and intent scores in a single pay-per-use API call.\n\nPrice: $0.03 per company report, charged only when the full report was produced. Free plan: hiring and email signals for 5 companies.",
+        "operationId": "company_intent_radar",
+        "tags": [
+          "Company Intent Radar"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "domains": {
+                    "type": "array",
+                    "default": [
+                      "stripe.com",
+                      "notion.so"
+                    ]
+                  },
+                  "country": {
+                    "type": "string",
+                    "default": "US"
+                  }
+                }
+              },
+              "example": {
+                "domains": [
+                  "stripe.com",
+                  "notion.so"
+                ],
+                "country": "US"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "domain": "stripe.com",
+                  "intent_score": 85,
+                  "open_jobs": 727,
+                  "ads_running_now": true,
+                  "email_provider": "Google Workspace"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/company-intent-signals-api",
+                      "description": "Company Intent Radar"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/v1/ats-jobs-api": {
+      "post": {
+        "summary": "ATS Job Scraper",
+        "description": "Extract open jobs, published salary ranges and the technologies they mention from Greenhouse, Lever, Ashby, Workable, Recruitee and SmartRecruiters. Pay-per-use ATS data API.\n\nPrice: $0.05 per company whose job board was found and processed, however many jobs it has. Companies that are not found, and failed ones, are not charged.",
+        "operationId": "ats_job_pulse",
+        "tags": [
+          "ATS Job Scraper"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "companies": {
+                    "type": "array",
+                    "default": [
+                      "stripe.com",
+                      "notion.so"
+                    ]
+                  }
+                }
+              },
+              "example": {
+                "companies": [
+                  "stripe.com",
+                  "notion.so"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": []
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/ats-jobs-api",
+                      "description": "ATS Job Scraper"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/acts/hirepulse~ats-job-pulse/run-sync-get-dataset-items": {
+      "post": {
+        "summary": "ATS Job Scraper",
+        "description": "Extract open jobs, published salary ranges and the technologies they mention from Greenhouse, Lever, Ashby, Workable, Recruitee and SmartRecruiters. Pay-per-use ATS data API.\n\nPrice: $0.05 per company whose job board was found and processed, however many jobs it has. Companies that are not found, and failed ones, are not charged.",
+        "operationId": "ats_job_pulse",
+        "tags": [
+          "ATS Job Scraper"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "companies": {
+                    "type": "array",
+                    "default": [
+                      "stripe.com",
+                      "notion.so"
+                    ]
+                  }
+                }
+              },
+              "example": {
+                "companies": [
+                  "stripe.com",
+                  "notion.so"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": []
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/ats-jobs-api",
+                      "description": "ATS Job Scraper"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/v1/google-jobs-api": {
+      "post": {
+        "summary": "Google Jobs Scraper",
+        "description": "Search Google Jobs in 90+ countries. Extract job titles, company names, parsed salaries, contract types and direct apply links as clean JSON.\n\nPrice: $0.005 per search that returns jobs + $0.001 per job.",
+        "operationId": "google_jobs_scraper",
+        "tags": [
+          "Google Jobs Scraper"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "queries": {
+                    "type": "array",
+                    "default": [
+                      "data engineer"
+                    ]
+                  },
+                  "country": {
+                    "type": "string",
+                    "default": "US"
+                  },
+                  "max_jobs_per_query": {
+                    "type": "number",
+                    "default": 50
+                  }
+                }
+              },
+              "example": {
+                "queries": [
+                  "data engineer"
+                ],
+                "country": "US",
+                "max_jobs_per_query": 50
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": []
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/google-jobs-api",
+                      "description": "Google Jobs Scraper"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/acts/hirepulse~google-jobs-scraper/run-sync-get-dataset-items": {
+      "post": {
+        "summary": "Google Jobs Scraper",
+        "description": "Search Google Jobs in 90+ countries. Extract job titles, company names, parsed salaries, contract types and direct apply links as clean JSON.\n\nPrice: $0.005 per search that returns jobs + $0.001 per job.",
+        "operationId": "google_jobs_scraper",
+        "tags": [
+          "Google Jobs Scraper"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "queries": {
+                    "type": "array",
+                    "default": [
+                      "data engineer"
+                    ]
+                  },
+                  "country": {
+                    "type": "string",
+                    "default": "US"
+                  },
+                  "max_jobs_per_query": {
+                    "type": "number",
+                    "default": 50
+                  }
+                }
+              },
+              "example": {
+                "queries": [
+                  "data engineer"
+                ],
+                "country": "US",
+                "max_jobs_per_query": 50
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": []
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/google-jobs-api",
+                      "description": "Google Jobs Scraper"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/v1/keyword-search-volume-api": {
+      "post": {
+        "summary": "Keyword Search Volume",
+        "description": "Google monthly search volume, CPC and competition for your keywords, plus keyword ideas, in bulk via API.\n\nPrice: $0.03 per lookup + $0.005 per keyword result.",
+        "operationId": "keyword_search_volume",
+        "tags": [
+          "Keyword Search Volume"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "keywords": {
+                    "type": "array",
+                    "default": [
+                      "running shoes",
+                      "trail running shoes"
+                    ]
+                  },
+                  "country": {
+                    "type": "string",
+                    "default": "US"
+                  }
+                }
+              },
+              "example": {
+                "keywords": [
+                  "running shoes",
+                  "trail running shoes"
+                ],
+                "country": "US"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": []
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/keyword-search-volume-api",
+                      "description": "Keyword Search Volume"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/acts/hirepulse~keyword-search-volume/run-sync-get-dataset-items": {
+      "post": {
+        "summary": "Keyword Search Volume",
+        "description": "Google monthly search volume, CPC and competition for your keywords, plus keyword ideas, in bulk via API.\n\nPrice: $0.03 per lookup + $0.005 per keyword result.",
+        "operationId": "keyword_search_volume",
+        "tags": [
+          "Keyword Search Volume"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "keywords": {
+                    "type": "array",
+                    "default": [
+                      "running shoes",
+                      "trail running shoes"
+                    ]
+                  },
+                  "country": {
+                    "type": "string",
+                    "default": "US"
+                  }
+                }
+              },
+              "example": {
+                "keywords": [
+                  "running shoes",
+                  "trail running shoes"
+                ],
+                "country": "US"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": []
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/keyword-search-volume-api",
+                      "description": "Keyword Search Volume"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/v1/domain-seo-overview-api": {
+      "post": {
+        "summary": "Domain SEO Overview",
+        "description": "Inspect website titles, meta descriptions, sitemap observations and Google Autocomplete suggestions. Native mode does not measure organic traffic, ranking positions, keyword search volumes or CPC; unavailable metrics remain null.\n\nPrice: Native/public-evidence mode emits no domain-lookup or domain-result charges. An Actor start event is still listed at $0.00005 per GB (minimum one event), and applicable Apify charges may apply. Review the live Pricing tab. Paid SEO-database events are separate and are not activated by this example.",
+        "operationId": "domain_seo_overview",
+        "tags": [
+          "Domain SEO Overview"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "domains": {
+                    "type": "array",
+                    "default": [
+                      "example.com"
+                    ]
+                  },
+                  "country": {
+                    "type": "string",
+                    "default": "US"
+                  },
+                  "top_keywords": {
+                    "type": "number",
+                    "default": 0
+                  },
+                  "competitors": {
+                    "type": "number",
+                    "default": 0
+                  },
+                  "use_paid_upstream": {
+                    "type": "boolean",
+                    "default": false
+                  }
+                }
+              },
+              "example": {
+                "domains": [
+                  "example.com"
+                ],
+                "country": "US",
+                "top_keywords": 0,
+                "competitors": 0,
+                "use_paid_upstream": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": []
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/domain-seo-overview-api",
+                      "description": "Domain SEO Overview"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/acts/hirepulse~domain-seo-overview/run-sync-get-dataset-items": {
+      "post": {
+        "summary": "Domain SEO Overview",
+        "description": "Inspect website titles, meta descriptions, sitemap observations and Google Autocomplete suggestions. Native mode does not measure organic traffic, ranking positions, keyword search volumes or CPC; unavailable metrics remain null.\n\nPrice: Native/public-evidence mode emits no domain-lookup or domain-result charges. An Actor start event is still listed at $0.00005 per GB (minimum one event), and applicable Apify charges may apply. Review the live Pricing tab. Paid SEO-database events are separate and are not activated by this example.",
+        "operationId": "domain_seo_overview",
+        "tags": [
+          "Domain SEO Overview"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "domains": {
+                    "type": "array",
+                    "default": [
+                      "example.com"
+                    ]
+                  },
+                  "country": {
+                    "type": "string",
+                    "default": "US"
+                  },
+                  "top_keywords": {
+                    "type": "number",
+                    "default": 0
+                  },
+                  "competitors": {
+                    "type": "number",
+                    "default": 0
+                  },
+                  "use_paid_upstream": {
+                    "type": "boolean",
+                    "default": false
+                  }
+                }
+              },
+              "example": {
+                "domains": [
+                  "example.com"
+                ],
+                "country": "US",
+                "top_keywords": 0,
+                "competitors": 0,
+                "use_paid_upstream": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": []
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/domain-seo-overview-api",
+                      "description": "Domain SEO Overview"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/v1/youtube-transcript-api": {
+      "post": {
+        "summary": "YouTube Transcript Scraper",
+        "description": "Get transcripts of YouTube videos and Shorts in bulk, with timestamps, as JSON or plain text.\n\nPrice: $0.003 per delivered transcript. Videos without captions, unavailable videos and failed fetches are not charged.",
+        "operationId": "youtube_transcript_scraper",
+        "tags": [
+          "YouTube Transcript Scraper"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "videos": {
+                    "type": "array",
+                    "default": [
+                      "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                    ]
+                  }
+                }
+              },
+              "example": {
+                "videos": [
+                  "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": []
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/youtube-transcript-api",
+                      "description": "YouTube Transcript Scraper"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/acts/hirepulse~youtube-transcript-scraper/run-sync-get-dataset-items": {
+      "post": {
+        "summary": "YouTube Transcript Scraper",
+        "description": "Get transcripts of YouTube videos and Shorts in bulk, with timestamps, as JSON or plain text.\n\nPrice: $0.003 per delivered transcript. Videos without captions, unavailable videos and failed fetches are not charged.",
+        "operationId": "youtube_transcript_scraper",
+        "tags": [
+          "YouTube Transcript Scraper"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "videos": {
+                    "type": "array",
+                    "default": [
+                      "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                    ]
+                  }
+                }
+              },
+              "example": {
+                "videos": [
+                  "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": []
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/youtube-transcript-api",
+                      "description": "YouTube Transcript Scraper"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/v1/website-tech-stack-api": {
+      "post": {
+        "summary": "Website Tech Stack Detector",
+        "description": "Enrich company domains with observed website technologies, advertising pixels, frontend frameworks, and DNS email signals in a single API call.\n\nPrice: $0.005 per domain checked + $0.001 per detected tech. Domains with no stack cost $0.",
+        "operationId": "website_tech_stack_detector",
+        "tags": [
+          "Website Tech Stack Detector"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "domains": {
+                    "type": "array",
+                    "default": [
+                      "stripe.com",
+                      "linear.app"
+                    ]
+                  },
+                  "mode": {
+                    "type": "string",
+                    "default": "technologies"
+                  }
+                }
+              },
+              "example": {
+                "domains": [
+                  "stripe.com",
+                  "linear.app"
+                ],
+                "mode": "technologies"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "domain": "stripe.com",
+                  "technologies_found": [
+                    "React",
+                    "Next.js",
+                    "Amazon CloudFront",
+                    "Google Tag Manager",
+                    "Marketo"
+                  ],
+                  "cms": null,
+                  "email_provider": "Google Workspace"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/website-tech-stack-api",
+                      "description": "Website Tech Stack Detector"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/acts/hirepulse~website-tech-stack-detector/run-sync-get-dataset-items": {
+      "post": {
+        "summary": "Website Tech Stack Detector",
+        "description": "Enrich company domains with observed website technologies, advertising pixels, frontend frameworks, and DNS email signals in a single API call.\n\nPrice: $0.005 per domain checked + $0.001 per detected tech. Domains with no stack cost $0.",
+        "operationId": "website_tech_stack_detector",
+        "tags": [
+          "Website Tech Stack Detector"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "domains": {
+                    "type": "array",
+                    "default": [
+                      "stripe.com",
+                      "linear.app"
+                    ]
+                  },
+                  "mode": {
+                    "type": "string",
+                    "default": "technologies"
+                  }
+                }
+              },
+              "example": {
+                "domains": [
+                  "stripe.com",
+                  "linear.app"
+                ],
+                "mode": "technologies"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "domain": "stripe.com",
+                  "technologies_found": [
+                    "React",
+                    "Next.js",
+                    "Amazon CloudFront",
+                    "Google Tag Manager",
+                    "Marketo"
+                  ],
+                  "cms": null,
+                  "email_provider": "Google Workspace"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/website-tech-stack-api",
+                      "description": "Website Tech Stack Detector"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/v1/ats-detector-api": {
+      "post": {
+        "summary": "ATS Detector",
+        "description": "Detect which applicant tracking system any company uses (Greenhouse, Lever, Ashby, Workable, etc.) and extract official careers board endpoints.\n\nPrice: $0.005 per domain checked. Undetected boards cost $0.",
+        "operationId": "ats_detector",
+        "tags": [
+          "ATS Detector"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "domains": {
+                    "type": "array",
+                    "default": [
+                      "linear.app",
+                      "datadoghq.com"
+                    ]
+                  }
+                }
+              },
+              "example": {
+                "domains": [
+                  "linear.app",
+                  "datadoghq.com"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "domain": "linear.app",
+                  "ats_system": "ashby",
+                  "careers_url": "https://jobs.ashbyhq.com/linear",
+                  "board_active": true
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/ats-detector-api",
+                      "description": "ATS Detector"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/acts/hirepulse~ats-detector/run-sync-get-dataset-items": {
+      "post": {
+        "summary": "ATS Detector",
+        "description": "Detect which applicant tracking system any company uses (Greenhouse, Lever, Ashby, Workable, etc.) and extract official careers board endpoints.\n\nPrice: $0.005 per domain checked. Undetected boards cost $0.",
+        "operationId": "ats_detector",
+        "tags": [
+          "ATS Detector"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "domains": {
+                    "type": "array",
+                    "default": [
+                      "linear.app",
+                      "datadoghq.com"
+                    ]
+                  }
+                }
+              },
+              "example": {
+                "domains": [
+                  "linear.app",
+                  "datadoghq.com"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "domain": "linear.app",
+                  "ats_system": "ashby",
+                  "careers_url": "https://jobs.ashbyhq.com/linear",
+                  "board_active": true
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/ats-detector-api",
+                      "description": "ATS Detector"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/v1/company-contacts-api": {
+      "post": {
+        "summary": "Company Contacts Finder",
+        "description": "Find publicly listed business contact information from company websites. Export corporate emails, phone numbers, contact forms, and social links.\n\nPrice: $0.005 per domain checked + $0.001 per public contact found.",
+        "operationId": "company_contact_details_finder",
+        "tags": [
+          "Company Contacts Finder"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "domains": {
+                    "type": "array",
+                    "default": [
+                      "stripe.com",
+                      "vercel.com"
+                    ]
+                  }
+                }
+              },
+              "example": {
+                "domains": [
+                  "stripe.com",
+                  "vercel.com"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "domain": "stripe.com",
+                  "contacts": [
+                    {
+                      "type": "email",
+                      "value": "support@stripe.com",
+                      "label": "Support"
+                    },
+                    {
+                      "type": "email",
+                      "value": "press@stripe.com",
+                      "label": "Press"
+                    },
+                    {
+                      "type": "social",
+                      "value": "https://twitter.com/stripe",
+                      "label": "X / Twitter"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/company-contacts-api",
+                      "description": "Company Contacts Finder"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/acts/hirepulse~company-contact-details-finder/run-sync-get-dataset-items": {
+      "post": {
+        "summary": "Company Contacts Finder",
+        "description": "Find publicly listed business contact information from company websites. Export corporate emails, phone numbers, contact forms, and social links.\n\nPrice: $0.005 per domain checked + $0.001 per public contact found.",
+        "operationId": "company_contact_details_finder",
+        "tags": [
+          "Company Contacts Finder"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "domains": {
+                    "type": "array",
+                    "default": [
+                      "stripe.com",
+                      "vercel.com"
+                    ]
+                  }
+                }
+              },
+              "example": {
+                "domains": [
+                  "stripe.com",
+                  "vercel.com"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "domain": "stripe.com",
+                  "contacts": [
+                    {
+                      "type": "email",
+                      "value": "support@stripe.com",
+                      "label": "Support"
+                    },
+                    {
+                      "type": "email",
+                      "value": "press@stripe.com",
+                      "label": "Press"
+                    },
+                    {
+                      "type": "social",
+                      "value": "https://twitter.com/stripe",
+                      "label": "X / Twitter"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/company-contacts-api",
+                      "description": "Company Contacts Finder"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/v1/b2b-account-research-api": {
+      "post": {
+        "summary": "B2B Account Research Agent",
+        "description": "Autonomous account intelligence combining careers hiring velocity, web technology stack, Google ads presence, and verified digital footprint into a structured dossier.\n\nPrice: $0.05 per company research dossier produced.",
+        "operationId": "b2b_account_research_agent",
+        "tags": [
+          "B2B Account Research Agent"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "domains": {
+                    "type": "array",
+                    "default": [
+                      "stripe.com",
+                      "cloudflare.com"
+                    ]
+                  }
+                }
+              },
+              "example": {
+                "domains": [
+                  "stripe.com",
+                  "cloudflare.com"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "domain": "stripe.com",
+                  "intent_score": 92,
+                  "hiring_velocity": "High",
+                  "open_positions": 727,
+                  "ads_active": true,
+                  "primary_ats": "greenhouse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/b2b-account-research-api",
+                      "description": "B2B Account Research Agent"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/acts/hirepulse~b2b-account-research-agent/run-sync-get-dataset-items": {
+      "post": {
+        "summary": "B2B Account Research Agent",
+        "description": "Autonomous account intelligence combining careers hiring velocity, web technology stack, Google ads presence, and verified digital footprint into a structured dossier.\n\nPrice: $0.05 per company research dossier produced.",
+        "operationId": "b2b_account_research_agent",
+        "tags": [
+          "B2B Account Research Agent"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "domains": {
+                    "type": "array",
+                    "default": [
+                      "stripe.com",
+                      "cloudflare.com"
+                    ]
+                  }
+                }
+              },
+              "example": {
+                "domains": [
+                  "stripe.com",
+                  "cloudflare.com"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "domain": "stripe.com",
+                  "intent_score": 92,
+                  "hiring_velocity": "High",
+                  "open_positions": 727,
+                  "ads_active": true,
+                  "primary_ats": "greenhouse"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/b2b-account-research-api",
+                      "description": "B2B Account Research Agent"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/v1/ai-visibility-radar": {
+      "post": {
+        "summary": "AI Search Brand Visibility Radar",
+        "description": "Audit website readiness for AI search engines and crawler agents (Perplexity, ChatGPT, Claude). Inspect robots directives, headers, llms.txt, and JSON-LD schema.\n\nPrice: $0.02 per returned brand visibility audit report.",
+        "operationId": "ai_search_brand_visibility_radar",
+        "tags": [
+          "AI Search Brand Visibility Radar"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "domains": {
+                    "type": "array",
+                    "default": [
+                      "linear.app"
+                    ]
+                  }
+                }
+              },
+              "example": {
+                "domains": [
+                  "linear.app"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "domain": "linear.app",
+                  "robots_ai_crawlable": true,
+                  "llms_txt_found": true,
+                  "jsonld_schema_valid": true,
+                  "readiness_score": 95
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/ai-visibility-radar",
+                      "description": "AI Search Brand Visibility Radar"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/acts/hirepulse~ai-search-brand-visibility-radar/run-sync-get-dataset-items": {
+      "post": {
+        "summary": "AI Search Brand Visibility Radar",
+        "description": "Audit website readiness for AI search engines and crawler agents (Perplexity, ChatGPT, Claude). Inspect robots directives, headers, llms.txt, and JSON-LD schema.\n\nPrice: $0.02 per returned brand visibility audit report.",
+        "operationId": "ai_search_brand_visibility_radar",
+        "tags": [
+          "AI Search Brand Visibility Radar"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "domains": {
+                    "type": "array",
+                    "default": [
+                      "linear.app"
+                    ]
+                  }
+                }
+              },
+              "example": {
+                "domains": [
+                  "linear.app"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "domain": "linear.app",
+                  "robots_ai_crawlable": true,
+                  "llms_txt_found": true,
+                  "jsonld_schema_valid": true,
+                  "readiness_score": 95
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/ai-visibility-radar",
+                      "description": "AI Search Brand Visibility Radar"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/v1/mcp-x402-grader": {
+      "post": {
+        "summary": "MCP & x402 Server Grader",
+        "description": "Benchmark MCP server tools and x402 payment configurations. Audits tool schema descriptions, token efficiency, payment challenges, and Base network readiness.\n\nPrice: $0.01 per returned evidence audit report.",
+        "operationId": "mcp_x402_server_grader",
+        "tags": [
+          "MCP & x402 Server Grader"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "server_url": {
+                    "type": "string",
+                    "default": "https://gethirepulse.xyz/mcp"
+                  }
+                }
+              },
+              "example": {
+                "server_url": "https://gethirepulse.xyz/mcp"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "server": "https://gethirepulse.xyz/mcp",
+                  "tools_count": 21,
+                  "x402_compliant": true,
+                  "token_efficiency_grade": "A",
+                  "overall_grade": 98
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/mcp-x402-grader",
+                      "description": "MCP & x402 Server Grader"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/acts/hirepulse~mcp-x402-server-grader/run-sync-get-dataset-items": {
+      "post": {
+        "summary": "MCP & x402 Server Grader",
+        "description": "Benchmark MCP server tools and x402 payment configurations. Audits tool schema descriptions, token efficiency, payment challenges, and Base network readiness.\n\nPrice: $0.01 per returned evidence audit report.",
+        "operationId": "mcp_x402_server_grader",
+        "tags": [
+          "MCP & x402 Server Grader"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "server_url": {
+                    "type": "string",
+                    "default": "https://gethirepulse.xyz/mcp"
+                  }
+                }
+              },
+              "example": {
+                "server_url": "https://gethirepulse.xyz/mcp"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "server": "https://gethirepulse.xyz/mcp",
+                  "tools_count": 21,
+                  "x402_compliant": true,
+                  "token_efficiency_grade": "A",
+                  "overall_grade": 98
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/mcp-x402-grader",
+                      "description": "MCP & x402 Server Grader"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/v1/store-to-llms-generator": {
+      "post": {
+        "summary": "Store to LLMs Generator",
+        "description": "Sample product catalogs from accessible public store feeds and draft an agent-ready llms.txt format with structured product attributes, prices, and variants.\n\nPrice: $0.02 per generated catalog document report.",
+        "operationId": "shopify_to_llms_generator",
+        "tags": [
+          "Store to LLMs Generator"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "store_url": {
+                    "type": "string",
+                    "default": "https://untuckit.com"
+                  }
+                }
+              },
+              "example": {
+                "store_url": "https://untuckit.com"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "store": "untuckit.com",
+                  "catalog_format": "llms.txt",
+                  "products_cataloged": 5,
+                  "status": "ready"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/store-to-llms-generator",
+                      "description": "Store to LLMs Generator"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/acts/hirepulse~shopify-to-llms-generator/run-sync-get-dataset-items": {
+      "post": {
+        "summary": "Store to LLMs Generator",
+        "description": "Sample product catalogs from accessible public store feeds and draft an agent-ready llms.txt format with structured product attributes, prices, and variants.\n\nPrice: $0.02 per generated catalog document report.",
+        "operationId": "shopify_to_llms_generator",
+        "tags": [
+          "Store to LLMs Generator"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "store_url": {
+                    "type": "string",
+                    "default": "https://untuckit.com"
+                  }
+                }
+              },
+              "example": {
+                "store_url": "https://untuckit.com"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "store": "untuckit.com",
+                  "catalog_format": "llms.txt",
+                  "products_cataloged": 5,
+                  "status": "ready"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/store-to-llms-generator",
+                      "description": "Store to LLMs Generator"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/v1/tiktok-product-research-api": {
+      "post": {
+        "summary": "TikTok Product Research",
+        "description": "Research product-related TikTok videos with source links, creator breadth and history. Measure growth on the same videos after6+ hours; no sales forecasts.\n\nPrice: $0.02 per delivered report; Clockworks collection is separate and capped ($0.04 total by default).",
+        "operationId": "viral_product_radar",
+        "tags": [
+          "TikTok Product Research"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "keywords": {
+                    "type": "array",
+                    "default": [
+                      "mini projector"
+                    ]
+                  },
+                  "analysis_mode": {
+                    "type": "string",
+                    "default": "product_videos"
+                  },
+                  "upstream_source": {
+                    "type": "string",
+                    "default": "clockworks"
+                  },
+                  "allow_paid_upstream": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "upstream_max_charge_usd": {
+                    "type": "number",
+                    "default": 0.04
+                  },
+                  "max_items": {
+                    "type": "number",
+                    "default": 10
+                  },
+                  "state_id": {
+                    "type": "string",
+                    "default": "my-product-research"
+                  },
+                  "deliver_all_reports": {
+                    "type": "boolean",
+                    "default": true
+                  }
+                }
+              },
+              "example": {
+                "keywords": [
+                  "mini projector"
+                ],
+                "analysis_mode": "product_videos",
+                "upstream_source": "clockworks",
+                "allow_paid_upstream": true,
+                "upstream_max_charge_usd": 0.04,
+                "max_items": 10,
+                "state_id": "my-product-research",
+                "deliver_all_reports": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": []
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/tiktok-product-research-api",
+                      "description": "TikTok Product Research"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    },
+    "/acts/hirepulse~viral-product-radar/run-sync-get-dataset-items": {
+      "post": {
+        "summary": "TikTok Product Research",
+        "description": "Research product-related TikTok videos with source links, creator breadth and history. Measure growth on the same videos after6+ hours; no sales forecasts.\n\nPrice: $0.02 per delivered report; Clockworks collection is separate and capped ($0.04 total by default).",
+        "operationId": "viral_product_radar",
+        "tags": [
+          "TikTok Product Research"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "keywords": {
+                    "type": "array",
+                    "default": [
+                      "mini projector"
+                    ]
+                  },
+                  "analysis_mode": {
+                    "type": "string",
+                    "default": "product_videos"
+                  },
+                  "upstream_source": {
+                    "type": "string",
+                    "default": "clockworks"
+                  },
+                  "allow_paid_upstream": {
+                    "type": "boolean",
+                    "default": true
+                  },
+                  "upstream_max_charge_usd": {
+                    "type": "number",
+                    "default": 0.04
+                  },
+                  "max_items": {
+                    "type": "number",
+                    "default": 10
+                  },
+                  "state_id": {
+                    "type": "string",
+                    "default": "my-product-research"
+                  },
+                  "deliver_all_reports": {
+                    "type": "boolean",
+                    "default": true
+                  }
+                }
+              },
+              "example": {
+                "keywords": [
+                  "mini projector"
+                ],
+                "analysis_mode": "product_videos",
+                "upstream_source": "clockworks",
+                "allow_paid_upstream": true,
+                "upstream_max_charge_usd": 0.04,
+                "max_items": 10,
+                "state_id": "my-product-research",
+                "deliver_all_reports": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful data extraction",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "data": []
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment required (x402 v2 challenge)",
+            "headers": {
+              "PAYMENT-REQUIRED": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "Base64-encoded x402 v2 payment terms"
+              }
+            },
+            "content": {
+              "application/json": {
+                "example": {
+                  "x402Version": 2,
+                  "accepts": [
+                    {
+                      "scheme": "exact",
+                      "network": "base",
+                      "asset": "USDC",
+                      "payTo": "0xA807D3992d5f6b6E51f7460C47c49058b7Dc5126",
+                      "maxAmountRequired": "10000",
+                      "resource": "https://gethirepulse.xyz/v1/tiktok-product-research-api",
+                      "description": "TikTok Product Research"
+                    }
+                  ],
+                  "facilitator": "https://x402.org/facilitator"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "x402": []
+          },
+          {
+            "apifyToken": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "x402": {
+        "type": "http",
+        "scheme": "Payment",
+        "description": "x402 protocol: 5 free calls/day per IP; pay-per-call thereafter in USDC over Base (EIP-155:8453)."
+      },
+      "apifyToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Apify API Token for pay-per-use actor runs."
+      }
+    }
+  }
+}

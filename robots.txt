@@ -1,7 +1,30 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://edtool79-collab.github.io/hirepulse-tools/sitemap.xml
+User-agent: GPTBot
+Allow: /
 
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+Sitemap: https://edtool79-collab.github.io/hirepulse-tools/sitemap.xml
+# Machine discovery endpoints
 # llms.txt: https://edtool79-collab.github.io/hirepulse-tools/llms.txt
 # llms-full.txt: https://edtool79-collab.github.io/hirepulse-tools/llms-full.txt
+# openapi: https://edtool79-collab.github.io/hirepulse-tools/openapi.json
+# mcp-server-card: https://edtool79-collab.github.io/hirepulse-tools/.well-known/mcp/server-card.json

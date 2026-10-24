@@ -120,6 +120,6 @@ One record from a real test run on 2026-10-21 (long text and lists shortened):
 - Authentication: OAuth in the browser, or the header `Authorization: Bearer <APIFY_TOKEN>`.
 - Local (stdio): `npx -y @apify/actors-mcp-server --tools hirepulse/<tool-id>`, with `APIFY_TOKEN` in `env`.
 - REST: `POST https://api.apify.com/v2/acts/hirepulse~<tool-id>/run-sync-get-dataset-items?maxTotalChargeUsd=0.10&restartOnError=false` with the input as the JSON body and `Authorization: Bearer <APIFY_TOKEN>` in the header. Start with one query or domain.
-- Billing depends on the tool and delivered events; see its price and free-plan limits. Actor-start charges also apply. Inspect an existing run after a timeout before retrying a paid request.
+- Billing depends on the tool and delivered events; see its price and free-plan limits. Actor-start charges apply only where configured. Inspect an existing run after a timeout before retrying a paid request.
 
 Source page: https://edtool79-collab.github.io/hirepulse-tools/domain-seo-overview-api/
