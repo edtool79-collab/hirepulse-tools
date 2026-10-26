@@ -2,26 +2,197 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Ad-Waste Auditor: Checkout Leaks & Shop Readiness | HirePulse</title>
-<meta name="description" content="Audit any e-commerce domain for Google Ads waste, checkout conversion leaks and AI shopping-agent readiness in one cookieless JSON report, from $0.015.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ad-Waste &amp; AI Conversion Leak Auditor: E-Com, GEO &amp; Contacts | HirePulse</title>
+<meta name="description" content="Audit Shopify &amp; B2B domains for conversion leaks, missing remarketing pixels (Klaviyo, Meta, TikTok), AI Shopping readiness (/llms.txt, JSON-LD) &amp; contacts.">
+<link rel="canonical" href="https://edtool79-collab.github.io/hirepulse-tools/ad-waste-and-ai-leak-auditor.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ad-Waste &amp; AI Conversion Leak Auditor: E-Com, GEO &amp; Contacts | HirePulse">
+<meta property="og:description" content="Audit Shopify &amp; B2B domains for conversion leaks, missing remarketing pixels (Klaviyo, Meta, TikTok), AI Shopping readiness (/llms.txt, JSON-LD) &amp; contacts.">
+<meta property="og:url" content="https://edtool79-collab.github.io/hirepulse-tools/ad-waste-and-ai-leak-auditor.html">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "Ad-Waste Auditor: Checkout Leaks & Shop Readiness",
+  "name": "Ad-Waste & AI Conversion Leak Auditor: E-Com, GEO & Contacts",
+  "description": "Audit E-Commerce & B2B domains for Google Ads spend longevity, mobile checkout conversion leaks, missing retention pixels (Klaviyo, Meta CAPI, TikTok), AI Shopping Agent readiness (/llms.txt, OAI-SearchBot, Offer JSON-LD), and public contacts. 100% cookieless JSON for n8n, Make & MCP.",
   "applicationCategory": "BusinessApplication",
+  "applicationSubCategory": "ECOMMERCE, LEAD_GENERATION, AGENTS",
   "operatingSystem": "Web",
-  "description": "Audits one domain at a time for: Google Ads spend longevity, mobile checkout conversion leaks, missing retention pixels (Klaviyo, Meta CAPI, TikTok), AI shopping-agent readiness (/llms.txt, OAI-SearchBot, Offer JSON-LD) and public contacts.",
   "url": "https://apify.com/hirepulse/ad-waste-and-ai-leak-auditor",
-  "author": {"@type": "Organization", "name": "HirePulse", "url": "https://apify.com/hirepulse"},
-  "offers": {"@type": "Offer", "price": 0.025, "priceCurrency": "USD", "availability": "https://schema.org/InStock", "seller": {"@type": "Organization", "name": "HirePulse", "url": "https://apify.com/hirepulse"}}
+  "sameAs": "https://apify.com/hirepulse/ad-waste-and-ai-leak-auditor",
+  "author": {
+    "@type": "Organization",
+    "name": "HirePulse",
+    "url": "https://apify.com/hirepulse"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "HirePulse",
+    "url": "https://apify.com/hirepulse"
+  },
+  "isAccessibleForFree": false,
+  "featureList": [
+    "ECOMMERCE",
+    "LEAD_GENERATION",
+    "AGENTS"
+  ],
+  "dateModified": "2026-10-26",
+  "offers": {
+    "@type": "Offer",
+    "price": 0.025,
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock",
+    "seller": {
+      "@type": "Organization",
+      "name": "HirePulse",
+      "url": "https://apify.com/hirepulse"
+    },
+    "url": "https://apify.com/hirepulse/ad-waste-and-ai-leak-auditor"
+  }
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What does Ad-Waste & AI Conversion Leak Auditor return?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "An e‑commerce audit Actor that scans lists of store domains to detect conversion and ad-spend leakage by using cookieless HTTP probes and platform fingerprinting; it identifies storefront types (Shopify, WooCommerce, Magento, BigCommerce, Next.js), flags missing remarketing/analytics pixels and recovery widgets (examples: email marketing tags, Meta Pixel/CAPI, TikTok Pixel, GA4/GTM, live chat/cart-recovery),…"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does one run cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "0.025 USD per charged event (Store leak audit). Billing is per event, not per subscription, and only events the Actor reports are charged."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I call it from my own code or an AI agent?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. It runs as an Apify Actor: start it with the Apify API, the Apify MCP server, or the console. The only credential required is your Apify API token."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need an account on the target website?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It works from public data only; it does not log in to the sites it reads."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "HirePulse tools",
+      "item": "https://edtool79-collab.github.io/hirepulse-tools/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Ad-Waste & AI Conversion Leak Auditor: E-Com, GEO & Contacts",
+      "item": "https://edtool79-collab.github.io/hirepulse-tools/ad-waste-and-ai-leak-auditor.html"
+    }
+  ]
+}
+</script>
+<style>
+:root{--fg:#111;--muted:#5b6570;--line:#e3e8ee;--accent:#1a73e8;--bg:#fff}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--fg);background:var(--bg)}
+main{max-width:760px;margin:0 auto;padding:2rem 1.25rem 4rem}
+a{color:var(--accent)}
+nav.crumbs{font-size:.85rem;color:var(--muted);margin-bottom:1.5rem}
+nav.crumbs a{color:var(--muted);text-decoration:none}
+h1{font-size:1.9rem;line-height:1.25;margin:.2rem 0 .8rem}
+h2{font-size:1.2rem;margin:2.2rem 0 .6rem}
+h3{font-size:1rem;margin:1.4rem 0 .4rem}
+p.lead{font-size:1.05rem;color:#222}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.94rem}
+th,td{border-bottom:1px solid var(--line);padding:.5rem .4rem;text-align:left;vertical-align:top}
+th{width:38%;color:var(--muted);font-weight:600}
+pre{background:#f6f8fa;border:1px solid var(--line);border-radius:8px;padding:.9rem;overflow:auto;font-size:.86rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em}
+.cta{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;padding:.65rem 1.1rem;border-radius:8px;font-weight:600;margin:.4rem 0}
+footer{margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line);font-size:.85rem;color:var(--muted)}
+details{border:1px solid var(--line);border-radius:8px;padding:.7rem 1rem;margin:.5rem 0}
+summary{cursor:pointer;font-weight:600}
+</style>
 </head>
 <body>
-<h1>Ad-Waste Auditor: Checkout Leaks & Shop Readiness</h1>
-<p>Audits one domain at a time for: Google Ads spend longevity, mobile checkout conversion leaks, missing retention pixels (Klaviyo, Meta CAPI, TikTok), AI shopping-agent readiness (/llms.txt, OAI-SearchBot, Offer JSON-LD) and public contacts. Output is 100% cookieless JSON for n8n, Make and Apify MCP.</p>
-<p><strong>Pricing:</strong> $0.025 (Bronze $0.015, Gold $0.01) — pay-per-event, failures not charged.</p>
-<p><a href="https://apify.com/hirepulse/ad-waste-and-ai-leak-auditor">Run it in the Apify Store</a></p>
+<main>
+<nav class="crumbs"><a href="/hirepulse-tools/">HirePulse tools</a> / Ad-Waste &amp; AI Conversion Leak Auditor: E-Com, GEO &amp; Contacts</nav>
+<h1>Ad-Waste &amp; AI Conversion Leak Auditor: E-Com, GEO &amp; Contacts</h1>
+<p class="lead">Audit E-Commerce &amp; B2B domains for Google Ads spend longevity, mobile checkout conversion leaks, missing retention pixels (Klaviyo, Meta CAPI, TikTok), AI Shopping Agent readiness (/llms.txt, OAI-SearchBot, Offer JSON-LD), and public contacts. 100% cookieless JSON for n8n, Make &amp; MCP.</p>
+<table><tr><th>Category</th><td>Ecommerce, Lead Generation, Agents</td></tr>
+<tr><th>Price</th><td>$0.025 per Store leak audit; paid-plan pricing: Bronze $0.015, Silver $0.012, Gold $0.01, Platinum $0.01, Diamond $0.01</td></tr>
+<tr><th>Public runs, last 30 days</th><td>2</td></tr>
+<tr><th>Users, last 30 days</th><td>1</td></tr>
+<tr><th>Last run</th><td>2026-10-25 18:56:33.616Z</td></tr>
+<tr><th>Store listing</th><td><a href="https://apify.com/hirepulse/ad-waste-and-ai-leak-auditor">apify.com/hirepulse/ad-waste-and-ai-leak-auditor</a></td></tr></table>
+
+<h2>What it does</h2>
+<h2>Ad-Waste &amp; AI Conversion Leak Auditor</h2>
+<p>An e‑commerce audit Actor that scans lists of store domains to detect conversion and ad-spend leakage by using cookieless HTTP probes and platform fingerprinting; it identifies storefront types (Shopify, WooCommerce, Magento, BigCommerce, Next.js), flags missing remarketing/analytics pixels and recovery widgets (examples: email marketing tags, Meta Pixel/CAPI, TikTok Pixel, GA4/GTM, live chat/cart-recovery), evaluates checkout friction and conversion funnel degradation into a numeric severity score, verifies AI shopping-agent discoverability and structured data (checks for /llms.txt manifests, robots.txt rules for search bots, ChatGPT/Perplexity agent visibility, and Product/Offer JSON‑LD markup), and generates concise, domain-specific cold outreach hooks that cite the exact missing pixel or AI schema issue.</p>
+<h2>Use cases</h2>
+<ul>
+<li>Audit large lead lists of e‑commerce stores to prioritize prospects by conversion leakage and ad-waste severity.</li>
+<li>Detect missing remarketing, analytics, and live‑chat/cart recovery implementations across storefront platforms.</li>
+<li>Perform GEO-aware AI shopping‑agent readiness checks (ChatGPT Search, Perplexity, /llms.txt, robots.txt, Product/Offer JSON‑LD).</li>
+<li>Quantify funnel loss with a severity score to triage remediation efforts or paid outreach.</li>
+<li>Automatically produce hyper-specific two‑sentence outreach pitches citing exact missing pixels or schema errors.</li>
+</ul>
+
+<h2>Run it</h2>
+<p>Send this input to the Actor:</p>
+<pre><code>{
+  &quot;helloWorld&quot;: 123
+}</code></pre>
+<h3>From your own code (Apify API)</h3>
+<pre><code>curl -X POST "https://api.apify.com/v2/acts/hirepulse~ad-waste-and-ai-leak-auditor/runs?token=$APIFY_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{&quot;helloWorld&quot;: 123}'</code></pre>
+<h3>From an AI agent (Apify MCP)</h3>
+<pre><code>{"tool": "call-actor", "arguments": {"actor": "hirepulse/ad-waste-and-ai-leak-auditor"}}</code></pre>
+<p><a class="cta" href="https://apify.com/hirepulse/ad-waste-and-ai-leak-auditor">Open ad-waste-and-ai-leak-auditor on the Apify Store</a></p>
+
+<h2>Pricing</h2>
+<p>$0.025 per Store leak audit; paid-plan pricing: Bronze $0.015, Silver $0.012, Gold $0.01, Platinum $0.01, Diamond $0.01</p>
+<p>Prices are configured per event on the Apify listing and can change; the listing is the authoritative source.</p>
+
+<h2>Questions</h2>
+<details><summary>What does Ad-Waste &amp; AI Conversion Leak Auditor return?</summary><p>An e‑commerce audit Actor that scans lists of store domains to detect conversion and ad-spend leakage by using cookieless HTTP probes and platform fingerprinting; it identifies storefront types (Shopify, WooCommerce, Magento, BigCommerce, Next.js), flags missing remarketing/analytics pixels and recovery widgets (examples: email marketing tags, Meta Pixel/CAPI, TikTok Pixel, GA4/GTM, live chat/cart-recovery),…</p></details>
+<details><summary>How much does one run cost?</summary><p>0.025 USD per charged event (Store leak audit). Billing is per event, not per subscription, and only events the Actor reports are charged.</p></details>
+<details><summary>Can I call it from my own code or an AI agent?</summary><p>Yes. It runs as an Apify Actor: start it with the Apify API, the Apify MCP server, or the console. The only credential required is your Apify API token.</p></details>
+<details><summary>Do I need an account on the target website?</summary><p>No. It works from public data only; it does not log in to the sites it reads.</p></details>
+
+<h2>Other HirePulse tools</h2>
+<ul><li><a href="/hirepulse-tools/ai-search-brand-visibility-radar.html">ai-search-brand-visibility-radar</a></li>
+<li><a href="/hirepulse-tools/aliexpress-search-scraper.html">aliexpress-search-scraper</a></li>
+<li><a href="/hirepulse-tools/ats-detector.html">ats-detector</a></li></ul>
+
+<footer>
+<p>HirePulse — Pay-per-use data tools for AI agents, sales and e-commerce. This page is generated from the Actor's own public listing fields
+(title, description, readme, pricing configuration and public run counters) on 2026-10-26.
+Nothing on this page is a customer testimonial.</p>
+<p><a href="/hirepulse-tools/">All tools</a> · <a href="/hirepulse-tools/truth-metrics.html">Measured reliability</a></p>
+</footer>
+</main>
 </body>
 </html>

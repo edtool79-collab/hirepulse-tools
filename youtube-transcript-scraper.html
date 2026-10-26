@@ -2,26 +2,200 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>YouTube Transcript Scraper: Bulk & Timestamps | HirePulse</title>
-<meta name="description" content="Bulk YouTube transcripts from videos, Shorts and live replays: clean text, caption language and timestamps for RAG and research. From $0.003 per delivered transcript.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YouTube Transcript Scraper: Bulk Videos, Shorts &amp; Timestamps | HirePulse</title>
+<meta name="description" content="Extract YouTube transcripts in bulk from videos, Shorts and live replays with accessible captions">
+<link rel="canonical" href="https://edtool79-collab.github.io/hirepulse-tools/youtube-transcript-scraper.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="YouTube Transcript Scraper: Bulk Videos, Shorts &amp; Timestamps | HirePulse">
+<meta property="og:description" content="Extract YouTube transcripts in bulk from videos, Shorts and live replays with accessible captions">
+<meta property="og:url" content="https://edtool79-collab.github.io/hirepulse-tools/youtube-transcript-scraper.html">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "YouTube Transcript Scraper: Bulk & Timestamps",
+  "name": "YouTube Transcript Scraper: Bulk Videos, Shorts & Timestamps",
+  "description": "Extract YouTube transcripts in bulk from videos, Shorts and live replays with accessible captions. Export clean text, caption language and optional timestamps for RAG, summaries and content research. No YouTube API key; works with n8n, Make and Apify MCP.",
   "applicationCategory": "BusinessApplication",
+  "applicationSubCategory": "VIDEOS, AI, AGENTS",
   "operatingSystem": "Web",
-  "description": "Extracts YouTube transcripts in bulk from videos, Shorts and live replays that have accessible captions. Exports clean text, caption language and optional timestamps for RAG, summaries and content research. No YouTube API key needed; works ",
   "url": "https://apify.com/hirepulse/youtube-transcript-scraper",
-  "author": {"@type": "Organization", "name": "HirePulse", "url": "https://apify.com/hirepulse"},
-  "offers": {"@type": "Offer", "price": 0.003, "priceCurrency": "USD", "availability": "https://schema.org/InStock", "seller": {"@type": "Organization", "name": "HirePulse", "url": "https://apify.com/hirepulse"}}
+  "sameAs": "https://apify.com/hirepulse/youtube-transcript-scraper",
+  "author": {
+    "@type": "Organization",
+    "name": "HirePulse",
+    "url": "https://apify.com/hirepulse"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "HirePulse",
+    "url": "https://apify.com/hirepulse"
+  },
+  "isAccessibleForFree": false,
+  "featureList": [
+    "VIDEOS",
+    "AI",
+    "AGENTS"
+  ],
+  "dateModified": "2026-10-26",
+  "offers": {
+    "@type": "Offer",
+    "price": 0.003,
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock",
+    "seller": {
+      "@type": "Organization",
+      "name": "HirePulse",
+      "url": "https://apify.com/hirepulse"
+    },
+    "url": "https://apify.com/hirepulse/youtube-transcript-scraper"
+  }
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What does YouTube Transcript Scraper return?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A YouTube-focused transcript extraction Actor that retrieves available captions and subtitle text from videos (including Shorts and live replays), optionally returning segmented timestamps and language information alongside video metadata; it performs bulk/batch processing to produce structured transcript records and metadata useful for retrieval-augmented generation (RAG), research, content workflows,…"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does one run cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "0.003 USD per charged event (Transcript). Billing is per event, not per subscription, and only events the Actor reports are charged."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I call it from my own code or an AI agent?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. It runs as an Apify Actor: start it with the Apify API, the Apify MCP server, or the console. The only credential required is your Apify API token."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need an account on the target website?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It works from public data only; it does not log in to the sites it reads."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "HirePulse tools",
+      "item": "https://edtool79-collab.github.io/hirepulse-tools/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "YouTube Transcript Scraper: Bulk Videos, Shorts & Timestamps",
+      "item": "https://edtool79-collab.github.io/hirepulse-tools/youtube-transcript-scraper.html"
+    }
+  ]
+}
+</script>
+<style>
+:root{--fg:#111;--muted:#5b6570;--line:#e3e8ee;--accent:#1a73e8;--bg:#fff}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--fg);background:var(--bg)}
+main{max-width:760px;margin:0 auto;padding:2rem 1.25rem 4rem}
+a{color:var(--accent)}
+nav.crumbs{font-size:.85rem;color:var(--muted);margin-bottom:1.5rem}
+nav.crumbs a{color:var(--muted);text-decoration:none}
+h1{font-size:1.9rem;line-height:1.25;margin:.2rem 0 .8rem}
+h2{font-size:1.2rem;margin:2.2rem 0 .6rem}
+h3{font-size:1rem;margin:1.4rem 0 .4rem}
+p.lead{font-size:1.05rem;color:#222}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.94rem}
+th,td{border-bottom:1px solid var(--line);padding:.5rem .4rem;text-align:left;vertical-align:top}
+th{width:38%;color:var(--muted);font-weight:600}
+pre{background:#f6f8fa;border:1px solid var(--line);border-radius:8px;padding:.9rem;overflow:auto;font-size:.86rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em}
+.cta{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;padding:.65rem 1.1rem;border-radius:8px;font-weight:600;margin:.4rem 0}
+footer{margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line);font-size:.85rem;color:var(--muted)}
+details{border:1px solid var(--line);border-radius:8px;padding:.7rem 1rem;margin:.5rem 0}
+summary{cursor:pointer;font-weight:600}
+</style>
 </head>
 <body>
-<h1>YouTube Transcript Scraper: Bulk & Timestamps</h1>
-<p>Extracts YouTube transcripts in bulk from videos, Shorts and live replays that have accessible captions. Exports clean text, caption language and optional timestamps for RAG, summaries and content research. No YouTube API key needed; works with n8n, Make and Apify MCP. Only delivered transcripts are charged.</p>
-<p><strong>Pricing:</strong> $0.003 (Bronze $0.0027, Gold $0.0024) — pay-per-event, failures not charged.</p>
-<p><a href="https://apify.com/hirepulse/youtube-transcript-scraper">Run it in the Apify Store</a></p>
+<main>
+<nav class="crumbs"><a href="/hirepulse-tools/">HirePulse tools</a> / YouTube Transcript Scraper: Bulk Videos, Shorts &amp; Timestamps</nav>
+<h1>YouTube Transcript Scraper: Bulk Videos, Shorts &amp; Timestamps</h1>
+<p class="lead">Extract YouTube transcripts in bulk from videos, Shorts and live replays with accessible captions. Export clean text, caption language and optional timestamps for RAG, summaries and content research. No YouTube API key; works with n8n, Make and Apify MCP.</p>
+<table><tr><th>Category</th><td>Videos, Ai, Agents</td></tr>
+<tr><th>Price</th><td>$0.003 per Transcript; paid-plan pricing: Bronze $0.0027, Silver $0.00255, Gold $0.0024, Platinum $0.0024, Diamond $0.0024</td></tr>
+<tr><th>Public runs, last 30 days</th><td>13</td></tr>
+<tr><th>Users, last 30 days</th><td>1</td></tr>
+<tr><th>Last run</th><td>2026-10-25 19:48:35.856Z</td></tr>
+<tr><th>Store listing</th><td><a href="https://apify.com/hirepulse/youtube-transcript-scraper">apify.com/hirepulse/youtube-transcript-scraper</a></td></tr></table>
+
+<h2>What it does</h2>
+<h2>YouTube Transcript Scraper</h2>
+<p>A YouTube-focused transcript extraction Actor that retrieves available captions and subtitle text from videos (including Shorts and live replays), optionally returning segmented timestamps and language information alongside video metadata; it performs bulk/batch processing to produce structured transcript records and metadata useful for retrieval-augmented generation (RAG), research, content workflows, automation, and AI agent ingestion. Core keywords: YouTube captions, transcript extraction, subtitles, timestamps, language tags, batch processing, metadata (title, channel, duration, URL, video identifier), structured transcript records, content analysis, RAG ingestion.</p>
+<h2>Use cases</h2>
+<ul>
+<li>Ingest YouTube video captions for retrieval-augmented generation (RAG) and vector indexing.</li>
+<li>Collect transcripts at scale for video research and content analysis.</li>
+<li>Export structured transcript records for content workflows and automation platforms.</li>
+<li>Provide timestamped caption segments and language metadata for AI agents and downstream processing.</li>
+</ul>
+
+<h2>Run it</h2>
+<p>Send this input to the Actor:</p>
+<pre><code>{
+  &quot;videos&quot;: [
+    &quot;https://youtu.be/jNQXAC9IVRw&quot;
+  ],
+  &quot;include_timestamps&quot;: true,
+  &quot;use_paid_upstream&quot;: false
+}</code></pre>
+<h3>From your own code (Apify API)</h3>
+<pre><code>curl -X POST "https://api.apify.com/v2/acts/hirepulse~youtube-transcript-scraper/runs?token=$APIFY_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{&quot;videos&quot;: [&quot;https://youtu.be/jNQXAC9IVRw&quot;], &quot;include_timestamps&quot;: true, &quot;use_paid_upstream&quot;: false}'</code></pre>
+<h3>From an AI agent (Apify MCP)</h3>
+<pre><code>{"tool": "call-actor", "arguments": {"actor": "hirepulse/youtube-transcript-scraper"}}</code></pre>
+<p><a class="cta" href="https://apify.com/hirepulse/youtube-transcript-scraper">Open youtube-transcript-scraper on the Apify Store</a></p>
+
+<h2>Pricing</h2>
+<p>$0.003 per Transcript; paid-plan pricing: Bronze $0.0027, Silver $0.00255, Gold $0.0024, Platinum $0.0024, Diamond $0.0024</p>
+<p>Prices are configured per event on the Apify listing and can change; the listing is the authoritative source.</p>
+
+<h2>Questions</h2>
+<details><summary>What does YouTube Transcript Scraper return?</summary><p>A YouTube-focused transcript extraction Actor that retrieves available captions and subtitle text from videos (including Shorts and live replays), optionally returning segmented timestamps and language information alongside video metadata; it performs bulk/batch processing to produce structured transcript records and metadata useful for retrieval-augmented generation (RAG), research, content workflows,…</p></details>
+<details><summary>How much does one run cost?</summary><p>0.003 USD per charged event (Transcript). Billing is per event, not per subscription, and only events the Actor reports are charged.</p></details>
+<details><summary>Can I call it from my own code or an AI agent?</summary><p>Yes. It runs as an Apify Actor: start it with the Apify API, the Apify MCP server, or the console. The only credential required is your Apify API token.</p></details>
+<details><summary>Do I need an account on the target website?</summary><p>No. It works from public data only; it does not log in to the sites it reads.</p></details>
+
+<h2>Other HirePulse tools</h2>
+<ul><li><a href="/hirepulse-tools/ad-waste-and-ai-leak-auditor.html">ad-waste-and-ai-leak-auditor</a></li>
+<li><a href="/hirepulse-tools/ai-search-brand-visibility-radar.html">ai-search-brand-visibility-radar</a></li>
+<li><a href="/hirepulse-tools/aliexpress-search-scraper.html">aliexpress-search-scraper</a></li></ul>
+
+<footer>
+<p>HirePulse — Pay-per-use data tools for AI agents, sales and e-commerce. This page is generated from the Actor's own public listing fields
+(title, description, readme, pricing configuration and public run counters) on 2026-10-26.
+Nothing on this page is a customer testimonial.</p>
+<p><a href="/hirepulse-tools/">All tools</a> · <a href="/hirepulse-tools/truth-metrics.html">Measured reliability</a></p>
+</footer>
+</main>
 </body>
 </html>

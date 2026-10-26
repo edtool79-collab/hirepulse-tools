@@ -2,26 +2,203 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Google Ads Transparency Scraper: Competitor Ads | HirePulse</title>
-<meta name="description" content="Scrape the Google Ads Transparency Center by domain: ad creatives, formats, advertisers and shown dates in bulk JSON. From $0.0015 per returned ad.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Google Ads Transparency Scraper: Competitor Ads by Domain | HirePulse</title>
+<meta name="description" content="Scrape Google Ads Transparency Center records by company domain: ad creatives, formats, advertisers and first/last shown dates when available">
+<link rel="canonical" href="https://edtool79-collab.github.io/hirepulse-tools/google-ads-transparency-scraper.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Google Ads Transparency Scraper: Competitor Ads by Domain | HirePulse">
+<meta property="og:description" content="Scrape Google Ads Transparency Center records by company domain: ad creatives, formats, advertisers and first/last shown dates when available">
+<meta property="og:url" content="https://edtool79-collab.github.io/hirepulse-tools/google-ads-transparency-scraper.html">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "Google Ads Transparency Scraper: Competitor Ads",
+  "name": "Google Ads Transparency Scraper: Competitor Ads by Domain",
+  "description": "Scrape Google Ads Transparency Center records by company domain: ad creatives, formats, advertisers and first/last shown dates when available. Export JSON for competitor ad research, brand monitoring, n8n, Make and Apify MCP. Includes bulk domains and summary options.",
   "applicationCategory": "BusinessApplication",
+  "applicationSubCategory": "MARKETING, LEAD_GENERATION, AGENTS",
   "operatingSystem": "Web",
-  "description": "Scrapes Google Ads Transparency Center records by company domain: ad creatives, formats, advertisers and first/last shown dates when available. Exports JSON for competitor ad research, brand monitoring, n8n, Make and Apify MCP. Includes bul",
   "url": "https://apify.com/hirepulse/google-ads-transparency-scraper",
-  "author": {"@type": "Organization", "name": "HirePulse", "url": "https://apify.com/hirepulse"},
-  "offers": {"@type": "Offer", "price": 0.0015, "priceCurrency": "USD", "availability": "https://schema.org/InStock", "seller": {"@type": "Organization", "name": "HirePulse", "url": "https://apify.com/hirepulse"}}
+  "sameAs": "https://apify.com/hirepulse/google-ads-transparency-scraper",
+  "author": {
+    "@type": "Organization",
+    "name": "HirePulse",
+    "url": "https://apify.com/hirepulse"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "HirePulse",
+    "url": "https://apify.com/hirepulse"
+  },
+  "isAccessibleForFree": false,
+  "featureList": [
+    "MARKETING",
+    "LEAD_GENERATION",
+    "AGENTS"
+  ],
+  "dateModified": "2026-10-26",
+  "offers": {
+    "@type": "Offer",
+    "price": 0.0015,
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock",
+    "seller": {
+      "@type": "Organization",
+      "name": "HirePulse",
+      "url": "https://apify.com/hirepulse"
+    },
+    "url": "https://apify.com/hirepulse/google-ads-transparency-scraper"
+  }
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What does Google Ads Transparency Scraper return?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A domain-focused scraper that queries Google Ads Transparency Center records to extract advertiser and creative records tied to specified website domains. It retrieves structured creative metadata and advertiser details including creative formats (image, video, text), creative assets and identifiers, observed date ranges (first/last seen and run-duration), domain attribution evidence linking creatives to…"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does one run cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "0.0015 USD per charged event (Ad result). Billing is per event, not per subscription, and only events the Actor reports are charged."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I call it from my own code or an AI agent?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. It runs as an Apify Actor: start it with the Apify API, the Apify MCP server, or the console. The only credential required is your Apify API token."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need an account on the target website?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It works from public data only; it does not log in to the sites it reads."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "HirePulse tools",
+      "item": "https://edtool79-collab.github.io/hirepulse-tools/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Google Ads Transparency Scraper: Competitor Ads by Domain",
+      "item": "https://edtool79-collab.github.io/hirepulse-tools/google-ads-transparency-scraper.html"
+    }
+  ]
+}
+</script>
+<style>
+:root{--fg:#111;--muted:#5b6570;--line:#e3e8ee;--accent:#1a73e8;--bg:#fff}
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--fg);background:var(--bg)}
+main{max-width:760px;margin:0 auto;padding:2rem 1.25rem 4rem}
+a{color:var(--accent)}
+nav.crumbs{font-size:.85rem;color:var(--muted);margin-bottom:1.5rem}
+nav.crumbs a{color:var(--muted);text-decoration:none}
+h1{font-size:1.9rem;line-height:1.25;margin:.2rem 0 .8rem}
+h2{font-size:1.2rem;margin:2.2rem 0 .6rem}
+h3{font-size:1rem;margin:1.4rem 0 .4rem}
+p.lead{font-size:1.05rem;color:#222}
+table{width:100%;border-collapse:collapse;margin:1rem 0;font-size:.94rem}
+th,td{border-bottom:1px solid var(--line);padding:.5rem .4rem;text-align:left;vertical-align:top}
+th{width:38%;color:var(--muted);font-weight:600}
+pre{background:#f6f8fa;border:1px solid var(--line);border-radius:8px;padding:.9rem;overflow:auto;font-size:.86rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em}
+.cta{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;padding:.65rem 1.1rem;border-radius:8px;font-weight:600;margin:.4rem 0}
+footer{margin-top:3rem;padding-top:1rem;border-top:1px solid var(--line);font-size:.85rem;color:var(--muted)}
+details{border:1px solid var(--line);border-radius:8px;padding:.7rem 1rem;margin:.5rem 0}
+summary{cursor:pointer;font-weight:600}
+</style>
 </head>
 <body>
-<h1>Google Ads Transparency Scraper: Competitor Ads</h1>
-<p>Scrapes Google Ads Transparency Center records by company domain: ad creatives, formats, advertisers and first/last shown dates when available. Exports JSON for competitor ad research, brand monitoring, n8n, Make and Apify MCP. Includes bulk domain mode and summary options.</p>
-<p><strong>Pricing:</strong> $0.0015 (Bronze $0.00135, Gold $0.0012) — pay-per-event, failures not charged.</p>
-<p><a href="https://apify.com/hirepulse/google-ads-transparency-scraper">Run it in the Apify Store</a></p>
+<main>
+<nav class="crumbs"><a href="/hirepulse-tools/">HirePulse tools</a> / Google Ads Transparency Scraper: Competitor Ads by Domain</nav>
+<h1>Google Ads Transparency Scraper: Competitor Ads by Domain</h1>
+<p class="lead">Scrape Google Ads Transparency Center records by company domain: ad creatives, formats, advertisers and first/last shown dates when available. Export JSON for competitor ad research, brand monitoring, n8n, Make and Apify MCP. Includes bulk domains and summary options.</p>
+<table><tr><th>Category</th><td>Marketing, Lead Generation, Agents</td></tr>
+<tr><th>Price</th><td>$0.0015 per Ad result; paid-plan pricing: Bronze $0.00135, Silver $0.00128, Gold $0.0012, Platinum $0.0012, Diamond $0.0012</td></tr>
+<tr><th>Public runs, last 30 days</th><td>15</td></tr>
+<tr><th>Users, last 30 days</th><td>1</td></tr>
+<tr><th>Last run</th><td>2026-10-25 16:14:45.312Z</td></tr>
+<tr><th>Store listing</th><td><a href="https://apify.com/hirepulse/google-ads-transparency-scraper">apify.com/hirepulse/google-ads-transparency-scraper</a></td></tr></table>
+
+<h2>What it does</h2>
+<h2>Google Ads Transparency Scraper</h2>
+<p>A domain-focused scraper that queries Google Ads Transparency Center records to extract advertiser and creative records tied to specified website domains. It retrieves structured creative metadata and advertiser details including creative formats (image, video, text), creative assets and identifiers, observed date ranges (first/last seen and run-duration), domain attribution evidence linking creatives to destination domains, country and platform filtering options, periodic monitoring for repeated runs, and store/category labeling for advertisers. Keywords: Google Ads Transparency Center, advertiser records, creative metadata, domain attribution, creative formats, image creatives, video creatives, text creatives, observed dates, advertiser identity, country/platform filters, monitoring.</p>
+<h2>Use cases</h2>
+<ul>
+<li>Competitor ad research to discover ads associated with a specific domain.</li>
+<li>Creative analysis and extraction of image, video and text ad assets and metadata.</li>
+<li>Brand monitoring by tracking advertiser activity over time via first/last seen dates and run duration.</li>
+<li>Domain-level attribution of creatives based on destination-domain evidence.</li>
+<li>Filtering and analysis by country and platform, and repeated-run monitoring for changes.</li>
+<li>Assigning store/category labels to advertiser records for categorization and comparison.</li>
+</ul>
+
+<h2>Run it</h2>
+<p>Send this input to the Actor:</p>
+<pre><code>{
+  &quot;domains&quot;: [
+    &quot;stripe.com&quot;
+  ],
+  &quot;mode&quot;: &quot;summary&quot;,
+  &quot;max_ads_per_domain&quot;: 3,
+  &quot;use_paid_upstream&quot;: false
+}</code></pre>
+<h3>From your own code (Apify API)</h3>
+<pre><code>curl -X POST "https://api.apify.com/v2/acts/hirepulse~google-ads-transparency-scraper/runs?token=$APIFY_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{&quot;domains&quot;: [&quot;stripe.com&quot;], &quot;mode&quot;: &quot;summary&quot;, &quot;max_ads_per_domain&quot;: 3, &quot;use_paid_upstream&quot;: false}'</code></pre>
+<h3>From an AI agent (Apify MCP)</h3>
+<pre><code>{"tool": "call-actor", "arguments": {"actor": "hirepulse/google-ads-transparency-scraper"}}</code></pre>
+<p><a class="cta" href="https://apify.com/hirepulse/google-ads-transparency-scraper">Open google-ads-transparency-scraper on the Apify Store</a></p>
+
+<h2>Pricing</h2>
+<p>$0.0015 per Ad result; paid-plan pricing: Bronze $0.00135, Silver $0.00128, Gold $0.0012, Platinum $0.0012, Diamond $0.0012</p>
+<p>Prices are configured per event on the Apify listing and can change; the listing is the authoritative source.</p>
+
+<h2>Questions</h2>
+<details><summary>What does Google Ads Transparency Scraper return?</summary><p>A domain-focused scraper that queries Google Ads Transparency Center records to extract advertiser and creative records tied to specified website domains. It retrieves structured creative metadata and advertiser details including creative formats (image, video, text), creative assets and identifiers, observed date ranges (first/last seen and run-duration), domain attribution evidence linking creatives to…</p></details>
+<details><summary>How much does one run cost?</summary><p>0.0015 USD per charged event (Ad result). Billing is per event, not per subscription, and only events the Actor reports are charged.</p></details>
+<details><summary>Can I call it from my own code or an AI agent?</summary><p>Yes. It runs as an Apify Actor: start it with the Apify API, the Apify MCP server, or the console. The only credential required is your Apify API token.</p></details>
+<details><summary>Do I need an account on the target website?</summary><p>No. It works from public data only; it does not log in to the sites it reads.</p></details>
+
+<h2>Other HirePulse tools</h2>
+<ul><li><a href="/hirepulse-tools/google-jobs-scraper.html">google-jobs-scraper</a></li>
+<li><a href="/hirepulse-tools/keyword-search-volume.html">keyword-search-volume</a></li>
+<li><a href="/hirepulse-tools/mcp-x402-server-grader.html">mcp-x402-server-grader</a></li></ul>
+
+<footer>
+<p>HirePulse — Pay-per-use data tools for AI agents, sales and e-commerce. This page is generated from the Actor's own public listing fields
+(title, description, readme, pricing configuration and public run counters) on 2026-10-26.
+Nothing on this page is a customer testimonial.</p>
+<p><a href="/hirepulse-tools/">All tools</a> · <a href="/hirepulse-tools/truth-metrics.html">Measured reliability</a></p>
+</footer>
+</main>
 </body>
 </html>
