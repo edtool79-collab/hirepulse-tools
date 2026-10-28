@@ -1,15 +1,16 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>B2B Account Research &amp; Enrichment: Tech, Hiring, Contacts | HirePulse</title>
-<meta name="description" content="Company domain in, one compact profile out: website technologies, email provider, job board with live open-job count, and public emails, phones and social.">
-<link rel="canonical" href="https://edtool79-collab.github.io/hirepulse-tools/b2b-account-research-agent.html">
-<meta property="og:type" content="website">
-<meta property="og:title" content="B2B Account Research &amp; Enrichment: Tech, Hiring, Contacts | HirePulse">
-<meta property="og:description" content="Company domain in, one compact profile out: website technologies, email provider, job board with live open-job count, and public emails, phones and social.">
-<meta property="og:url" content="https://edtool79-collab.github.io/hirepulse-tools/b2b-account-research-agent.html">
+<meta content="Company domain in, one compact profile out: website technologies, email provider, job board with live open-job count, and public emails, phones and social profiles. No browser, no login. Charged only for useful profiles." name="description"/>
+<link href="https://edtool79-collab.github.io/hirepulse-tools/b2b-account-research-agent.html" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="B2B Account Research &amp; Enrichment: Tech, Hiring, Contacts" property="og:title"/>
+<meta content="Company domain in, one compact profile out: website technologies, email provider, job board with live open-job count, and public emails, phones and social profiles. No browser, no login. Charged only for useful profiles." property="og:description"/>
+<meta content="https://edtool79-collab.github.io/hirepulse-tools/b2b-account-research-agent.html" property="og:url"/>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -146,10 +147,9 @@ summary{cursor:pointer;font-weight:600}
 <tr><th>Users, last 30 days</th><td>1</td></tr>
 <tr><th>Last run</th><td>2026-10-25 21:34:36.997Z</td></tr>
 <tr><th>Store listing</th><td><a href="https://apify.com/hirepulse/b2b-account-research-agent">apify.com/hirepulse/b2b-account-research-agent</a></td></tr></table>
-
 <h2>What it does</h2>
 <h2>B2B Account Research &amp; Enrichment</h2>
-<p>A domain-to-signal enrichment Actor that converts company websites into structured account intelligence: it extracts live open-job counts from supported applicant-tracking systems, hiring pace and role breakdowns, technologies detected on the website and named in job postings, sales and GTM signals from the home page, DNS-derived email setup, publicly published contacts, and site localization. The Actor uses job boards&#x27; public APIs and attribution rules (link evidence or domain evidence) to produce job counts and posting dates; it parses HTML (including Google Tag Manager) for analytics/ad pixels, CMS, frameworks, e-commerce, payments and CDN signals; it queries public DNS for mail-provider, SPF and DMARC information; and it extracts emails, phone numbers and social profiles published on company pages. Outputs are provided as one JSON record per company with separate section-level status and source evidence, and include quoted job-text evidence for technologies named in postings and attribution metadata for ATS-derived counts.</p>
+<p>A domain-to-signal enrichment Actor that converts company websites into structured account intelligence: it extracts live open-job counts from supported applicant-tracking systems, hiring pace and role breakdowns, technologies detected on the website and named in job postings, sales and GTM signals from the home page, DNS-derived email setup, publicly published contacts, and site localization. The Actor uses job boards' public APIs and attribution rules (link evidence or domain evidence) to produce job counts and posting dates; it parses HTML (including Google Tag Manager) for analytics/ad pixels, CMS, frameworks, e-commerce, payments and CDN signals; it queries public DNS for mail-provider, SPF and DMARC information; and it extracts emails, phone numbers and social profiles published on company pages. Outputs are provided as one JSON record per company with separate section-level status and source evidence, and include quoted job-text evidence for technologies named in postings and attribution metadata for ATS-derived counts.</p>
 <h2>Use cases</h2>
 <ul>
 <li>Prioritizing accounts by open-job counts, hiring pace, department-level hiring signals and source evidence for sales or outreach sequencing.</li>
@@ -158,38 +158,33 @@ summary{cursor:pointer;font-weight:600}
 <li>Tech-stack discovery and ad/analytics pixel inventory for vendor targeting or competitive research.</li>
 <li>Building automated sales and research agents, workflow integrations, and enrichment steps in automation tools and AI agents.</li>
 </ul>
-
 <h2>Run it</h2>
 <p>Send this input to the Actor:</p>
 <pre><code>{
-  &quot;domains&quot;: [
-    &quot;linear.app&quot;,
-    &quot;vercel.com&quot;
+  "domains": [
+    "linear.app",
+    "vercel.com"
   ]
 }</code></pre>
 <h3>From your own code (Apify API)</h3>
 <pre><code>curl -X POST "https://api.apify.com/v2/acts/hirepulse~b2b-account-research-agent/runs?token=$APIFY_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{&quot;domains&quot;: [&quot;linear.app&quot;, &quot;vercel.com&quot;]}'</code></pre>
+  -d '{"domains": ["linear.app", "vercel.com"]}'</code></pre>
 <h3>From an AI agent (Apify MCP)</h3>
 <pre><code>{"tool": "call-actor", "arguments": {"actor": "hirepulse/b2b-account-research-agent"}}</code></pre>
 <p><a class="cta" href="https://apify.com/hirepulse/b2b-account-research-agent">Open b2b-account-research-agent on the Apify Store</a></p>
-
 <h2>Pricing</h2>
 <p>$0.005 per Company profile</p>
 <p>Prices are configured per event on the Apify listing and can change; the listing is the authoritative source.</p>
-
 <h2>Questions</h2>
 <details><summary>What does B2B Account Research &amp; Enrichment return?</summary><p>A domain-to-signal enrichment Actor that converts company websites into structured account intelligence: it extracts live open-job counts from supported applicant-tracking systems, hiring pace and role breakdowns, technologies detected on the website and named in job postings, sales and GTM signals from the home page, DNS-derived email setup, publicly published contacts, and site localization. The Actor uses job…</p></details>
 <details><summary>How much does one run cost?</summary><p>0.005 USD per charged event (Company profile). Billing is per event, not per subscription, and only events the Actor reports are charged.</p></details>
 <details><summary>Can I call it from my own code or an AI agent?</summary><p>Yes. It runs as an Apify Actor: start it with the Apify API, the Apify MCP server, or the console. The only credential required is your Apify API token.</p></details>
 <details><summary>Do I need an account on the target website?</summary><p>No. It works from public data only; it does not log in to the sites it reads.</p></details>
-
 <h2>Other HirePulse tools</h2>
 <ul><li><a href="/hirepulse-tools/company-contact-details-finder.html">company-contact-details-finder</a></li>
 <li><a href="/hirepulse-tools/company-intent-radar.html">company-intent-radar</a></li>
 <li><a href="/hirepulse-tools/domain-seo-overview.html">domain-seo-overview</a></li></ul>
-
 <footer>
 <p>HirePulse — Pay-per-use data tools for AI agents, sales and e-commerce. This page is generated from the Actor's own public listing fields
 (title, description, readme, pricing configuration and public run counters) on 2026-10-26.

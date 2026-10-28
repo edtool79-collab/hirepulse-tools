@@ -1,15 +1,16 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>Temporary Email Inbox &amp; OTP API for AI Agents | HirePulse</title>
-<meta name="description" content="Create temporary email inboxes and read numeric OTP codes as JSON. Private per-user access, 1–60 minute expiry, and Apify MCP support for authorized QA.">
-<link rel="canonical" href="https://edtool79-collab.github.io/hirepulse-tools/temporary-email-inbox.html">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Temporary Email Inbox &amp; OTP API for AI Agents | HirePulse">
-<meta property="og:description" content="Create temporary email inboxes and read numeric OTP codes as JSON. Private per-user access, 1–60 minute expiry, and Apify MCP support for authorized QA.">
-<meta property="og:url" content="https://edtool79-collab.github.io/hirepulse-tools/temporary-email-inbox.html">
+<meta content="Create private temporary email inboxes, list received-message metadata and extract numeric verification codes as JSON. Built for authorized QA, n8n and AI agents. Inbox TTL 1–60 minutes. Pay through Apify; no separate service account or crypto wallet required." name="description"/>
+<link href="https://edtool79-collab.github.io/hirepulse-tools/temporary-email-inbox.html" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="Temporary Email Inbox &amp; OTP API for AI Agents" property="og:title"/>
+<meta content="Create private temporary email inboxes, list received-message metadata and extract numeric verification codes as JSON. Built for authorized QA, n8n and AI agents. Inbox TTL 1–60 minutes. Pay through Apify; no separate service account or crypto wallet required." property="og:description"/>
+<meta content="https://edtool79-collab.github.io/hirepulse-tools/temporary-email-inbox.html" property="og:url"/>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -145,7 +146,6 @@ summary{cursor:pointer;font-weight:600}
 <tr><th>Users, last 30 days</th><td>1</td></tr>
 <tr><th>Last run</th><td>2026-10-25 12:08:43.011Z</td></tr>
 <tr><th>Store listing</th><td><a href="https://apify.com/hirepulse/temporary-email-inbox">apify.com/hirepulse/temporary-email-inbox</a></td></tr></table>
-
 <h2>What it does</h2>
 <h2>Temporary Email Inbox &amp; OTP API for AI Agents</h2>
 <p>Creates time-limited, private disposable inbound email inboxes and extracts numeric one-time passwords (OTPs) and their provenance from received SMTP messages. The Actor provisions a random private email address and associated secret access credential for the creating account, receives real inbound email, parses plain-text and HTML message content for 4–8 digit verification codes located near verification or OTP labels (including supported non‑Latin labels), and returns extracted numeric candidates with provenance metadata such as a message identifier, receipt/expiry timestamps, extraction method, source indicator, and sender verification flag. Technical capabilities include inbox lifecycle management (provision, list message metadata, retrieve code candidates, revoke/delete inbox), conservative OTP parsing tuned for verification/security labels, per-inbox message metadata retention, and time-limited ephemeral inbox allocation tied to the creator’s account.</p>
@@ -157,36 +157,31 @@ summary{cursor:pointer;font-weight:600}
 <li>End-to-end testing of systems that send numeric verification codes via email</li>
 <li>Inspecting message metadata and selecting specific messages for targeted code extraction</li>
 </ul>
-
 <h2>Run it</h2>
 <p>Send this input to the Actor:</p>
 <pre><code>{
-  &quot;action&quot;: &quot;create&quot;,
-  &quot;ttl_seconds&quot;: 600
+  "action": "create",
+  "ttl_seconds": 600
 }</code></pre>
 <h3>From your own code (Apify API)</h3>
 <pre><code>curl -X POST "https://api.apify.com/v2/acts/hirepulse~temporary-email-inbox/runs?token=$APIFY_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{&quot;action&quot;: &quot;create&quot;, &quot;ttl_seconds&quot;: 600}'</code></pre>
+  -d '{"action": "create", "ttl_seconds": 600}'</code></pre>
 <h3>From an AI agent (Apify MCP)</h3>
 <pre><code>{"tool": "call-actor", "arguments": {"actor": "hirepulse/temporary-email-inbox"}}</code></pre>
 <p><a class="cta" href="https://apify.com/hirepulse/temporary-email-inbox">Open temporary-email-inbox on the Apify Store</a></p>
-
 <h2>Pricing</h2>
 <p>$0.01 per 10-minute inbox allocation</p>
 <p>Prices are configured per event on the Apify listing and can change; the listing is the authoritative source.</p>
-
 <h2>Questions</h2>
 <details><summary>What does Temporary Email Inbox &amp; OTP API for AI Agents return?</summary><p>Creates time-limited, private disposable inbound email inboxes and extracts numeric one-time passwords (OTPs) and their provenance from received SMTP messages. The Actor provisions a random private email address and associated secret access credential for the creating account, receives real inbound email, parses plain-text and HTML message content for 4–8 digit verification codes located near verification or OTP…</p></details>
 <details><summary>How much does one run cost?</summary><p>0.01 USD per charged event (10-minute inbox allocation). Billing is per event, not per subscription, and only events the Actor reports are charged.</p></details>
 <details><summary>Can I call it from my own code or an AI agent?</summary><p>Yes. It runs as an Apify Actor: start it with the Apify API, the Apify MCP server, or the console. The only credential required is your Apify API token.</p></details>
 <details><summary>Do I need an account on the target website?</summary><p>No. It works from public data only; it does not log in to the sites it reads.</p></details>
-
 <h2>Other HirePulse tools</h2>
 <ul><li><a href="/hirepulse-tools/viral-product-radar.html">viral-product-radar</a></li>
 <li><a href="/hirepulse-tools/website-tech-stack-detector.html">website-tech-stack-detector</a></li>
 <li><a href="/hirepulse-tools/youtube-transcript-scraper.html">youtube-transcript-scraper</a></li></ul>
-
 <footer>
 <p>HirePulse — Pay-per-use data tools for AI agents, sales and e-commerce. This page is generated from the Actor's own public listing fields
 (title, description, readme, pricing configuration and public run counters) on 2026-10-26.

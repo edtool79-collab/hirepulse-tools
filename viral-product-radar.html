@@ -1,15 +1,16 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TikTok Product Research &amp; Video Growth Tracker | HirePulse</title>
-<meta name="description" content="Research TikTok product videos with source links, creator breadth and history. Measure same-video growth after 6+ hours. JSON and HTML research reports.">
-<link rel="canonical" href="https://edtool79-collab.github.io/hirepulse-tools/viral-product-radar.html">
-<meta property="og:type" content="website">
-<meta property="og:title" content="TikTok Product Research &amp; Video Growth Tracker | HirePulse">
-<meta property="og:description" content="Research TikTok product videos with source links, creator breadth and history. Measure same-video growth after 6+ hours. JSON and HTML research reports.">
-<meta property="og:url" content="https://edtool79-collab.github.io/hirepulse-tools/viral-product-radar.html">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>TikTok Product Research &amp; Video Growth Radar | HirePulse</title>
+<meta content="Research TikTok product videos from exports or explicitly approved Clockworks collection. Included export is a dated example, not live market data. First observation is a baseline; repeat after 6+ hours for growth. $0.02 per delivered report plus optional collection fees. No sales forecast." name="description"/>
+<link href="https://edtool79-collab.github.io/hirepulse-tools/viral-product-radar.html" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="TikTok Product Research &amp; Video Growth Radar" property="og:title"/>
+<meta content="Research TikTok product videos from exports or explicitly approved Clockworks collection. Included export is a dated example, not live market data. First observation is a baseline; repeat after 6+ hours for growth. $0.02 per delivered report plus optional collection fees. No sales forecast." property="og:description"/>
+<meta content="https://edtool79-collab.github.io/hirepulse-tools/viral-product-radar.html" property="og:url"/>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -138,14 +139,13 @@ summary{cursor:pointer;font-weight:600}
 <main>
 <nav class="crumbs"><a href="/hirepulse-tools/">HirePulse tools</a> / TikTok Product Research &amp; Video Growth Radar</nav>
 <h1>TikTok Product Research &amp; Video Growth Radar</h1>
-<p class="lead">Research TikTok product videos with source links, creator breadth and saved history. First run builds a baseline; repeat after 6+ hours to measure growth. JSON and HTML reports for people and agents. $0.02 per report; optional Clockworks collection costs extra.</p>
+<p class="lead">Research TikTok product videos from exports or explicitly approved Clockworks collection. Included export is a dated example, not live market data. First observation is a baseline; repeat after 6+ hours for growth. $0.02 per delivered report plus optional collection fees. No sales forecast.</p>
 <table><tr><th>Category</th><td>Social Media, Videos</td></tr>
 <tr><th>Price</th><td>$0.02 per Product research report</td></tr>
 <tr><th>Public runs, last 30 days</th><td>3</td></tr>
 <tr><th>Users, last 30 days</th><td>1</td></tr>
 <tr><th>Last run</th><td>2026-10-25 15:02:38.139Z</td></tr>
 <tr><th>Store listing</th><td><a href="https://apify.com/hirepulse/viral-product-radar">apify.com/hirepulse/viral-product-radar</a></td></tr></table>
-
 <h2>What it does</h2>
 <h2>TikTok Product Research &amp; Video Growth Radar</h2>
 <p>A TikTok-focused product research and video growth radar that ranks product topics by measured growth on the same video IDs across different collection times. It analyzes time-separated view-count deltas and added views, normalizes daily growth rates, and combines momentum, creator-account breadth, engagement ratios, and persistence into a ranked research-priority score with classification, rationale and next-action guidance. The Actor returns per-product research reports that cite supporting videos, per-video comparison windows, source URLs and blockers, measurements of added views and normalized growth, creator-account breadth and concentration metrics, repeat-growth evidence, and agent-friendly decision fields describing missing evidence and suggested checks. The system supports importing historical exports or using an optional capped cloud upstream scraper for live collection, establishes baselines and watch cohorts for cohort research, enforces minimum comparison windows between measurements, and applies explicit scoring heuristics and alert thresholds to identify candidate emerging products.</p>
@@ -160,44 +160,39 @@ summary{cursor:pointer;font-weight:600}
 <li>Evaluate ranking performance with top-k labeling and pairwise precision measurement using later-observed outcomes.</li>
 <li>Provide machine-readable decision outputs for agents, including research-priority scores, classifications, missing evidence, and suggested next checks (relevance, sourcing, landed cost, fulfilment).</li>
 </ul>
-
 <h2>Run it</h2>
 <p>Send this input to the Actor:</p>
 <pre><code>{
-  &quot;keywords&quot;: [
-    &quot;mini projector&quot;
+  "keywords": [
+    "mini projector"
   ],
-  &quot;analysis_mode&quot;: &quot;product_videos&quot;,
-  &quot;upstream_source&quot;: &quot;clockworks&quot;,
-  &quot;allow_paid_upstream&quot;: true,
-  &quot;upstream_max_charge_usd&quot;: 0.04,
-  &quot;max_items&quot;: 10,
-  &quot;state_id&quot;: &quot;my-product-research&quot;,
-  &quot;deliver_all_reports&quot;: true
+  "analysis_mode": "product_videos",
+  "upstream_source": "clockworks",
+  "allow_paid_upstream": true,
+  "upstream_max_charge_usd": 0.04,
+  "max_items": 10,
+  "state_id": "my-product-research",
+  "deliver_all_reports": true
 }</code></pre>
 <h3>From your own code (Apify API)</h3>
 <pre><code>curl -X POST "https://api.apify.com/v2/acts/hirepulse~viral-product-radar/runs?token=$APIFY_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{&quot;keywords&quot;: [&quot;mini projector&quot;], &quot;analysis_mode&quot;: &quot;product_videos&quot;, &quot;upstream_source&quot;: &quot;clockworks&quot;, &quot;allow_paid_upstream&quot;: true, &quot;upstream_max_charge_usd&quot;: 0.04, &quot;max_items&quot;: 10, &quot;state_id&quot;: &quot;my-product-research&quot;, &quot;deliver_all_reports&quot;: true}'</code></pre>
+  -d '{"keywords": ["mini projector"], "analysis_mode": "product_videos", "upstream_source": "clockworks", "allow_paid_upstream": true, "upstream_max_charge_usd": 0.04, "max_items": 10, "state_id": "my-product-research", "deliver_all_reports": true}'</code></pre>
 <h3>From an AI agent (Apify MCP)</h3>
 <pre><code>{"tool": "call-actor", "arguments": {"actor": "hirepulse/viral-product-radar"}}</code></pre>
 <p><a class="cta" href="https://apify.com/hirepulse/viral-product-radar">Open viral-product-radar on the Apify Store</a></p>
-
 <h2>Pricing</h2>
 <p>$0.02 per Product research report</p>
 <p>Prices are configured per event on the Apify listing and can change; the listing is the authoritative source.</p>
-
 <h2>Questions</h2>
 <details><summary>What does TikTok Product Research &amp; Video Growth Radar return?</summary><p>A TikTok-focused product research and video growth radar that ranks product topics by measured growth on the same video IDs across different collection times. It analyzes time-separated view-count deltas and added views, normalizes daily growth rates, and combines momentum, creator-account breadth, engagement ratios, and persistence into a ranked research-priority score with classification, rationale and…</p></details>
 <details><summary>How much does one run cost?</summary><p>0.02 USD per charged event (Product research report). Billing is per event, not per subscription, and only events the Actor reports are charged.</p></details>
 <details><summary>Can I call it from my own code or an AI agent?</summary><p>Yes. It runs as an Apify Actor: start it with the Apify API, the Apify MCP server, or the console. The only credential required is your Apify API token.</p></details>
 <details><summary>Do I need an account on the target website?</summary><p>No. It works from public data only; it does not log in to the sites it reads.</p></details>
-
 <h2>Other HirePulse tools</h2>
 <ul><li><a href="/hirepulse-tools/website-tech-stack-detector.html">website-tech-stack-detector</a></li>
 <li><a href="/hirepulse-tools/youtube-transcript-scraper.html">youtube-transcript-scraper</a></li>
 <li><a href="/hirepulse-tools/ad-waste-and-ai-leak-auditor.html">ad-waste-and-ai-leak-auditor</a></li></ul>
-
 <footer>
 <p>HirePulse — Pay-per-use data tools for AI agents, sales and e-commerce. This page is generated from the Actor's own public listing fields
 (title, description, readme, pricing configuration and public run counters) on 2026-10-26.

@@ -1,14 +1,10 @@
-# Shopify catalog to llms.txt: make your store readable by AI agents
+# Generate an llms.txt draft from a Shopify product feed
 
-> Generate llms.txt drafts from a public Shopify or WooCommerce feed with Python: sampled product titles, pricing, variants and specs for $0.02 per report.
+Verified 2026-10-28. For store owners and ecommerce agencies that want a reviewable text index from an accessible Shopify or WooCommerce product feed.
 
-AI agents and shopping assistants increasingly browse stores through text indexes, not web pages. A store whose products live only in rendered HTML is invisible to them; a store that publishes a clean `llms.txt` product index is readable at a glance — like `robots.txt` and `sitemap.xml`, but for language models.
+[Open Actor](https://apify.com/hirepulse/shopify-to-llms-generator?utm_source=hirepulse_docs&utm_medium=owned&utm_campaign=apify_quickstart_20261028&utm_content=shopify-to-llms-generator)
 
-The [Store to LLMs Generator](https://edtool79-collab.github.io/hirepulse-tools/store-to-llms-generator/) samples a public Shopify or WooCommerce product feed and produces `llms.txt` drafts for owner review: product titles, pricing, variants and specs, structured as plain markdown.
-
-## What the report contains
-
-Input is the store URL plus a sample cap:
+## Input
 
 ```json
 {
@@ -17,83 +13,36 @@ Input is the store URL plus a sample cap:
 }
 ```
 
-One report includes `sampled_catalog`, `products_indexed`, `crawl_status`, `http_evidence`, `llms_txt` and `llms_full_txt`. The `LLMS_TXT_DRAFT` file downloads from key-value storage. Products are a sample capped at 100, not a full inventory; currency, policies and contact facts remain unknown unless observed.
+## Run in Python
 
-A real smoke check (October 22, 2026) returned five products for Untuckit. Allbirds and Bulletproof were blocked in separate container checks — inaccessible public feeds fail honestly with diagnostics instead of partial guesses.
-
-## Quick start with cURL
+Download [runner](https://edtool79-collab.github.io/hirepulse-tools/examples/apify-bounded-run.py) and [input](https://edtool79-collab.github.io/hirepulse-tools/examples/shopify-to-llms-generator.json).
 
 ```bash
-curl --fail-with-body -X POST "https://api.apify.com/v2/acts/hirepulse~shopify-to-llms-generator/run-sync-get-dataset-items?token=YOUR_APIFY_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
+pip install requests
+# Set APIFY_TOKEN in your environment; never paste it into this website.
+python apify-bounded-run.py hirepulse/shopify-to-llms-generator shopify-to-llms-generator.json 0.03
+```
+
+## Captured owner output
+
+Captured 2026-10-28T09:51:36.755Z, Build UIbZf3heOD2LfAJJa. Selected fields, not customer results or current measurements.
+
+```json
+{
   "store_url": "https://www.untuckit.com",
-  "max_products": 5
-}'
+  "platform": "Shopify",
+  "crawl_status": "SUCCESS_SHOPIFY",
+  "products_indexed": 5,
+  "deployed": false,
+  "ucp_conformant": false,
+  "llms_txt_excerpt": "# Untuckit\n> Draft based on a sampled public catalog; review before publishing.\n\n## Sources\n- [Store](https://www.untuckit.com)\n\n## Sampled Products\n- [Full-Zip CPO Jacket](https://www.untuckit.com/products/raphael-boiled-wool): Currency unknown 158.00 (In Stock) — Like many timeless looks, this sharp jacket is inspired by a heritage military style: the wool jackets once worn by U.S. Navy Chief Petty Officers on patrol. The warm, supersoft wool blend offers just enough stretch to let you move comfortably all da\n- [Full-Zip CPO Jacket](https://www.untuckit.com/products/corwin): Currency unknown 158.00 (In Stock) — Like many timeless looks, this sharp jacket is inspired by a heritage military style: the wool jackets once worn by U.S. Navy Chief Petty Officers on patrol. The warm, supersoft wool blend offers just enough stretch to let you move comfortably all da\n- [Knit Overshirt - FINAL SALE](https://www.untuckit.com/products/garavelle-knit-overshirt-sky-captain): Currency unknown 45.00 (Out of Stock) — When it’s brisk but not freezing, our Knit Overshirts make easy, warm layers that look good over any tee or Henley. Yet, they're light enough to layer under a jacket. Featuring soft 100% cotton that's knit for an easy feel, throw on one for your next\n- [Performance Short-Sleeve Vandelay Shirt - FINAL SALE](https://www.untuckit.com/products/vandelay): Currency unknown 45.00 (Out of"
+}
 ```
 
-## Production Python: draft and review an llms.txt for a store
+## Cost and limits
 
-```python
-import os
-import json
-import urllib.request
-from apify_client import ApifyClient
+$0.02 per delivered report containing at least one product, charged per report rather than per product. No billable dataset report for blocked or empty feeds. Applicable platform storage access charges may apply.
 
-client = ApifyClient(os.environ.get("APIFY_TOKEN", "YOUR_APIFY_TOKEN"))
+Protected or empty feeds can return diagnostics without a catalog report. The sample is capped at five products, not a full inventory. The Actor does not publish files, add checkout support or verify policies. An llms.txt file does not guarantee citations, AI visibility or sales.
 
-store_url = "https://www.untuckit.com"
-
-run = client.actor("hirepulse/shopify-to-llms-generator").call(
-    run_input={"store_url": store_url, "max_products": 20}
-)
-
-if not run or run.get("status") != "SUCCEEDED":
-    raise RuntimeError("Actor execution failed; check run logs.")
-
-reports = list(client.dataset(run["defaultDatasetId"]).iterate_items())
-if not reports:
-    # Blocked or empty feed: diagnostics were saved to key-value OUTPUT,
-    # and no dataset event was emitted (no charge). Fetch diagnostics:
-    kv = client.key_value_store(run["defaultKeyValueStoreId"])
-    diag = kv.get_record("OUTPUT")
-    print("No catalog report; diagnostics:", str(diag)[:400])
-    raise SystemExit(1)
-
-report = reports[0]
-print(f"Store: {store_url}")
-print(f"Products indexed: {report.get('products_indexed')}")
-print(f"Crawl status: {report.get('crawl_status')}")
-
-# The draft lives in key-value storage for review before publishing.
-kv = client.key_value_store(run["defaultKeyValueStoreId"])
-draft = kv.get_record("LLMS_TXT_DRAFT")
-with open("llms.txt.draft", "wb") as f:
-    f.write(draft["value"])
-print("Draft saved to llms.txt.draft — review, then publish to your site root.")
-```
-
-### Draft, not deployment
-
-The Actor produces a draft for owner review. It does not write to your website, publish files, create checkouts or perform transactions — `ucp_conformant=false` and `deployed=false` are intentional and disclosed. Publishing the reviewed `llms.txt` to your site root is your step, which is exactly the right trust boundary for something AI agents will consume.
-
-### Sampling is by design
-
-The cap (max 100 products sampled) keeps runs fast and cheap at $0.02 per report containing at least one product — one billable dataset event per report, not per product. For an index whose job is agent discoverability, a curated sample of canonical products plus the llms.txt structure is the deliverable; regenerate it as your catalog changes rather than trying to mirror every SKU.
-
-### Blocked feeds fail honestly
-
-Bot-protected or password-protected stores return diagnostics with an empty dataset and no charge. If a target store is blocked, the fix is owner-side (publish an accessible feed), not scraper-side — that is the tool's stated boundary, and it keeps the workflow safe to run against stores you are authorized to access.
-
-## Technical limitations and pricing
-
-- **Availability & Source Boundaries:** Works from accessible public Shopify/WooCommerce storefront feeds; does not bypass bot protection or work on password-protected stores. Samples up to 100 products; currency, policies and contact facts stay unknown unless observed. No checkout, no published files, no transactions.
-- **Pricing:** $0.02 per report containing at least one product. Blocked/empty feeds save diagnostics with no billable dataset item. No paid external API used.
-
-## Next steps
-
-- [Open Store to LLMs Generator on the Apify Store](https://apify.com/hirepulse/shopify-to-llms-generator)
-- Explore parameters on the [tool documentation page](https://edtool79-collab.github.io/hirepulse-tools/store-to-llms-generator/)
-- Related guide: [AI visibility audit in Python: check if AI crawlers can read your site](https://edtool79-collab.github.io/hirepulse-tools/guides/ai-visibility-audit-python/)
-
-Source page: https://edtool79-collab.github.io/hirepulse-tools/guides/shopify-catalog-llms-txt/
+Download LLMS_TXT_DRAFT from the run key-value store or read llms_txt in the report. Check product URLs and wording, then decide whether to publish the file yourself. The Actor never deploys to your website.

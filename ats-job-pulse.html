@@ -1,15 +1,16 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>ATS Job Scraper: Greenhouse, Lever, Ashby, Workable &amp; More | HirePulse</title>
-<meta name="description" content="Scrape company jobs from Greenhouse, Lever, Ashby, Workable, Recruitee and SmartRecruiters">
-<link rel="canonical" href="https://edtool79-collab.github.io/hirepulse-tools/ats-job-pulse.html">
-<meta property="og:type" content="website">
-<meta property="og:title" content="ATS Job Scraper: Greenhouse, Lever, Ashby, Workable &amp; More | HirePulse">
-<meta property="og:description" content="Scrape company jobs from Greenhouse, Lever, Ashby, Workable, Recruitee and SmartRecruiters">
-<meta property="og:url" content="https://edtool79-collab.github.io/hirepulse-tools/ats-job-pulse.html">
+<meta content="Scrape company jobs from Greenhouse, Lever, Ashby, Workable, Recruitee and SmartRecruiters. Get apply links, hiring summaries and optional new/closed job tracking. Company domains in, structured JSON out for recruiting, B2B lead research, n8n, Make and Apify MCP." name="description"/>
+<link href="https://edtool79-collab.github.io/hirepulse-tools/ats-job-pulse.html" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="ATS Job Scraper: Greenhouse, Lever, Ashby, Workable &amp; More" property="og:title"/>
+<meta content="Scrape company jobs from Greenhouse, Lever, Ashby, Workable, Recruitee and SmartRecruiters. Get apply links, hiring summaries and optional new/closed job tracking. Company domains in, structured JSON out for recruiting, B2B lead research, n8n, Make and Apify MCP." property="og:description"/>
+<meta content="https://edtool79-collab.github.io/hirepulse-tools/ats-job-pulse.html" property="og:url"/>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -138,7 +139,7 @@ summary{cursor:pointer;font-weight:600}
 <body>
 <main>
 <nav class="crumbs"><a href="/hirepulse-tools/">HirePulse tools</a> / ATS Job Scraper: Greenhouse, Lever, Ashby, Workable &amp; More</nav>
-<h1>ATS Job Scraper: Greenhouse, Lever, Ashby, Workable &amp; More</h1>
+<h1>ATS Job Scraper: Greenhouse, Lever, Ashby, Workable &amp; More</h1><p><a href="https://edtool79-collab.github.io/hirepulse-tools/guides/greenhouse-lever-ashby-jobs-api/">Start with the verified Python quickstart →</a></p>
 <p class="lead">Scrape company jobs from Greenhouse, Lever, Ashby, Workable, Recruitee and SmartRecruiters. Get apply links, hiring summaries and optional new/closed job tracking. Company domains in, structured JSON out for recruiting, B2B lead research, n8n, Make and Apify MCP.</p>
 <table><tr><th>Category</th><td>Jobs, Lead Generation, Agents</td></tr>
 <tr><th>Price</th><td>$0.05 per Company processed; paid-plan pricing: Bronze $0.045, Silver $0.0425, Gold $0.04, Platinum $0.04, Diamond $0.04</td></tr>
@@ -146,7 +147,6 @@ summary{cursor:pointer;font-weight:600}
 <tr><th>Users, last 30 days</th><td>1</td></tr>
 <tr><th>Last run</th><td>2026-10-25 14:46:32.579Z</td></tr>
 <tr><th>Store listing</th><td><a href="https://apify.com/hirepulse/ats-job-pulse">apify.com/hirepulse/ats-job-pulse</a></td></tr></table>
-
 <h2>What it does</h2>
 <h2>ATS Job Scraper (hirepulse/ats-job-pulse)</h2>
 <p>A scraper that discovers open jobs and hiring signals for a company domain by crawling company careers pages and supported applicant tracking systems (Greenhouse, Lever, Ashby, Workable, Recruitee, SmartRecruiters). It extracts structured job records and compact company hiring summaries containing job titles, locations, salary information when available, application links, role counts, remote/onsite indicators, and hiring-summary metrics. The Actor can filter roles, aggregate per-company hiring data, and perform repeated-run comparisons to detect new, removed, or changed postings by establishing a baseline. Sources include public and platform-native ATS boards with optional external data providers; outputs are structured JSON-style job and company summary records suitable for downstream analysis and monitoring.</p>
@@ -158,41 +158,36 @@ summary{cursor:pointer;font-weight:600}
 <li>Job data extraction and aggregation: produce structured job records and compact company summaries for market intelligence or headcount analysis.</li>
 <li>ATS-specific collection: extract openings from Greenhouse, Lever, Ashby, Workable, Recruitee, and SmartRecruiters.</li>
 </ul>
-
 <h2>Run it</h2>
 <p>Send this input to the Actor:</p>
 <pre><code>{
-  &quot;companies&quot;: [
-    &quot;linear.app&quot;
+  "companies": [
+    "linear.app"
   ],
-  &quot;output_mode&quot;: &quot;jobs_and_summary&quot;,
-  &quot;max_jobs_per_company&quot;: 3,
-  &quot;use_paid_upstream&quot;: false,
-  &quot;track_diff&quot;: false
+  "output_mode": "jobs_and_summary",
+  "max_jobs_per_company": 3,
+  "use_paid_upstream": false,
+  "track_diff": false
 }</code></pre>
 <h3>From your own code (Apify API)</h3>
 <pre><code>curl -X POST "https://api.apify.com/v2/acts/hirepulse~ats-job-pulse/runs?token=$APIFY_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{&quot;companies&quot;: [&quot;linear.app&quot;], &quot;output_mode&quot;: &quot;jobs_and_summary&quot;, &quot;max_jobs_per_company&quot;: 3, &quot;use_paid_upstream&quot;: false, &quot;track_diff&quot;: false}'</code></pre>
+  -d '{"companies": ["linear.app"], "output_mode": "jobs_and_summary", "max_jobs_per_company": 3, "use_paid_upstream": false, "track_diff": false}'</code></pre>
 <h3>From an AI agent (Apify MCP)</h3>
 <pre><code>{"tool": "call-actor", "arguments": {"actor": "hirepulse/ats-job-pulse"}}</code></pre>
 <p><a class="cta" href="https://apify.com/hirepulse/ats-job-pulse">Open ats-job-pulse on the Apify Store</a></p>
-
 <h2>Pricing</h2>
 <p>$0.05 per Company processed; paid-plan pricing: Bronze $0.045, Silver $0.0425, Gold $0.04, Platinum $0.04, Diamond $0.04</p>
 <p>Prices are configured per event on the Apify listing and can change; the listing is the authoritative source.</p>
-
 <h2>Questions</h2>
 <details><summary>What does ATS Job Scraper return?</summary><p>A scraper that discovers open jobs and hiring signals for a company domain by crawling company careers pages and supported applicant tracking systems (Greenhouse, Lever, Ashby, Workable, Recruitee, SmartRecruiters). It extracts structured job records and compact company hiring summaries containing job titles, locations, salary information when available, application links, role counts, remote/onsite indicators,…</p></details>
 <details><summary>How much does one run cost?</summary><p>0.05 USD per charged event (Company processed). Billing is per event, not per subscription, and only events the Actor reports are charged.</p></details>
 <details><summary>Can I call it from my own code or an AI agent?</summary><p>Yes. It runs as an Apify Actor: start it with the Apify API, the Apify MCP server, or the console. The only credential required is your Apify API token.</p></details>
 <details><summary>Do I need an account on the target website?</summary><p>No. It works from public data only; it does not log in to the sites it reads.</p></details>
-
 <h2>Other HirePulse tools</h2>
 <ul><li><a href="/hirepulse-tools/b2b-account-research-agent.html">b2b-account-research-agent</a></li>
 <li><a href="/hirepulse-tools/company-contact-details-finder.html">company-contact-details-finder</a></li>
 <li><a href="/hirepulse-tools/company-intent-radar.html">company-intent-radar</a></li></ul>
-
 <footer>
 <p>HirePulse — Pay-per-use data tools for AI agents, sales and e-commerce. This page is generated from the Actor's own public listing fields
 (title, description, readme, pricing configuration and public run counters) on 2026-10-26.

@@ -1,15 +1,16 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>Company Contacts Finder: Emails, Phones, Socials &amp; DNS | HirePulse</title>
-<meta name="description" content="Find public company emails, phone numbers, LinkedIn and social profiles from website domains">
-<link rel="canonical" href="https://edtool79-collab.github.io/hirepulse-tools/company-contact-details-finder.html">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Company Contacts Finder: Emails, Phones, Socials &amp; DNS | HirePulse">
-<meta property="og:description" content="Find public company emails, phone numbers, LinkedIn and social profiles from website domains">
-<meta property="og:url" content="https://edtool79-collab.github.io/hirepulse-tools/company-contact-details-finder.html">
+<meta content="Find public company emails, phone numbers, LinkedIn and social profiles from website domains. Optionally inspect MX, SPF and DMARC records and email-provider signals. Structured JSON for B2B contact research, lead enrichment, n8n, Make and Apify MCP." name="description"/>
+<link href="https://edtool79-collab.github.io/hirepulse-tools/company-contact-details-finder.html" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="Company Contacts Finder: Emails, Phones, Socials &amp; DNS" property="og:title"/>
+<meta content="Find public company emails, phone numbers, LinkedIn and social profiles from website domains. Optionally inspect MX, SPF and DMARC records and email-provider signals. Structured JSON for B2B contact research, lead enrichment, n8n, Make and Apify MCP." property="og:description"/>
+<meta content="https://edtool79-collab.github.io/hirepulse-tools/company-contact-details-finder.html" property="og:url"/>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -145,7 +146,6 @@ summary{cursor:pointer;font-weight:600}
 <tr><th>Users, last 30 days</th><td>1</td></tr>
 <tr><th>Last run</th><td>2026-10-25 20:58:47.060Z</td></tr>
 <tr><th>Store listing</th><td><a href="https://apify.com/hirepulse/company-contact-details-finder">apify.com/hirepulse/company-contact-details-finder</a></td></tr></table>
-
 <h2>What it does</h2>
 <h2>Company Contact Finder: Emails, Phones, Socials &amp; DNS</h2>
 <p>Extracts publicly listed business contact information from company domains by crawling company websites and querying public DNS records; collects email addresses, phone numbers, contact-page links, and social-profile URLs, and can optionally inspect email infrastructure signals such as MX, SPF, DMARC and email-provider indicators. Produces structured contact records per domain containing contact points and email-infrastructure observations useful for lead enrichment, B2B contact research, sales intelligence, outreach and company website analysis.</p>
@@ -156,39 +156,34 @@ summary{cursor:pointer;font-weight:600}
 <li>Social-profile discovery for companies (LinkedIn, Twitter/X, etc.)</li>
 <li>Email infrastructure inspection and assessment (MX, SPF, DMARC, provider signals)</li>
 </ul>
-
 <h2>Run it</h2>
 <p>Send this input to the Actor:</p>
 <pre><code>{
-  &quot;domains&quot;: [
-    &quot;stripe.com&quot;,
-    &quot;linear.app&quot;,
-    &quot;mailchimp.com&quot;
+  "domains": [
+    "stripe.com",
+    "linear.app",
+    "mailchimp.com"
   ]
 }</code></pre>
 <h3>From your own code (Apify API)</h3>
 <pre><code>curl -X POST "https://api.apify.com/v2/acts/hirepulse~company-contact-details-finder/runs?token=$APIFY_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{&quot;domains&quot;: [&quot;stripe.com&quot;, &quot;linear.app&quot;, &quot;mailchimp.com&quot;]}'</code></pre>
+  -d '{"domains": ["stripe.com", "linear.app", "mailchimp.com"]}'</code></pre>
 <h3>From an AI agent (Apify MCP)</h3>
 <pre><code>{"tool": "call-actor", "arguments": {"actor": "hirepulse/company-contact-details-finder"}}</code></pre>
 <p><a class="cta" href="https://apify.com/hirepulse/company-contact-details-finder">Open company-contact-details-finder on the Apify Store</a></p>
-
 <h2>Pricing</h2>
 <p>$0.003 per Domain with contacts; paid-plan pricing: Bronze $0.0027, Silver $0.00255, Gold $0.0024, Platinum $0.0024, Diamond $0.0024</p>
 <p>Prices are configured per event on the Apify listing and can change; the listing is the authoritative source.</p>
-
 <h2>Questions</h2>
 <details><summary>What does Company Contacts Finder return?</summary><p>Extracts publicly listed business contact information from company domains by crawling company websites and querying public DNS records; collects email addresses, phone numbers, contact-page links, and social-profile URLs, and can optionally inspect email infrastructure signals such as MX, SPF, DMARC and email-provider indicators. Produces structured contact records per domain containing contact points and…</p></details>
 <details><summary>How much does one run cost?</summary><p>0.003 USD per charged event (Domain with contacts). Billing is per event, not per subscription, and only events the Actor reports are charged.</p></details>
 <details><summary>Can I call it from my own code or an AI agent?</summary><p>Yes. It runs as an Apify Actor: start it with the Apify API, the Apify MCP server, or the console. The only credential required is your Apify API token.</p></details>
 <details><summary>Do I need an account on the target website?</summary><p>No. It works from public data only; it does not log in to the sites it reads.</p></details>
-
 <h2>Other HirePulse tools</h2>
 <ul><li><a href="/hirepulse-tools/company-intent-radar.html">company-intent-radar</a></li>
 <li><a href="/hirepulse-tools/domain-seo-overview.html">domain-seo-overview</a></li>
 <li><a href="/hirepulse-tools/google-ads-transparency-scraper.html">google-ads-transparency-scraper</a></li></ul>
-
 <footer>
 <p>HirePulse — Pay-per-use data tools for AI agents, sales and e-commerce. This page is generated from the Actor's own public listing fields
 (title, description, readme, pricing configuration and public run counters) on 2026-10-26.

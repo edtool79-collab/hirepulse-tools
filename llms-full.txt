@@ -1,976 +1,159 @@
-# hirepulse
+# HirePulse public data tools
 
-> Selected HirePulse data tools (Apify Actors). Each returns clean JSON and can be called by AI agents through the Apify MCP server. Higher Apify plans get volume discounts.
+19 public Actors verified in the owner account on October 28, 2026. Choose tools by their actual public evidence and output, not by a promised business outcome. Current Apify Input and Pricing tabs are authoritative.
 
-## Connect
+## Start with a useful first run
 
-- Remote MCP server: `https://mcp.apify.com?tools=hirepulse/<tool-id>`; several tools are comma-separated.
-- Authentication: OAuth in the browser, or the header `Authorization: Bearer <APIFY_TOKEN>`.
-- Local (stdio): `npx -y @apify/actors-mcp-server --tools hirepulse/<tool-id>`, with `APIFY_TOKEN` in `env`.
-- REST: `POST https://api.apify.com/v2/acts/hirepulse~<tool-id>/run-sync-get-dataset-items?maxTotalChargeUsd=0.10&restartOnError=false` with the input as the JSON body and `Authorization: Bearer <APIFY_TOKEN>` in the header. Start with one query or domain.
-- Billing depends on the tool and delivered events; see its price and free-plan limits. Actor-start charges apply only where configured. Inspect an existing run after a timeout before retrying a paid request.
+- [Inspect website metadata and sitemaps](https://edtool79-collab.github.io/hirepulse-tools/guides/domain-seo-overview-python/)
+- [Collect company jobs and build a hiring watchlist](https://edtool79-collab.github.io/hirepulse-tools/guides/greenhouse-lever-ashby-jobs-api/)
+- [Generate a Shopify catalog llms.txt draft](https://edtool79-collab.github.io/hirepulse-tools/guides/shopify-catalog-llms-txt/)
 
-## AliExpress Search Scraper (`hirepulse/aliexpress-search-scraper`)
+Each guide includes an actual dated owner-run sample, runnable input, Python, source limits and an explicit event-charge cap. Owner tests are not customer results. A cap is not a quoted price.
 
-**Use it when:** You need AliExpress search results for a keyword as JSON: title, price in a chosen currency, original price, discount, rating, units sold, image and product link.
+## Current public catalog
 
-**Not for:** Store or seller names, shipping costs or delivery estimates, reviews or stock. The tool does not return them.
+- [ATS Job Scraper: Greenhouse, Lever, Ashby, Workable & More](https://apify.com/hirepulse/ats-job-pulse): Scrape company jobs from Greenhouse, Lever, Ashby, Workable, Recruitee and SmartRecruiters. Get apply links, hiring summaries and optional new/closed job tracking. Company domains in, structured JSON out for recruiting, B2B lead research, n8n, Make and Apify MCP. [Current pricing](https://apify.com/hirepulse/ats-job-pulse/pricing).
+- [Keyword Research: Google Autocomplete & Suggestions](https://apify.com/hirepulse/keyword-search-volume): Generate Google Autocomplete keyword suggestions from seed phrases for SEO, content planning and keyword research. Export keywords, source and availability fields as JSON for n8n, Make and Apify MCP. Public mode returns no measured search volume, CPC or difficulty. [Current pricing](https://apify.com/hirepulse/keyword-search-volume/pricing).
+- [Domain SEO Overview: Metadata, Sitemaps & Keywords](https://apify.com/hirepulse/domain-seo-overview): Public website signals: titles, meta descriptions, sitemap and autocomplete suggestions, plus a Chrome popularity tier (CrUX rank bucket, not visits). No traffic, rank or search volume. No lookup or result charges; Actor start fees apply. [Current pricing](https://apify.com/hirepulse/domain-seo-overview/pricing).
+- [YouTube Transcript Scraper: Bulk Videos, Shorts & Timestamps](https://apify.com/hirepulse/youtube-transcript-scraper): Extract YouTube transcripts in bulk from videos, Shorts and live replays with accessible captions. Export clean text, caption language and optional timestamps for RAG, summaries and content research. No YouTube API key; works with n8n, Make and Apify MCP. [Current pricing](https://apify.com/hirepulse/youtube-transcript-scraper/pricing).
+- [Google Jobs Alternative: ATS & Public Job Listings](https://apify.com/hirepulse/google-jobs-scraper): Google Jobs alternative for job research: search public job feeds by keyword or fetch company ATS jobs by domain. Export titles, employers, locations and apply links as JSON. Use with n8n, Make or Apify MCP. Default results come from public feeds, not Google Jobs SERPs. [Current pricing](https://apify.com/hirepulse/google-jobs-scraper/pricing).
+- [Google Ads Transparency Scraper: Competitor Ads by Domain](https://apify.com/hirepulse/google-ads-transparency-scraper): Scrape Google Ads Transparency Center records by company domain: ad creatives, formats, advertisers and first/last shown dates when available. Export JSON for competitor ad research, brand monitoring, n8n, Make and Apify MCP. Includes bulk domains and summary options. [Current pricing](https://apify.com/hirepulse/google-ads-transparency-scraper/pricing).
+- [Company Intent Radar: Hiring, Ads & Website Signals](https://apify.com/hirepulse/company-intent-radar): Research B2B companies by domain: combine ATS hiring, Google Ads Transparency records, website technologies and email DNS signals in one JSON report. Includes source availability and an explainable intent estimate for account qualification, AI sales agents and n8n. [Current pricing](https://apify.com/hirepulse/company-intent-radar/pricing).
+- [AliExpress Search Scraper: Products, Prices & Sales Data](https://apify.com/hirepulse/aliexpress-search-scraper): Search AliExpress by keyword and export product prices, discounts, ratings, sold counts, images and URLs when available. Choose sort order, currency and destination country. JSON, CSV and Excel exports for product research and repeatable search snapshots. [Current pricing](https://apify.com/hirepulse/aliexpress-search-scraper/pricing).
+- [ATS Detector: Find a Company's Job Board (Free)](https://apify.com/hirepulse/ats-detector): Detect a company applicant tracking system from its domain: Greenhouse, Lever, Ashby, Workable, Recruitee or SmartRecruiters. Return the public job-board URL and available job count as JSON. No Actor fee; useful for recruiting, lead enrichment, n8n and Apify MCP. [Current pricing](https://apify.com/hirepulse/ats-detector/pricing).
+- [Website Tech Stack Detector: BuiltWith Alternative, Bulk API](https://apify.com/hirepulse/website-tech-stack-detector): Detect website technologies, CMS, ecommerce platforms, analytics and ad pixels by domain: Meta Pixel, Google Ads tags, GA4 and more. Add public DNS email-provider signals and optional change tracking. Structured JSON for B2B lead qualification, n8n and Apify MCP. [Current pricing](https://apify.com/hirepulse/website-tech-stack-detector/pricing).
+- [Company Contacts Finder: Emails, Phones, Socials & DNS](https://apify.com/hirepulse/company-contact-details-finder): Find public company emails, phone numbers, LinkedIn and social profiles from website domains. Optionally inspect MX, SPF and DMARC records and email-provider signals. Structured JSON for B2B contact research, lead enrichment, n8n, Make and Apify MCP. [Current pricing](https://apify.com/hirepulse/company-contact-details-finder/pricing).
+- [B2B Account Research & Enrichment: Tech, Hiring, Contacts](https://apify.com/hirepulse/b2b-account-research-agent): Company domain in, one compact profile out: website technologies, email provider, job board with live open-job count, and public emails, phones and social profiles. No browser, no login. Charged only for useful profiles. [Current pricing](https://apify.com/hirepulse/b2b-account-research-agent/pricing).
+- [AI Crawler Readiness Audit & llms.txt Draft](https://apify.com/hirepulse/ai-search-brand-visibility-radar): Audits public robots.txt rules for eight crawler tokens, HTTP headers, llms.txt and JSON-LD. Produces evidence-based drafts and local readiness heuristics. Does not measure citations in AI answers or guarantee rankings. [Current pricing](https://apify.com/hirepulse/ai-search-brand-visibility-radar/pricing).
+- [MCP & x402 Evidence Grader](https://apify.com/hirepulse/mcp-x402-server-grader): Fetch actual MCP tool catalogs or probe x402 v2 payment challenges. Local heuristics and owner-review drafts; no official Glama certification. [Current pricing](https://apify.com/hirepulse/mcp-x402-server-grader/pricing).
+- [Shopify & WooCommerce to llms.txt: Catalog Draft](https://apify.com/hirepulse/shopify-to-llms-generator): Turn an accessible public Shopify or WooCommerce product feed into a reviewable llms.txt draft. Get sampled products, source evidence and text files. $0.02 per useful report; no deployment or promised AI rankings. [Current pricing](https://apify.com/hirepulse/shopify-to-llms-generator/pricing).
+- [TikTok Product Research & Video Growth Radar](https://apify.com/hirepulse/viral-product-radar): Research TikTok product videos from exports or explicitly approved Clockworks collection. Included export is a dated example, not live market data. First observation is a baseline; repeat after 6+ hours for growth. $0.02 per delivered report plus optional collection fees. No sales forecast. [Current pricing](https://apify.com/hirepulse/viral-product-radar/pricing).
+- [Temporary Email Inbox & OTP API for AI Agents](https://apify.com/hirepulse/temporary-email-inbox): Create private temporary email inboxes, list received-message metadata and extract numeric verification codes as JSON. Built for authorized QA, n8n and AI agents. Inbox TTL 1–60 minutes. Pay through Apify; no separate service account or crypto wallet required. [Current pricing](https://apify.com/hirepulse/temporary-email-inbox/pricing).
+- [Website & AI Crawler Audit: Public Page Signals](https://apify.com/hirepulse/ad-waste-and-ai-leak-auditor): Inspect homepage HTML, technology markers, robots.txt and llms.txt. Return HTTP evidence and observed public emails. Scores are static checklist heuristics, not measured conversion loss, AI rankings or verified decision-maker identity. [Current pricing](https://apify.com/hirepulse/ad-waste-and-ai-leak-auditor/pricing).
+- [Startup Breakout & Growth Radar](https://apify.com/hirepulse/startup-breakout-radar): Research up to 50 company domains for startup growth signals: ATS hiring intent, Google Ads Transparency, website technologies and public business contacts. Evidence-backed breakout scores with reasons. Pay only for profiles with at least two data sections. [Current pricing](https://apify.com/hirepulse/startup-breakout-radar/pricing).
 
-- MCP: `https://mcp.apify.com?tools=hirepulse/aliexpress-search-scraper`
-- Apify Store: https://apify.com/hirepulse/aliexpress-search-scraper
-- Page: https://edtool79-collab.github.io/hirepulse-tools/aliexpress-search-api/
-- Price: $2.50 per 1,000 products. Free Apify plan: 100 products per run.
+## Run through Apify
 
-### Input
+Run an Actor in Apify Console or use the REST API and an existing Apify token. Put the token in the Authorization Bearer header, not in public links or client-side code. To start: POST /v2/actors/hirepulse~ACTOR_NAME/runs, with the Actor input JSON and maxTotalChargeUsd, timeout and memory query parameters. Poll the returned run ID and inspect its dataset and OUTPUT diagnostics. Do not automatically repeat a run-start POST after a timeout.
 
-| Field | Type | Required / default | Notes |
-| --- | --- | --- | --- |
-| `queries` | array of strings | required | Search terms, for example ["wireless earbuds"]. |
-| `max_results_per_query` | integer | default 60 | 60 products per page. |
-| `sort` | string | default "best_match" | best_match, orders, price_low or price_high. |
-| `currency` | string | default "USD" | For example USD, EUR, GBP or ILS. |
-| `ship_to` | string | default "US" | Ship-to country code. |
-| `min_price` | integer | optional | Lowest price. |
-| `max_price` | integer | optional | Highest price. |
+[Bounded Python runner](https://edtool79-collab.github.io/hirepulse-tools/examples/apify-bounded-run.py).
+Use the Apify integration in n8n or Make, or the official Apify MCP server: https://mcp.apify.com . These Actors are distinct from the separate HirePulse gateway and its prices.
 
-Example input:
+## Source and billing limits
 
-```json
-{
-  "queries": [
-    "wireless earbuds"
-  ],
-  "max_results_per_query": 120,
-  "ship_to": "US",
-  "currency": "USD"
-}
-```
+Public/native SEO and keyword modes do not measure traffic, Google ranking positions, volume or CPC. Crawler readiness is an HTTP checklist, not AI answer citation tracking. llms.txt output is a draft, not deployment or a sales guarantee. A first hiring snapshot is a baseline, not a hiring spike. A successful run can still contain source diagnostics or no useful data. Review the actual output.
 
-### Output example
+Apify Actor events, external collection and applicable platform/storage charges must be considered separately. The live Pricing tab controls current rates; there is no blanket free-run promise. No search ranking, future source availability or customer outcome is guaranteed.
 
-First record of a real test run (search "wireless earbuds", October 15, 2026):
+## Verified example: domain-seo-overview
 
-```json
-{
-  "query": "wireless earbuds",
-  "position": 1,
-  "title": "TWS True Wireless Stereo Headset Touch Contro With Charging Case Wireless Earphones  In-ear Smart Earbuds  With Microphone",
-  "url": "https://www.aliexpress.com/item/3256812924699567.html",
-  "image_url": "https://ae-pic-a1.aliexpress-media.com/kf/Sb52dc1abf75e4777a2df3294034572d2X.jpg",
-  "price": 7.89,
-  "original_price": 15.78,
-  "discount_percent": 50,
-  "currency": "USD",
-  "rating": 4.9,
-  "sold": 919,
-  "sold_text": "900+ sold",
-  "is_sponsored": false,
-  "listed_since": "2026-09-03",
-  "ship_to": "US",
-  "scraped_at": "2026-10-15T10:56:10Z"
-}
-```
-
-## Google Ads Transparency Scraper (`hirepulse/google-ads-transparency-scraper`)
-
-**Use it when:** You need the Google ads a company runs, by domain: advertiser, verified flag, format (text, image or video), first and last shown dates, preview image and Transparency Center link.
-
-- MCP: `https://mcp.apify.com?tools=hirepulse/google-ads-transparency-scraper`
-- Apify Store: https://apify.com/hirepulse/google-ads-transparency-scraper
-- Page: https://edtool79-collab.github.io/hirepulse-tools/google-ads-transparency-api/
-- Price: $0.005 per domain + $0.0015 per ad. Domains with no ads cost $0.
-
-### Input
-
-| Field | Type | Required / default | Notes |
-| --- | --- | --- | --- |
-| `domains` | array of strings | required | Company domains, for example ["nike.com"]. |
-| `mode` | string | default "ads" | ads or summary (one row per domain). |
-| `max_ads_per_domain` | integer | default 40 |  |
-| `country` | string | optional | Country code. |
-| `platform` | string | default "all" | all, google_search, youtube, google_shopping, google_play or google_maps. |
-| `format` | string | default "all" | all, text, image or video. |
-| `date_from` | string | optional | Start date. |
-| `date_to` | string | optional | End date. |
-| `only_new_ads` | boolean | default false | Monitoring: return only ads not seen in earlier runs. |
-
-Example input:
-
+Input:
 ```json
 {
   "domains": [
-    "nike.com"
-  ],
-  "country": "US",
-  "max_ads_per_domain": 40,
-  "mode": "ads"
-}
-```
-
-### Output example
-
-Selected fields of one record from a real test run:
-
-```json
-{
-  "domain": "nike.com",
-  "advertiser_name": "Nike, Inc.",
-  "advertiser_verified": true,
-  "format": "text",
-  "first_shown": "2023-11-16T21:51:37Z",
-  "last_shown": "2026-10-14T15:10:53Z",
-  "days_running": 1062
-}
-```
-
-## Company Intent Radar (`hirepulse/company-intent-radar`)
-
-**Use it when:** You need one report per company domain: open jobs and new jobs in the last 30 days, Google ads running now and in total, organic traffic and SEO trend, email provider from MX records, a 0-100 intent score and a one-line summary.
-
-**Not for:** The full list of a company's jobs (use hirepulse/ats-job-pulse for that).
-
-- MCP: `https://mcp.apify.com?tools=hirepulse/company-intent-radar`
-- Apify Store: https://apify.com/hirepulse/company-intent-radar
-- Page: https://edtool79-collab.github.io/hirepulse-tools/company-intent-signals-api/
-- Price: $0.03 per company report, charged only when the full report was produced. Free plan: hiring and email signals for 5 companies.
-
-### Input
-
-| Field | Type | Required / default | Notes |
-| --- | --- | --- | --- |
-| `domains` | array of strings | required | Company domains, for example ["stripe.com"]. |
-| `country` | string | default "US" | Country code. |
-| `include_jobs` | boolean | default false | Also return the job list. |
-
-Example input:
-
-```json
-{
-  "domains": [
-    "stripe.com",
-    "notion.so"
-  ],
-  "country": "US"
-}
-```
-
-### Output example
-
-Selected fields of one record from a real test run:
-
-```json
-{
-  "domain": "stripe.com",
-  "intent_score": 85,
-  "open_jobs": 727,
-  "ads_running_now": true,
-  "email_provider": "Google Workspace"
-}
-```
-
-## ATS Job Scraper (`hirepulse/ats-job-pulse`)
-
-**Use it when:** You need every open job from a company's Greenhouse, Lever, Ashby, Workable, Recruitee or SmartRecruiters board. Pass a domain such as stripe.com or a board slug.
-
-**Not for:** Companies on Workday or custom career sites.
-
-- MCP: `https://mcp.apify.com?tools=hirepulse/ats-job-pulse`
-- Apify Store: https://apify.com/hirepulse/ats-job-pulse
-- Page: https://edtool79-collab.github.io/hirepulse-tools/ats-jobs-api/
-- Price: $0.05 per company whose job board was found and processed, however many jobs it has. Companies that are not found, and failed ones, are not charged.
-
-### Input
-
-| Field | Type | Required / default | Notes |
-| --- | --- | --- | --- |
-| `companies` | array of strings | required | Company domains or board slugs, for example ["stripe.com"]. |
-| `output_mode` | string | default "jobs_and_summary" | jobs_and_summary, summary_only or jobs_only. |
-| `track_diff` | boolean | default true | Mark new and closed jobs between runs. |
-| `only_changes` | boolean | default false | Return only changes since the last run. |
-| `extract_tech_keywords` | boolean | default true | Detect technologies mentioned in job titles and descriptions. |
-| `title_keywords` | array of strings | optional | Filter by words in the job title. |
-| `departments` | array of strings | optional |  |
-| `locations` | array of strings | optional |  |
-| `technologies` | array of strings | optional |  |
-| `remote_only` | boolean | default false |  |
-| `max_jobs_per_company` | integer | default 0 | 0 means no limit. |
-
-Input of the test run below:
-
-```json
-{
-  "companies": [
-    "linear.app",
-    "ramp.com"
-  ],
-  "output_mode": "jobs_and_summary",
-  "track_diff": false,
-  "max_jobs_per_company": 5
-}
-```
-
-### Output example
-
-One record from a real test run on 2026-10-15 (long text and lists shortened):
-
-```json
-{
-  "record_type": "job",
-  "company_domain": "ramp.com",
-  "ats_type": "ashby",
-  "job_id": "34413f8d-26bf-4bbc-8ade-eb309a0e2245",
-  "title": "Security Engineer, Cloud",
-  "department": "Engineering",
-  "location": "New York, NY (HQ)",
-  "is_remote": true,
-  "posted_date": "2026-04-07T17:12:35.753+00:00",
-  "salary": "$211.4K - $290.6K",
-  "apply_url": "https://jobs.ashbyhq.com/ramp/34413f8d-26bf-4bbc-8ade-eb309a0e2245",
-  "detected_technologies": [
-    "AWS",
-    "Azure",
-    "Flask"
-  ],
-  "status": "ACTIVE",
-  "scraped_at": "2026-10-15T16:33:07+00:00"
-}
-```
-
-## Google Jobs Scraper (`hirepulse/google-jobs-scraper`)
-
-**Use it when:** You need Google Jobs results for a search in a country, or in one city with a radius: title, company, location, salary text (parsed to min and max when shown), contract type, posting date, source site and apply link.
-
-**Not for:** A company's own job board (use hirepulse/ats-job-pulse). Salary is often missing.
-
-- MCP: `https://mcp.apify.com?tools=hirepulse/google-jobs-scraper`
-- Apify Store: https://apify.com/hirepulse/google-jobs-scraper
-- Page: https://edtool79-collab.github.io/hirepulse-tools/google-jobs-api/
-- Price: $0.005 per search that returns jobs + $0.001 per job.
-
-### Input
-
-| Field | Type | Required / default | Notes |
-| --- | --- | --- | --- |
-| `queries` | array of strings | required | Job searches, for example ["data engineer"]. |
-| `country` | string | default "US" | Country code (90+ countries). |
-| `location` | string | optional | A city. |
-| `radius_km` | integer | optional | Radius around the location. |
-| `max_jobs_per_query` | integer | default 50 |  |
-| `employment_types` | array of strings | optional |  |
-| `include_descriptions` | boolean | default true |  |
-| `language` | string | optional |  |
-
-Input of the test run below:
-
-```json
-{
-  "queries": [
-    "data engineer"
-  ],
-  "country": "US",
-  "location": "Austin,Texas",
-  "max_jobs_per_query": 10
-}
-```
-
-### Output example
-
-One record from a real test run on 2026-10-15:
-
-```json
-{
-  "query": "data engineer",
-  "country": "US",
-  "position": 1,
-  "title": "Junior Data Engineer",
-  "company": "Tech Consulting",
-  "company_url": null,
-  "company_logo_url": "https://api.dataforseo.com/cdn/i/10151634-2796-0447-0000-ac22c4fd6890:0",
-  "location": "Dallas, TX",
-  "contract_type": "Full-time",
-  "salary": null,
-  "salary_min": null,
-  "salary_max": null,
-  "salary_currency": null,
-  "salary_period": null,
-  "posted_at": "2026-10-13 16:34:24 +00:00",
-  "posted_ago": "2 days ago",
-  "source": "LinkedIn",
-  "apply_url": "https://www.linkedin.com/jobs/view/junior-data-engineer-at-tech-consulting-4476485669",
-  "google_job_id": "uJQyr5_7_sG0aELXAAAAAA==",
-  "scraped_at": "2026-10-15T16:34:29Z",
-  "description": null,
-  "description_source": null
-}
-```
-
-## Keyword Search Volume (`hirepulse/keyword-search-volume`)
-
-**Use it when:** You need Google monthly search volume, CPC, competition or keyword ideas for a list of keywords.
-
-**Not for:** Rank tracking of a website (use hirepulse/domain-seo-overview for a domain's ranking keywords).
-
-- MCP: `https://mcp.apify.com?tools=hirepulse/keyword-search-volume`
-- Apify Store: https://apify.com/hirepulse/keyword-search-volume
-- Page: https://edtool79-collab.github.io/hirepulse-tools/keyword-search-volume-api/
-- Price: $0.03 per lookup + $0.005 per keyword result. Free Apify plan: real volume, CPC and difficulty for the first 3 keywords of each run (depends on availability and can be paused).
-
-### Input
-
-| Field | Type | Required / default | Notes |
-| --- | --- | --- | --- |
-| `keywords` | array of strings | required | For example ["running shoes"]. |
-| `mode` | string | default "metrics" | metrics, ideas or suggestions. |
-| `country` | string | default "US" | Country code. |
-| `language` | string | optional |  |
-| `max_results` | integer | default 50 |  |
-| `min_search_volume` | integer | default 0 |  |
-| `include_monthly_searches` | boolean | default false |  |
-| `include_ai_search_volume` | boolean | default false |  |
-
-Input of the test run below:
-
-```json
-{
-  "keywords": [
-    "keyword research tool",
-    "ai agents",
-    "web scraping api"
-  ],
-  "country": "US"
-}
-```
-
-### Output example
-
-One record from a real test run on 2026-10-15:
-
-```json
-{
-  "keyword": "keyword research tool",
-  "search_volume": 4400,
-  "cpc_usd": 15.75,
-  "competition": 0.29,
-  "competition_level": "LOW",
-  "keyword_difficulty": 81,
-  "search_intent": "commercial",
-  "low_top_of_page_bid_usd": 3.33,
-  "high_top_of_page_bid_usd": 17.11,
-  "trend_monthly_pct": -57,
-  "trend_quarterly_pct": -47,
-  "trend_yearly_pct": -81,
-  "ai_search_volume": null,
-  "country": "US",
-  "language": "en",
-  "source": "keyword_database",
-  "seed_keyword": null,
-  "metrics_available": true,
-  "data_updated_at": "2026-09-15 12:14:58 +00:00",
-  "note": null
-}
-```
-
-## Domain SEO Overview (`hirepulse/domain-seo-overview`)
-
-**Use it when:** Inspect website titles, meta descriptions, sitemap observations and Google Autocomplete suggestions. Native mode does not measure organic traffic, ranking positions, keyword search volumes or CPC; unavailable metrics remain null.
-
-**Not for:** Organic traffic estimates, measured search rankings, search volumes or CPC in native mode.
-
-- MCP: `https://mcp.apify.com?tools=hirepulse/domain-seo-overview`
-- Apify Store: https://apify.com/hirepulse/domain-seo-overview
-- Page: https://edtool79-collab.github.io/hirepulse-tools/domain-seo-overview-api/
-- Price: Native/public-evidence mode emits no domain-lookup or domain-result charges. An Actor start event is still listed at $0.00005 per GB (minimum one event), and applicable Apify charges may apply. Review the live Pricing tab. Paid SEO-database events are separate and are not activated by this example.
-
-### Input
-
-| Field | Type | Required / default | Notes |
-| --- | --- | --- | --- |
-| `domains` | array of strings | required | Public website domains. |
-| `country` | string | default US | Country code; not proof of database coverage. |
-| `top_keywords` | integer | set 0 for this preview | Autocomplete suggestions are not ranking keywords. |
-| `competitors` | integer | set 0 for this preview | No measured competitor SEO dataset is promised. |
-| `use_paid_upstream` | boolean | false | Owner opt-in for a separately configured paid upstream; leave false for this preview. |
-
-Input of the test run below:
-
-```json
-{
-  "domains": [
-    "example.com"
+    "linear.app"
   ],
   "top_keywords": 0,
   "competitors": 0,
-  "country": "US",
   "use_paid_upstream": false
 }
 ```
 
-### Output example
-
-One record from a real test run on 2026-10-21 (long text and lists shortened):
-
+Captured output with provenance:
 ```json
 {
-  "record_type": "domain_overview",
-  "domain": "example.com",
-  "country": "US",
-  "language": "en",
-  "has_data": true,
-  "data_source": "public_evidence_engine",
-  "public_page_available": null,
-  "page_title": "Example Domain",
-  "http_status": null,
-  "organic_traffic_estimate": null,
-  "organic_keywords": null,
-  "organic_traffic_value_usd": null,
-  "keywords_top_3": null,
-  "keywords_top_10": null,
-  "keywords_top_20": null,
-  "keywords_new": null,
-  "keywords_up": null,
-  "keywords_down": null,
-  "keywords_lost": null,
-  "paid_keywords": null,
-  "paid_traffic_estimate": null,
-  "note": "Public evidence only: the page title, meta description, sitemap and the URLs it lists, and keyword suggestions from Google Autocomplete. Organic traffic, domain rank, ranking keywords and indexed pages need a paid SEO database and are null here. Autocomplete position is not an organic ranking. No pa…",
-  "provider_mode": "native",
-  "free_fallback": true,
-  "metrics_available": false,
-  "provider_cost_usd": 0,
-  "meta_description": null,
-  "sitemap_present": false,
-  "sitemap_urls_found": null,
-  "sitemap_urls_sample": null,
-  "top_ranking_keywords": [
-    {
-      "keyword": "example",
-      "suggestion_position": 1,
-      "search_intent": "navigational",
-      "source": "google_autocomplete",
-      "search_volume": null,
-      "cpc_usd": null,
-      "ranking": null
-    },
-    {
-      "keyword": "example cover letter",
-      "suggestion_position": 2,
-      "search_intent": "navigational",
-      "source": "google_autocomplete",
-      "search_volume": null,
-      "cpc_usd": null,
-      "ranking": null
-    },
-    {
-      "keyword": "example resume",
-      "suggestion_position": 3,
-      "search_intent": "navigational",
-      "source": "google_autocomplete",
-      "search_volume": null,
-      "cpc_usd": null,
-      "ranking": null
-    }
-  ],
-  "domain_rank": null,
-  "indexed_pages_estimate": null
+  "captured_at": "2026-10-28T09:42:42.356Z",
+  "actor": "domain-seo-overview",
+  "build_id": "QXqgSWIdYeMoND3Sy",
+  "run_id": "Hwptu1ViPZjwzVFWD",
+  "scope": "Selected fields from an owner validation run; not a customer result or current measurement.",
+  "selected_fields": {
+    "record_type": "domain_overview",
+    "domain": "linear.app",
+    "page_title": "Linear – The system for product development",
+    "meta_description": "Purpose-built for planning and building products with AI agents.",
+    "sitemap_present": true,
+    "sitemap_urls_found": 985,
+    "popularity_tier": "top_50k",
+    "popularity_source": "Chrome UX Report (Google), 2026-09",
+    "provider_mode": "native",
+    "metrics_available": false,
+    "organic_traffic_estimate": null
+  }
 }
+
 ```
 
-## YouTube Transcript Scraper (`hirepulse/youtube-transcript-scraper`)
+Guide: https://edtool79-collab.github.io/hirepulse-tools/guides/domain-seo-overview-python/
 
-**Use it when:** You need transcripts of YouTube videos in bulk, with timestamps.
+## Verified example: ats-job-pulse
 
-- MCP: `https://mcp.apify.com?tools=hirepulse/youtube-transcript-scraper`
-- Apify Store: https://apify.com/hirepulse/youtube-transcript-scraper
-- Page: https://edtool79-collab.github.io/hirepulse-tools/youtube-transcript-api/
-- Price: $0.003 per delivered transcript. Videos without captions, unavailable videos and failed fetches are not charged.. Free Apify plan: the first 3 videos of each run.
-
-### Input
-
-| Field | Type | Required / default | Notes |
-| --- | --- | --- | --- |
-| `videos` | array of strings | required | Video URLs or IDs. |
-| `language` | string | optional | Transcript language. |
-| `include_timestamps` | boolean | default false |  |
-
-Input of the test run below:
-
+Input:
 ```json
 {
-  "videos": [
-    "https://youtu.be/jNQXAC9IVRw"
-  ],
-  "include_timestamps": true
-}
-```
-
-### Output example
-
-One record from a real test run on 2026-10-15 (long text and lists shortened):
-
-```json
-{
-  "video_id": "jNQXAC9IVRw",
-  "url": "https://www.youtube.com/watch?v=jNQXAC9IVRw",
-  "status": "ok",
-  "title": "Me at the zoo",
-  "channel": "jawed",
-  "duration_seconds": 19,
-  "language": "en",
-  "is_auto_generated": false,
-  "transcript": "All right, so here we are, in front of the elephants the cool thing about these guys is that they have really... really really long trunks and that's cool (baaaaaaaaaaahhh!!) and that's pretty much all there is to say",
-  "word_count": 39,
-  "note": null,
-  "segments": [
-    {
-      "start": 1.2,
-      "duration": 2.16,
-      "text": "All right, so here we are, in front of the elephants"
-    },
-    {
-      "start": 5.32,
-      "duration": 2.66,
-      "text": "the cool thing about these guys is that they have really..."
-    },
-    {
-      "start": 7.97,
-      "duration": 4.64,
-      "text": "really really long trunks"
-    }
-  ]
-}
-```
-
-## Website Tech Stack Detector (`hirepulse/website-tech-stack-detector`)
-
-**Use it when:** You need to detect CMS, frameworks, analytics, ecommerce platforms, ad pixels, or MX records for any domain.
-
-**Not for:** Internal source code or private infrastructure not exposed on the public web.
-
-- MCP: `https://mcp.apify.com?tools=hirepulse/website-tech-stack-detector`
-- Apify Store: https://apify.com/hirepulse/website-tech-stack-detector
-- Page: https://edtool79-collab.github.io/hirepulse-tools/website-tech-stack-api/
-- Price: $0.005 per domain checked + $0.001 per detected tech. Domains with no stack cost $0.
-
-### Input
-
-| Field | Type | Required / default | Notes |
-| --- | --- | --- | --- |
-| `domains` | array of strings | required | Domains to inspect, e.g. ["stripe.com"]. |
-| `mode` | string | default "technologies" | technologies, pixels, or full. |
-
-Example input:
-
-```json
-{
-  "domains": [
-    "stripe.com",
+  "companies": [
     "linear.app"
   ],
-  "mode": "technologies"
+  "output_mode": "jobs_and_summary",
+  "max_jobs_per_company": 3,
+  "track_diff": false
 }
 ```
 
-### Output example
-
-Selected fields of one record from a real test run:
-
+Captured output with provenance:
 ```json
 {
-  "domain": "stripe.com",
-  "technologies_found": [
-    "React",
-    "Next.js",
-    "Amazon CloudFront",
-    "Google Tag Manager",
-    "Marketo"
-  ],
-  "cms": null,
-  "email_provider": "Google Workspace"
+  "captured_at": "2026-10-28T09:52:47.507Z",
+  "actor": "ats-job-pulse",
+  "build_id": "rZjr8CeDoss1izo48",
+  "run_id": "SWbDRnoPcyydkY8mG",
+  "scope": "Selected fields from an owner validation run; not a customer result or current measurement.",
+  "selected_fields": {
+    "record_type": "company_summary",
+    "company_domain": "linear.app",
+    "ats_type": "ashby",
+    "total_active_jobs": 32,
+    "remote_jobs": 32,
+    "is_first_run": null,
+    "new_jobs": null,
+    "closed_jobs": null,
+    "matching_jobs": 32
+  }
 }
+
 ```
 
-## ATS Detector (`hirepulse/ats-detector`)
+Guide: https://edtool79-collab.github.io/hirepulse-tools/guides/greenhouse-lever-ashby-jobs-api/
 
-**Use it when:** You need to find which ATS a company uses (Greenhouse, Lever, Ashby, Workable, etc.) and extract its job board URL.
+## Verified example: shopify-to-llms-generator
 
-**Not for:** Listing individual job postings (use ats-jobs-api for jobs).
-
-- MCP: `https://mcp.apify.com?tools=hirepulse/ats-detector`
-- Apify Store: https://apify.com/hirepulse/ats-detector
-- Page: https://edtool79-collab.github.io/hirepulse-tools/ats-detector-api/
-- Price: $0.005 per domain checked. Undetected boards cost $0.
-
-### Input
-
-| Field | Type | Required / default | Notes |
-| --- | --- | --- | --- |
-| `domains` | array of strings | required | Company domains to check. |
-
-Example input:
-
+Input:
 ```json
 {
-  "domains": [
-    "linear.app",
-    "datadoghq.com"
-  ]
+  "store_url": "https://www.untuckit.com",
+  "max_products": 5
 }
 ```
 
-### Output example
-
-Selected fields of one record from a real test run:
-
+Captured output with provenance:
 ```json
 {
-  "domain": "linear.app",
-  "ats_system": "ashby",
-  "careers_url": "https://jobs.ashbyhq.com/linear",
-  "board_active": true
+  "captured_at": "2026-10-28T09:51:36.755Z",
+  "actor": "shopify-to-llms-generator",
+  "build_id": "UIbZf3heOD2LfAJJa",
+  "run_id": "Zq4jW7XLV3Y3IeMxV",
+  "scope": "Selected fields from an owner validation run; not a customer result or current measurement.",
+  "selected_fields": {
+    "store_url": "https://www.untuckit.com",
+    "platform": "Shopify",
+    "crawl_status": "SUCCESS_SHOPIFY",
+    "products_indexed": 5,
+    "deployed": false,
+    "ucp_conformant": false,
+    "llms_txt_excerpt": "# Untuckit\n> Draft based on a sampled public catalog; review before publishing.\n\n## Sources\n- [Store](https://www.untuckit.com)\n\n## Sampled Products\n- [Full-Zip CPO Jacket](https://www.untuckit.com/products/raphael-boiled-wool): Currency unknown 158.00 (In Stock) — Like many timeless looks, this sharp jacket is inspired by a heritage military style: the wool jackets once worn by U.S. Navy Chief Petty Officers on patrol. The warm, supersoft wool blend offers just enough stretch to let you move comfortably all da\n- [Full-Zip CPO Jacket](https://www.untuckit.com/products/corwin): Currency unknown 158.00 (In Stock) — Like many timeless looks, this sharp jacket is inspired by a heritage military style: the wool jackets once worn by U.S. Navy Chief Petty Officers on patrol. The warm, supersoft wool blend offers just enough stretch to let you move comfortably all da\n- [Knit Overshirt - FINAL SALE](https://www.untuckit.com/products/garavelle-knit-overshirt-sky-captain): Currency unknown 45.00 (Out of Stock) — When it’s brisk but not freezing, our Knit Overshirts make easy, warm layers that look good over any tee or Henley. Yet, they're light enough to layer under a jacket. Featuring soft 100% cotton that's knit for an easy feel, throw on one for your next\n- [Performance Short-Sleeve Vandelay Shirt - FINAL SALE](https://www.untuckit.com/products/vandelay): Currency unknown 45.00 (Out of"
+  }
 }
+
 ```
 
-## Company Contacts Finder (`hirepulse/company-contact-details-finder`)
-
-**Use it when:** You need publicly accessible corporate emails, inquiry forms, phone numbers, or social media links from company domains.
-
-**Not for:** Private personal cell numbers or unverified leaked email lists.
-
-- MCP: `https://mcp.apify.com?tools=hirepulse/company-contact-details-finder`
-- Apify Store: https://apify.com/hirepulse/company-contact-details-finder
-- Page: https://edtool79-collab.github.io/hirepulse-tools/company-contacts-api/
-- Price: $0.005 per domain checked + $0.001 per public contact found.
-
-### Input
-
-| Field | Type | Required / default | Notes |
-| --- | --- | --- | --- |
-| `domains` | array of strings | required | Company domains to search for public contacts. |
-
-Example input:
-
-```json
-{
-  "domains": [
-    "stripe.com",
-    "vercel.com"
-  ]
-}
-```
-
-### Output example
-
-Selected fields of one record from a real test run:
-
-```json
-{
-  "domain": "stripe.com",
-  "contacts": [
-    {
-      "type": "email",
-      "value": "support@stripe.com",
-      "label": "Support"
-    },
-    {
-      "type": "email",
-      "value": "press@stripe.com",
-      "label": "Press"
-    },
-    {
-      "type": "social",
-      "value": "https://twitter.com/stripe",
-      "label": "X / Twitter"
-    }
-  ]
-}
-```
-
-## B2B Account Research Agent (`hirepulse/b2b-account-research-agent`)
-
-**Use it when:** You need an autonomous executive dossier combining hiring trends, observed tech stack, Google ads presence, and verified contact channels.
-
-**Not for:** Raw bulk scraping of thousands of unfiltered domains.
-
-- MCP: `https://mcp.apify.com?tools=hirepulse/b2b-account-research-agent`
-- Apify Store: https://apify.com/hirepulse/b2b-account-research-agent
-- Page: https://edtool79-collab.github.io/hirepulse-tools/b2b-account-research-api/
-- Price: $0.05 per company research dossier produced.
-
-### Input
-
-| Field | Type | Required / default | Notes |
-| --- | --- | --- | --- |
-| `domains` | array of strings | required | Target company domains to investigate. |
-
-Example input:
-
-```json
-{
-  "domains": [
-    "stripe.com",
-    "cloudflare.com"
-  ]
-}
-```
-
-### Output example
-
-Selected fields of one record from a real test run:
-
-```json
-{
-  "domain": "stripe.com",
-  "intent_score": 92,
-  "hiring_velocity": "High",
-  "open_positions": 727,
-  "ads_active": true,
-  "primary_ats": "greenhouse"
-}
-```
-
-## AI Search Brand Visibility Radar (`hirepulse/ai-search-brand-visibility-radar`)
-
-**Use it when:** You need to audit a website's robots directives, llms.txt, JSON-LD, and structural readiness for Perplexity, ChatGPT, and Claude crawlers.
-
-**Not for:** Measuring actual citation count or mentions inside LLM chat answers.
-
-- MCP: `https://mcp.apify.com?tools=hirepulse/ai-search-brand-visibility-radar`
-- Apify Store: https://apify.com/hirepulse/ai-search-brand-visibility-radar
-- Page: https://edtool79-collab.github.io/hirepulse-tools/ai-visibility-radar/
-- Price: $0.02 per returned audit report.
-
-### Input
-
-| Field | Type | Required / default | Notes |
-| --- | --- | --- | --- |
-| `domains` | array of strings | required | Websites to audit for AI crawler readiness. |
-
-Example input:
-
-```json
-{
-  "domains": [
-    "linear.app"
-  ]
-}
-```
-
-### Output example
-
-Selected fields of one record from a real test run:
-
-```json
-{
-  "domain": "linear.app",
-  "robots_ai_crawlable": true,
-  "llms_txt_found": true,
-  "jsonld_schema_valid": true,
-  "readiness_score": 95
-}
-```
-
-## MCP & x402 Server Grader (`hirepulse/mcp-x402-server-grader`)
-
-**Use it when:** You need to evaluate an MCP server endpoint for tool catalog completeness, token brevity, and x402 payment header compliance.
-
-**Not for:** Modifying remote servers or official Glama certification.
-
-- MCP: `https://mcp.apify.com?tools=hirepulse/mcp-x402-server-grader`
-- Apify Store: https://apify.com/hirepulse/mcp-x402-server-grader
-- Page: https://edtool79-collab.github.io/hirepulse-tools/mcp-x402-grader/
-- Price: $0.01 per returned evidence audit report.
-
-### Input
-
-| Field | Type | Required / default | Notes |
-| --- | --- | --- | --- |
-| `server_url` | string | required | MCP HTTP endpoint to audit. |
-
-Example input:
-
-```json
-{
-  "server_url": "https://gethirepulse.xyz/mcp"
-}
-```
-
-### Output example
-
-Selected fields of one record from a real test run:
-
-```json
-{
-  "server": "https://gethirepulse.xyz/mcp",
-  "tools_count": 21,
-  "x402_compliant": true,
-  "token_efficiency_grade": "A",
-  "overall_grade": 98
-}
-```
-
-## Store to LLMs Generator (`hirepulse/shopify-to-llms-generator`)
-
-**Use it when:** You need to transform public store product feeds into a structured, agent-readable llms.txt markdown document.
-
-**Not for:** Full bulk sync of private warehouse inventory or checkout execution.
-
-- MCP: `https://mcp.apify.com?tools=hirepulse/shopify-to-llms-generator`
-- Apify Store: https://apify.com/hirepulse/shopify-to-llms-generator
-- Page: https://edtool79-collab.github.io/hirepulse-tools/store-to-llms-generator/
-- Price: $0.02 per generated catalog document report.
-
-### Input
-
-| Field | Type | Required / default | Notes |
-| --- | --- | --- | --- |
-| `store_url` | string | required | Public storefront URL. |
-
-Example input:
-
-```json
-{
-  "store_url": "https://untuckit.com"
-}
-```
-
-### Output example
-
-Selected fields of one record from a real test run:
-
-```json
-{
-  "store": "untuckit.com",
-  "catalog_format": "llms.txt",
-  "products_cataloged": 5,
-  "status": "ready"
-}
-```
-
-## TikTok Product Research (`hirepulse/viral-product-radar`)
-
-**Use it when:** You need to research a product-video cohort with source links, creator-account breadth and repeated same-video observations.
-
-**Not for:** Sales or profit forecasts, Shop sales, ad-spend data or complete TikTok discovery. First collection is a baseline; live collection requires capped Clockworks consent.
-
-- MCP: `https://mcp.apify.com?tools=hirepulse/viral-product-radar`
-- Apify Store: https://apify.com/hirepulse/viral-product-radar
-- Page: https://edtool79-collab.github.io/hirepulse-tools/tiktok-product-research-api/
-- Price: $0.02 per delivered report; Clockworks collection is separate and capped ($0.04 total by default).
-
-### Input
-
-| Field | Type | Required / default | Notes |
-| --- | --- | --- | --- |
-| `keywords` | string[] | one product recommended | Product keywords. |
-| `upstream_source` | string | clockworks | Choose live Clockworks or public for an existing export. |
-| `allow_paid_upstream` | boolean | false | Must be explicitly true for live collection. |
-| `upstream_max_charge_usd` | number | 0.04 | Total separate provider cap for the whole run. |
-| `state_id` | string | default | Reuse after6+ hours for same-video growth. |
-
-Example input:
-
-```json
-{
-  "keywords": [
-    "mini projector"
-  ],
-  "analysis_mode": "product_videos",
-  "upstream_source": "clockworks",
-  "allow_paid_upstream": true,
-  "upstream_max_charge_usd": 0.04,
-  "max_items": 10,
-  "state_id": "my-product-research",
-  "deliver_all_reports": true
-}
-```
-
-
-# Guides
-
-> Step-by-step technical guides with runnable cURL and Python code. Every guide has a plain-Markdown twin at guides/<slug>.md for direct agent consumption.
-
-# How to scrape AliExpress search results with Python
-> Get AliExpress search results as JSON with Python: titles, prices in your currency, ratings, orders sold and links. No browser, 60 products per page.
-- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/aliexpress-search-python/
-- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/aliexpress-search-python.md
-- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/aliexpress-search-api/
-# How to see every Google ad a competitor runs
-> See every Google ad a competitor runs from just their domain: creative previews, formats and active dates. Python, cURL and alerts.
-- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/competitor-google-ads/
-- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/competitor-google-ads.md
-- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/google-ads-transparency-api/
-# Google Jobs API: get job listings as JSON with Python
-> Pull Google Jobs listings as JSON with Python: title, company, location, parsed salary, source and apply link, for any search and country.
-- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/google-jobs-json-python/
-- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/google-jobs-json-python.md
-- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/google-jobs-api/
-# Find companies hiring now: a hiring-signals workflow for sales
-> Find companies that are hiring right now and rank them for outreach: open jobs, Google ads, SEO trend and an intent score per domain.
-- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/hiring-signals-for-sales/
-- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/hiring-signals-for-sales.md
-- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/company-intent-signals-api/
-# Keyword search volume API: bulk volume and CPC in Python
-> Get Google search volume, CPC and competition for keywords in bulk with Python, plus keyword ideas. Pay per lookup, no SEO tool subscription.
-- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/keyword-search-volume-api/
-- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/keyword-search-volume-api.md
-- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/keyword-search-volume-api/
-# Fix YouTube Transcript IP Blocks & RAG Extraction
-> Download YouTube transcripts in bulk with timestamps and bypass IP blocks. Extract clean chunks for LangChain, LlamaIndex, Chroma and RAG.
-- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/bulk-youtube-transcripts-rag/
-- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/bulk-youtube-transcripts-rag.md
-- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/youtube-transcript-api/
-# Give your AI agent live data with MCP
-> Give your AI agent live business data: connect pay-per-use data tools through Apify MCP server to Claude Desktop, Cursor and custom agents.
-- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/ai-agent-live-data-mcp/
-- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/ai-agent-live-data-mcp.md
-- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/keyword-search-volume-api/
-# Scrape Greenhouse, Lever & Ashby Jobs Without API Keys
-> Extract every open job from Greenhouse, Lever, Ashby, and Workable boards without employer API keys. Complete Python scraping guide.
-- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/greenhouse-lever-ashby-jobs-api/
-- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/greenhouse-lever-ashby-jobs-api.md
-- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/ats-jobs-api/
-# Domain SEO API: inspect public website metadata
-> Inspect metadata, sitemap observations and autocomplete suggestions; native mode does not measure traffic or rankings.
-- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/domain-seo-overview-python/
-- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/domain-seo-overview-python.md
-- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/domain-seo-overview-api/
-# Build an n8n data API workflow with a real JSON input
-> Build an n8n workflow that pulls competitor Google ads on a schedule, checks the JSON and sends only new ads to Slack.
-- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/n8n-data-api-workflow/
-- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/n8n-data-api-workflow.md
-- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/google-ads-transparency-api/
-# Audit an MCP server: tool schemas, token efficiency and x402 evidence
-> Grade any public MCP server or x402 endpoint with Python: tool counts, schema typing, token efficiency and payment challenge structure for $0.01 per report.
-- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/audit-mcp-server-tools/
-- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/audit-mcp-server-tools.md
-- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/mcp-x402-grader/
-# Website tech stack API: detect CMS, frameworks and pixels in Python
-> Detect what any website runs in bulk with Python: CMS, frameworks, hosting, analytics and ad pixels with evidence and confidence levels, per-domain pricing.
-- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/website-tech-stack-python/
-- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/website-tech-stack-python.md
-- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/website-tech-stack-api/
-# ATS detector API: find any company's job board in Python
-> Detect which ATS a company runs (Greenhouse, Lever, Ashby) from its domain and get the official careers board URL with Python. Free Actor, no employer keys.
-- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/ats-detector-python/
-- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/ats-detector-python.md
-- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/ats-detector-api/
-# Company contacts finder API: public emails and socials in Python
-> Extract public corporate emails, inquiry forms, phone numbers and verified social profiles per domain with Python. Only public evidence — no private inbox guessing.
-- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/company-contacts-python/
-- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/company-contacts-python.md
-- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/company-contacts-api/
-# B2B account research in Python: hiring, tech and email signals per domain
-> Turn company domains into account dossiers with Python: live open-job counts, named technologies from postings, mail provider and public contacts for $0.005 per profile.
-- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/b2b-account-research-python/
-- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/b2b-account-research-python.md
-- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/b2b-account-research-api/
-# AI visibility audit in Python: check if AI crawlers can read your site
-> Audit any domain's AI-crawler readiness with Python: robots.txt rules for GPTBot, ClaudeBot, PerplexityBot, llms.txt presence, JSON-LD and headers for $0.02 per report.
-- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/ai-visibility-audit-python/
-- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/ai-visibility-audit-python.md
-- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/ai-visibility-radar/
-# Shopify catalog to llms.txt: make your store readable by AI agents
-> Generate llms.txt drafts from a public Shopify or WooCommerce feed with Python: sampled product titles, pricing, variants and specs for $0.02 per report.
-- Read as a page: https://edtool79-collab.github.io/hirepulse-tools/guides/shopify-catalog-llms-txt/
-- Read as Markdown for agents: https://edtool79-collab.github.io/hirepulse-tools/guides/shopify-catalog-llms-txt.md
-- Covers the tool: https://edtool79-collab.github.io/hirepulse-tools/store-to-llms-generator/
+Guide: https://edtool79-collab.github.io/hirepulse-tools/guides/shopify-catalog-llms-txt/

@@ -1,0 +1,16 @@
+{
+  "captured_at": "2026-10-28T09:51:36.755Z",
+  "actor": "shopify-to-llms-generator",
+  "build_id": "UIbZf3heOD2LfAJJa",
+  "run_id": "Zq4jW7XLV3Y3IeMxV",
+  "scope": "Selected fields from an owner validation run; not a customer result or current measurement.",
+  "selected_fields": {
+    "store_url": "https://www.untuckit.com",
+    "platform": "Shopify",
+    "crawl_status": "SUCCESS_SHOPIFY",
+    "products_indexed": 5,
+    "deployed": false,
+    "ucp_conformant": false,
+    "llms_txt_excerpt": "# Untuckit\n> Draft based on a sampled public catalog; review before publishing.\n\n## Sources\n- [Store](https://www.untuckit.com)\n\n## Sampled Products\n- [Full-Zip CPO Jacket](https://www.untuckit.com/products/raphael-boiled-wool): Currency unknown 158.00 (In Stock) — Like many timeless looks, this sharp jacket is inspired by a heritage military style: the wool jackets once worn by U.S. Navy Chief Petty Officers on patrol. The warm, supersoft wool blend offers just enough stretch to let you move comfortably all da\n- [Full-Zip CPO Jacket](https://www.untuckit.com/products/corwin): Currency unknown 158.00 (In Stock) — Like many timeless looks, this sharp jacket is inspired by a heritage military style: the wool jackets once worn by U.S. Navy Chief Petty Officers on patrol. The warm, supersoft wool blend offers just enough stretch to let you move comfortably all da\n- [Knit Overshirt - FINAL SALE](https://www.untuckit.com/products/garavelle-knit-overshirt-sky-captain): Currency unknown 45.00 (Out of Stock) — When it’s brisk but not freezing, our Knit Overshirts make easy, warm layers that look good over any tee or Henley. Yet, they're light enough to layer under a jacket. Featuring soft 100% cotton that's knit for an easy feel, throw on one for your next\n- [Performance Short-Sleeve Vandelay Shirt - FINAL SALE](https://www.untuckit.com/products/vandelay): Currency unknown 45.00 (Out of"
+  }
+}

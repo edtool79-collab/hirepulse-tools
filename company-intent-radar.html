@@ -1,15 +1,16 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>Company Intent Radar: Hiring, Ads &amp; Website Signals | HirePulse</title>
-<meta name="description" content="Research B2B companies by domain: combine ATS hiring, Google Ads Transparency records, website technologies and email DNS signals in one JSON report">
-<link rel="canonical" href="https://edtool79-collab.github.io/hirepulse-tools/company-intent-radar.html">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Company Intent Radar: Hiring, Ads &amp; Website Signals | HirePulse">
-<meta property="og:description" content="Research B2B companies by domain: combine ATS hiring, Google Ads Transparency records, website technologies and email DNS signals in one JSON report">
-<meta property="og:url" content="https://edtool79-collab.github.io/hirepulse-tools/company-intent-radar.html">
+<meta content="Research B2B companies by domain: combine ATS hiring, Google Ads Transparency records, website technologies and email DNS signals in one JSON report. Includes source availability and an explainable intent estimate for account qualification, AI sales agents and n8n." name="description"/>
+<link href="https://edtool79-collab.github.io/hirepulse-tools/company-intent-radar.html" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="Company Intent Radar: Hiring, Ads &amp; Website Signals" property="og:title"/>
+<meta content="Research B2B companies by domain: combine ATS hiring, Google Ads Transparency records, website technologies and email DNS signals in one JSON report. Includes source availability and an explainable intent estimate for account qualification, AI sales agents and n8n." property="og:description"/>
+<meta content="https://edtool79-collab.github.io/hirepulse-tools/company-intent-radar.html" property="og:url"/>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -145,7 +146,6 @@ summary{cursor:pointer;font-weight:600}
 <tr><th>Users, last 30 days</th><td>1</td></tr>
 <tr><th>Last run</th><td>2026-10-26 04:06:44.370Z</td></tr>
 <tr><th>Store listing</th><td><a href="https://apify.com/hirepulse/company-intent-radar">apify.com/hirepulse/company-intent-radar</a></td></tr></table>
-
 <h2>What it does</h2>
 <h2>Company Intent Radar</h2>
 <p>An Actor that qualifies companies for B2B outreach by combining hiring signals, advertising evidence, website technology fingerprints and email/DNS infrastructure checks into a single account report. It aggregates ATS job listings, Google Ads transparency records and website-technology observations, inspects ad creatives and ad pixels for destination attribution, and probes email infrastructure (DNS/MX) and HTTPS reachability. The Actor produces a compact, structured account report with an explainable intent estimate (score with an evidence breakdown), hiring indicators and status, detected applicant-tracking system, counts of open and recent job postings, advertising presence and attribution evidence, site-technology findings, and email infrastructure observations.</p>
@@ -157,38 +157,33 @@ summary{cursor:pointer;font-weight:600}
 <li>Competitor research by combining hiring and advertising signals</li>
 <li>Inspect public email infrastructure and source availability for outreach planning</li>
 </ul>
-
 <h2>Run it</h2>
 <p>Send this input to the Actor:</p>
 <pre><code>{
-  &quot;domains&quot;: [
-    &quot;stripe.com&quot;,
-    &quot;notion.so&quot;
+  "domains": [
+    "stripe.com",
+    "notion.so"
   ]
 }</code></pre>
 <h3>From your own code (Apify API)</h3>
 <pre><code>curl -X POST "https://api.apify.com/v2/acts/hirepulse~company-intent-radar/runs?token=$APIFY_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{&quot;domains&quot;: [&quot;stripe.com&quot;, &quot;notion.so&quot;]}'</code></pre>
+  -d '{"domains": ["stripe.com", "notion.so"]}'</code></pre>
 <h3>From an AI agent (Apify MCP)</h3>
 <pre><code>{"tool": "call-actor", "arguments": {"actor": "hirepulse/company-intent-radar"}}</code></pre>
 <p><a class="cta" href="https://apify.com/hirepulse/company-intent-radar">Open company-intent-radar on the Apify Store</a></p>
-
 <h2>Pricing</h2>
 <p>$0.03 per Company report; paid-plan pricing: Bronze $0.027, Silver $0.0255, Gold $0.024, Platinum $0.024, Diamond $0.024</p>
 <p>Prices are configured per event on the Apify listing and can change; the listing is the authoritative source.</p>
-
 <h2>Questions</h2>
 <details><summary>What does Company Intent Radar return?</summary><p>An Actor that qualifies companies for B2B outreach by combining hiring signals, advertising evidence, website technology fingerprints and email/DNS infrastructure checks into a single account report. It aggregates ATS job listings, Google Ads transparency records and website-technology observations, inspects ad creatives and ad pixels for destination attribution, and probes email infrastructure (DNS/MX) and HTTPS…</p></details>
 <details><summary>How much does one run cost?</summary><p>0.03 USD per charged event (Company report). Billing is per event, not per subscription, and only events the Actor reports are charged.</p></details>
 <details><summary>Can I call it from my own code or an AI agent?</summary><p>Yes. It runs as an Apify Actor: start it with the Apify API, the Apify MCP server, or the console. The only credential required is your Apify API token.</p></details>
 <details><summary>Do I need an account on the target website?</summary><p>No. It works from public data only; it does not log in to the sites it reads.</p></details>
-
 <h2>Other HirePulse tools</h2>
 <ul><li><a href="/hirepulse-tools/domain-seo-overview.html">domain-seo-overview</a></li>
 <li><a href="/hirepulse-tools/google-ads-transparency-scraper.html">google-ads-transparency-scraper</a></li>
 <li><a href="/hirepulse-tools/google-jobs-scraper.html">google-jobs-scraper</a></li></ul>
-
 <footer>
 <p>HirePulse — Pay-per-use data tools for AI agents, sales and e-commerce. This page is generated from the Actor's own public listing fields
 (title, description, readme, pricing configuration and public run counters) on 2026-10-26.

@@ -1,15 +1,16 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>Website Tech Stack Detector: BuiltWith Alternative, Bulk API | HirePulse</title>
-<meta name="description" content="Detect website technologies, CMS, ecommerce platforms, analytics and ad pixels by domain: Meta Pixel, Google Ads tags, GA4 and more">
-<link rel="canonical" href="https://edtool79-collab.github.io/hirepulse-tools/website-tech-stack-detector.html">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Website Tech Stack Detector: BuiltWith Alternative, Bulk API | HirePulse">
-<meta property="og:description" content="Detect website technologies, CMS, ecommerce platforms, analytics and ad pixels by domain: Meta Pixel, Google Ads tags, GA4 and more">
-<meta property="og:url" content="https://edtool79-collab.github.io/hirepulse-tools/website-tech-stack-detector.html">
+<meta content="Detect website technologies, CMS, ecommerce platforms, analytics and ad pixels by domain: Meta Pixel, Google Ads tags, GA4 and more. Add public DNS email-provider signals and optional change tracking. Structured JSON for B2B lead qualification, n8n and Apify MCP." name="description"/>
+<link href="https://edtool79-collab.github.io/hirepulse-tools/website-tech-stack-detector.html" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="Website Tech Stack Detector: BuiltWith Alternative, Bulk API" property="og:title"/>
+<meta content="Detect website technologies, CMS, ecommerce platforms, analytics and ad pixels by domain: Meta Pixel, Google Ads tags, GA4 and more. Add public DNS email-provider signals and optional change tracking. Structured JSON for B2B lead qualification, n8n and Apify MCP." property="og:description"/>
+<meta content="https://edtool79-collab.github.io/hirepulse-tools/website-tech-stack-detector.html" property="og:url"/>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -145,7 +146,6 @@ summary{cursor:pointer;font-weight:600}
 <tr><th>Users, last 30 days</th><td>1</td></tr>
 <tr><th>Last run</th><td>2026-10-25 12:06:39.789Z</td></tr>
 <tr><th>Store listing</th><td><a href="https://apify.com/hirepulse/website-tech-stack-detector">apify.com/hirepulse/website-tech-stack-detector</a></td></tr></table>
-
 <h2>What it does</h2>
 <h2>Website Tech Stack Detector</h2>
 <p>A bulk website-technology detector that inspects public web pages and DNS records to identify site technologies and advertising signals. It extracts evidence of frameworks, content management systems, ecommerce platforms, analytics and marketing tools, and advertising pixels/tags (examples include Meta Pixel, Google Ads/GA4, Google Tag Manager, LinkedIn Insight). It also collects DNS-based email-provider signals and can compare repeated runs to surface changes over time. The Actor produces structured records summarizing domain-level metadata, detected technology categories, presence of ad pixels/tags, and DNS email signals suitable for technographic enrichment and downstream analysis.</p>
@@ -158,39 +158,34 @@ summary{cursor:pointer;font-weight:600}
 <li>Detection and inventory of advertising pixels and tags for advertising/measurement intelligence</li>
 <li>Discovery of frameworks, CMS, ecommerce, analytics and marketing tooling used by target sites</li>
 </ul>
-
 <h2>Run it</h2>
 <p>Send this input to the Actor:</p>
 <pre><code>{
-  &quot;domains&quot;: [
-    &quot;stripe.com&quot;,
-    &quot;notion.so&quot;,
-    &quot;gymshark.com&quot;
+  "domains": [
+    "stripe.com",
+    "notion.so",
+    "gymshark.com"
   ]
 }</code></pre>
 <h3>From your own code (Apify API)</h3>
 <pre><code>curl -X POST "https://api.apify.com/v2/acts/hirepulse~website-tech-stack-detector/runs?token=$APIFY_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{&quot;domains&quot;: [&quot;stripe.com&quot;, &quot;notion.so&quot;, &quot;gymshark.com&quot;]}'</code></pre>
+  -d '{"domains": ["stripe.com", "notion.so", "gymshark.com"]}'</code></pre>
 <h3>From an AI agent (Apify MCP)</h3>
 <pre><code>{"tool": "call-actor", "arguments": {"actor": "hirepulse/website-tech-stack-detector"}}</code></pre>
 <p><a class="cta" href="https://apify.com/hirepulse/website-tech-stack-detector">Open website-tech-stack-detector on the Apify Store</a></p>
-
 <h2>Pricing</h2>
 <p>$0.003 per Domain checked; paid-plan pricing: Bronze $0.0027, Silver $0.00255, Gold $0.0024, Platinum $0.0024, Diamond $0.0024</p>
 <p>Prices are configured per event on the Apify listing and can change; the listing is the authoritative source.</p>
-
 <h2>Questions</h2>
 <details><summary>What does Website Tech Stack Detector return?</summary><p>A bulk website-technology detector that inspects public web pages and DNS records to identify site technologies and advertising signals. It extracts evidence of frameworks, content management systems, ecommerce platforms, analytics and marketing tools, and advertising pixels/tags (examples include Meta Pixel, Google Ads/GA4, Google Tag Manager, LinkedIn Insight). It also collects DNS-based email-provider signals…</p></details>
 <details><summary>How much does one run cost?</summary><p>0.003 USD per charged event (Domain checked). Billing is per event, not per subscription, and only events the Actor reports are charged.</p></details>
 <details><summary>Can I call it from my own code or an AI agent?</summary><p>Yes. It runs as an Apify Actor: start it with the Apify API, the Apify MCP server, or the console. The only credential required is your Apify API token.</p></details>
 <details><summary>Do I need an account on the target website?</summary><p>No. It works from public data only; it does not log in to the sites it reads.</p></details>
-
 <h2>Other HirePulse tools</h2>
 <ul><li><a href="/hirepulse-tools/youtube-transcript-scraper.html">youtube-transcript-scraper</a></li>
 <li><a href="/hirepulse-tools/ad-waste-and-ai-leak-auditor.html">ad-waste-and-ai-leak-auditor</a></li>
 <li><a href="/hirepulse-tools/ai-search-brand-visibility-radar.html">ai-search-brand-visibility-radar</a></li></ul>
-
 <footer>
 <p>HirePulse — Pay-per-use data tools for AI agents, sales and e-commerce. This page is generated from the Actor's own public listing fields
 (title, description, readme, pricing configuration and public run counters) on 2026-10-26.

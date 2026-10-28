@@ -1,15 +1,16 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>Keyword Research: Google Autocomplete &amp; Suggestions | HirePulse</title>
-<meta name="description" content="Generate Google Autocomplete keyword suggestions from seed phrases for SEO, content planning and keyword research">
-<link rel="canonical" href="https://edtool79-collab.github.io/hirepulse-tools/keyword-search-volume.html">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Keyword Research: Google Autocomplete &amp; Suggestions | HirePulse">
-<meta property="og:description" content="Generate Google Autocomplete keyword suggestions from seed phrases for SEO, content planning and keyword research">
-<meta property="og:url" content="https://edtool79-collab.github.io/hirepulse-tools/keyword-search-volume.html">
+<meta content="Generate Google Autocomplete keyword suggestions from seed phrases for SEO, content planning and keyword research. Export keywords, source and availability fields as JSON for n8n, Make and Apify MCP. Public mode returns no measured search volume, CPC or difficulty." name="description"/>
+<link href="https://edtool79-collab.github.io/hirepulse-tools/keyword-search-volume.html" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="Keyword Research: Google Autocomplete &amp; Suggestions" property="og:title"/>
+<meta content="Generate Google Autocomplete keyword suggestions from seed phrases for SEO, content planning and keyword research. Export keywords, source and availability fields as JSON for n8n, Make and Apify MCP. Public mode returns no measured search volume, CPC or difficulty." property="og:description"/>
+<meta content="https://edtool79-collab.github.io/hirepulse-tools/keyword-search-volume.html" property="og:url"/>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -146,7 +147,6 @@ summary{cursor:pointer;font-weight:600}
 <tr><th>Users, last 30 days</th><td>1</td></tr>
 <tr><th>Last run</th><td>2026-10-25 17:28:41.827Z</td></tr>
 <tr><th>Store listing</th><td><a href="https://apify.com/hirepulse/keyword-search-volume">apify.com/hirepulse/keyword-search-volume</a></td></tr></table>
-
 <h2>What it does</h2>
 <h2>Keyword Research: Google Autocomplete &amp; Suggestions</h2>
 <p>Expands seed phrases into Google Autocomplete and suggestion results to generate long-tail keyword ideas and structured keyword datasets for SEO and content planning. The Actor queries public and platform-native autocomplete sources to produce structured JSON records containing suggested keyword phrases, optional numeric metrics when provided via configured paid upstream providers, explicit indicators that signal whether measured metrics are available versus numeric zero, and source attribution for each suggestion. Core mechanisms include bulk processing of keyword lists, expansion of seed terms into public autocomplete suggestions, and optional integration with paid data sources for measured metrics.</p>
@@ -157,39 +157,34 @@ summary{cursor:pointer;font-weight:600}
 <li>Expanding seed keyword lists into autocomplete-based suggestion inventories</li>
 <li>Processing keyword lists and exporting structured records for analysis</li>
 </ul>
-
 <h2>Run it</h2>
 <p>Send this input to the Actor:</p>
 <pre><code>{
-  &quot;keywords&quot;: [
-    &quot;keyword research tool&quot;,
-    &quot;ai agents&quot;,
-    &quot;web scraping api&quot;
+  "keywords": [
+    "keyword research tool",
+    "ai agents",
+    "web scraping api"
   ]
 }</code></pre>
 <h3>From your own code (Apify API)</h3>
 <pre><code>curl -X POST "https://api.apify.com/v2/acts/hirepulse~keyword-search-volume/runs?token=$APIFY_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{&quot;keywords&quot;: [&quot;keyword research tool&quot;, &quot;ai agents&quot;, &quot;web scraping api&quot;]}'</code></pre>
+  -d '{"keywords": ["keyword research tool", "ai agents", "web scraping api"]}'</code></pre>
 <h3>From an AI agent (Apify MCP)</h3>
 <pre><code>{"tool": "call-actor", "arguments": {"actor": "hirepulse/keyword-search-volume"}}</code></pre>
 <p><a class="cta" href="https://apify.com/hirepulse/keyword-search-volume">Open keyword-search-volume on the Apify Store</a></p>
-
 <h2>Pricing</h2>
 <p>$0.005 per Keyword result; paid-plan pricing: Bronze $0.0045, Silver $0.00425, Gold $0.004, Platinum $0.004, Diamond $0.004</p>
 <p>Prices are configured per event on the Apify listing and can change; the listing is the authoritative source.</p>
-
 <h2>Questions</h2>
 <details><summary>What does Keyword Research return?</summary><p>Expands seed phrases into Google Autocomplete and suggestion results to generate long-tail keyword ideas and structured keyword datasets for SEO and content planning. The Actor queries public and platform-native autocomplete sources to produce structured JSON records containing suggested keyword phrases, optional numeric metrics when provided via configured paid upstream providers, explicit indicators that signal…</p></details>
 <details><summary>How much does one run cost?</summary><p>0.005 USD per charged event (Keyword result). Billing is per event, not per subscription, and only events the Actor reports are charged.</p></details>
 <details><summary>Can I call it from my own code or an AI agent?</summary><p>Yes. It runs as an Apify Actor: start it with the Apify API, the Apify MCP server, or the console. The only credential required is your Apify API token.</p></details>
 <details><summary>Do I need an account on the target website?</summary><p>No. It works from public data only; it does not log in to the sites it reads.</p></details>
-
 <h2>Other HirePulse tools</h2>
 <ul><li><a href="/hirepulse-tools/mcp-x402-server-grader.html">mcp-x402-server-grader</a></li>
 <li><a href="/hirepulse-tools/shopify-to-llms-generator.html">shopify-to-llms-generator</a></li>
 <li><a href="/hirepulse-tools/startup-breakout-radar.html">startup-breakout-radar</a></li></ul>
-
 <footer>
 <p>HirePulse — Pay-per-use data tools for AI agents, sales and e-commerce. This page is generated from the Actor's own public listing fields
 (title, description, readme, pricing configuration and public run counters) on 2026-10-26.

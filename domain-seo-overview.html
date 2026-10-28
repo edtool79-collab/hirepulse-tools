@@ -1,15 +1,16 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>Domain SEO Overview: Metadata, Sitemaps &amp; Keywords | HirePulse</title>
-<meta name="description" content="Inspect a website domain for SEO research: page title, meta description, sitemap URLs and Google Autocomplete keyword suggestions">
-<link rel="canonical" href="https://edtool79-collab.github.io/hirepulse-tools/domain-seo-overview.html">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Domain SEO Overview: Metadata, Sitemaps &amp; Keywords | HirePulse">
-<meta property="og:description" content="Inspect a website domain for SEO research: page title, meta description, sitemap URLs and Google Autocomplete keyword suggestions">
-<meta property="og:url" content="https://edtool79-collab.github.io/hirepulse-tools/domain-seo-overview.html">
+<meta content="Public website signals: titles, meta descriptions, sitemap and autocomplete suggestions, plus a Chrome popularity tier (CrUX rank bucket, not visits). No traffic, rank or search volume. No lookup or result charges; Actor start fees apply." name="description"/>
+<link href="https://edtool79-collab.github.io/hirepulse-tools/domain-seo-overview.html" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="Domain SEO Overview: Metadata, Sitemaps &amp; Keywords" property="og:title"/>
+<meta content="Public website signals: titles, meta descriptions, sitemap and autocomplete suggestions, plus a Chrome popularity tier (CrUX rank bucket, not visits). No traffic, rank or search volume. No lookup or result charges; Actor start fees apply." property="og:description"/>
+<meta content="https://edtool79-collab.github.io/hirepulse-tools/domain-seo-overview.html" property="og:url"/>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -138,7 +139,7 @@ summary{cursor:pointer;font-weight:600}
 <body>
 <main>
 <nav class="crumbs"><a href="/hirepulse-tools/">HirePulse tools</a> / Domain SEO Overview: Metadata, Sitemaps &amp; Keywords</nav>
-<h1>Domain SEO Overview: Metadata, Sitemaps &amp; Keywords</h1>
+<h1>Domain SEO Overview: Metadata, Sitemaps &amp; Keywords</h1><p><a href="https://edtool79-collab.github.io/hirepulse-tools/guides/domain-seo-overview-python/">Start with the verified Python quickstart →</a></p>
 <p class="lead">Public website signals: titles, meta descriptions, sitemap and autocomplete suggestions, plus a Chrome popularity tier (CrUX rank bucket, not visits). No traffic, rank or search volume. No lookup or result charges; Actor start fees apply.</p>
 <table><tr><th>Category</th><td>Seo Tools, Lead Generation, Agents</td></tr>
 <tr><th>Price</th><td>$0.005 per Domain result; paid-plan pricing: Bronze $0.0045, Silver $0.00425, Gold $0.004, Platinum $0.004, Diamond $0.004</td></tr>
@@ -146,7 +147,6 @@ summary{cursor:pointer;font-weight:600}
 <tr><th>Users, last 30 days</th><td>1</td></tr>
 <tr><th>Last run</th><td>2026-10-25 19:08:56.959Z</td></tr>
 <tr><th>Store listing</th><td><a href="https://apify.com/hirepulse/domain-seo-overview">apify.com/hirepulse/domain-seo-overview</a></td></tr></table>
-
 <h2>What it does</h2>
 <h2>Domain SEO Overview (hirepulse/domain-seo-overview)</h2>
 <p>A domain-level SEO reconnaissance Actor that builds an evidence-based overview of a website by extracting page metadata, discovering and inspecting sitemaps and listed URLs, harvesting Google Autocomplete keyword suggestions with provenance and availability indicators, and reporting site popularity buckets derived from the Chrome UX Report origin rankings; outputs are structured JSON records containing page titles and meta descriptions, sitemap URL observations and counts, suggested keywords with source context, and site popularity metrics and traffic-related estimates where available. This Actor is designed for automated domain inspection, competitor site comparisons, and metadata-driven keyword discovery workflows.</p>
@@ -158,41 +158,36 @@ summary{cursor:pointer;font-weight:600}
 <li>Sitemap discovery and URL inventory for crawling or index checks</li>
 <li>Generating keyword suggestion lists using Google Autocomplete signals</li>
 </ul>
-
 <h2>Run it</h2>
 <p>Send this input to the Actor:</p>
 <pre><code>{
-  &quot;domains&quot;: [
-    &quot;linear.app&quot;
+  "domains": [
+    "linear.app"
   ],
-  &quot;top_keywords&quot;: 0,
-  &quot;competitors&quot;: 0,
-  &quot;country&quot;: &quot;US&quot;,
-  &quot;use_paid_upstream&quot;: false
+  "top_keywords": 0,
+  "competitors": 0,
+  "country": "US",
+  "use_paid_upstream": false
 }</code></pre>
 <h3>From your own code (Apify API)</h3>
 <pre><code>curl -X POST "https://api.apify.com/v2/acts/hirepulse~domain-seo-overview/runs?token=$APIFY_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{&quot;domains&quot;: [&quot;linear.app&quot;], &quot;top_keywords&quot;: 0, &quot;competitors&quot;: 0, &quot;country&quot;: &quot;US&quot;, &quot;use_paid_upstream&quot;: false}'</code></pre>
+  -d '{"domains": ["linear.app"], "top_keywords": 0, "competitors": 0, "country": "US", "use_paid_upstream": false}'</code></pre>
 <h3>From an AI agent (Apify MCP)</h3>
 <pre><code>{"tool": "call-actor", "arguments": {"actor": "hirepulse/domain-seo-overview"}}</code></pre>
 <p><a class="cta" href="https://apify.com/hirepulse/domain-seo-overview">Open domain-seo-overview on the Apify Store</a></p>
-
 <h2>Pricing</h2>
 <p>$0.005 per Domain result; paid-plan pricing: Bronze $0.0045, Silver $0.00425, Gold $0.004, Platinum $0.004, Diamond $0.004</p>
 <p>Prices are configured per event on the Apify listing and can change; the listing is the authoritative source.</p>
-
 <h2>Questions</h2>
 <details><summary>What does Domain SEO Overview return?</summary><p>A domain-level SEO reconnaissance Actor that builds an evidence-based overview of a website by extracting page metadata, discovering and inspecting sitemaps and listed URLs, harvesting Google Autocomplete keyword suggestions with provenance and availability indicators, and reporting site popularity buckets derived from the Chrome UX Report origin rankings; outputs are structured JSON records containing page…</p></details>
 <details><summary>How much does one run cost?</summary><p>0.005 USD per charged event (Domain result). Billing is per event, not per subscription, and only events the Actor reports are charged.</p></details>
 <details><summary>Can I call it from my own code or an AI agent?</summary><p>Yes. It runs as an Apify Actor: start it with the Apify API, the Apify MCP server, or the console. The only credential required is your Apify API token.</p></details>
 <details><summary>Do I need an account on the target website?</summary><p>No. It works from public data only; it does not log in to the sites it reads.</p></details>
-
 <h2>Other HirePulse tools</h2>
 <ul><li><a href="/hirepulse-tools/google-ads-transparency-scraper.html">google-ads-transparency-scraper</a></li>
 <li><a href="/hirepulse-tools/google-jobs-scraper.html">google-jobs-scraper</a></li>
 <li><a href="/hirepulse-tools/keyword-search-volume.html">keyword-search-volume</a></li></ul>
-
 <footer>
 <p>HirePulse — Pay-per-use data tools for AI agents, sales and e-commerce. This page is generated from the Actor's own public listing fields
 (title, description, readme, pricing configuration and public run counters) on 2026-10-26.

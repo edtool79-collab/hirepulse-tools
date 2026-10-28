@@ -1,15 +1,16 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>AliExpress Search Scraper: Products, Prices &amp; Sales Data | HirePulse</title>
-<meta name="description" content="Scrape AliExpress product search results: titles, prices, discounts, ratings, review counts, units sold, images and product URLs when available">
-<link rel="canonical" href="https://edtool79-collab.github.io/hirepulse-tools/aliexpress-search-scraper.html">
-<meta property="og:type" content="website">
-<meta property="og:title" content="AliExpress Search Scraper: Products, Prices &amp; Sales Data | HirePulse">
-<meta property="og:description" content="Scrape AliExpress product search results: titles, prices, discounts, ratings, review counts, units sold, images and product URLs when available">
-<meta property="og:url" content="https://edtool79-collab.github.io/hirepulse-tools/aliexpress-search-scraper.html">
+<meta content="Search AliExpress by keyword and export product prices, discounts, ratings, sold counts, images and URLs when available. Choose sort order, currency and destination country. JSON, CSV and Excel exports for product research and repeatable search snapshots." name="description"/>
+<link href="https://edtool79-collab.github.io/hirepulse-tools/aliexpress-search-scraper.html" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="AliExpress Search Scraper: Products, Prices &amp; Sales Data" property="og:title"/>
+<meta content="Search AliExpress by keyword and export product prices, discounts, ratings, sold counts, images and URLs when available. Choose sort order, currency and destination country. JSON, CSV and Excel exports for product research and repeatable search snapshots." property="og:description"/>
+<meta content="https://edtool79-collab.github.io/hirepulse-tools/aliexpress-search-scraper.html" property="og:url"/>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -139,14 +140,13 @@ summary{cursor:pointer;font-weight:600}
 <main>
 <nav class="crumbs"><a href="/hirepulse-tools/">HirePulse tools</a> / AliExpress Search Scraper: Products, Prices &amp; Sales Data</nav>
 <h1>AliExpress Search Scraper: Products, Prices &amp; Sales Data</h1>
-<p class="lead">Scrape AliExpress product search results: titles, prices, discounts, ratings, review counts, units sold, images and product URLs when available. Set query, sort, currency and ship-to country. Structured JSON for price research, ecommerce monitoring, n8n and Apify MCP.</p>
+<p class="lead">Search AliExpress by keyword and export product prices, discounts, ratings, sold counts, images and URLs when available. Choose sort order, currency and destination country. JSON, CSV and Excel exports for product research and repeatable search snapshots.</p>
 <table><tr><th>Category</th><td>Ecommerce, Agents, Ai</td></tr>
 <tr><th>Price</th><td>$0.0025 per Product; paid-plan pricing: Bronze $0.00225, Silver $0.002125, Gold $0.002, Platinum $0.002, Diamond $0.002</td></tr>
 <tr><th>Public runs, last 30 days</th><td>13</td></tr>
 <tr><th>Users, last 30 days</th><td>0</td></tr>
 <tr><th>Last run</th><td>2026-10-26 07:55:56.660Z</td></tr>
 <tr><th>Store listing</th><td><a href="https://apify.com/hirepulse/aliexpress-search-scraper">apify.com/hirepulse/aliexpress-search-scraper</a></td></tr></table>
-
 <h2>What it does</h2>
 <h2>AliExpress Search Scraper</h2>
 <p>A web-scraping Actor that searches AliExpress and extracts structured product search-result metadata for price comparison, ecommerce research, and sales monitoring. It performs keyword-based search queries on AliExpress, supports sorting and regional options (currency and ship-to country), and returns per-result product metadata such as titles, pricing (current and original), discount information, ratings and review counts, product identifiers, product links, images, and search-position information as structured records for downstream analysis.</p>
@@ -158,41 +158,36 @@ summary{cursor:pointer;font-weight:600}
 <li>Competitive intelligence and cross-border pricing analysis using currency and ship-to-country settings</li>
 <li>Bulk extraction of search-result metadata for inventory mapping or catalog enrichment</li>
 </ul>
-
 <h2>Run it</h2>
 <p>Send this input to the Actor:</p>
 <pre><code>{
-  &quot;queries&quot;: [
-    &quot;yoga mat&quot;
+  "queries": [
+    "yoga mat"
   ],
-  &quot;max_results_per_query&quot;: 3,
-  &quot;currency&quot;: &quot;USD&quot;,
-  &quot;ship_to&quot;: &quot;US&quot;,
-  &quot;use_paid_upstream&quot;: false
+  "max_results_per_query": 3,
+  "currency": "USD",
+  "ship_to": "US",
+  "use_paid_upstream": false
 }</code></pre>
 <h3>From your own code (Apify API)</h3>
 <pre><code>curl -X POST "https://api.apify.com/v2/acts/hirepulse~aliexpress-search-scraper/runs?token=$APIFY_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{&quot;queries&quot;: [&quot;yoga mat&quot;], &quot;max_results_per_query&quot;: 3, &quot;currency&quot;: &quot;USD&quot;, &quot;ship_to&quot;: &quot;US&quot;, &quot;use_paid_upstream&quot;: false}'</code></pre>
+  -d '{"queries": ["yoga mat"], "max_results_per_query": 3, "currency": "USD", "ship_to": "US", "use_paid_upstream": false}'</code></pre>
 <h3>From an AI agent (Apify MCP)</h3>
 <pre><code>{"tool": "call-actor", "arguments": {"actor": "hirepulse/aliexpress-search-scraper"}}</code></pre>
 <p><a class="cta" href="https://apify.com/hirepulse/aliexpress-search-scraper">Open aliexpress-search-scraper on the Apify Store</a></p>
-
 <h2>Pricing</h2>
 <p>$0.0025 per Product; paid-plan pricing: Bronze $0.00225, Silver $0.002125, Gold $0.002, Platinum $0.002, Diamond $0.002</p>
 <p>Prices are configured per event on the Apify listing and can change; the listing is the authoritative source.</p>
-
 <h2>Questions</h2>
 <details><summary>What does AliExpress Search Scraper return?</summary><p>A web-scraping Actor that searches AliExpress and extracts structured product search-result metadata for price comparison, ecommerce research, and sales monitoring. It performs keyword-based search queries on AliExpress, supports sorting and regional options (currency and ship-to country), and returns per-result product metadata such as titles, pricing (current and original), discount information, ratings and…</p></details>
 <details><summary>How much does one run cost?</summary><p>0.0025 USD per charged event (Product). Billing is per event, not per subscription, and only events the Actor reports are charged.</p></details>
 <details><summary>Can I call it from my own code or an AI agent?</summary><p>Yes. It runs as an Apify Actor: start it with the Apify API, the Apify MCP server, or the console. The only credential required is your Apify API token.</p></details>
 <details><summary>Do I need an account on the target website?</summary><p>No. It works from public data only; it does not log in to the sites it reads.</p></details>
-
 <h2>Other HirePulse tools</h2>
 <ul><li><a href="/hirepulse-tools/ats-detector.html">ats-detector</a></li>
 <li><a href="/hirepulse-tools/ats-job-pulse.html">ats-job-pulse</a></li>
 <li><a href="/hirepulse-tools/b2b-account-research-agent.html">b2b-account-research-agent</a></li></ul>
-
 <footer>
 <p>HirePulse — Pay-per-use data tools for AI agents, sales and e-commerce. This page is generated from the Actor's own public listing fields
 (title, description, readme, pricing configuration and public run counters) on 2026-10-26.

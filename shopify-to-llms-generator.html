@@ -1,15 +1,16 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Shopify &amp; WooCommerce Catalog to llms.txt Draft | HirePulse</title>
-<meta name="description" content="Extract a sampled public Shopify or WooCommerce catalog into llms.txt drafts. Review before publishing; policies and payment support are not generated.">
-<link rel="canonical" href="https://edtool79-collab.github.io/hirepulse-tools/shopify-to-llms-generator.html">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Shopify &amp; WooCommerce Catalog to llms.txt Draft | HirePulse">
-<meta property="og:description" content="Extract a sampled public Shopify or WooCommerce catalog into llms.txt drafts. Review before publishing; policies and payment support are not generated.">
-<meta property="og:url" content="https://edtool79-collab.github.io/hirepulse-tools/shopify-to-llms-generator.html">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Shopify &amp; WooCommerce to llms.txt: Catalog Draft | HirePulse</title>
+<meta content="Turn an accessible public Shopify or WooCommerce product feed into a reviewable llms.txt draft. Get sampled products, source evidence and text files. $0.02 per useful report; no deployment or promised AI rankings." name="description"/>
+<link href="https://edtool79-collab.github.io/hirepulse-tools/shopify-to-llms-generator.html" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="Shopify &amp; WooCommerce to llms.txt: Catalog Draft" property="og:title"/>
+<meta content="Turn an accessible public Shopify or WooCommerce product feed into a reviewable llms.txt draft. Get sampled products, source evidence and text files. $0.02 per useful report; no deployment or promised AI rankings." property="og:description"/>
+<meta content="https://edtool79-collab.github.io/hirepulse-tools/shopify-to-llms-generator.html" property="og:url"/>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -138,15 +139,14 @@ summary{cursor:pointer;font-weight:600}
 <body>
 <main>
 <nav class="crumbs"><a href="/hirepulse-tools/">HirePulse tools</a> / Store Catalog to llms.txt Draft</nav>
-<h1>Store Catalog to llms.txt Draft</h1>
-<p class="lead">Extract a sampled public Shopify or WooCommerce catalog into llms.txt drafts. No invented policies, deployed endpoints, UCP or payment support.</p>
+<h1>Shopify &amp; WooCommerce to llms.txt: Catalog Draft</h1><p><a href="https://edtool79-collab.github.io/hirepulse-tools/guides/shopify-catalog-llms-txt/">Start with the verified Python quickstart →</a></p>
+<p class="lead">Turn an accessible public Shopify or WooCommerce product feed into a reviewable llms.txt draft. Get sampled products, source evidence and text files. $0.02 per useful report; no deployment or promised AI rankings.</p>
 <table><tr><th>Category</th><td>Ecommerce, Seo Tools, Ai</td></tr>
 <tr><th>Price</th><td>$0.02 per Catalog draft report</td></tr>
 <tr><th>Public runs, last 30 days</th><td>4</td></tr>
 <tr><th>Users, last 30 days</th><td>1</td></tr>
 <tr><th>Last run</th><td>2026-10-26 10:06:43.803Z</td></tr>
 <tr><th>Store listing</th><td><a href="https://apify.com/hirepulse/shopify-to-llms-generator">apify.com/hirepulse/shopify-to-llms-generator</a></td></tr></table>
-
 <h2>What it does</h2>
 <h2>Store Catalog to llms.txt Draft</h2>
 <p>Converts sampled public Shopify and WooCommerce product feeds into llms.txt draft artifacts for owner review. The Actor crawls product listings, samples up to 100 products from accessible feeds, extracts product metadata (titles, descriptions, observed pricing, images, variants and related catalog facts), and generates both concise and full plain-text llms.txt drafts. Each run produces a catalog draft plus metadata about the crawl (product counts, crawl status and HTTP evidence) and preserves diagnostics for review; the catalog draft is presented as a draft (not claimed to be a UCP-conformant profile).</p>
@@ -157,36 +157,31 @@ summary{cursor:pointer;font-weight:600}
 <li>Collect crawl diagnostics and HTTP evidence to validate feed accessibility and fetch results.</li>
 <li>Create both concise and full plain-text drafts suitable for manual curation, content review, or downstream content generation.</li>
 </ul>
-
 <h2>Run it</h2>
 <p>Send this input to the Actor:</p>
 <pre><code>{
-  &quot;store_url&quot;: &quot;https://www.untuckit.com&quot;,
-  &quot;max_products&quot;: 5
+  "store_url": "https://www.untuckit.com",
+  "max_products": 5
 }</code></pre>
 <h3>From your own code (Apify API)</h3>
 <pre><code>curl -X POST "https://api.apify.com/v2/acts/hirepulse~shopify-to-llms-generator/runs?token=$APIFY_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{&quot;store_url&quot;: &quot;https://www.untuckit.com&quot;, &quot;max_products&quot;: 5}'</code></pre>
+  -d '{"store_url": "https://www.untuckit.com", "max_products": 5}'</code></pre>
 <h3>From an AI agent (Apify MCP)</h3>
 <pre><code>{"tool": "call-actor", "arguments": {"actor": "hirepulse/shopify-to-llms-generator"}}</code></pre>
 <p><a class="cta" href="https://apify.com/hirepulse/shopify-to-llms-generator">Open shopify-to-llms-generator on the Apify Store</a></p>
-
 <h2>Pricing</h2>
 <p>$0.02 per Catalog draft report</p>
 <p>Prices are configured per event on the Apify listing and can change; the listing is the authoritative source.</p>
-
 <h2>Questions</h2>
 <details><summary>What does Store Catalog to llms.txt Draft return?</summary><p>Converts sampled public Shopify and WooCommerce product feeds into llms.txt draft artifacts for owner review. The Actor crawls product listings, samples up to 100 products from accessible feeds, extracts product metadata (titles, descriptions, observed pricing, images, variants and related catalog facts), and generates both concise and full plain-text llms.txt drafts. Each run produces a catalog draft plus…</p></details>
 <details><summary>How much does one run cost?</summary><p>0.02 USD per charged event (Catalog draft report). Billing is per event, not per subscription, and only events the Actor reports are charged.</p></details>
 <details><summary>Can I call it from my own code or an AI agent?</summary><p>Yes. It runs as an Apify Actor: start it with the Apify API, the Apify MCP server, or the console. The only credential required is your Apify API token.</p></details>
 <details><summary>Do I need an account on the target website?</summary><p>No. It works from public data only; it does not log in to the sites it reads.</p></details>
-
 <h2>Other HirePulse tools</h2>
 <ul><li><a href="/hirepulse-tools/startup-breakout-radar.html">startup-breakout-radar</a></li>
 <li><a href="/hirepulse-tools/temporary-email-inbox.html">temporary-email-inbox</a></li>
 <li><a href="/hirepulse-tools/viral-product-radar.html">viral-product-radar</a></li></ul>
-
 <footer>
 <p>HirePulse — Pay-per-use data tools for AI agents, sales and e-commerce. This page is generated from the Actor's own public listing fields
 (title, description, readme, pricing configuration and public run counters) on 2026-10-26.

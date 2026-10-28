@@ -1,15 +1,16 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MCP &amp; x402 Payment Challenge Evidence Grader | HirePulse</title>
-<meta name="description" content="Probe MCP tool catalogs and x402 v2 payment challenges. Get evidence and heuristic review drafts; no official certification or internal SDK bug diagnosis.">
-<link rel="canonical" href="https://edtool79-collab.github.io/hirepulse-tools/mcp-x402-server-grader.html">
-<meta property="og:type" content="website">
-<meta property="og:title" content="MCP &amp; x402 Payment Challenge Evidence Grader | HirePulse">
-<meta property="og:description" content="Probe MCP tool catalogs and x402 v2 payment challenges. Get evidence and heuristic review drafts; no official certification or internal SDK bug diagnosis.">
-<meta property="og:url" content="https://edtool79-collab.github.io/hirepulse-tools/mcp-x402-server-grader.html">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>MCP &amp; x402 Evidence Grader | HirePulse</title>
+<meta content="Fetch actual MCP tool catalogs or probe x402 v2 payment challenges. Local heuristics and owner-review drafts; no official Glama certification." name="description"/>
+<link href="https://edtool79-collab.github.io/hirepulse-tools/mcp-x402-server-grader.html" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="MCP &amp; x402 Evidence Grader" property="og:title"/>
+<meta content="Fetch actual MCP tool catalogs or probe x402 v2 payment challenges. Local heuristics and owner-review drafts; no official Glama certification." property="og:description"/>
+<meta content="https://edtool79-collab.github.io/hirepulse-tools/mcp-x402-server-grader.html" property="og:url"/>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -146,49 +147,43 @@ summary{cursor:pointer;font-weight:600}
 <tr><th>Users, last 30 days</th><td>1</td></tr>
 <tr><th>Last run</th><td>2026-10-23 04:54:01.266Z</td></tr>
 <tr><th>Store listing</th><td><a href="https://apify.com/hirepulse/mcp-x402-server-grader">apify.com/hirepulse/mcp-x402-server-grader</a></td></tr></table>
-
 <h2>What it does</h2>
 <h2>MCP &amp; x402 Evidence Grader</h2>
-<p>A non-destructive inspection tool that probes public MCP endpoints&#x27; tool catalogs and x402 endpoints&#x27; unpaid payment challenges to extract technical evidence, run per-tool documentation checks, and generate review drafts and a local documentation grade. The Actor analyzes HTTP responses and endpoint structure to record observed tool counts, per-tool compliance and behavior checks, structural findings for x402 challenges, and draft review text for server owners; it preserves declared schemas and does not modify remote servers or execute payment transactions. Outputs are consolidated diagnostic reports and heuristic grades intended for owner review and documentation remediation.</p>
+<p>A non-destructive inspection tool that probes public MCP endpoints' tool catalogs and x402 endpoints' unpaid payment challenges to extract technical evidence, run per-tool documentation checks, and generate review drafts and a local documentation grade. The Actor analyzes HTTP responses and endpoint structure to record observed tool counts, per-tool compliance and behavior checks, structural findings for x402 challenges, and draft review text for server owners; it preserves declared schemas and does not modify remote servers or execute payment transactions. Outputs are consolidated diagnostic reports and heuristic grades intended for owner review and documentation remediation.</p>
 <h2>Use cases</h2>
 <ul>
-<li>Inspect an MCP endpoint&#x27;s tool catalog to enumerate tools and perform per-tool documentation and behavior checks.</li>
+<li>Inspect an MCP endpoint's tool catalog to enumerate tools and perform per-tool documentation and behavior checks.</li>
 <li>Examine an x402 unpaid payment challenge to extract structural findings and HTTP-status evidence.</li>
 <li>Export observed technical evidence and documentation checks for review and remediation.</li>
 <li>Produce optional draft review text for server owners summarizing findings and suggested follow-up.</li>
 <li>Generate heuristic, local documentation grades to prioritize remediation and verification efforts.</li>
 </ul>
-
 <h2>Run it</h2>
 <p>Send this input to the Actor:</p>
 <pre><code>{
-  &quot;server_url&quot;: &quot;https://mcp.deepwiki.com/mcp&quot;,
-  &quot;target_type&quot;: &quot;mcp&quot;,
-  &quot;auto_fix&quot;: false
+  "server_url": "https://mcp.deepwiki.com/mcp",
+  "target_type": "mcp",
+  "auto_fix": false
 }</code></pre>
 <h3>From your own code (Apify API)</h3>
 <pre><code>curl -X POST "https://api.apify.com/v2/acts/hirepulse~mcp-x402-server-grader/runs?token=$APIFY_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{&quot;server_url&quot;: &quot;https://mcp.deepwiki.com/mcp&quot;, &quot;target_type&quot;: &quot;mcp&quot;, &quot;auto_fix&quot;: false}'</code></pre>
+  -d '{"server_url": "https://mcp.deepwiki.com/mcp", "target_type": "mcp", "auto_fix": false}'</code></pre>
 <h3>From an AI agent (Apify MCP)</h3>
 <pre><code>{"tool": "call-actor", "arguments": {"actor": "hirepulse/mcp-x402-server-grader"}}</code></pre>
 <p><a class="cta" href="https://apify.com/hirepulse/mcp-x402-server-grader">Open mcp-x402-server-grader on the Apify Store</a></p>
-
 <h2>Pricing</h2>
 <p>$0.01 per Evidence report</p>
 <p>Prices are configured per event on the Apify listing and can change; the listing is the authoritative source.</p>
-
 <h2>Questions</h2>
-<details><summary>What does MCP &amp; x402 Evidence Grader return?</summary><p>A non-destructive inspection tool that probes public MCP endpoints&#x27; tool catalogs and x402 endpoints&#x27; unpaid payment challenges to extract technical evidence, run per-tool documentation checks, and generate review drafts and a local documentation grade. The Actor analyzes HTTP responses and endpoint structure to record observed tool counts, per-tool compliance and behavior checks, structural findings for x402…</p></details>
+<details><summary>What does MCP &amp; x402 Evidence Grader return?</summary><p>A non-destructive inspection tool that probes public MCP endpoints' tool catalogs and x402 endpoints' unpaid payment challenges to extract technical evidence, run per-tool documentation checks, and generate review drafts and a local documentation grade. The Actor analyzes HTTP responses and endpoint structure to record observed tool counts, per-tool compliance and behavior checks, structural findings for x402…</p></details>
 <details><summary>How much does one run cost?</summary><p>0.01 USD per charged event (Evidence report). Billing is per event, not per subscription, and only events the Actor reports are charged.</p></details>
 <details><summary>Can I call it from my own code or an AI agent?</summary><p>Yes. It runs as an Apify Actor: start it with the Apify API, the Apify MCP server, or the console. The only credential required is your Apify API token.</p></details>
 <details><summary>Do I need an account on the target website?</summary><p>No. It works from public data only; it does not log in to the sites it reads.</p></details>
-
 <h2>Other HirePulse tools</h2>
 <ul><li><a href="/hirepulse-tools/shopify-to-llms-generator.html">shopify-to-llms-generator</a></li>
 <li><a href="/hirepulse-tools/startup-breakout-radar.html">startup-breakout-radar</a></li>
 <li><a href="/hirepulse-tools/temporary-email-inbox.html">temporary-email-inbox</a></li></ul>
-
 <footer>
 <p>HirePulse — Pay-per-use data tools for AI agents, sales and e-commerce. This page is generated from the Actor's own public listing fields
 (title, description, readme, pricing configuration and public run counters) on 2026-10-26.

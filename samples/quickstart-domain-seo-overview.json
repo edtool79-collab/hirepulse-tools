@@ -1,0 +1,20 @@
+{
+  "captured_at": "2026-10-28T09:42:42.356Z",
+  "actor": "domain-seo-overview",
+  "build_id": "QXqgSWIdYeMoND3Sy",
+  "run_id": "Hwptu1ViPZjwzVFWD",
+  "scope": "Selected fields from an owner validation run; not a customer result or current measurement.",
+  "selected_fields": {
+    "record_type": "domain_overview",
+    "domain": "linear.app",
+    "page_title": "Linear – The system for product development",
+    "meta_description": "Purpose-built for planning and building products with AI agents.",
+    "sitemap_present": true,
+    "sitemap_urls_found": 985,
+    "popularity_tier": "top_50k",
+    "popularity_source": "Chrome UX Report (Google), 2026-09",
+    "provider_mode": "native",
+    "metrics_available": false,
+    "organic_traffic_estimate": null
+  }
+}

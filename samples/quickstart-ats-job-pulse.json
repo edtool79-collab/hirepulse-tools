@@ -1,0 +1,18 @@
+{
+  "captured_at": "2026-10-28T09:52:47.507Z",
+  "actor": "ats-job-pulse",
+  "build_id": "rZjr8CeDoss1izo48",
+  "run_id": "SWbDRnoPcyydkY8mG",
+  "scope": "Selected fields from an owner validation run; not a customer result or current measurement.",
+  "selected_fields": {
+    "record_type": "company_summary",
+    "company_domain": "linear.app",
+    "ats_type": "ashby",
+    "total_active_jobs": 32,
+    "remote_jobs": 32,
+    "is_first_run": null,
+    "new_jobs": null,
+    "closed_jobs": null,
+    "matching_jobs": 32
+  }
+}
