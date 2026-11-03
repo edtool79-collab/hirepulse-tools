@@ -1,0 +1,238 @@
+{
+  "name": "Automated Technical SEO Audit & AI-Readiness Triage (hirepulse/domain-seo-overview)",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "### ⚡ Domain SEO Technical Audit & AI Readiness Radar\n**Actor:** `hirepulse/domain-seo-overview` (v1.5)\n**Cost:** Zero third-party API spend ($0.00). Uses fast native mode.\n**Output:** Structured findings, canonical URL check, /llms.txt AI search readiness, and automated client audit markdown.",
+        "height": 240,
+        "width": 440,
+        "color": 6
+      },
+      "id": "note-architecture",
+      "name": "Architecture & Value Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -700,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                1
+              ],
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "id": "node-schedule-trigger",
+      "name": "Weekly Audit Schedule (Monday 08:00)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -700,
+        380
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "node-manual-trigger",
+      "name": "Manual Test Run Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -700,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// List of target prospect or client domains to audit\nconst targetDomains = [\n  { domain: 'linear.app', clientName: 'Linear Orbit' },\n  { domain: 'stripe.com', clientName: 'Stripe Payments' },\n  { domain: 'notion.so', clientName: 'Notion Labs' }\n];\n\nreturn targetDomains.map(item => ({\n  json: {\n    domain: item.domain,\n    clientName: item.clientName,\n    auditDate: new Date().toISOString()\n  }\n}));"
+      },
+      "id": "node-target-domains",
+      "name": "1. Prospect Domains Input",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -460,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "actorSource": "custom",
+        "actorId": "hirepulse/domain-seo-overview",
+        "waitForFinish": true,
+        "input": "={\n  \"domains\": [\"{{ $json.domain }}\"],\n  \"country\": \"US\"\n}"
+      },
+      "id": "node-apify-dso",
+      "name": "2. HirePulse Domain SEO Overview",
+      "type": "@apify/n8n-nodes-apify.apify",
+      "typeVersion": 1,
+      "position": [
+        -220,
+        460
+      ],
+      "credentials": {
+        "apifyApi": {
+          "id": "apify-account-creds",
+          "name": "Apify account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\nconst domain = item.domain || 'unknown';\nconst findings = item.findings || [];\nconst readiness = item.seo_readiness || {};\nconst score = readiness.score !== undefined ? readiness.score : 100;\n\n// Categorize findings\nconst criticals = findings.filter(f => f.severity === 'high');\nconst warnings = findings.filter(f => f.severity === 'medium');\nconst recommendations = findings.filter(f => f.severity === 'low');\n\nconst hasMissingCanonical = findings.some(f => f.code === 'missing_canonical');\nconst hasLlmsTxt = Boolean(item.llms_txt_present);\nconst sitemapUrls = item.sitemap_urls_found || 0;\n\nlet healthTier = 'EXCELLENT';\nif (criticals.length > 0 || hasMissingCanonical) {\n  healthTier = 'CRITICAL_ACTION_REQUIRED';\n} else if (warnings.length > 0 || !hasLlmsTxt) {\n  healthTier = 'OPTIMIZATION_OPPORTUNITY';\n}\n\n// Generate ready-to-send Markdown Audit Summary\nlet summaryMarkdown = `## Technical SEO & AI Readiness Audit: ${domain}\\n`;\nsummaryMarkdown += `**Audit Date:** ${new Date().toISOString().split('T')[0]}\\n`;\nsummaryMarkdown += `**Health Tier:** ${healthTier} | **Readiness Score:** ${score}/100\\n`;\nsummaryMarkdown += `**HTTP Status:** ${item.http_status} | **Final Destination:** ${item.final_url || domain}\\n`;\nsummaryMarkdown += `**Canonical URL:** ${item.canonical_url || 'MISSING (Risk of duplicate content)'}\\n`;\nsummaryMarkdown += `**H1 Heading:** ${item.h1 || 'Missing or multiple'}\\n`;\nsummaryMarkdown += `**Sitemap URLs:** ${sitemapUrls} | **/llms.txt (AI Agents):** ${hasLlmsTxt ? 'Present' : 'Not configured'}\\n\\n`;\n\nif (findings.length > 0) {\n  summaryMarkdown += `### Actionable Findings & Fixes:\\n`;\n  for (const f of findings) {\n    summaryMarkdown += `- **[${(f.severity || 'low').toUpperCase()}] ${f.message}**\\n`;\n    if (f.recommendation) {\n      summaryMarkdown += `  *Recommendation:* ${f.recommendation}\\n`;\n    }\n  }\n} else {\n  summaryMarkdown += `All primary technical SEO checks passed with zero warnings.\\n`;\n}\n\nreturn [{\n  json: {\n    domain,\n    healthTier,\n    readinessScore: score,\n    findingsCount: findings.length,\n    criticalCount: criticals.length,\n    hasMissingCanonical,\n    hasLlmsTxt,\n    canonicalUrl: item.canonical_url,\n    finalUrl: item.final_url,\n    h1: item.h1,\n    sitemapUrls,\n    popularityTier: item.popularity_tier,\n    summaryMarkdown,\n    rawFindings: findings\n  }\n}];"
+      },
+      "id": "node-triage-engine",
+      "name": "3. Technical SEO & AI Triage Engine",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        40,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cond-critical",
+              "leftValue": "={{ $json.findingsCount }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "node-gate-issues",
+      "name": "4. Gate: Are Fixes Needed?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        300,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\n// Format a high-converting agency cold outreach pitch or client notification\nconst emailSubject = `Quick technical SEO fix for ${item.domain} (Missing Canonical / Audit Score: ${item.readinessScore}/100)`;\n\nlet emailBody = `Hi team,\\n\\n`;\nemailBody += `We ran a fast technical SEO and AI-readiness diagnostic on ${item.domain}.\\n\\n`;\nemailBody += `Here is your instant audit overview:\\n\\n`;\nemailBody += item.summaryMarkdown;\nemailBody += `\\nWould you like our agency to push these technical fixes for you this week?\\n\\nBest regards,\\nAgency SEO Team`;\n\nreturn [{\n  json: {\n    domain: item.domain,\n    emailSubject,\n    emailBody,\n    readinessScore: item.readinessScore,\n    healthTier: item.healthTier,\n    summaryMarkdown: item.summaryMarkdown\n  }\n}];"
+      },
+      "id": "node-outreach-generator",
+      "name": "5. Generate Client Outreach Pitch",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        540,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\nreturn [{\n  json: {\n    domain: item.domain,\n    status: 'OPTIMAL_CLEAN_HEALTH',\n    readinessScore: item.readinessScore,\n    message: `${item.domain} passed all technical SEO and AI search checks.`\n  }\n}];"
+      },
+      "id": "node-clean-health",
+      "name": "6. Log Clean Health Status",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        540,
+        560
+      ]
+    }
+  ],
+  "connections": {
+    "Weekly Audit Schedule (Monday 08:00)": {
+      "main": [
+        [
+          {
+            "node": "1. Prospect Domains Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manual Test Run Trigger": {
+      "main": [
+        [
+          {
+            "node": "1. Prospect Domains Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1. Prospect Domains Input": {
+      "main": [
+        [
+          {
+            "node": "2. HirePulse Domain SEO Overview",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2. HirePulse Domain SEO Overview": {
+      "main": [
+        [
+          {
+            "node": "3. Technical SEO & AI Triage Engine",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3. Technical SEO & AI Triage Engine": {
+      "main": [
+        [
+          {
+            "node": "4. Gate: Are Fixes Needed?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "4. Gate: Are Fixes Needed?": {
+      "main": [
+        [
+          {
+            "node": "5. Generate Client Outreach Pitch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "6. Log Clean Health Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

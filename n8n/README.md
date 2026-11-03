@@ -29,6 +29,12 @@ Unlike one-off "toy" scrapers that dump static lists and burn credits on the sam
 - **What It Solves:** Most competitor ad alerts notify you of 48-hour A/B test failures. This operator tracks **Ad Endurance (`active_days >= 14`)** via [`hirepulse/google-ads-transparency-scraper`](https://apify.com/hirepulse/google-ads-transparency-scraper) and correlates sustained ad spend with live hiring intent via [`hirepulse/company-intent-radar`](https://apify.com/hirepulse/company-intent-radar).
 - **Stateful Diffs:** Alerts only on `NEW_ENDURANCE_WINNER_14D`, `NEW_CAMPAIGN_DETECTED`, or `CAMPAIGN_PAUSED`.
 
+### 3. [`domain-seo-technical-audit-radar.json`](./domain-seo-technical-audit-radar.json) — Automated Technical SEO Audit & AI-Readiness Triage Radar
+- **📥 1-Click n8n Import URL:** `https://raw.githubusercontent.com/edtool79-collab/hirepulse-tools/main/n8n/domain-seo-technical-audit-radar.json`
+- **What It Solves:** Performs automated technical SEO diagnostics across prospect/client domains via [`hirepulse/domain-seo-overview`](https://apify.com/hirepulse/domain-seo-overview) v1.5. Detects critical duplicate content risks (`missing_canonical`), homepage H1 tags, sitemap URL observations, and `/llms.txt` AI search readiness.
+- **Client Outreach Engine:** Automatically compiles actionable findings into a client-ready Markdown audit report and outreach email pitch for agencies.
+- **Cost:** **$0.00 external API spend** (native mode). Runs purely on minimal Apify compute (~$0.0002/domain).
+
 ---
 
 ## 🛡️ Transparent Dependencies & Hard Cost Cap Table
@@ -54,6 +60,7 @@ We believe in **100% honest unit economics**—no hidden $149/mo SaaS dependenci
 | :--- | :--- | :--- |
 | **[`ats-hiring-delta-radar.json`](./ats-hiring-delta-radar.json)** | Daily/Weekly Cookieless ATS Job Delta (`NEW_ROLE_OPENED` / `ROLE_CLOSED`) + Contact Waterfall | `ats-detector` → `ats-job-pulse` → `company-contact-details-finder` |
 | **[`competitor-ads-longevity-radar.json`](./competitor-ads-longevity-radar.json)** | Weekly 14+ Days Google Ads Endurance Signal + Hiring Intent Correlation | `google-ads-transparency-scraper` → `company-intent-radar` |
+| **[`domain-seo-technical-audit-radar.json`](./domain-seo-technical-audit-radar.json)** | Weekly Technical SEO Audit, Canonical & /llms.txt AI-Readiness Triage + Client Pitch Generator | `domain-seo-overview` |
 | **[`0-super-b2b-lead-enrichment-waterfall.json`](./0-super-b2b-lead-enrichment-waterfall.json)** | 3-Step Waterfall (Tech Stack + ATS Jobs + Google Ads + Decision-Maker Contacts) | `website-tech-stack-detector` → `ats-job-pulse` → `google-ads-transparency-scraper` → `company-contact-details-finder` |
 | **[`1-b2b-intent-prefilter-enrichment.json`](./1-b2b-intent-prefilter-enrichment.json)** | Deterministic ICP Pre-Filter (0–100 Score) before LLM Cold Outreach Hook | `company-intent-radar` |
 | **[`2-competitor-ads-and-hiring-monitor.json`](./2-competitor-ads-and-hiring-monitor.json)** | Monday 9AM Competitor Hiring & Search Ads Slack Alert | `ats-job-pulse` + `google-ads-transparency-scraper` |

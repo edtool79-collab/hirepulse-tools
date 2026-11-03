@@ -63,6 +63,12 @@ Captured 2026-11-03T21:13:51.694Z, Build L3gaycRDgsSc84gMz (v1.5.1). Selected fi
 }
 ```
 
+## Automated n8n Workflow
+
+For agencies and automation pipelines, import the pre-built operator directly into n8n:
+- **1-Click n8n Import:** [`domain-seo-technical-audit-radar.json`](https://raw.githubusercontent.com/edtool79-collab/hirepulse-tools/main/n8n/domain-seo-technical-audit-radar.json)
+- Runs automated technical SEO audits on schedule, detects duplicate content risks (`missing_canonical`), checks `/llms.txt` AI readiness, and generates client-ready Markdown audit summaries.
+
 ## Cost and limits
 
 Public mode emits no domain-lookup or domain-result events. The listed Actor start event is $0.00005 per GB, minimum one event; applicable Apify platform charges can apply. A spending cap is a limit, not a quoted price.
