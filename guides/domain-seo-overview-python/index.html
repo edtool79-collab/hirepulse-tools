@@ -51,13 +51,29 @@ else:
   --data @domain-seo-overview.json</code></pre><p>The response contains a run ID. Poll GET /v2/actor-runs/{runId}; after success, read /v2/datasets/{defaultDatasetId}/items. Do not repeat a start request after a timeout without checking Console.</p></details><h2 id="example">3. Inspect an actual result</h2><p class="small">Selected fields from an owner validation run on 2026-10-28T09:42:42.356Z. Build QXqgSWIdYeMoND3Sy. These are dated observations, not current counts or customer results.</p><pre><code class="language-json">{
   &quot;record_type&quot;: &quot;domain_overview&quot;,
   &quot;domain&quot;: &quot;linear.app&quot;,
-  &quot;page_title&quot;: &quot;Linear – The system for product development&quot;,
-  &quot;meta_description&quot;: &quot;Purpose-built for planning and building products with AI agents.&quot;,
+  &quot;final_url&quot;: &quot;https://linear.app/&quot;,
+  &quot;http_status&quot;: 200,
+  &quot;page_title&quot;: &quot;Linear &mdash; The system for product development&quot;,
+  &quot;canonical_url&quot;: null,
+  &quot;h1&quot;: &quot;Linear is a purpose-built tool for planning and building products&quot;,
+  &quot;checked_at&quot;: &quot;2026-11-03T21:13:51.694100+00:00&quot;,
   &quot;sitemap_present&quot;: true,
   &quot;sitemap_urls_found&quot;: 985,
   &quot;popularity_tier&quot;: &quot;top_50k&quot;,
   &quot;popularity_source&quot;: &quot;Chrome UX Report (Google), 2026-09&quot;,
   &quot;provider_mode&quot;: &quot;native&quot;,
   &quot;metrics_available&quot;: false,
-  &quot;organic_traffic_estimate&quot;: null
+  &quot;seo_readiness&quot;: {
+    &quot;score&quot;: 90,
+    &quot;tier&quot;: &quot;good&quot;
+  },
+  &quot;findings&quot;: [
+    {
+      &quot;code&quot;: &quot;missing_canonical&quot;,
+      &quot;severity&quot;: &quot;low&quot;,
+      &quot;message&quot;: &quot;No canonical link tag was found on the homepage.&quot;,
+      &quot;recommendation&quot;: &quot;Add &lt;link rel=&quot;canonical&quot; href=&quot;...&quot;&gt; to the &lt;head&gt; to prevent duplicate content.&quot;,
+      &quot;evidence&quot;: &quot;canonical link tag missing&quot;
+    }
+  ]
 }</code></pre><p><a href="/hirepulse-tools/samples/quickstart-domain-seo-overview.json">Download sample and provenance</a></p><h2>Use it in your workflow</h2><p>Use the result to prioritize a manual review. For measured SEO metrics, use a separately configured data provider; this example keeps paid sources disabled.</p><p>In n8n or Make, use the Apify integration with the Actor ID <code>hirepulse/domain-seo-overview</code> and the same JSON input. Review the run charge cap in the integration before enabling a schedule. These steps are instructions; no live n8n or Make workflow was executed for this guide.</p><h2>Know the limits</h2><p>Native mode does not measure visits, Google rankings, search volume or CPC. Those fields remain null. The Chrome popularity bucket is not a visit count. A sitemap count is not a Google index count.</p><h2>Continue the research</h2><ul><li><a href="https://apify.com/hirepulse/keyword-search-volume?utm_source=hirepulse_docs&utm_medium=owned&utm_campaign=apify_quickstart_20261028&utm_content=keyword-search-volume">Generate keyword suggestions</a></li><li><a href="https://apify.com/hirepulse/website-tech-stack-detector?utm_source=hirepulse_docs&utm_medium=owned&utm_campaign=apify_quickstart_20261028&utm_content=website-tech-stack-detector">Inspect website technologies</a></li></ul><a class="button" data-growth-event="quickstart-bottom-to-apify-domain-seo-overview" href="https://apify.com/hirepulse/domain-seo-overview?utm_source=hirepulse_docs&amp;utm_medium=owned&amp;utm_campaign=apify_quickstart_20261028&amp;utm_content=domain-seo-overview">Try your own target on Apify ↗</a></main><footer>Independent public data tools on Apify. Examples are dated owner tests, not customer results.<br>Apify Input and Pricing tabs are authoritative. No account token is requested by this website.<p><a href="/hirepulse-tools/start/">Choose another workflow</a> · <a href="https://apify.com/hirepulse">HirePulse on Apify</a></p></footer></body></html>

@@ -29,21 +29,37 @@ python apify-bounded-run.py hirepulse/domain-seo-overview domain-seo-overview.js
 
 ## Captured owner output
 
-Captured 2026-10-28T09:42:42.356Z, Build QXqgSWIdYeMoND3Sy. Selected fields, not customer results or current measurements.
+Captured 2026-11-03T21:13:51.694Z, Build L3gaycRDgsSc84gMz (v1.5.1). Selected fields, not customer results or current measurements.
 
 ```json
 {
   "record_type": "domain_overview",
   "domain": "linear.app",
-  "page_title": "Linear – The system for product development",
-  "meta_description": "Purpose-built for planning and building products with AI agents.",
+  "final_url": "https://linear.app/",
+  "http_status": 200,
+  "page_title": "Linear — The system for product development",
+  "canonical_url": null,
+  "h1": "Linear is a purpose-built tool for planning and building products",
+  "checked_at": "2026-11-03T21:13:51.694100+00:00",
   "sitemap_present": true,
   "sitemap_urls_found": 985,
   "popularity_tier": "top_50k",
   "popularity_source": "Chrome UX Report (Google), 2026-09",
   "provider_mode": "native",
   "metrics_available": false,
-  "organic_traffic_estimate": null
+  "seo_readiness": {
+    "score": 90,
+    "tier": "good"
+  },
+  "findings": [
+    {
+      "code": "missing_canonical",
+      "severity": "low",
+      "message": "No canonical link tag was found on the homepage.",
+      "recommendation": "Add <link rel=\"canonical\" href=\"...\"> to the <head> to prevent duplicate content across URL variants.",
+      "evidence": "canonical link tag missing"
+    }
+  ]
 }
 ```
 
