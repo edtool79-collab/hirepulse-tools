@@ -6,7 +6,9 @@
 
 - Any search query, sorted results, 60 products per page
 - Choose ship-to country and currency
-- Price, original price, discount %, rating, sold count, image and product link
+- Price, original price, discount %, rating, exact sold count, image gallery and product link
+- Shipping indicators: free shipping, delivery estimate, and origin country
+- SKU ID for exact listing variant match
 - Flags sponsored listings
 - Plain HTTP with automatic proxy fallback, so runs are fast and cheap
 

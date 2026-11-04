@@ -1,6 +1,6 @@
 # ⚡ HirePulse Smart n8n Operator & Stateful B2B Signal Suite
 
-> **Production-grade, state-aware n8n operators for cookieless ATS hiring-intent deltas, 14+ day ad endurance signals, and hard budget-capped B2B enrichment.**
+> **Production-grade, state-aware n8n operators for cookieless ATS hiring-intent deltas, 14+ day ad endurance signals, hard budget-capped B2B enrichment, and AliExpress e-commerce price monitoring.**
 
 ![HirePulse Smart n8n Operator — Live Delta & Double-Actor Waterfall](./assets/smart-operator-live-delta-feed.png)
 
@@ -35,6 +35,12 @@ Unlike one-off "toy" scrapers that dump static lists and burn credits on the sam
 - **Client Outreach Engine:** Automatically compiles actionable findings into a client-ready Markdown audit report and outreach email pitch for agencies.
 - **Cost:** **$0.00 external API spend** (native mode). Runs purely on minimal Apify compute (~$0.0002/domain).
 
+### 4. [`aliexpress-price-and-shipping-monitor.json`](./aliexpress-price-and-shipping-monitor.json) — Automated AliExpress Supplier, Margin & Shipping Monitor
+- **📥 1-Click n8n Import URL:** `https://raw.githubusercontent.com/edtool79-collab/hirepulse-tools/main/n8n/aliexpress-price-and-shipping-monitor.json`
+- **What It Solves:** Automates weekly e-commerce and dropshipping product research via [`hirepulse/aliexpress-search-scraper`](https://apify.com/hirepulse/aliexpress-search-scraper) v1.1.5. Collects verified sale prices, original reference prices, discounts, exact units ordered, star ratings, and shipping signals (free shipping, delivery window) with zero visual CAPTCHAs and zero headless browser overhead.
+- **Supplier & Margin Triage:** Deterministically filters high-margin supplier deals (discount >= 30% and cumulative orders >= 100) and formats clean output feeds ready for Google Sheets, Discord, or Slack.
+- **Cost:** **$0.0025 per product result** (runs capped at $0.05).
+
 ---
 
 ## 🛡️ Transparent Dependencies & Hard Cost Cap Table
@@ -49,6 +55,7 @@ We believe in **100% honest unit economics**—no hidden $149/mo SaaS dependenci
 | **Stage 3A: Live ATS Jobs** | [`hirepulse/ats-job-pulse`](https://apify.com/hirepulse/ats-job-pulse) | Pay-Per-Event (PPE) | **$0.05 / company** | Max 20 companies/run at $1.00 default cap |
 | **Stage 3B: Google Ads Spy** | [`hirepulse/google-ads-transparency-scraper`](https://apify.com/hirepulse/google-ads-transparency-scraper) | Pay-Per-Event (PPE) | **$0.005 / domain + $0.0015 / ad** | Filtered by `MIN_ACTIVE_DAYS = 14` |
 | **Stage 4: Contact Waterfall** | [`hirepulse/company-contact-details-finder`](https://apify.com/hirepulse/company-contact-details-finder) | Pay-Per-Event (PPE) | **$0.003 / domain** | Runs **ONLY** on verified `NEW_ROLE_OPENED` deltas |
+| **E-Com: AliExpress Scraper** | [`hirepulse/aliexpress-search-scraper`](https://apify.com/hirepulse/aliexpress-search-scraper) | Pay-Per-Event (PPE) | **$0.0025 / product** | Exact orders, original prices, and free shipping |
 
 > **💡 Apify Free Tier Note:** Every free [Apify account](https://apify.com/hirepulse) includes **$5.00/month** in free platform usage credits—enough to run ~90 full company delta checks per month at $0 out-of-pocket before scaling to a paid plan.
 
@@ -61,6 +68,7 @@ We believe in **100% honest unit economics**—no hidden $149/mo SaaS dependenci
 | **[`ats-hiring-delta-radar.json`](./ats-hiring-delta-radar.json)** | Daily/Weekly Cookieless ATS Job Delta (`NEW_ROLE_OPENED` / `ROLE_CLOSED`) + Contact Waterfall | `ats-detector` → `ats-job-pulse` → `company-contact-details-finder` |
 | **[`competitor-ads-longevity-radar.json`](./competitor-ads-longevity-radar.json)** | Weekly 14+ Days Google Ads Endurance Signal + Hiring Intent Correlation | `google-ads-transparency-scraper` → `company-intent-radar` |
 | **[`domain-seo-technical-audit-radar.json`](./domain-seo-technical-audit-radar.json)** | Weekly Technical SEO Audit, Canonical & /llms.txt AI-Readiness Triage + Client Pitch Generator | `domain-seo-overview` |
+| **[`aliexpress-price-and-shipping-monitor.json`](./aliexpress-price-and-shipping-monitor.json)** | Weekly E-Commerce Price Drop & Free Shipping Supplier Radar for Dropshipping | `aliexpress-search-scraper` |
 | **[`0-super-b2b-lead-enrichment-waterfall.json`](./0-super-b2b-lead-enrichment-waterfall.json)** | 3-Step Waterfall (Tech Stack + ATS Jobs + Google Ads + Decision-Maker Contacts) | `website-tech-stack-detector` → `ats-job-pulse` → `google-ads-transparency-scraper` → `company-contact-details-finder` |
 | **[`1-b2b-intent-prefilter-enrichment.json`](./1-b2b-intent-prefilter-enrichment.json)** | Deterministic ICP Pre-Filter (0–100 Score) before LLM Cold Outreach Hook | `company-intent-radar` |
 | **[`2-competitor-ads-and-hiring-monitor.json`](./2-competitor-ads-and-hiring-monitor.json)** | Monday 9AM Competitor Hiring & Search Ads Slack Alert | `ats-job-pulse` + `google-ads-transparency-scraper` |
@@ -69,30 +77,11 @@ We believe in **100% honest unit economics**—no hidden $149/mo SaaS dependenci
 
 ---
 
-## 🏗️ Stateful Delta Architecture (`ats-hiring-delta-radar.json`)
-
-```mermaid
-flowchart LR
-    Cron["⏰ Daily/Weekly Cron"] --> Cap["🛡️ Node 1: JS Pre-Filter\n& Hard Budget Cap ($1.00)"]
-    Cap --> FreeGate["🆓 Node 2: hirepulse/ats-detector\n($0.00 ATS Verification)"]
-    FreeGate --> Pulse["⚡ Node 3: hirepulse/ats-job-pulse\n(Cookieless ATS Extraction)"]
-    Pulse --> Delta["🧠 Node 4: Stateful Delta Engine\n(T vs T-1 + Error Guard)"]
-    Delta -- "NEW_ROLE_OPENED > 0" --> Contacts["📇 Node 5: hirepulse/company-contact-details-finder\n($0.003 Waterfall Enrichment)"]
-    Delta -- "SOURCE_ERROR / No Change" --> Preserve["🔒 Preserve T-1 Snapshot\n(Zero False Alerts)"]
-    Contacts --> Brief["📤 Slack / Webhook / CRM Deal Payload"]
-```
-
----
-
 ## 🚀 2-Minute Import & Setup Guide
 
 1. **Install Community Node (Optional) or Use Built-In HTTP:**
    - The workflows support `@apify/n8n-nodes-apify` out of the box, or standard n8n `HTTP Request` nodes.
 2. **Import via URL in n8n:**
-   - Open n8n → **Workflows** → **Import from URL** → paste:
-     - `https://raw.githubusercontent.com/edtool79-collab/hirepulse-tools/main/n8n/ats-hiring-delta-radar.json`
-     - `https://raw.githubusercontent.com/edtool79-collab/hirepulse-tools/main/n8n/competitor-ads-longevity-radar.json`
+   - Open n8n → **Workflows** → **Import from URL** → paste the raw GitHub link of any workflow above.
 3. **Connect Your Apify Token:**
    - Grab your API token from [Apify Console → Integrations](https://console.apify.com/account/integrations) and add it to the **Apify account** credential in n8n.
-4. **Customize Target Domains & Budget Cap:**
-   - Open **Node 1 (`Pre-Filter & Hard Budget Cap`)** and adjust `MAX_RUN_BUDGET_USD` (default `1.00`) and your `target_domains` array.

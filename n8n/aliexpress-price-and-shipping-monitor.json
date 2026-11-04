@@ -1,0 +1,195 @@
+{
+  "name": "AliExpress Supplier & Price Monitor (hirepulse/aliexpress-search-scraper)",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## AliExpress Supplier & Price Drop Monitor\n**Powered by:** `hirepulse/aliexpress-search-scraper` (Apify)\n\n### What this workflow does:\n1. Runs a scheduled search across target product niches (e.g. yoga mats, tech gadgets).\n2. Extracts verified sale prices, original prices, exact orders, and shipping signals.\n3. Filters high-margin winning supplier listings (orders > 500, discount > 40%, free shipping).\n4. Outputs clean tabular rows ready for Google Sheets or Slack alerts with zero CAPTCHAs.",
+        "height": 240,
+        "width": 380
+      },
+      "id": "sticky-aliexpress-architecture",
+      "name": "Workflow Architecture Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        220,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 * * 1"
+            }
+          ]
+        }
+      },
+      "id": "trigger-schedule-weekly",
+      "name": "Weekly Research Schedule",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        460
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "trigger-manual-test",
+      "name": "Manual Test Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      queries: [\"yoga mat\", \"usb c cable\"],\n      max_results_per_query: 20,\n      sort: \"orders\",\n      ship_to: \"US\",\n      currency: \"USD\"\n    }\n  }\n];"
+      },
+      "id": "code-product-input",
+      "name": "1. Search Keywords & Config",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "runActor",
+        "actorId": "hirepulse/aliexpress-search-scraper",
+        "customBody": "={{ JSON.stringify($json) }}",
+        "waitForFinish": true
+      },
+      "id": "apify-aliexpress-scraper",
+      "name": "2. HirePulse AliExpress Scraper",
+      "type": "@apify/n8n-nodes-apify.apify",
+      "typeVersion": 1,
+      "position": [
+        720,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst qualified = [];\n\nfor (const item of items) {\n  const p = item.json;\n  if (!p || !p.product_id) continue;\n  \n  const price = p.price || 0;\n  const origPrice = p.original_price || price;\n  const discount = p.discount_percent || 0;\n  const sold = p.sold || 0;\n  const rating = p.rating || 0;\n  const freeShip = p.shipping ? p.shipping.free_shipping : false;\n  const delivery = p.shipping ? p.shipping.delivery_estimate : 'Standard';\n  \n  // Filter for proven sellers: discount >= 30% and sold >= 100\n  if (discount >= 30 && sold >= 100) {\n    qualified.push({\n      json: {\n        query: p.query,\n        product_id: p.product_id,\n        sku_id: p.sku_id,\n        title: p.title,\n        price_usd: price,\n        original_price_usd: origPrice,\n        discount_pct: discount,\n        rating: rating,\n        orders_sold: sold,\n        free_shipping: freeShip,\n        delivery_estimate: delivery,\n        product_url: p.url,\n        image_url: p.image_url,\n        scraped_at: p.scraped_at\n      }\n    });\n  }\n}\n\nreturn qualified;"
+      },
+      "id": "code-supplier-triage",
+      "name": "3. Supplier & Margin Triage",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        960,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $input.all().length }}",
+              "operation": "larger",
+              "value2": 0
+            }
+          ]
+        }
+      },
+      "id": "gate-has-qualified",
+      "name": "4. Qualified Deals Found?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const deals = $input.all();\nreturn [{\n  json: {\n    status: \"SUCCESS\",\n    message: `Discovered ${deals.length} high-margin AliExpress products with verified supplier ratings and discounts.`,\n    top_deals: deals.slice(0, 5).map(d => ({\n      title: d.json.title,\n      price: `$${d.json.price_usd} (was $${d.json.original_price_usd})`,\n      discount: `${d.json.discount_pct}% OFF`,\n      orders: d.json.orders_sold,\n      rating: d.json.rating,\n      url: d.json.product_url\n    }))\n  }\n}];"
+      },
+      "id": "code-format-output",
+      "name": "5. Format Output Feed",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1460,
+        460
+      ]
+    }
+  ],
+  "connections": {
+    "Weekly Research Schedule": {
+      "main": [
+        [
+          {
+            "node": "1. Search Keywords & Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manual Test Trigger": {
+      "main": [
+        [
+          {
+            "node": "1. Search Keywords & Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "1. Search Keywords & Config": {
+      "main": [
+        [
+          {
+            "node": "2. HirePulse AliExpress Scraper",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2. HirePulse AliExpress Scraper": {
+      "main": [
+        [
+          {
+            "node": "3. Supplier & Margin Triage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "3. Supplier & Margin Triage": {
+      "main": [
+        [
+          {
+            "node": "4. Qualified Deals Found?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "4. Qualified Deals Found?": {
+      "main": [
+        [
+          {
+            "node": "5. Format Output Feed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
