@@ -74,6 +74,7 @@ We believe in **100% honest unit economics**—no hidden $149/mo SaaS dependenci
 | **[`2-competitor-ads-and-hiring-monitor.json`](./2-competitor-ads-and-hiring-monitor.json)** | Monday 9AM Competitor Hiring & Search Ads Slack Alert | `ats-job-pulse` + `google-ads-transparency-scraper` |
 | **[`3-automated-competitor-ad-spy-and-intel.json`](./3-automated-competitor-ad-spy-and-intel.json)** | Competitor Ad Spy & Threat Score (0–100) War Room Brief | `google-ads-transparency-scraper` + `ats-job-pulse` |
 | **[`4-zero-token-icp-router-and-enrichment.json`](./4-zero-token-icp-router-and-enrichment.json)** | Zero-Token JavaScript ICP Router & CRM Hygiene | `website-tech-stack-detector` + `company-contact-details-finder` |
+| **[`aliexpress-arbitrage-and-price-drop-monitor.json`](./aliexpress-arbitrage-and-price-drop-monitor.json)** | Automated Multi-Country Wholesale Arbitrage & Daily Price Drop Hunter | [`hirepulse/aliexpress-search-scraper`](https://apify.com/hirepulse/aliexpress-search-scraper) |
 
 ---
 

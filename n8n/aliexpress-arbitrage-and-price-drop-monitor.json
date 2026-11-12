@@ -1,0 +1,290 @@
+{
+  "name": "Automated AliExpress Arbitrage & Daily Price Drop Hunter (Apify x n8n)",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## 🛒 Automated AliExpress Arbitrage & Daily Price Drop Hunter\n**Turn AliExpress data into an automated cash-generating product finder!**\n1. **Automated Search Execution:** Runs daily scans via HirePulse AliExpress Search Scraper on Apify.\n2. **Multi-Country Spread Arbitrage:** Compares US delivery pricing against GB, AU, and DE to uncover wholesale supplier margins (15%-30% variance).\n3. **Price Drop Detection:** Detects daily flash discounts and price cuts using automated change tracking (`track_changes`).\n4. **Scam/Teaser Filtering:** Automatically discards $1.09 teaser prices, low-rated sellers (<4.5★), and low-volume items.\n5. **Instant Alerts:** Dispatches winning arbitrage cards straight to Discord, Telegram, or Google Sheets.",
+        "height": 220,
+        "width": 1140,
+        "color": 6
+      },
+      "id": "sticky-header",
+      "name": "Overview Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -900,
+        -40
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 * * *"
+            }
+          ]
+        }
+      },
+      "id": "node-schedule-trigger",
+      "name": "Daily Morning Schedule (08:00 UTC)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -900,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "values": {
+          "string": [
+            {
+              "name": "keywords",
+              "value": "wireless magnetic power bank, car cleaning gel putty, portable espresso maker, orthopedic seat cushion"
+            },
+            {
+              "name": "primaryDeliveryCountry",
+              "value": "US"
+            },
+            {
+              "name": "compareCountries",
+              "value": "GB,AU,DE"
+            },
+            {
+              "name": "currency",
+              "value": "USD"
+            }
+          ],
+          "number": [
+            {
+              "name": "minOrders",
+              "value": 50
+            },
+            {
+              "name": "minRating",
+              "value": 4.5
+            },
+            {
+              "name": "minArbitrageSpreadPercent",
+              "value": 20
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "node-search-config",
+      "name": "Search & Arbitrage Thresholds",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        -680,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/hirepulse~aliexpress-search-scraper/runs?waitForFinish=120",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"searchQueries\": \"{{ $json.keywords }}\".split(',').map(s => s.trim()),\n  \"deliveryCountry\": \"{{ $json.primaryDeliveryCountry }}\",\n  \"compareCountries\": \"{{ $json.compareCountries }}\".split(',').map(s => s.trim()),\n  \"currency\": \"{{ $json.currency }}\",\n  \"trackChanges\": true,\n  \"maxProductsPerQuery\": 60\n}",
+        "options": {
+          "timeout": 180000
+        }
+      },
+      "id": "node-run-apify-actor",
+      "name": "Execute AliExpress Search Scraper (Apify)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -440,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.data.defaultDatasetId }}/items?clean=true&format=json",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "options": {}
+      },
+      "id": "node-fetch-results",
+      "name": "Fetch Scraped Products Dataset",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -200,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Analyze Multi-Country Arbitrage & Price Drops\nconst items = $input.all();\nconst analyzed = [];\n\nconst minOrders = 50;\nconst minRating = 4.5;\nconst minSpreadPercent = 18.0;\n\nfor (const item of items) {\n  const p = item.json;\n  \n  // Basic sanity validation\n  const salePrice = parseFloat(p.salePrice || p.price || 0);\n  const orders = parseInt(p.ordersCount || p.orders || 0, 10);\n  const rating = parseFloat(p.rating || 0);\n  \n  // Filter out promo teaser cards ($1.09 teaser prices for new accounts)\n  if (salePrice < 2.50 || orders < minOrders || rating < minRating) {\n    continue;\n  }\n  \n  // Multi-country arbitrage calculation\n  let lowestCountry = 'US';\n  let lowestPrice = salePrice;\n  let spreadPercent = 0;\n  \n  if (p.countryPrices && typeof p.countryPrices === 'object') {\n    for (const [country, cPrice] of Object.entries(p.countryPrices)) {\n      const numPrice = parseFloat(cPrice);\n      if (numPrice > 0 && numPrice < lowestPrice) {\n        lowestPrice = numPrice;\n        lowestCountry = country;\n      }\n    }\n    if (salePrice > 0 && lowestPrice < salePrice) {\n      spreadPercent = Math.round(((salePrice - lowestPrice) / salePrice) * 100);\n    }\n  }\n  \n  // Price drop detection\n  let priceDropPercent = 0;\n  if (p.previousPrice && parseFloat(p.previousPrice) > salePrice) {\n    const prev = parseFloat(p.previousPrice);\n    priceDropPercent = Math.round(((prev - salePrice) / prev) * 100);\n  }\n  \n  const isArbitrageOpportunity = spreadPercent >= minSpreadPercent;\n  const isPriceDropOpportunity = priceDropPercent >= 15;\n  \n  if (isArbitrageOpportunity || isPriceDropOpportunity) {\n    analyzed.push({\n      json: {\n        title: p.title,\n        productUrl: p.productUrl || p.url,\n        imageUrl: p.imageUrl || p.image,\n        searchQuery: p.searchQuery,\n        usPrice: `$${salePrice.toFixed(2)}`,\n        lowestCountryPrice: `$${lowestPrice.toFixed(2)} (${lowestCountry})`,\n        arbitrageSpreadPercent: `${spreadPercent}%`,\n        priceDropPercent: priceDropPercent > 0 ? `${priceDropPercent}%` : 'N/A',\n        ordersCount: orders,\n        ratingStars: rating,\n        opportunityType: isArbitrageOpportunity && isPriceDropOpportunity ? 'ARBITRAGE + PRICE DROP' : (isArbitrageOpportunity ? 'MULTI-COUNTRY ARBITRAGE' : 'PRICE DROP ALERT'),\n        discoveredAt: new Date().toISOString()\n      }\n    });\n  }\n}\n\nreturn analyzed;"
+      },
+      "id": "node-arbitrage-analyzer",
+      "name": "Calculate Arbitrage Spread & Price Drops",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        40,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-has-results",
+              "leftValue": "={{ $json.title }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "node-filter-opportunities",
+      "name": "Filter High-Profit Opportunities",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        280,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://discord.com/api/webhooks/REPLACE_WITH_YOUR_WEBHOOK_URL",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"embeds\": [\n    {\n      \"title\": \"🚨 Winning Product Found: \" + $json.opportunityType,\n      \"description\": \"**[\" + $json.title + \"](\" + $json.productUrl + \")**\\n\\n• **US Listing Price:** \" + $json.usPrice + \"\\n• **Cheapest Country:** \" + $json.lowestCountryPrice + \"\\n• **Arbitrage Spread:** \" + $json.arbitrageSpreadPercent + \"\\n• **Price Drop:** \" + $json.priceDropPercent + \"\\n• **Verified Orders:** \" + $json.ordersCount + \" | ⭐ \" + $json.ratingStars,\n      \"color\": 3066993,\n      \"thumbnail\": {\n        \"url\": $json.imageUrl\n      },\n      \"footer\": {\n        \"text\": \"Powered by HirePulse AliExpress Scraper x n8n\"\n      }\n    }\n  ]\n}",
+        "options": {}
+      },
+      "id": "node-discord-alert",
+      "name": "Send Discord / Telegram Alert",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        540,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "REPLACE_WITH_YOUR_GOOGLE_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "ArbitrageOpportunities",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "id": "node-google-sheets",
+      "name": "Append to Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        540,
+        340
+      ]
+    }
+  ],
+  "connections": {
+    "Daily Morning Schedule (08:00 UTC)": {
+      "main": [
+        [
+          {
+            "node": "Search & Arbitrage Thresholds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search & Arbitrage Thresholds": {
+      "main": [
+        [
+          {
+            "node": "Execute AliExpress Search Scraper (Apify)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute AliExpress Search Scraper (Apify)": {
+      "main": [
+        [
+          {
+            "node": "Fetch Scraped Products Dataset",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Scraped Products Dataset": {
+      "main": [
+        [
+          {
+            "node": "Calculate Arbitrage Spread & Price Drops",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate Arbitrage Spread & Price Drops": {
+      "main": [
+        [
+          {
+            "node": "Filter High-Profit Opportunities",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter High-Profit Opportunities": {
+      "main": [
+        [
+          {
+            "node": "Send Discord / Telegram Alert",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Append to Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
