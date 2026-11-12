@@ -1,5 +1,17 @@
 # How to scrape AliExpress search results with Python
 
+## Compare listing prices in Excel
+
+1. Open the [AliExpress Search Scraper](https://apify.com/hirepulse/aliexpress-search-scraper) and try one keyword, such as `yoga mat`, with a limit of five products.
+2. Set a delivery country and currency. Review the [current event prices](https://apify.com/hirepulse/aliexpress-search-scraper/pricing) and set a total charge limit before you start.
+3. Open the run's **Output** tab and export **CSV**. Compare listings collected with the same delivery country and currency. Listing prices can change and may exclude shipping and taxes.
+
+You can inspect the [captured November 4 sample](../samples/quickstart-aliexpress-search.json) before running the Actor.
+
+### 中文快速开始（速卖通商品比价）
+
+打开采集工具，输入关键词（例如 `yoga mat`），首次最多取 5 条。选择收货国家和币种，运行前查看计费并设置费用上限。运行后在 Output（输出）中导出 CSV，用 Excel 比较同一收货地、同一币种的商品标价。标价可能不含运费和税费。
+
 > Get AliExpress search results as clean JSON with Python: sale prices, original reference prices, discount percentages, exact units ordered, star ratings, free shipping indicators, delivery estimates, SKU IDs, and product gallery images. No browser required, up to 60 products per page.
 
 Start with a product question and a query you can inspect. The AliExpress Search Scraper accepts search terms, a currency and a ship-to country, then returns product search results as JSON. Keep those settings with your output when you compare listings or repeat a collection.
@@ -48,7 +60,7 @@ for item in dataset_items:
     print(f"[{item.get('product_id')}] {item.get('title')[:45]}")
     print(f"  Price: ${item.get('price')} (Original: ${item.get('original_price')}) | Discount: {item.get('discount_percent')}%")
     print(f"  Rating: {item.get('rating')} | Units Ordered: {item.get('sold')}")
-    shipping = item.get("shipping", {})
+    shipping = item.get("shipping") or {}
     print(f"  Free Shipping: {shipping.get('free_shipping')} | Delivery: {shipping.get('delivery_estimate')} | Origin: {shipping.get('ship_from')}")
     print(f"  URL: {item.get('url')}\n")
 ```
@@ -122,7 +134,4 @@ The following record is an actual verified output captured during live testing o
 
 ## 4. Transparent Economics & Pricing
 
-- **Event Rate:** `$0.0025` per product record returned ($2.50 per 1,000 products).
-- **Startup Fee:** `$0.00005` per GB RAM at run launch.
-- **Fail-Safe Guarantee:** If AliExpress blocks or returns zero items, zero product result charges occur.
-- **Run Duration:** Plain HTTP requests complete in 2–5 seconds per keyword page.
+Use the [live Pricing tab](https://apify.com/hirepulse/aliexpress-search-scraper/pricing) to check the start event, eligible product event rate and plan discounts. A run can still incur a start charge even if it returns no products. Check the run summary for source errors or partial results.
