@@ -12,6 +12,20 @@
 - Flags sponsored listings
 - Plain HTTP with automatic proxy fallback, so runs are fast and cheap
 
+## New in version 1.1.7 (12 November 2026)
+
+Three optional inputs. None of them adds a charge.
+
+**Compare the same product across countries.** Add `"compare_countries": ["GB", "AU", "DE"]` (up to 10 codes). Each product gets a `country_comparison` object with its listing price in every country where the same product appeared in the search results, the cheapest country and the price spread. In a live run on 12 November 2026 with "yoga mat", 14 of 30 US products were also found in GB, AU or DE. A product missing from another country's results is listed under `not_in_results`; that does not mean it cannot be bought there.
+
+**Track price and sales changes between runs.** Add `"track_changes": true` and run the same search again later, for example on a daily schedule. Each product gets a `changes` object: previous price, price change, units sold since the previous run and whether it is new in the results. The first run only records the baseline. AliExpress shows different products from one request to the next, so use 60 or more products per search.
+
+**Supplier match from a Shopify product link.** Give `"store_product_urls": ["https://store.com/products/product-name"]` (up to 20). The run reads the product's public title and price, searches AliExpress by the title and returns up to 5 listings with `title_similarity` and the price gap. Matching is by title text only: it does not confirm that a listing is the same product, and the gap is not profit. Branded or unique products usually return "no close match" and are not charged.
+
+Every product also has `sold_per_day` (units sold divided by days since the listing date, a lifetime average) and `global_product_id` (the same product has the same ID on every country storefront).
+
+Very low prices such as 1.09 USD can be promotional prices for new visitors. Check the product page before relying on a price.
+
 ## Export to Excel or CSV without code
 
 1. Open https://apify.com/hirepulse/aliexpress-search-scraper, click "Try for free" and sign in (free Apify account, no credit card required).
