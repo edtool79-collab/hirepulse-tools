@@ -1,0 +1,8 @@
+{
+  "queries": ["yoga mat"],
+  "max_results_per_query": 5,
+  "sort": "best_match",
+  "ship_to": "US",
+  "currency": "USD",
+  "use_paid_upstream": false
+}
