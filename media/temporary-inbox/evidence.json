@@ -1,0 +1,13 @@
+{
+  "test_date": "2026-11-19",
+  "kind": "replay of recorded owner test, not a screen recording",
+  "run_ids": {
+    "create": "1nTYymM3ft9Jat8ue",
+    "get_code": "DytDcbgiGdGTF0eRZ",
+    "delete": "cSX1yOfS65b5okwVO"
+  },
+  "smtp_send_message_id": "1a1f4335c4e3c381",
+  "numeric_code_match": true,
+  "build": "1.0.3",
+  "inbox_deleted": true
+}

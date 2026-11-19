@@ -154,6 +154,14 @@ summary{cursor:pointer;font-weight:600}
 <li>End-to-end testing of systems that send numeric verification codes via email</li>
 <li>Inspecting message metadata and selecting specific messages for targeted code extraction</li>
 </ul>
+<section aria-label="How the inbox works">
+<img src="https://edtool79-collab.github.io/hirepulse-tools/media/temporary-inbox/workflow.png" alt="Create a private inbox, send a verification email from your application, and read the numeric code in Apify. Example three-run price $0.013 before plan discounts." width="1600" height="900" style="width:100%;height:auto;border-radius:16px">
+<h2>Watch the verified SMTP test</h2>
+<video controls preload="metadata" playsinline width="1600" height="900" poster="https://edtool79-collab.github.io/hirepulse-tools/media/temporary-inbox/workflow.png" style="width:100%;height:auto"><source src="https://edtool79-collab.github.io/hirepulse-tools/media/temporary-inbox/smtp-proof.mp4" type="video/mp4"><a href="https://edtool79-collab.github.io/hirepulse-tools/media/temporary-inbox/smtp-proof.mp4">Download the test replay</a></video>
+<p>Fourteen-second replay of recorded owner QA results from November 19, 2026. A real Gmail message containing a synthetic code was sent to the allocated address. The Actor returned the matching code and the inbox was deleted. This is an evidence reconstruction with condensed timing. Mailbox address, capability and code are withheld.</p>
+<p><a href="https://edtool79-collab.github.io/hirepulse-tools/media/temporary-inbox/evidence.json">Recorded test IDs and evidence summary</a> · <a href="https://edtool79-collab.github.io/hirepulse-tools/media/temporary-inbox/smtp-proof.gif">Animated replay</a></p>
+<details><summary>See the n8n workflow design</summary><img src="https://edtool79-collab.github.io/hirepulse-tools/media/temporary-inbox/n8n-workflow.png" alt="Illustrative n8n workflow with create inbox, application email, read code and delete actions. This n8n workflow has not been executed." width="1600" height="900" loading="lazy" style="width:100%;height:auto"><p>Workflow illustration. The test verified Gmail-to-SMTP delivery and the published Apify Actor. The n8n workflow is a design, with private mailbox credentials retained in workflow state.</p></details>
+</section>
 <h2>Test an email verification flow in three runs</h2>
 <p>For QA engineers and automation developers testing an application they own or are authorized to test. Keep the inbox ID and private capability from the first run and use the same Apify account for all steps.</p>
 <h3>1. Create a ten-minute inbox</h3>
