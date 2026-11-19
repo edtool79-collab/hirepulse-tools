@@ -37,10 +37,10 @@
     "DEVELOPER_TOOLS",
     "AI"
   ],
-  "dateModified": "2026-10-26",
+  "dateModified": "2026-11-19",
   "offers": {
     "@type": "Offer",
-    "price": 0.01,
+    "price": 0.011,
     "priceCurrency": "USD",
     "availability": "https://schema.org/InStock",
     "seller": {
@@ -70,7 +70,7 @@
       "name": "How much does one run cost?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "0.01 USD per charged event (10-minute inbox allocation). Billing is per event, not per subscription, and only events the Actor reports are charged."
+        "text": "A 10-minute create run costs $0.011: $0.01 inbox allocation plus $0.001 Actor start. Each get-code, list or delete run costs $0.001. Create plus one code lookup plus delete costs $0.013. Check live Apify pricing for plan discounts."
       }
     },
     {
@@ -86,7 +86,7 @@
       "name": "Do I need an account on the target website?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. It works from public data only; it does not log in to the sites it reads."
+        "text": "Your Apify account owns the inbox. The Actor receives email for your authorized tests. Your application sends the test email through its normal provider."
       }
     }
   ]
@@ -141,10 +141,7 @@ summary{cursor:pointer;font-weight:600}
 <h1>Temporary Email Inbox &amp; OTP API for AI Agents</h1>
 <p class="lead">Create private temporary email inboxes, list received-message metadata and extract numeric verification codes as JSON. Built for authorized QA, n8n and AI agents. Inbox TTL 1–60 minutes. Pay through Apify; no separate service account or crypto wallet required.</p>
 <table><tr><th>Category</th><td>Developer Tools, Ai</td></tr>
-<tr><th>Price</th><td>$0.01 per 10-minute inbox allocation</td></tr>
-<tr><th>Public runs, last 30 days</th><td>2</td></tr>
-<tr><th>Users, last 30 days</th><td>1</td></tr>
-<tr><th>Last run</th><td>2026-10-25 12:08:43.011Z</td></tr>
+<tr><th>Example cost</th><td>$0.013 for a 10-minute inbox, one code lookup and deletion</td></tr>
 <tr><th>Store listing</th><td><a href="https://apify.com/hirepulse/temporary-email-inbox">apify.com/hirepulse/temporary-email-inbox</a></td></tr></table>
 <h2>What it does</h2>
 <h2>Temporary Email Inbox &amp; OTP API for AI Agents</h2>
@@ -157,34 +154,46 @@ summary{cursor:pointer;font-weight:600}
 <li>End-to-end testing of systems that send numeric verification codes via email</li>
 <li>Inspecting message metadata and selecting specific messages for targeted code extraction</li>
 </ul>
-<h2>Run it</h2>
-<p>Send this input to the Actor:</p>
-<pre><code>{
-  "action": "create",
-  "ttl_seconds": 600
-}</code></pre>
-<h3>From your own code (Apify API)</h3>
-<pre><code>curl -X POST "https://api.apify.com/v2/acts/hirepulse~temporary-email-inbox/runs?token=$APIFY_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"action": "create", "ttl_seconds": 600}'</code></pre>
-<h3>From an AI agent (Apify MCP)</h3>
-<pre><code>{"tool": "call-actor", "arguments": {"actor": "hirepulse/temporary-email-inbox"}}</code></pre>
-<p><a class="cta" href="https://apify.com/hirepulse/temporary-email-inbox">Open temporary-email-inbox on the Apify Store</a></p>
+<h2>Test an email verification flow in three runs</h2>
+<p>For QA engineers and automation developers testing an application they own or are authorized to test. Keep the inbox ID and private capability from the first run and use the same Apify account for all steps.</p>
+<h3>1. Create a ten-minute inbox</h3>
+<pre><code>{"action":"create","ttl_seconds":600}</code></pre>
+<p><a class="cta" href="https://console.apify.com/actors/ZebWwUreCe8QYOqzp?addFromActorId=ZebWwUreCe8QYOqzp" data-goatcounter-click="inbox-start-console">Create a test inbox in Apify</a></p>
+<p>Set the run's maximum charge to at least $0.011. Copy the returned address into your application's email test. Send the verification email using your application's usual email provider. The Actor receives email and returns promptly after allocating the inbox.</p>
+<h3>2. Retrieve the code after your application sends its email</h3>
+<pre><code>{"action":"get_code","inbox_id":"REPLACE_WITH_INBOX_ID","capability":"REPLACE_WITH_PRIVATE_CAPABILITY","wait_seconds":30}</code></pre>
+<p>This run costs $0.001 and waits up to 30 seconds. A pending result means no retained message has arrived yet. no_code means no supported numeric code was found. ambiguous means multiple candidates were found. A code result returns a numeric candidate and provenance. Check it against the code your test application expects. Each additional Actor run incurs another start charge.</p>
+<h3>3. Delete the inbox when your test finishes</h3>
+<pre><code>{"action":"delete","inbox_id":"REPLACE_WITH_INBOX_ID","capability":"REPLACE_WITH_PRIVATE_CAPABILITY"}</code></pre>
+<p>Deletion revokes further reads of the live inbox. Previous Apify run outputs follow Apify storage retention. Keep capabilities and OTPs in private workflow state and restricted Apify storage.</p>
+<h3>From your own code</h3>
+<pre><code>curl -X POST 'https://api.apify.com/v2/acts/hirepulse~temporary-email-inbox/run-sync-get-dataset-items?timeout=90&amp;maxTotalChargeUsd=0.011' \
+  -H "Authorization: Bearer $APIFY_TOKEN" \
+  -H 'Content-Type: application/json' \
+  -d '{"action":"create","ttl_seconds":600}'</code></pre>
+<p>For subsequent actions use the same endpoint and the JSON above, with maxTotalChargeUsd=0.001. Supply real IDs and capabilities only in your private request body. A new create run allocates and charges for another inbox.</p>
+<h3>From an AI agent or n8n</h3>
+<p>Select this Actor in <a href="https://mcp.apify.com?tools=hirepulse/temporary-email-inbox">Apify MCP</a>. Ask the agent to create an inbox with action=create and ttl_seconds=600. After your application sends the test email, call get_code with the returned inbox_id, capability and wait_seconds=30. Finish with delete. In n8n, use the Apify integration for those three calls and keep credentials in private workflow state.</p>
 <h2>Pricing</h2>
-<p>$0.01 per 10-minute inbox allocation</p>
-<p>Prices are configured per event on the Apify listing and can change; the listing is the authoritative source.</p>
+<p>A 10-minute create run costs $0.011: $0.01 inbox allocation plus $0.001 Actor start. Each get-code, list or delete run costs $0.001. Create plus one code lookup plus delete costs $0.013. Check live Apify pricing for plan discounts.</p>
+<p>An allocated inbox is charged even if no email arrives. The allocation lifetime can be 1–60 minutes, billed in started ten-minute intervals. For example, an hour costs $0.061 to create. Invalid-input and failed runs can still incur the $0.001 start charge.</p>
+<p><a href="https://apify.com/hirepulse/temporary-email-inbox/pricing">Check current event prices on Apify</a></p>
+<h2>Delivery and code coverage</h2>
+<p>The Actor extracts 4–8 digit numeric verification codes near supported OTP labels. Email delivery and acceptance of disposable domains depend on your application and email provider. Magic links, attachments and alphanumeric codes are outside the supported output. The published demonstration uses a synthetic test email injected through the signed relay. It demonstrates the workflow rather than SMTP deliverability.</p>
+<h2>中文快速开始</h2>
+<p lang="zh-Hans">用于您有权测试的应用。先用 create 创建 10 分钟收件箱（$0.011），再让您的应用发送测试邮件。使用返回的 inbox_id 和 capability 调用 get_code，可等待 30 秒（$0.001）。完成后调用 delete（$0.001）。三次运行示例合计 $0.013。请将访问凭证和验证码保存在私有工作流中。邮件送达取决于邮件服务商及应用。</p>
 <h2>Questions</h2>
 <details><summary>What does Temporary Email Inbox &amp; OTP API for AI Agents return?</summary><p>Creates time-limited, private disposable inbound email inboxes and extracts numeric one-time passwords (OTPs) and their provenance from received SMTP messages. The Actor provisions a random private email address and associated secret access credential for the creating account, receives real inbound email, parses plain-text and HTML message content for 4–8 digit verification codes located near verification or OTP…</p></details>
-<details><summary>How much does one run cost?</summary><p>0.01 USD per charged event (10-minute inbox allocation). Billing is per event, not per subscription, and only events the Actor reports are charged.</p></details>
+<details><summary>How much does one run cost?</summary><p>A 10-minute create run costs $0.011: $0.01 inbox allocation plus $0.001 Actor start. Each get-code, list or delete run costs $0.001. Create plus one code lookup plus delete costs $0.013. Check live Apify pricing for plan discounts.</p></details>
 <details><summary>Can I call it from my own code or an AI agent?</summary><p>Yes. It runs as an Apify Actor: start it with the Apify API, the Apify MCP server, or the console. The only credential required is your Apify API token.</p></details>
-<details><summary>Do I need an account on the target website?</summary><p>No. It works from public data only; it does not log in to the sites it reads.</p></details>
+<details><summary>Do I need an account on the target website?</summary><p>Your Apify account owns the inbox. The Actor receives email for your authorized tests. Your application sends the test email through its normal provider.</p></details>
 <h2>Other HirePulse tools</h2>
 <ul><li><a href="/hirepulse-tools/viral-product-radar.html">viral-product-radar</a></li>
 <li><a href="/hirepulse-tools/website-tech-stack-detector.html">website-tech-stack-detector</a></li>
 <li><a href="/hirepulse-tools/youtube-transcript-scraper.html">youtube-transcript-scraper</a></li></ul>
 <footer>
 <p>HirePulse — Pay-per-use data tools for AI agents, sales and e-commerce. This page is generated from the Actor's own public listing fields
-(title, description, readme, pricing configuration and public run counters) on 2026-10-26.
+(title, description, readme, pricing configuration and public run counters) and updated with a three-run QA quickstart and full event pricing on 2026-11-19.
 Nothing on this page is a customer testimonial.</p>
 <p><a href="/hirepulse-tools/">All tools</a> · <a href="/hirepulse-tools/truth-metrics.html">Measured reliability</a></p>
 </footer>
