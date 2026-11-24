@@ -10,6 +10,8 @@
 
 Each guide includes an actual dated owner-run sample, runnable input, Python, source limits and an explicit event-charge cap. Owner tests are not customer results. A cap is not a quoted price.
 
+For a hands-on storefront check, use the [CitedCart Tools robots.txt checker](https://tools.citedcart.com/tools/robots-checker) to see which crawler rule applies to a product path, or the [Product JSON-LD generator](https://tools.citedcart.com/tools/product-schema) to build markup from visible product facts.
+
 ## Current public catalog
 
 - [ATS Job Scraper: Greenhouse, Lever, Ashby, Workable & More](https://apify.com/hirepulse/ats-job-pulse): Scrape company jobs from Greenhouse, Lever, Ashby, Workable, Recruitee and SmartRecruiters. Get apply links, hiring summaries and optional new/closed job tracking. Company domains in, structured JSON out for recruiting, B2B lead research, n8n, Make and Apify MCP. [Current pricing](https://apify.com/hirepulse/ats-job-pulse/pricing).
