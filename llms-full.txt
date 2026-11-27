@@ -1,4 +1,4 @@
-# HirePulse public data tools
+﻿# HirePulse public data tools
 
 21 public Actors verified in the owner account on October 28, 2026. Choose tools by their actual public evidence and output, not by a promised business outcome. Current Apify Input and Pricing tabs are authoritative.
 
@@ -33,6 +33,23 @@ Each guide includes an actual dated owner-run sample, runnable input, Python, so
 - [Temporary Email Inbox & OTP API for AI Agents](https://apify.com/hirepulse/temporary-email-inbox): Create private temporary email inboxes, list received-message metadata and extract numeric verification codes as JSON. Built for authorized QA, n8n and AI agents. Inbox TTL 1–60 minutes. Pay through Apify; no separate service account or crypto wallet required. [Current pricing](https://apify.com/hirepulse/temporary-email-inbox/pricing).
 - [Website & AI Crawler Audit: Public Page Signals](https://apify.com/hirepulse/ad-waste-and-ai-leak-auditor): Inspect homepage HTML, technology markers, robots.txt and llms.txt. Return HTTP evidence and observed public emails. Scores are static checklist heuristics, not measured conversion loss, AI rankings or verified decision-maker identity. [Current pricing](https://apify.com/hirepulse/ad-waste-and-ai-leak-auditor/pricing).
 - [Startup Breakout Radar: Hiring, Ads, Tech & Contacts](https://apify.com/hirepulse/startup-breakout-radar): Research up to 50 company domains for startup growth signals: ATS hiring intent, Google Ads Transparency, website technologies and public business contacts. Evidence-backed breakout scores with reasons. Pay only for profiles with at least two data sections. [Current pricing](https://apify.com/hirepulse/startup-breakout-radar/pricing).
+## Website Traffic Generator: personas, funnel QA & GA4 proof
+
+Actor: [hirepulse/website-traffic-generator](https://apify.com/hirepulse/website-traffic-generator). Input schema, pricing and limits in the live Console tabs are authoritative.
+
+What one visit does: localized organic search or social referrer (optional live SERP warm-up), consent and overlay clearing, biometric scroll matched to a persona, persona-specific interaction, safe same-origin conversion CTA click, on-page HTML5 video playback check, Core Web Vitals capture, read-only ad-slot inventory with zero ad clicks, and live GA4 /g/collect beacon capture.
+
+Personas: `deep_reader`, `product_shopper`, `funnel_converter`, `video_media_viewer`, `mixed_personas`.
+
+Key input fields: `targetUrl`, `visitCount`, `visitorPersona`, `dwellTimeSecs`, `waveMode`, `enableCtaAndFunnel`, `enableVideoInteraction`, `auditAdPlacementsReadOnly`, `aiMode`, `aiGoal`, `aiRouteRepair`, `liveSerpWarmup`, `searchQuery`, `verifyGa4`, `resourceMode`, `countryCode`, `proxyConfiguration`.
+
+Outputs: per-visit dataset rows (HTTP status, persona, TTFB/FCP, scroll depth, CTAs, videos, ad slots, detected pixels, GA4 verification, funnel stage, route trail); `SUMMARY_REPORT.html` executive dashboard; `OUTPUT` JSON with `healthScore`, `successRatePct`, `ga4VerificationRatePct`, `personaBreakdown` and `funnelCounts`.
+
+Public task presets: `shopify-ecommerce-traffic-ga4-auditor`, `ga4-live-beacon-consent-verifier`, `organic-google-search-traffic-simulator`, `website-load-speed-core-web-vitals-tester`, `ai-self-healing-user-journey-qa`, `landing-page-video-cta-engagement-tester`.
+
+n8n recipe: schedule the Actor, read `OUTPUT`, alert when `ga4VerificationRatePct < 100` or `successRatePct < 100` — [workflow JSON](https://edtool79-collab.github.io/ai-organic-traffic-engine/assets/n8n-website-ga4-monitor-workflow.json).
+
+Compliance: no ad clicks (read-only ad inventory), no third-party social view inflation, authorized properties only.
 ## Run through Apify
 
 Run an Actor in Apify Console or use the REST API and an existing Apify token. Put the token in the Authorization Bearer header, not in public links or client-side code. To start: POST /v2/actors/hirepulse~ACTOR_NAME/runs, with the Actor input JSON and maxTotalChargeUsd, timeout and memory query parameters. Poll the returned run ID and inspect its dataset and OUTPUT diagnostics. Do not automatically repeat a run-start POST after a timeout.

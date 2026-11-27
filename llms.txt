@@ -1,6 +1,6 @@
-# HirePulse public data tools
+﻿# HirePulse public data tools
 
-21 public Actors verified in the owner account on October 28, 2026. Choose tools by their actual public evidence and output, not by a promised business outcome. Current Apify Input and Pricing tabs are authoritative.
+22 public Actors in the owner account: 21 verified on October 28, 2026 and the Website Traffic Generator verified on November 27, 2026. Choose tools by their actual public evidence and output, not by a promised business outcome. Current Apify Input and Pricing tabs are authoritative.
 
 ## Start with a useful first run
 
@@ -33,6 +33,7 @@ Each guide includes an actual dated owner-run sample, runnable input, Python, so
 - [Temporary Email Inbox & OTP API for AI Agents](https://apify.com/hirepulse/temporary-email-inbox): Create private temporary email inboxes, list received-message metadata and extract numeric verification codes as JSON. Built for authorized QA, n8n and AI agents. Inbox TTL 1–60 minutes. Pay through Apify; no separate service account or crypto wallet required. [Current pricing](https://apify.com/hirepulse/temporary-email-inbox/pricing).
 - [Website & AI Crawler Audit: Public Page Signals](https://apify.com/hirepulse/ad-waste-and-ai-leak-auditor): Inspect homepage HTML, technology markers, robots.txt and llms.txt. Return HTTP evidence and observed public emails. Scores are static checklist heuristics, not measured conversion loss, AI rankings or verified decision-maker identity. [Current pricing](https://apify.com/hirepulse/ad-waste-and-ai-leak-auditor/pricing).
 - [Startup Breakout Radar: Hiring, Ads, Tech & Contacts](https://apify.com/hirepulse/startup-breakout-radar): Research up to 50 company domains for startup growth signals: ATS hiring intent, Google Ads Transparency, website technologies and public business contacts. Evidence-backed breakout scores with reasons. Pay only for profiles with at least two data sections. [Current pricing](https://apify.com/hirepulse/startup-breakout-radar/pricing).
+- [Website Traffic Generator: Personas, Funnel QA, Video QA & GA4 Proof](https://apify.com/hirepulse/website-traffic-generator): Synthetic visitor journeys for sites you own or are authorized to test. Four behavioral personas, organic search/social referrers with optional live SERP warm-up, safe conversion-CTA clicks (ad containers excluded), on-page HTML5 video playback verification, Core Web Vitals (TTFB/FCP/P95), read-only ad-slot inventory with zero ad clicks, and live GA4 /g/collect beacon capture. Produces a per-visit dataset, an executive HTML report and an OUTPUT JSON summary for n8n, Make and Apify MCP. Pay $0.003 per completed visit plus the Actor start fee; the live Pricing tab rules. [Current pricing](https://apify.com/hirepulse/website-traffic-generator/pricing).
 ## Run through Apify
 
 Run an Actor in Apify Console or use the REST API and an existing Apify token. Put the token in the Authorization Bearer header, not in public links or client-side code. To start: POST /v2/actors/hirepulse~ACTOR_NAME/runs, with the Actor input JSON and maxTotalChargeUsd, timeout and memory query parameters. Poll the returned run ID and inspect its dataset and OUTPUT diagnostics. Do not automatically repeat a run-start POST after a timeout.
